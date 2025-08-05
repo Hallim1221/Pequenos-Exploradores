@@ -1,0 +1,104 @@
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+/* Estilos exclusivos da página Professor Alunos */
+body {
+  background: linear-gradient(120deg, #3bb273 0%, #00CFFF 100%);
+  font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+}
+.container {
+  max-width: 520px;
+  margin: 4em auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(60,180,115,0.10);
+  padding: 2.5em 2em;
+  position: relative;
+  overflow: hidden;
+}
+.svg-top-right {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  z-index: 0;
+  opacity: 0.13;
+}
+.svg-bottom-left {
+  position: absolute;
+  bottom: -40px;
+  left: -40px;
+  z-index: 0;
+  opacity: 0.13;
+}
+h1 {
+  z-index: 1;
+  position: relative;
+  color: #00CFFF;
+  font-family: 'Baloo 2', cursive;
+  text-align: center;
+  font-size: 2em;
+}
+.titulo-icone {
+  font-size: 1.5em;
+  vertical-align: middle;
+}
+.titulo-serie {
+  color: #00CFFF;
+}
+.titulo-turma {
+  color: #FFD600;
+}
+.alunos-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.3em;
+  margin-top: 2em;
+  background: none;
+  box-shadow: none;
+  z-index: 1;
+  position: relative;
+}
+.alunos-table th {
+  background: #00CFFF;
+  color: #fff;
+  font-weight: 800;
+  font-size: 1.1em;
+  border-radius: 10px 10px 0 0;
+  padding: 0.8em 0.5em;
+  letter-spacing: 0.01em;
+  border: none;
+}
+.alunos-table td {
+  background: #f7fafd;
+  color: #222;
+  font-size: 1.08em;
+  border-radius: 8px;
+  padding: 0.7em 0.5em;
+  border: none;
+  box-shadow: 0 1px 4px 0 rgba(0,207,255,0.04);
+}
+.alunos-table tr:nth-child(even) td {
+  background: #e6f7ee;
+}
+.voltar {
+  margin-top: 2em;
+  display: block;
+  text-align: center;
+  color: #00CFFF;
+  text-decoration: underline;
+  font-weight: 700;
+  font-size: 1.1em;
+  letter-spacing: 0.01em;
+  transition: color 0.18s;
+  z-index: 1;
+  position: relative;
+}
+.voltar:hover { color: #FFD600; }
+@keyframes fadeInAluno {
+  from { opacity:0; transform:translateY(20px) scale(0.97); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}

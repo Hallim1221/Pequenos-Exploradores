@@ -1,68 +1,8 @@
-<style>
-  .pagina-central {
-    max-width: 900px;
-    margin: 2.5em auto 0 auto;
-    padding: 2.2em 1.5em 2.5em 1.5em;
-    background: #fff;
-    border-radius: 18px;
-    box-shadow: 0 4px 32px 0 rgba(60, 180, 115, 0.10), 0 1.5px 8px 0 rgba(0,0,0,0.04);
-    min-height: 60vh;
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .pagina-central h1 {
-    text-align: center;
-    font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
-    font-size: 2em;
-    color: #00CFFF;
-    font-weight: 800;
-    margin-bottom: 1.2em;
-    margin-top: 0.5em;
-    letter-spacing: 0.01em;
-  }
-  .pagina-central p, .pagina-central ul, .pagina-central li {
-    font-size: 1.13em;
-    color: #222;
-    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
-    line-height: 1.7;
-    margin-bottom: 1.1em;
-    text-align: center;
-  }
-  .pagina-central ul {
-    padding-left: 1.2em;
-    text-align: left;
-  }
-  @media (max-width: 900px) {
-    .pagina-central {
-      max-width: 98vw;
-      padding: 1.2em 0.2em 2em 0.2em;
-    }
-  }
-  @media (max-width: 600px) {
-    .pagina-central {
-      margin: 1.2em auto 0 auto;
-      padding: 0.7em 0.1em 1.2em 0.1em;
-      border-radius: 10px;
-    }
-    .pagina-central h1 {
-      font-size: 1.25em;
-    }
-  }
-</style>
+<link rel="stylesheet" href="/css/quiz_meioambiente.css">
 <!-- View quiz_meioambiente -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
-<button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="24" cy="24" r="22" fill="#00CFFF"/>
-    <polygon points="30,14 18,24 30,34" fill="#0077B6"/>
-    <ellipse cx="38" cy="38" rx="2.5" ry="1.5" fill="#B2F7EF"/>
-  </svg>
-</button>
-<div class="top-banner"></div>
+<section class="top-banner"></section>
 
 <!-- Sidebar Menu -->
 <nav class="sidebar-menu" id="sidebarMenu">
@@ -70,11 +10,11 @@
   <ul>
     <li><a href="/">Início</a></li>
     <li><a href="/sobre">Sobre</a></li>
-    <li><a href="/contato">Contato</a></li>
+    <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
     <li><a href="/loja">Loja</a></li>
   </ul>
 </nav>
-<button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none;">
+<button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
   <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
 </button>
 <link rel="stylesheet" href="/css/btn-voltar.css">
@@ -372,55 +312,55 @@
     }
   }
 </style>
-<div class="bg-figma"></div>
-<div style="height: 32px;"></div>
+<section class="bg-figma"></section>
+<section style="height: 32px;"></section>
 <main class="quiz-tema">
   <h1 class="quiz-tema-titulo">♻️ Quiz: Meio Ambiente</h1>
-  <div class="quiz-tema-desc">Aprenda sobre reciclagem, preservação e sustentabilidade!</div>
+  <section class="quiz-tema-desc">Aprenda sobre reciclagem, preservação e sustentabilidade!</section>
   <form class="quiz-form" id="quizMeioAmbienteForm">
-    <div class="quiz-pergunta-card">
+    <section class="quiz-pergunta-card">
       <fieldset>
         <legend>1. O que podemos fazer para economizar água?</legend>
         <label><input type="radio" name="q1" value="a"> Deixar a torneira aberta</label>
         <label><input type="radio" name="q1" value="b"> Tomar banhos rápidos</label>
         <label><input type="radio" name="q1" value="c"> Lavar o carro todo dia</label>
       </fieldset>
-    </div>
-    <div class="quiz-pergunta-card">
+    </section>
+    <section class="quiz-pergunta-card">
       <fieldset>
         <legend>2. Qual material é reciclável?</legend>
         <label><input type="radio" name="q2" value="a"> Plástico</label>
         <label><input type="radio" name="q2" value="b"> Casca de banana</label>
         <label><input type="radio" name="q2" value="c"> Óleo usado</label>
       </fieldset>
-    </div>
-    <div class="quiz-pergunta-card">
+    </section>
+    <section class="quiz-pergunta-card">
       <fieldset>
         <legend>3. O que é importante para preservar as florestas?</legend>
         <label><input type="radio" name="q3" value="a"> Desmatar</label>
         <label><input type="radio" name="q3" value="b"> Plantar árvores</label>
         <label><input type="radio" name="q3" value="c"> Jogar lixo no chão</label>
       </fieldset>
-    </div>
-    <div class="quiz-pergunta-card">
+    </section>
+    <section class="quiz-pergunta-card">
       <fieldset>
         <legend>4. O que devemos fazer com pilhas usadas?</legend>
         <label><input type="radio" name="q4" value="a"> Jogar no lixo comum</label>
         <label><input type="radio" name="q4" value="b"> Levar a pontos de coleta</label>
         <label><input type="radio" name="q4" value="c"> Enterrar no quintal</label>
       </fieldset>
-    </div>
-    <div class="quiz-pergunta-card">
+    </section>
+    <section class="quiz-pergunta-card">
       <fieldset>
         <legend>5. Qual atitude ajuda a proteger os animais?</legend>
         <label><input type="radio" name="q5" value="a"> Poluir rios</label>
         <label><input type="radio" name="q5" value="b"> Respeitar a natureza</label>
         <label><input type="radio" name="q5" value="c"> Caçar animais</label>
       </fieldset>
-    </div>
+    </section>
     <button type="submit" class="btn-destaque">Enviar respostas</button>
   </form>
-  <div id="resultadoMeioAmbiente" class="quiz-resultado" style="display:none;"></div>
+  <section id="resultadoMeioAmbiente" class="quiz-resultado" style="display:none;"></section>
   <button id="btnVoltarMeioAmbiente" class="btn-voltar-quiz" style="display:none;" onclick="window.location.href='/quiz'">Voltar para Quizzes</button>
   <script>
   document.getElementById('quizMeioAmbienteForm').onsubmit = function(e) {
@@ -454,6 +394,9 @@
     document.getElementById('quizMeioAmbienteForm').style.display = 'none';
   };
   </script>
-  <div class="quiz-tema-aviso">Ajude o planeta e ganhe prêmios verdes! 🌎</div>
+  <section class="quiz-tema-aviso">Ajude o planeta e ganhe prêmios verdes! 🌎</section>
+
+</main>
+<%- include('partials/footer') %>
 </main>
 <%- include('partials/footer') %>

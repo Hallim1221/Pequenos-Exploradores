@@ -49,6 +49,19 @@ router.post('/login', (req, res) => {
   res.redirect('/');
 });
 
+
+
+// Login do Aluno
+router.get('/aluno/login', (req, res) => {
+  res.render('aluno-login');
+});
+
+router.post('/aluno/login', (req, res) => {
+  // Aqui você pode validar o e-mail e senha se desejar
+  // Por enquanto, apenas redireciona para a área do aluno
+  res.redirect('/aluno');
+});
+
 // Área do Aluno
 router.get('/aluno', (req, res) => {
   res.render('aluno');

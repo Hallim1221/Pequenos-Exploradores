@@ -8,327 +8,127 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/btn-voltar.css">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
-      background: linear-gradient(120deg, #3bb273 0%, #00CFFF 100%);
-      background-attachment: fixed;
-      overflow-x: hidden;
-      position: relative;
-    }
-    .bg-figma {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      background: url('/img/tcc.img/tela inicio.png') center center/cover no-repeat;
-      opacity: 0.18;
-      pointer-events: none;
-      transition: opacity 0.4s;
-    }
-    .aluno-main {
-      max-width: 700px;
-      margin: 4.5em auto 0 auto;
-      padding: 2.5em 2em 2.5em 2em;
-      background: rgba(255,255,255,0.93);
-      border-radius: 18px;
-      box-shadow: 0 4px 32px 0 rgba(60, 180, 115, 0.10), 0 1.5px 8px 0 rgba(0,0,0,0.04);
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      animation: fadeInUp 0.7s;
-    }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .aluno-atalhos {
-      display: flex;
-      gap: 1.2em;
-      margin-bottom: 1.5em;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .atalho-circulo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #00CFFF 60%, #3bb273 100%);
-      color: #fff;
-      font-size: 2.1em;
-      font-weight: 700;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 0.3em;
-      text-decoration: none;
-      transition: background 0.18s, transform 0.18s;
-      border: 2.5px solid #FFD600;
-      position: relative;
-    }
-    .atalho-circulo span {
-      font-size: 0.7em;
-      font-weight: 700;
-      margin-top: 0.2em;
-      color: #FFD600;
-      letter-spacing: 0.01em;
-    }
-    .atalho-circulo:hover {
-      background: linear-gradient(135deg, #3bb273 60%, #00CFFF 100%);
-      transform: scale(1.07);
-      box-shadow: 0 6px 24px 0 rgba(0, 207, 255, 0.13), 0 2px 8px 0 rgba(0,0,0,0.10);
-    }
-    .aluno-main h1 {
-      text-align: center;
-      font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
-      font-size: 2em;
-      color: #00CFFF;
-      font-weight: 800;
-      margin-bottom: 1.2em;
-      margin-top: 0.5em;
-      letter-spacing: 0.01em;
-    }
-    .aluno-header {
-      display: flex;
-      align-items: center;
-      gap: 1.2em;
-      margin-bottom: 1.2em;
-    }
-    .aluno-avatar {
-      width: 70px;
-      height: 70px;
-      border-radius: 50%;
-      border: 3px solid #FFD600;
-      background: #fffbe7;
-      object-fit: cover;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-    .aluno-nome h2 {
-      font-size: 1.3em;
-      color: #3bb273;
-      font-weight: 800;
-      margin: 0 0 0.2em 0;
-    }
-    .aluno-nome-destaque {
-      color: #FFD600;
-      font-weight: 800;
-    }
-    .aluno-frase {
-      font-size: 1em;
-      color: #00CFFF;
-      margin: 0;
-      font-weight: 600;
-    }
-    .aluno-dados {
-      background: #f7fafd;
-      border-radius: 12px;
-      padding: 1em 1.2em;
-      margin-bottom: 1.2em;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-      width: 100%;
-    }
-    .aluno-dados p {
-      margin: 0.2em 0;
-      font-size: 1.08em;
-      color: #222;
-    }
-    .aluno-ranking {
-      color: #00CFFF;
-      font-weight: 700;
-    }
-    .aluno-progresso {
-      color: #3bb273;
-      font-weight: 700;
-    }
-    .aluno-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.2em;
-      margin-bottom: 1.2em;
-      justify-content: center;
-    }
-    .medalhas span {
-      font-size: 2em;
-      margin-right: 0.2em;
-    }
-    .moedas {
-      font-size: 1.1em;
-      color: #FFD600;
-      font-weight: 700;
-      background: #fffbe7;
-      border-radius: 8px;
-      padding: 0.3em 0.8em;
-      margin: 0 0.5em;
-      display: inline-block;
-    }
-    .aluno-premios span {
-      font-size: 1.5em;
-      margin-right: 0.2em;
-    }
-    .aluno-acoes {
-      display: flex;
-      gap: 1em;
-      margin-bottom: 1.2em;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    .btn-secondary, .btn-primary, .btn-destaque {
-      border: none;
-      border-radius: 10px;
-      padding: 0.7em 1.3em;
-      font-size: 1.1em;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.18s, transform 0.18s;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      margin-bottom: 0.2em;
-    }
-    .btn-secondary {
-      background: #fffbe7;
-      color: #3bb273;
-      border: 1.5px solid #FFD600;
-    }
-    .btn-primary {
-      background: #00CFFF;
-      color: #fff;
-      border: 1.5px solid #00CFFF;
-    }
-    .btn-destaque {
-      background: linear-gradient(90deg, #FFD600 0%, #3bb273 100%);
-      color: #fff;
-      border: 1.5px solid #FFD600;
-    }
-    .btn-secondary:hover, .btn-primary:hover, .btn-destaque:hover {
-      transform: scale(1.05);
-      filter: brightness(1.08);
-    }
-    .aluno-missoes {
-      background: #f7fafd;
-      border-radius: 12px;
-      padding: 1em 1.2em;
-      margin-bottom: 1.2em;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-      width: 100%;
-    }
-    .aluno-missoes h3 {
-      color: #00CFFF;
-      font-size: 1.1em;
-      font-weight: 700;
-      margin-bottom: 0.5em;
-    }
-    .aluno-missoes ul {
-      padding-left: 1.2em;
-      margin: 0;
-      color: #3bb273;
-      font-size: 1em;
-    }
-    .aluno-missoes li {
-      margin-bottom: 0.3em;
-    }
-    .aluno-destaque {
-      background: #fffbe7;
-      border-radius: 12px;
-      padding: 1em 1.2em;
-      margin-bottom: 0.5em;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-      width: 100%;
-      text-align: center;
-      color: #3bb273;
-      font-weight: 700;
-    }
-    .aluno-explorador {
-      color: #00CFFF;
-      font-weight: 800;
-    }
-    @media (max-width: 700px) {
-      .aluno-main {
-        max-width: 98vw;
-        padding: 1.2em 0.5em 1.5em 0.5em;
-        border-radius: 10px;
-      }
-      .aluno-main h1 {
-        font-size: 1.25em;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="bg-figma"></div>
+  <link rel="stylesheet" href="/css/aluno.css">
+  
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <circle cx="24" cy="24" r="22" fill="#00CFFF"/>
-      <polygon points="30,14 18,24 30,34" fill="#0077B6"/>
-      <ellipse cx="38" cy="38" rx="2.5" ry="1.5" fill="#B2F7EF"/>
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
     </svg>
   </button>
-  <div style="height: 32px;"></div>
+  <section class="top-banner"></section>
+
+  
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Loja</a></li>
+    </ul>
+  </nav>
+  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
+    <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+  </button>
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/index.css">
+  
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  
   <main class="aluno-main">
-    <div class="aluno-atalhos">
-      <a href="/aluno" class="atalho-circulo atalho-aluno" title="Área do Aluno">⛺<span>Aluno</span></a>
-      <a href="/quiz" class="atalho-circulo atalho-quiz" title="Quiz">📜<span>Quiz</span></a>
-      <a href="/ranking" class="atalho-circulo atalho-ranking" title="Ranking">🏆<span>Ranking</span></a>
-      <a href="/recarga" class="atalho-circulo atalho-recarga" title="Recarga">💳<span>Recarga</span></a>
-      <a href="/natureza" class="atalho-circulo atalho-natureza" title="Explorar Natureza">
-        <span style="font-size:2.1rem;">🌎</span>
-        <span>Natureza</span>
-      </a>
-    </div>
+  <section class="aluno-atalhos" style="display: flex; gap: 0.7em; justify-content: center; margin-bottom: 1.5em;">
+    <a href="/aluno" class="atalho-circulo atalho-aluno" title="Área do Aluno" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000;">⛺</a>
+    <a href="/quiz" class="atalho-circulo atalho-quiz" title="Quiz" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000;">📜</a>
+    <a href="/ranking" class="atalho-circulo atalho-ranking" title="Ranking" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000;">🏆</a>
+    <a href="/recarga" class="atalho-circulo atalho-recarga" title="Recarga" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000;">💳</a>
+    <a href="/natureza" class="atalho-circulo atalho-natureza" title="Explorar Natureza" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000; display: flex; align-items: center; justify-content: center;">
+      <span style="font-size:1.7rem;">🌎</span>
+    </a>
+  </section>
     <h1>Área do Aluno</h1>
     <section class="aluno-info">
-      <div class="aluno-header">
-        <img src="/boneca clarinha.png" alt="Avatar do Aluno" class="aluno-avatar">
-        <div class="aluno-nome">
-          <h2>Olá, <span class="aluno-nome-destaque">Lucas</span>!</h2>
-          <p class="aluno-frase">Pronto para mais uma aventura?</p>
+
+      <section style="background: #1ec773; border-radius: 32px; box-shadow: 0 2px 12px #1ec77344; padding: 0.7em 0.7em 0.7em 0.7em; margin-bottom: 1.2em; max-width: 340px; margin-left: auto; margin-right: auto; display: flex; flex-direction: row; gap: 1em; align-items: stretch; min-height: 120px;">
+      <!-- Informações à esquerda -->
+      <section class="aluno-info-col">
+        <section class="aluno-nome">
+          <h2><span style="color:#fdfefe;">Olá</span> <span class="aluno-nome-destaque">Lorena</span><span style="color:#fdfeff;">!</span></h2>
+          <p class="aluno-frase"></p>
+        </section>
+        <section class="aluno-dados-card">
+          <section class="aluno-dados">
+            <p class="aluno-info-item"><strong>Escola:</strong> Escola Modelo</p>
+            <p class="aluno-info-item"><strong>Turma:</strong> 5º Ano</p>
+            <p class="aluno-info-item"><strong>Ranking:</strong> <span class="aluno-ranking">3º lugar</span></p>
+            <p class="aluno-info-item"><strong>Progresso:</strong> <progress class="aluno-progresso-bar" value="50" max="100"></progress> <span class="aluno-progresso">50/100</span></p>
+          </section>
+        </section>
+        <section class="aluno-badges">
+          <section class="medalhas"></section>
+          <section class="moedas">Moedas: <span>$120</span> <span class="moeda-icone">🪙</span></section>
+        </section>
+      </section>
+      <!-- Avatar à direita -->
+      <section style="flex:1; display: flex; align-items: center; justify-content: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0.5em; width: 100%;">
+          <div style="background: #fff; border-radius: 18px; box-shadow: 0 2px 12px #0076CA22; padding: 0.5em; display: flex; align-items: flex-start; justify-content: center; min-width: 95px; min-height: 135px; max-width: 150px; max-height: 180px; width: 100%; height: 100%; margin-top: 16px;">
+            <img src="/boneca clarinha.png" alt="Avatar do Aluno" class="aluno-avatar" style="width: 100%; height: 100%; border-radius: 16px; object-fit: cover; box-shadow: 0 2px 8px #0076CA33;">
+          </div>
+          <button class="btn-editar-perfil" onclick="document.getElementById('avatar-modal').style.display='flex'">Editar</button>
         </div>
-      </div>
-      <div class="aluno-dados">
-        <p><strong>Escola:</strong> Escola Modelo</p>
-        <p><strong>Turma:</strong> 5º Ano</p>
-        <p><strong>Ranking:</strong> <span class="aluno-ranking">3º lugar</span></p>
-        <p><strong>Progresso:</strong> <progress value="50" max="100"></progress> <span class="aluno-progresso">50/100</span></p>
-      </div>
-      <div class="aluno-badges">
-        <div class="medalhas">
-          <span class="medalha bronze" title="Bronze">🥉</span>
-          <span class="medalha prata" title="Prata">🥈</span>
-          <span class="medalha ouro" title="Ouro">🥇</span>
-        </div>
-        <div class="moedas">Moedas: <span>$120</span> <span class="moeda-icone">🪙</span></div>
-        <div class="aluno-premios">
-          <span class="premio" title="Explorador do Mês">🏆</span>
-          <span class="premio" title="Desafio Completo">🎯</span>
-          <span class="premio" title="Colecionador de Moedas">💰</span>
-        </div>
-      </div>
-      <div class="aluno-acoes">
-        <button class="btn-secondary">Editar Perfil</button>
-        <button class="btn-primary">Ver Missões</button>
-        <button class="btn-destaque">Jogar Quiz</button>
-      </div>
-      <div class="aluno-missoes">
-        <h3>Missões em andamento</h3>
-        <ul>
-          <li>✔️ Completar 3 quizzes esta semana</li>
-          <li>✔️ Conquistar 2 novas medalhas</li>
-          <li>⏳ Subir para o 2º lugar no ranking</li>
-          <li>⏳ Juntar 200 moedas</li>
-        </ul>
-      </div>
-      <div class="aluno-destaque">
+      </section>
+    </section>
+  
+          
+      
+      <section class="aluno-acoes">
+        <a href="/quiz"><button class="btn-destaque">Jogar Quiz</button></a>
+        <section style="margin: 0.7em 0; text-align: center;">
+          <a href="/premium" style="display: inline-block;">
+            <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" style="max-width: 320px; width: 100%; border-radius: 16px; box-shadow: 0 4px 18px #0076CA88; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+          </a>
+        </section>
+      
+      <section class="aluno-destaque">
         <p>Continue explorando para desbloquear novos mundos, ganhar prêmios e se tornar um <span class="aluno-explorador">Super Explorador!</span> 🚀</p>
-      </div>
+      </section>
     </section>
   </main>
+  
+  <section id="avatar-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.55); z-index:12000; align-items:center; justify-content:center;">
+    <section style="background:#fff; border-radius:24px; padding:2em 1.5em 1.5em 1.5em; max-width:420px; width:90vw; box-shadow:0 8px 32px #0076CA44; text-align:center; position:relative;">
+      <button onclick="document.getElementById('avatar-modal').style.display='none'" style="position:absolute; top:1em; right:1em; background:none; border:none; font-size:2em; color:#0076CA; cursor:pointer;">&times;</button>
+      <h2 style="font-family:'Baloo 2',cursive; color:#0076CA; font-size:1.3em; font-weight:800; margin-bottom:1.2em;">Escolha seu Avatar</h2>
+      <section style="display:grid; grid-template-columns:repeat(4,1fr); gap:1em; justify-items:center;">
+        <img src="/img/tcc.img/animal1.png" alt="Avatar 1" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal1.png')">
+        <img src="/img/tcc.img/animal2.png" alt="Avatar 2" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal2.png')">
+        <img src="/img/tcc.img/animal3.png" alt="Avatar 3" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal3.png')">
+        <img src="/img/tcc.img/animal4.png" alt="Avatar 4" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal4.png')">
+        <img src="/img/tcc.img/animal5.png" alt="Avatar 5" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal5.png')">
+        <img src="/img/tcc.img/animal6.png" alt="Avatar 6" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal6.png')">
+        <img src="/img/tcc.img/animal7.png" alt="Avatar 7" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal7.png')">
+        <img src="/img/tcc.img/animal8.png" alt="Avatar 8" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal8.png')">
+      </section>
+    </section>
+  </section>
+
+  <script>
+    function selecionarAvatar(src) {
+      
+      var avatar = document.querySelector('.aluno-avatar');
+      if(avatar) avatar.src = src;
+      document.getElementById('avatar-modal').style.display = 'none';
+      
+    }
+  </script>
   <%- include('partials/footer') %>
 </body>
+<p></p>
+<p></p>
 </html>

@@ -1,0 +1,58 @@
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+/* Estilos exclusivos da página Natureza */
+.pagina-central {
+  max-width: 900px;
+  margin: 2.5em auto 0 auto;
+  padding: 2.2em 1.5em 2.5em 1.5em;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(60, 180, 115, 0.10), 0 1.5px 8px 0 rgba(0,0,0,0.04);
+  min-height: 60vh;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pagina-central h1 {
+  text-align: center;
+  font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+  font-size: 2em;
+  color: #3bb273;
+  font-weight: 800;
+  margin-bottom: 1.2em;
+  margin-top: 0.5em;
+  letter-spacing: 0.01em;
+}
+.pagina-central p, .pagina-central ul, .pagina-central li {
+  font-size: 1.13em;
+  color: #222;
+  font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+  line-height: 1.7;
+  margin-bottom: 1.1em;
+  text-align: center;
+}
+.pagina-central ul {
+  padding-left: 1.2em;
+  text-align: left;
+}
+@media (max-width: 900px) {
+  .pagina-central {
+    max-width: 98vw;
+    padding: 1.2em 0.2em 2em 0.2em;
+  }
+}
+@media (max-width: 600px) {
+  .pagina-central {
+    margin: 1.2em auto 0 auto;
+    padding: 0.7em 0.1em 1.2em 0.1em;
+    border-radius: 10px;
+  }
+  .pagina-central h1 {
+    font-size: 1.25em;
+  }
+}

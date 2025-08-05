@@ -1,0 +1,36 @@
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+/* Top Banner Styles */
+.top-banner {
+  width: 100vw;
+  min-width: 100vw;
+  height: 32px;
+  background: #3bb273;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  border-radius: 0;
+  font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1.15em;
+  color: #fff;
+  overflow: hidden;
+  animation: bannerFadeIn 0.7s;
+  pointer-events: none;
+}
+.btn-voltar {
+  pointer-events: auto;
+}
+@keyframes bannerFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

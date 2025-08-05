@@ -1,450 +1,168 @@
-<main class="ranking">
-  <div class="ranking-topo">
-    <h1 style="font-size: 1.45em; font-weight: 700; margin-bottom: 0.6em; line-height: 1.18; word-break: break-word; letter-spacing: 0.01em; max-width: 98vw; margin-left: auto; margin-right: auto;">
-    <br>
-      <span style="color: #FFD600; font-size: 1.15em; font-weight: 800; letter-spacing: 0.03em;"></span>
-    </h1>
-  
-      
-<!-- View ranking -->
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
-<button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <circle cx="24" cy="24" r="22" fill="#00CFFF"/>
-    <polygon points="30,14 18,24 30,34" fill="#0077B6"/>
-    <ellipse cx="38" cy="38" rx="2.5" ry="1.5" fill="#B2F7EF"/>
-  </svg>
-</button>
-<div class="top-banner"></div>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/ranking.css">
+  <title>Ranking - Pequenos Exploradores</title>
+</head>
+<body>
+  <!-- Cabeçalho e Menu Inicial igual ao da página inicial -->
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
 
-<!-- Sidebar Menu -->
-<nav class="sidebar-menu" id="sidebarMenu">
-  <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
-  <ul>
-    <li><a href="/">Início</a></li>
-    <li><a href="/sobre">Sobre</a></li>
-    <li><a href="/contato">Contato</a></li>
-    <li><a href="/loja">Loja</a></li>
-  </ul>
-</nav>
-<button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none;">
-  <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
-</button>
-<link rel="stylesheet" href="/css/btn-voltar.css">
-<style>
-  /* Sidebar Menu Styles */
-  .sidebar-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100vh;
-    background: #3bb273;
-    box-shadow: 2px 0 16px rgba(0,0,0,0.10);
-    z-index: 12000;
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(.4,1.3,.5,1);
-    padding-top: 2.5em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
-  .sidebar-menu.open {
-    transform: translateX(0);
-  }
-  .sidebar-menu ul {
-    list-style: none;
-    padding: 0 1.2em;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2em;
-  }
-  .sidebar-menu li a {
-    color: #fff;
-    font-size: 1.18em;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 0.4em 0.2em;
-    border-radius: 8px;
-    transition: background 0.18s;
-    display: block;
-  }
-  .sidebar-menu li a:hover {
-    background: rgba(255,255,255,0.13);
-  }
-  .sidebar-close {
-    position: absolute;
-    top: 0.7em;
-    right: 1em;
-    background: none;
-    border: none;
-    font-size: 2em;
-    color: #fff;
-    cursor: pointer;
-    z-index: 1;
-    line-height: 1;
-    transition: color 0.18s;
-  }
-  .sidebar-close:hover {
-    color: #FFD600;
-  }
-  .sidebar-toggle {
-    position: fixed;
-    top: 0.7em;
-    left: 0.7em;
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    padding: 0.3em 0.4em;
-    z-index: 11500;
-    cursor: pointer;
-    box-shadow: none;
-    transition: background 0.18s, border 0.18s;
-  }
-  .sidebar-toggle:hover {
-    background: rgba(255,255,255,0.12);
-    border: none;
-  }
-  @media (max-width: 600px) {
-    .sidebar-menu { width: 80vw; min-width: 0; }
-  }
-</style>
-<style>
-  .top-banner {
-    width: 100vw;
-    min-width: 100vw;
-    height: 32px;
-    background: #3bb273;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    border-radius: 0;
-    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    font-size: 1.15em;
-    color: #fff;
-    overflow: hidden;
-    animation: bannerFadeIn 0.7s;
-    pointer-events: none;
-  }
-  .btn-voltar {
-    pointer-events: auto;
-  }
-  @keyframes bannerFadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  html, body {
-    max-width: 100vw;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    min-height: 100vh;
-  }
-  body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
-    position: relative;
-  }
-</style>
-<div class="bg-figma"></div>
-<div style="height: 32px;"></div>
-  <div class="ranking-container">
-    <div class="podio-3d">
-      <div class="podio3d-item top2">
-        <div class="podio3d-medal">🥈</div>
-        <div class="podio3d-nome">Lucas</div>
-        <div class="podio3d-pontos">120 pts</div>
-      </div>
-      <div class="podio3d-item top1">
-        <div class="podio3d-medal">🥇</div>
-        <div class="podio3d-nome">Ana</div>
-        <div class="podio3d-pontos">150 pts</div>
-      </div>
-      <div class="podio3d-item top3">
-        <div class="podio3d-medal">🥉</div>
-        <div class="podio3d-nome">João</div>
-        <div class="podio3d-pontos">100 pts</div>
-      </div>
-    </div>
-    <div class="ranking-table-responsive">
-      <table class="ranking-table">
-        <thead>
-          <tr><th>Posição</th><th>Nome</th><th>Pontuação</th><th>Medalha</th></tr>
-        </thead>
-        <tbody>
-          <tr class="top1"><td>1º</td><td>Ana</td><td>150</td><td>🥇</td></tr>
-          <tr class="top2"><td>2º</td><td>Lucas</td><td>120</td><td>🥈</td></tr>
-          <tr class="top3"><td>3º</td><td>João</td><td>100</td><td>🥉</td></tr>
-          <tr><td>4º</td><td>Maria</td><td>80</td><td>🎖️</td></tr>
-          <tr><td>5º</td><td>Pedro</td><td>60</td><td>🎖️</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div class="ranking-premios">
-    <h2>Prêmios Recentes</h2>
-    <div class="premios-lista">
-      <div class="premio-card animada"><span>🏆</span><p>Explorador do Mês: <strong>Ana</strong></p></div>
-      <div class="premio-card animada"><span>🎯</span><p>Desafio Completo: <strong>Lucas</strong></p></div>
-      <div class="premio-card animada"><span>💰</span><p>Colecionador de Moedas: <strong>João</strong></p></div>
-    </div>
-  </div>
-  <div class="objetivos">
-    <h2>Objetivos para ganhar medalhas</h2>
+  <!-- Sidebar Menu -->
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
     <ul>
-      <li>Completar 10 quizzes <span class="medalha bronze">🥉</span></li>
-      <li>Acertar 5 quizzes seguidos <span class="medalha prata">🥈</span></li>
-      <li>Ficar no Top 3 do mês <span class="medalha ouro">🥇</span></li>
-      <li>Juntar 500 moedas <span class="medalha">💰</span></li>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Loja</a></li>
     </ul>
-  </div>
-  <div class="ranking-destaque">
-    <p>Continue participando dos quizzes e desafios para subir no ranking, conquistar medalhas e desbloquear prêmios incríveis! <span style="font-size:1.5em;">🚀🏅✨</span></p>
-  </div>
-<style>
-  .podio-3d {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    gap: 2.5vw;
-    margin-bottom: 2.2em;
-    margin-top: 1.2em;
-    min-height: 120px;
-  }
-  .podio3d-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    background: linear-gradient(120deg, #fffbe7 60%, #FFD600 100%);
-    border-radius: 18px 18px 12px 12px;
-    box-shadow: 0 6px 32px 0 #FFD60033, 0 2px 8px 0 #00CFFF22;
-    padding: 1.1em 1.5em 0.7em 1.5em;
-    min-width: 90px;
-    min-height: 110px;
-    position: relative;
-    transition: transform 0.18s, box-shadow 0.18s;
-    animation: fadeInUp 0.7s;
-  }
-  .podio3d-item.top1 {
-    background: linear-gradient(120deg, #FFD600 60%, #fffbe7 100%);
-    min-height: 140px;
-    z-index: 2;
-    transform: scale(1.13);
-    box-shadow: 0 12px 32px 0 #FFD60055, 0 2px 8px 0 #00CFFF22;
-  }
-  .podio3d-item.top2 {
-    background: linear-gradient(120deg, #C0C0C0 60%, #fffbe7 100%);
-    min-height: 110px;
-    z-index: 1;
-    transform: scale(1.03);
-    box-shadow: 0 8px 24px 0 #C0C0C055, 0 2px 8px 0 #00CFFF22;
-  }
-  .podio3d-item.top3 {
-    background: linear-gradient(120deg, #CD7F32 60%, #fffbe7 100%);
-    min-height: 100px;
-    z-index: 1;
-    transform: scale(0.98);
-    box-shadow: 0 8px 24px 0 #CD7F3255, 0 2px 8px 0 #00CFFF22;
-  }
-  .podio3d-medal {
-    font-size: 2.5em;
-    margin-bottom: 0.2em;
-    filter: drop-shadow(0 2px 6px #FFD60055);
-  }
-  .podio3d-nome {
-    font-family: 'Baloo 2', Arial, sans-serif;
-    font-size: 1.13em;
-    font-weight: 800;
-    color: #3bb273;
-    margin-bottom: 0.2em;
-    letter-spacing: 0.01em;
-  }
-  .podio3d-pontos {
-    font-size: 1em;
-    color: #00CFFF;
-    font-weight: 700;
-    font-family: 'Fredoka', Arial, sans-serif;
-  }
-  .ranking-table-responsive {
-    width: 100%;
-    overflow-x: auto;
-    margin-bottom: 2em;
-  }
-  .ranking-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 0.5em;
-    background: transparent;
-    font-family: 'Fredoka', Arial, sans-serif;
-    font-size: 1.08em;
-    box-shadow: none;
-  }
-  .ranking-table th, .ranking-table td {
-    padding: 0.7em 0.6em;
-    text-align: center;
-    background: rgba(255,255,255,0.93);
-    border-radius: 8px;
-    border: none;
-    font-weight: 700;
-  }
-  .ranking-table th {
-    background: #FFD600;
-    color: #fff;
-    font-size: 1.1em;
-    letter-spacing: 0.02em;
-    font-family: 'Baloo 2', Arial, sans-serif;
-    box-shadow: 0 2px 8px #FFD60022;
-  }
-  .ranking-table tr.top1 td {
-    background: linear-gradient(90deg, #FFD600 60%, #fffbe7 100%);
-    color: #fff;
-    font-size: 1.13em;
-    font-weight: 800;
-    box-shadow: 0 6px 24px 0 #FFD60033, 0 2px 8px 0 #00CFFF22;
-  }
-  .ranking-table tr.top2 td {
-    background: linear-gradient(90deg, #C0C0C0 60%, #fffbe7 100%);
-    color: #fff;
-    font-size: 1.08em;
-    font-weight: 700;
-    box-shadow: 0 6px 24px 0 #C0C0C033, 0 2px 8px 0 #00CFFF22;
-  }
-  .ranking-table tr.top3 td {
-    background: linear-gradient(90deg, #CD7F32 60%, #fffbe7 100%);
-    color: #fff;
-    font-size: 1.05em;
-    font-weight: 700;
-    box-shadow: 0 6px 24px 0 #CD7F3233, 0 2px 8px 0 #00CFFF22;
-  }
-  .premios-lista {
-    display: flex;
-    gap: 1.2em;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 1em;
-  }
-  .premio-card {
-    background: linear-gradient(120deg, #fffbe7 60%, #FFD600 100%);
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    padding: 1em 1.2em;
-    min-width: 160px;
-    display: flex;
-    align-items: center;
-    gap: 0.7em;
-    font-size: 1.1em;
-    font-weight: 700;
-    color: #00CFFF;
-    border: 1.5px solid #FFD600;
-    position: relative;
-    transition: box-shadow 0.18s, transform 0.18s;
-    animation: premioPop 0.7s;
-  }
-  .premio-card.animada {
-    animation: premioPop 0.7s;
-  }
-  @keyframes premioPop {
-    0% { transform: scale(0.7); opacity: 0; }
-    80% { transform: scale(1.08); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-  .objetivos {
-    margin-top: 2em;
-    margin-bottom: 1.5em;
-    background: rgba(0,207,255,0.07);
-    border-radius: 12px;
-    padding: 1.2em 1.2em 1.2em 1.2em;
-    box-shadow: 0 2px 8px #00CFFF11;
-  }
-  .objetivos h2 {
-    color: #3bb273;
-    font-size: 1.18em;
-    font-family: 'Baloo 2', Arial, sans-serif;
-    font-weight: 800;
-    margin-bottom: 0.7em;
-  }
-  .objetivos ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7em 1.2em;
-  }
-  .objetivos li {
-    font-size: 1.08em;
-    color: #00CFFF;
-    font-family: 'Fredoka', Arial, sans-serif;
-    font-weight: 700;
-    background: #fffbe7;
-    border-radius: 8px;
-    padding: 0.5em 1em;
-    margin-bottom: 0.3em;
-    display: flex;
-    align-items: center;
-    gap: 0.5em;
-    box-shadow: 0 1px 4px #FFD60011;
-  }
-  .objetivos .medalha {
-    font-size: 1.2em;
-    margin-left: 0.3em;
-  }
-  .ranking-destaque {
-    margin-top: 2em;
-    background: linear-gradient(90deg, #FFD600 0%, #00CFFF 100%);
-    color: #fff;
-    font-size: 1.18em;
-    font-family: 'Baloo 2', Arial, sans-serif;
-    font-weight: 700;
-    border-radius: 12px;
-    padding: 1.2em 1.2em 1.2em 1.2em;
-    box-shadow: 0 2px 8px #FFD60022;
-    text-align: center;
-    animation: fadeInUp 0.7s;
-  }
-  @media (max-width: 700px) {
-    .podio-3d {
-      gap: 1vw;
-      min-height: 80px;
+  </nav>
+  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
+    <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+  </button>
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <section style="height: 48px;"></div>
+  <main class="ranking-novo ranking-centralizado">
+    <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+        <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+        <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+      </svg>
+    </button>
+    <section class="ranking-header">
+      <h1 style="color:#0076CA; font-family: 'Baloo 2', cursive; font-size: 2.5em; letter-spacing: 2px; text-shadow: 0 2px 12px #00CFFF88, 0 1px 0 #fff; display: flex; align-items: center; justify-content: center; gap: 0.3em;">
+        <span style="font-size:1.3em;">🏆</span>
+        <span>Ranking dos <span style="color:#1ec773; text-shadow: 0 1px 8px #1ec77355; font-weight: bold;">Exploradores</span></span>
+        <span style="font-size:1.1em;">🌟</span>
+      </h1>
+      <button class="btn-circular-podio-animada" onclick="abrirRankingModal()" title="Ver Ranking" aria-label="Ver Ranking">
+        <span class="emoji-podio">🏆</span>
+      </button>
+    </section>
+    <!-- Esquema de Patente estilo Free Fire -->
+    <section class="patente-info" style="background: linear-gradient(135deg,#e0ffe7 60%,#b2f7ef 100%); border-radius: 18px; box-shadow: 0 2px 16px #1ec77333; padding: 1.2em 1em 1em 1em; margin: 1.2em auto 1.5em auto; max-width: 420px; border: 2px solid #3bb27344;">
+      <h2 style="color:#0076CA; font-family: 'Baloo 2', cursive; font-size: 2em; letter-spacing: 1px; text-shadow: 0 2px 10px #00CFFF55; display: flex; align-items: center; gap: 0.3em; justify-content: center;">
+        <span style="font-size:1.2em;">💎</span>
+        Sua Patente
+        <span style="font-size:1.1em;">🌟</span>
+      </h2>
+      <section class="patente-barra" style="display: flex; gap: 0.7em; justify-content: center; margin: 1em 0 0.7em 0;">
+        <span class="patente-nivel bronze" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">🥉</span>
+        <span class="patente-nivel prata" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">🥈</span>
+        <span class="patente-nivel ouro" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">🥇</span>
+        <span class="patente-nivel platina" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">💎</span>
+        
+      </section>
+      <section class="patente-progresso" style="margin: 1em 0 0.7em 0;">
+        <section class="patente-progresso-barra" style="width: 100%; height: 18px; border-radius: 9px; background: linear-gradient(90deg, #b2bec3 0%, #00CFFF 100%); box-shadow: 0 1px 8px #00CFFF33; position: relative;">
+          <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); color: #0076CA; font-weight: bold; font-size: 1em;">Diamante</span>
+        </section>
+      </section>
+      <p class="patente-descricao" style="color:#388e3c; font-size:1.1em; text-align:center; margin-top:0.7em;">Você está no nível <strong style="color:#0076CA; text-shadow:0 1px 8px #00CFFF55;">Diamante</strong>! Complete quizzes e desafios para manter sua patente.</p>
+    </section>
+    <section class="anuncio-ranking" style="margin-top: -1.2em;">
+      <a href="/premium" style="display:inline-block;">
+        <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-img" style="cursor:pointer; transition:transform 0.18s; border-radius:16px; box-shadow:0 4px 18px #0076CA88;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
+      </a>
+    </section>
+  </main>
+
+  <!-- Modal do Ranking -->
+  <section id="rankingModal" class="ranking-modal">
+    <section class="ranking-modal-content">
+      <button class="ranking-modal-close" onclick="fecharRankingModal()" aria-label="Fechar ranking">&times;</button>
+      <h2 class="ranking-modal-title" style="color:#3bb273;">Ranking dos 10 Melhores</h2>
+      <section class="ranking-podio-modal">
+        <section class="podio-modal segundo">
+          <span class="medalha">🥈</span>
+          <span class="nome" style="color:#388e3c;">Lucas</span>
+          <span class="pontos" style="color:#388e3c;">120 pts</span>
+        </section>
+        <section class="podio-modal primeiro">
+          <span class="medalha">🥇</span>
+          <span class="nome" style="color:#388e3c;">Ana</span>
+          <span class="pontos" style="color:#388e3c;">150 pts</span>
+        </section>
+        <section class="podio-modal terceiro">
+          <span class="medalha">🥉</span>
+          <span class="nome" style="color:#388e3c;">João</span>
+          <span class="pontos" style="color:#388e3c;">100 pts</span>
+        </section>
+      </section>
+      <ul class="ranking-lista-modal">
+        <li><span class="pos" style="color:#388e3c;">4º</span> <span class="nome" style="color:#388e3c;">Maria</span> <span class="pontos" style="color:#388e3c;">80 pts</span></li>
+        <li><span class="pos" style="color:#388e3c;">5º</span> <span class="nome" style="color:#388e3c;">Pedro</span> <span class="pontos" style="color:#388e3c;">60 pts</span></li>
+        <li><span class="pos" style="color:#388e3c;">6º</span> <span class="nome" style="color:#388e3c;">Clara</span> <span class="pontos" style="color:#388e3c;">55 pts</span></li>
+        <li><span class="pos" style="color:#388e3c;">7º</span> <span class="nome" style="color:#388e3c;">Felipe</span> <span class="pontos" style="color:#388e3c;">50 pts</span></li>
+        <li><span class="pos" style="color:#388e3c;">8º</span> <span class="nome" style="color:#388e3c;">Gabriela</span> <span class="pontos" style="color:#388e3c;">45 pts</span></li>
+        <li><span class="pos" style="color:#388e3c;">9º</span> <span class="nome" style="color:#388e3c;">Rafaela</span> <span class="pontos" style="color:#388e3c;">40 pts</span></li>
+        <li><span class="pos" style="color:#388e3c;">10º</span> <span class="nome" style="color:#388e3c;">Bruno</span> <span class="pontos" style="color:#388e3c;">35 pts</span></li>
+  <style>
+    .btn-circular-podio-animada {
+      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      box-shadow: 0 4px 18px #38f9d766, 0 0 0 4px #fff;
+      cursor: pointer;
+      margin-top: 8px;
+      margin-bottom: 8px;
+      transition: box-shadow 0.25s, transform 0.18s, background 0.2s;
+      animation: pulse-podio 1.2s infinite alternate;
+      outline: none;
+      border: 3px solid #3bb27344;
     }
-    .podio3d-item {
-      min-width: 60px;
-      min-height: 60px;
-      padding: 0.7em 0.5em 0.5em 0.5em;
-      border-radius: 10px 10px 8px 8px;
+    .btn-circular-podio-animada:hover, .btn-circular-podio-animada:focus {
+      background: linear-gradient(135deg, #3bb273 0%, #8bc34a 100%);
+      box-shadow: 0 8px 32px #43e97b99, 0 0 0 8px #fff;
+      transform: scale(1.08) rotate(-2deg);
     }
-    .podio3d-medal {
-      font-size: 1.5em;
+    @keyframes pulse-podio {
+      0% { box-shadow: 0 4px 18px #38f9d766, 0 0 0 4px #fff; }
+      100% { box-shadow: 0 12px 36px #43e97b99, 0 0 0 8px #fff; }
     }
-    .ranking-table th, .ranking-table td {
-      font-size: 0.95em;
-      padding: 0.4em 0.2em;
+    .emoji-podio {
+      filter: drop-shadow(0 2px 8px #43e97b66);
+      font-size: 1.3em;
+      transition: transform 0.18s;
     }
-    .premio-card {
-      min-width: 110px;
-      font-size: 0.98em;
-      padding: 0.6em 0.5em;
+    .btn-circular-podio-animada:hover .emoji-podio,
+    .btn-circular-podio-animada:focus .emoji-podio {
+      transform: scale(1.15) rotate(-8deg);
     }
-    .objetivos li {
-      font-size: 0.98em;
-      padding: 0.3em 0.5em;
+  </style>
+      </ul>
+    </section>
+  </section>
+
+  <script>
+    function abrirRankingModal() {
+      document.getElementById('rankingModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
     }
-    .ranking-destaque {
-      font-size: 1em;
-      padding: 0.7em 0.5em;
+    function fecharRankingModal() {
+      document.getElementById('rankingModal').style.display = 'none';
+      document.body.style.overflow = '';
     }
-  }
-</style>
-</main>
-<%- include('partials/footer') %>
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') fecharRankingModal();
+    });
+  </script>
+  <%- include('partials/footer') %>
+</body>
+

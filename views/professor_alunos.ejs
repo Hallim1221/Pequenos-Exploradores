@@ -5,84 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alunos - <%= serie %> Turma <%= turma %></title>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body { background: linear-gradient(120deg, #3bb273 0%, #00CFFF 100%); font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif; min-height: 100vh; margin: 0; }
-    .container { max-width: 520px; margin: 4em auto; background: #fff; border-radius: 18px; box-shadow: 0 4px 32px 0 rgba(60,180,115,0.10); padding: 2.5em 2em; }
-    h1 { color: #00CFFF; font-family: 'Baloo 2', cursive; text-align: center; font-size: 2em; }
-    table { width: 100%; border-collapse: collapse; margin-top: 2em; }
-    th, td { padding: 0.7em 0.5em; text-align: left; }
-    th { background: #00CFFF; color: #fff; font-weight: 700; font-size: 1.1em; }
-    tr:nth-child(even) { background: #f7fafd; }
-    tr:nth-child(odd) { background: #e6f7ee; }
-    td { color: #222; font-size: 1em; }
-    .voltar { margin-top: 2em; display: block; text-align: center; color: #00CFFF; text-decoration: underline; font-weight: 700; }
-  </style>
+  <link rel="stylesheet" href="/css/professor_alunos.css">
 </head>
 <body>
-  <div class="container" style="position:relative;overflow:hidden;">
-    <svg style="position:absolute;top:-40px;right:-40px;z-index:0;opacity:0.13;" width="180" height="180"><circle cx="90" cy="90" r="90" fill="#00CFFF"/></svg>
-    <svg style="position:absolute;bottom:-40px;left:-40px;z-index:0;opacity:0.13;" width="180" height="180"><circle cx="90" cy="90" r="90" fill="#FFD600"/></svg>
-    <h1 style="z-index:1;position:relative;">
-      <span style="font-size:1.5em;vertical-align:middle;">👩‍🏫</span> <span style="color:#00CFFF"><%= serie %></span> - Turma <span style="color:#FFD600"><%= turma %></span>
-    </h1>
-    <table class="alunos-table" style="z-index:1;position:relative;">
+  <section class="container">
+    <svg class="svg-top-right" width="180" height="180"><circle cx="90" cy="90" r="90" fill="#00CFFF"/></svg>
+    <svg class="svg-bottom-left" width="180" height="180"><circle cx="90" cy="90" r="90" fill="#FFD600"/></svg>
+    <h1><span class="titulo-icone">👩‍🏫</span> <span class="titulo-serie"><%= serie %></span> - Turma <span class="titulo-turma"><%= turma %></span></h1>
+    <table class="alunos-table">
       <tr><th>Aluno</th><th>Pontuação</th></tr>
       <% alunos.forEach(function(aluno, idx) { %>
         <tr style="animation:fadeInAluno 0.5s <%= idx*0.03 %>s both;">
-          <td><span style="font-size:1.1em;">🎒</span> <%= aluno.nome %></td>
-          <td><span style="font-size:1.1em;">⭐</span> <%= aluno.pontuacao %></td>
+          <td><span class="aluno-icone">🎒</span> <%= aluno.nome %></td>
+          <td><span class="aluno-icone">⭐</span> <%= aluno.pontuacao %></td>
         </tr>
       <% }) %>
     </table>
-    <a href="/professor/serie/<%= serie %>" class="voltar" style="z-index:1;position:relative;">⏪ Voltar para turmas</a>
-  </div>
-  <style>
-    @keyframes fadeInAluno {
-      from { opacity:0; transform:translateY(20px) scale(0.97); }
-      to { opacity:1; transform:translateY(0) scale(1); }
-    }
-    .alunos-table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0 0.3em;
-      margin-top: 2em;
-      background: none;
-      box-shadow: none;
-    }
-    .alunos-table th {
-      background: #00CFFF;
-      color: #fff;
-      font-weight: 800;
-      font-size: 1.1em;
-      border-radius: 10px 10px 0 0;
-      padding: 0.8em 0.5em;
-      letter-spacing: 0.01em;
-      border: none;
-    }
-    .alunos-table td {
-      background: #f7fafd;
-      color: #222;
-      font-size: 1.08em;
-      border-radius: 8px;
-      padding: 0.7em 0.5em;
-      border: none;
-      box-shadow: 0 1px 4px 0 rgba(0,207,255,0.04);
-    }
-    .alunos-table tr:nth-child(even) td {
-      background: #e6f7ee;
-    }
-    .voltar {
-      margin-top: 2em;
-      display: block;
-      text-align: center;
-      color: #00CFFF;
-      text-decoration: underline;
-      font-weight: 700;
-      font-size: 1.1em;
-      letter-spacing: 0.01em;
-      transition: color 0.18s;
-    }
-    .voltar:hover { color: #FFD600; }
-  </style>
+    <a href="/professor/serie/<%= serie %>" class="voltar">⏪ Voltar para turmas</a>
+  </section>
 </body>
 </html>

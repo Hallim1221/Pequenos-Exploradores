@@ -1,9 +1,13 @@
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
 .btn-voltar {
   position: fixed;
   top: 16px;
   right: 16px;
   z-index: 9999;
-  background: #fff;
   border: none;
   border-radius: 50%;
   width: 48px;
@@ -15,21 +19,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(220,220,220,0.15);
+
   cursor: pointer;
   transition: box-shadow 0.2s, transform 0.2s;
   font-size: 1.7em;
-  color: #FFD600;
-  border: 2px solid #FFD600;
+  
+  
 }
 .btn-voltar:hover {
-  box-shadow: 0 8px 24px rgba(255,214,0,0.22);
+ 
   transform: scale(1.12) rotate(-8deg);
-  background: #fffde7;
-  color: #FFD600;
+
 }
-@media (max-width: 600px) {
-  .btn-voltar {
+@media (max-width: 600px) {}
+  .btn-voltar{
     top: 8px;
     right: 8px;
     width: 40px;
@@ -40,11 +43,4 @@
     max-height: 44px;
     font-size: 1.2em;
     border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(220,220,220,0.12);
   }
-}
-    font-size: 1.2em;
-    border-radius: 50%;
-    box-shadow: 0 2px 8px rgba(220,220,220,0.12);
-  }
-}
