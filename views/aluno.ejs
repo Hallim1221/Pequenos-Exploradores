@@ -26,6 +26,13 @@
       <li><a href="/sobre">Sobre</a></li>
       <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
       <li><a href="/loja">Loja</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">
+            Sair
+          </button>
+        </form>
+      </li>
     </ul>
   </nav>
   <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
@@ -42,7 +49,14 @@
   </button>
   
   <main class="aluno-main">
-  <section class="aluno-atalhos" style="display: flex; gap: 0.7em; justify-content: center; margin-bottom: 1.5em;">
+  <button id="btn-notificacoes" aria-label="Notificações" style="background: none; border: none; position: fixed; top: 3.2em; left: 1.2em; z-index: 12010; cursor: pointer; box-shadow: 0 2px 8px #0076CA33; border-radius: 50%;">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="16" fill="#0076CA"/>
+      <path d="M16 8c-2.8 0-5 2.2-5 5v2.5c0 1.1-0.6 2.1-1.5 2.7-.3.2-.5.6-.5 1v0.3c0 .6.4 1 1 1h14c.6 0 1-.4 1-1v-0.3c0-.4-.2-.8-.5-1-1-.6-1.5-1.6-1.5-2.7V13c0-2.8-2.2-5-5-5zm0 16c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z" fill="#fff"/>
+    </svg>
+    <span id="notificacao-badge" style="display:none; position:absolute; top:2px; right:2px; background:#FFD600; color:#0076CA; font-size:0.9em; font-weight:800; border-radius:50%; width:18px; height:18px; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">!</span>
+  </button>
+  <section class="aluno-atalhos" style="display: flex; gap: 0.7em; justify-content: center; margin-bottom: 1.5em; margin-top: 0.5em;">
     <a href="/aluno" class="atalho-circulo atalho-aluno" title="Área do Aluno" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000;">⛺</a>
     <a href="/quiz" class="atalho-circulo atalho-quiz" title="Quiz" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000;">📜</a>
     <a href="/ranking" class="atalho-circulo atalho-ranking" title="Ranking" style="width: 48px; height: 48px; font-size: 1.7rem; background: #0076CA; color: #fff; border: 2px solid #000;">🏆</a>
@@ -51,44 +65,109 @@
       <span style="font-size:1.7rem;">🌎</span>
     </a>
   </section>
-    <h1>Área do Aluno</h1>
-    <section class="aluno-info">
+<!-- Painel lateral de notificações -->
+<section id="painel-notificacoes" style="display:none; position:fixed; top:0; right:0; width:320px; max-width:90vw; height:100vh; background:#fff; box-shadow:-4px 0 24px #0076CA33; z-index:13000; padding:1.5em 1.2em 1.2em 1.2em; overflow-y:auto; transition:transform 0.3s; border-radius: 16px 0 0 16px;">
+  <button onclick="document.getElementById('painel-notificacoes').style.display='none'" style="position:absolute; top:1em; right:1em; background:none; border:none; font-size:2em; color:#0076CA; cursor:pointer;">&times;</button>
+  <h2 style="color:#0076CA; font-family:'Baloo 2',cursive; font-size:1.2em; font-weight:800; margin-bottom:1em;">Notificações</h2>
+  <section style="display:flex; flex-direction:column; gap:1em;">
+    <section style="background:#e6f7ee; border-radius:12px; padding:0.8em 1em; box-shadow:0 1px 6px #00CFFF22;">
+      <strong style="color:#0076CA;">Novo vídeo disponível!</strong><br>
+      <span style="color:#333;">Assista ao vídeo "Como cuidar do planeta" agora mesmo.</span>
+      <a href="/videos" style="color:#00CFFF; font-weight:700; margin-left:0.5em;">Ver vídeo</a>
+    </section>
+    <section style="background:#e6f7ee; border-radius:12px; padding:0.8em 1em; box-shadow:0 1px 6px #00CFFF22;">
+      <strong style="color:#0076CA;">Novo quiz liberado!</strong><br>
+      <span style="color:#333;">Teste seus conhecimentos no novo quiz de Meio Ambiente.</span>
+      <a href="/quiz" style="color:#00CFFF; font-weight:700; margin-left:0.5em;">Jogar quiz</a>
+    </section>
+    <section style="background:#fffbe7; border-radius:12px; padding:0.8em 1em; box-shadow:0 1px 6px #FFD60033;">
+      <strong style="color:#FFD600;">Oferta especial!</strong><br>
+      <span style="color:#333;">Ganhe 20% de desconto na Loja até domingo.</span>
+      <a href="/loja" style="color:#0076CA; font-weight:700; margin-left:0.5em;">Aproveitar</a>
+    </section>
+  </section>
+</section>
+<script>
+  // Abrir painel de notificações
+  document.getElementById('btn-notificacoes').onclick = function() {
+    document.getElementById('painel-notificacoes').style.display = 'block';
+    document.getElementById('notificacao-badge').style.display = 'none';
+  };
+  // Exemplo: mostrar badge de notificação se houver novidades
+  window.addEventListener('DOMContentLoaded', function() {
+    var badge = document.getElementById('notificacao-badge');
+    if(badge) badge.style.display = 'flex';
+  });
+</script>
+    <!-- Removido bloco duplicado de atalhos -->
 
       <section style="background: #1ec773; border-radius: 32px; box-shadow: 0 2px 12px #1ec77344; padding: 0.7em 0.7em 0.7em 0.7em; margin-bottom: 1.2em; max-width: 340px; margin-left: auto; margin-right: auto; display: flex; flex-direction: row; gap: 1em; align-items: stretch; min-height: 120px;">
       <!-- Informações à esquerda -->
       <section class="aluno-info-col">
-        <section class="aluno-nome">
-          <h2><span style="color:#fdfefe;">Olá</span> <span class="aluno-nome-destaque">Lorena</span><span style="color:#fdfeff;">!</span></h2>
-          <p class="aluno-frase"></p>
-        </section>
-        <section class="aluno-dados-card">
-          <section class="aluno-dados">
-            <p class="aluno-info-item"><strong>Escola:</strong> Escola Modelo</p>
-            <p class="aluno-info-item"><strong>Turma:</strong> 5º Ano</p>
-            <p class="aluno-info-item"><strong>Ranking:</strong> <span class="aluno-ranking">3º lugar</span></p>
-            <p class="aluno-info-item"><strong>Progresso:</strong> <progress class="aluno-progresso-bar" value="50" max="100"></progress> <span class="aluno-progresso">50/100</span></p>
+        <section class="aluno-dados-azul">
+          <section class="aluno-info-item" style="color:#fff; text-align:center; margin-bottom:0.5em;">
+            <h2 style="color:#fff; margin:0; font-size:1.3em; font-weight:800;">Olá <span class="aluno-nome-destaque">Lorena</span>!</h2>
           </section>
+          <section class="aluno-info-item" style="color:#fff;"><strong>Escola:</strong> Escola Modelo</section>
+          <section class="aluno-info-item" style="color:#fff;"><strong>Turma:</strong> 5º Ano</section>
+          <section class="aluno-info-item" style="color:#fff;"><strong>Ranking:</strong> <span class="aluno-ranking">3º lugar</span></section>
+          <section class="aluno-info-item" style="color:#fff;"><strong>Progresso:</strong> <progress class="aluno-progresso-bar" value="50" max="100"></progress> <span class="aluno-progresso">50/100</span></section>
         </section>
         <section class="aluno-badges">
           <section class="medalhas"></section>
-          <section class="moedas">Moedas: <span>$120</span> <span class="moeda-icone">🪙</span></section>
+          <section class="moedas"> <span>$500</span> <span class="moeda-icone">🪙</span></section>
         </section>
       </section>
       <!-- Avatar à direita -->
       <section style="flex:1; display: flex; align-items: center; justify-content: center;">
-        <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0.5em; width: 100%;">
-          <div style="background: #fff; border-radius: 18px; box-shadow: 0 2px 12px #0076CA22; padding: 0.5em; display: flex; align-items: flex-start; justify-content: center; min-width: 95px; min-height: 135px; max-width: 150px; max-height: 180px; width: 100%; height: 100%; margin-top: 16px;">
+        <section style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0.5em; width: 100%;">
+          <section style="background: #fff; border-radius: 18px; box-shadow: 0 2px 12px #0076CA22; padding: 0.5em; display: flex; align-items: flex-start; justify-content: center; min-width: 95px; min-height: 135px; max-width: 150px; max-height: 180px; width: 100%; height: 100%; margin-top: 16px;">
             <img src="/boneca clarinha.png" alt="Avatar do Aluno" class="aluno-avatar" style="width: 100%; height: 100%; border-radius: 16px; object-fit: cover; box-shadow: 0 2px 8px #0076CA33;">
-          </div>
+          </section>
           <button class="btn-editar-perfil" onclick="document.getElementById('avatar-modal').style.display='flex'">Editar</button>
+        </section>
+      </section>
+      </main>
+
+    <!-- Modal de confirmação de logout -->
+    <div id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+      <div style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+        <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+        <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+        <div style="display:flex; gap:1.2em; justify-content:center;">
+          <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+            Sim
+          </button>
+          <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+            Não
+          </button>
         </div>
+        <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+      </div>
+    </div>
+    <script>
+      function abrirModalLogout() {
+        var modal = document.getElementById('modal-logout');
+        if(modal) modal.style.display = 'flex';
+      }
+      function fecharModalLogout() {
+        var modal = document.getElementById('modal-logout');
+        if(modal) modal.style.display = 'none';
+      }
+      function confirmarLogout() {
+        fetch('/logout', { method: 'POST' })
+          .then(() => { window.location.href = '/'; })
+          .catch(() => { window.location.href = '/'; });
+      }
+    </script>
+      
       </section>
     </section>
   
           
       
       <section class="aluno-acoes">
-        <a href="/quiz"><button class="btn-destaque">Jogar Quiz</button></a>
+        
         <section style="margin: 0.7em 0; text-align: center;">
           <a href="/premium" style="display: inline-block;">
             <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" style="max-width: 320px; width: 100%; border-radius: 16px; box-shadow: 0 4px 18px #0076CA88; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
@@ -102,18 +181,22 @@
   </main>
   
   <section id="avatar-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.55); z-index:12000; align-items:center; justify-content:center;">
-    <section style="background:#fff; border-radius:24px; padding:2em 1.5em 1.5em 1.5em; max-width:420px; width:90vw; box-shadow:0 8px 32px #0076CA44; text-align:center; position:relative;">
-      <button onclick="document.getElementById('avatar-modal').style.display='none'" style="position:absolute; top:1em; right:1em; background:none; border:none; font-size:2em; color:#0076CA; cursor:pointer;">&times;</button>
-      <h2 style="font-family:'Baloo 2',cursive; color:#0076CA; font-size:1.3em; font-weight:800; margin-bottom:1.2em;">Escolha seu Avatar</h2>
-      <section style="display:grid; grid-template-columns:repeat(4,1fr); gap:1em; justify-items:center;">
-        <img src="/img/tcc.img/animal1.png" alt="Avatar 1" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal1.png')">
-        <img src="/img/tcc.img/animal2.png" alt="Avatar 2" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal2.png')">
-        <img src="/img/tcc.img/animal3.png" alt="Avatar 3" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal3.png')">
-        <img src="/img/tcc.img/animal4.png" alt="Avatar 4" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal4.png')">
-        <img src="/img/tcc.img/animal5.png" alt="Avatar 5" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal5.png')">
-        <img src="/img/tcc.img/animal6.png" alt="Avatar 6" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal6.png')">
-        <img src="/img/tcc.img/animal7.png" alt="Avatar 7" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal7.png')">
-        <img src="/img/tcc.img/animal8.png" alt="Avatar 8" class="avatar-option" style="width:64px; height:64px; border-radius:50%; border:3px solid #0076CA; cursor:pointer; transition:transform 0.2s;" onclick="selecionarAvatar('/img/tcc.img/animal8.png')">
+    <section style="background:#0076CA; border-radius:24px; padding:2em 1.5em 1.5em 1.5em; max-width:480px; width:95vw; box-shadow:0 8px 32px #0076CA44; text-align:center; position:relative;">
+      <button onclick="document.getElementById('avatar-modal').style.display='none'" style="position:absolute; top:1em; right:1em; background:none; border:none; font-size:2em; color:#fff; cursor:pointer;">&times;</button>
+      <h2 style="font-family:'Baloo 2',cursive; color:#fff; font-size:1.3em; font-weight:800; margin-bottom:1.2em;">Escolha seu Avatar</h2>
+      <section style="display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); gap:1.1em; justify-items:center; align-items:center; margin-bottom:1.5em;">
+        <img src="/img/tcc.img/animal1.png" alt="Avatar 1" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal1.png')">
+        <img src="/img/tcc.img/animal2.png" alt="Avatar 2" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal2.png')">
+        <img src="/img/tcc.img/animal3.png" alt="Avatar 3" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal3.png')">
+        <img src="/img/tcc.img/animal4.png" alt="Avatar 4" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal4.png')">
+        <img src="/img/tcc.img/animal5.png" alt="Avatar 5" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal5.png')">
+        <img src="/img/tcc.img/animal6.png" alt="Avatar 6" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal6.png')">
+        <img src="/img/tcc.img/animal7.png" alt="Avatar 7" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal7.png')">
+        <img src="/img/tcc.img/animal8.png" alt="Avatar 8" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal8.png')">
+        <section style="width:74px; height:74px; background:transparent;"></section>
+      </section>
+      <section style="display:flex; justify-content:center; width:100%; margin-top:0.2em;">
+        <a href="/comprar-avatares" style="display:inline-block; background:linear-gradient(90deg,#1ec773 0%,#00CFFF 100%); color:#fff; font-size:1.18em; font-weight:800; border:none; border-radius:14px; padding:0.8em 2.2em; cursor:pointer; box-shadow:0 2px 12px #1ec77355,0 1px 4px #00CFFF33; letter-spacing:0.03em; text-decoration:none; transition:background 0.18s,transform 0.18s; text-shadow:0 2px 8px #0076CA22;">✨ Compre mais</a>
       </section>
     </section>
   </section>
@@ -128,6 +211,23 @@
     }
   </script>
   <%- include('partials/footer') %>
+</body>
+<script>
+  // Garante que o script do modal de logout funcione após o DOM estar pronto
+  function abrirModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'flex';
+  }
+  function fecharModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'none';
+  }
+  function confirmarLogout() {
+    fetch('/logout', { method: 'POST' })
+      .then(() => { window.location.href = '/'; })
+      .catch(() => { window.location.href = '/'; });
+  }
+</script>
 </body>
 <p></p>
 <p></p>

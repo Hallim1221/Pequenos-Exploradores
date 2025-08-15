@@ -1,3 +1,57 @@
+/* Botão de logout criativo no menu lateral */
+/* Botão de logout criativo, menor e mais diferenciado */
+
+/* Botão de logout elegante e flat */
+
+/* Botão de logout divertido, amigável e chamativo */
+
+/* Botão de logout bonito, amigável e moderno */
+
+/* Botão de logout super bonito, moderno e com efeito 3D */
+.logout-creative {
+  background: linear-gradient(90deg, #00CFFF 0%, #1ec773 100%);
+  color: #fff;
+  font-size: 0.92em;
+  font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+  font-weight: 900;
+  border: 2px solid #fff;
+  border-bottom: 3px solid #0076CA;
+  border-radius: 16px 24px 16px 24px;
+  padding: 0.38em 1.1em 0.38em 1em;
+  cursor: pointer;
+  box-shadow: 0 4px 14px #00CFFF33, 0 1px 4px #1ec77322, 0 0 0 2.5px #fffbe7;
+  letter-spacing: 0.09em;
+  text-decoration: none;
+  transition: background 0.22s, color 0.18s, border 0.18s, box-shadow 0.22s, transform 0.18s, filter 0.18s;
+  outline: none;
+  display: inline-block;
+  text-shadow: 0 2px 8px #00CFFF22, 0 1px 0 #fff;
+  text-transform: uppercase;
+  filter: drop-shadow(0 2px 8px #1ec77322) brightness(1.06);
+  position: relative;
+  overflow: hidden;
+}
+.logout-creative::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; width: 100%; height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 100%);
+  border-radius: 22px 32px 22px 32px;
+  pointer-events: none;
+  transition: opacity 0.22s;
+}
+.logout-creative:hover {
+  background: linear-gradient(90deg, #1ec773 0%, #00CFFF 100%);
+  color: #fff;
+  border-color: #FFD600;
+  box-shadow: 0 12px 36px #00CFFF66, 0 4px 16px #1ec77355, 0 0 0 6px #fffbe7;
+  transform: translateY(-3px) scale(1.08) rotate(-2deg);
+  filter: brightness(1.13) saturate(1.2);
+}
+.logout-creative:active {
+  filter: brightness(0.97);
+  transform: scale(0.98);
+}
 .aluno-progresso-bar {
   width: 60px !important;
   height: 10px;
@@ -30,19 +84,19 @@
 }
 /* Card azul menor para informações do aluno */
 .aluno-dados-card {
+  /* removido do layout principal, mantido para compatibilidade */
+}
+
+.aluno-dados-azul {
   background: #0076CA;
-  border-radius: 14px;
+  border-radius: 18px;
   box-shadow: 0 1px 8px #0076CA33;
-  padding: 0.4em 0.7em;
-  margin-bottom: 0.5em;
-  color: #fff;
+  padding: 0.7em 1em 0.7em 1em;
+  margin: 0.2em 0 0.7em 0;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 130px;
-  min-width: 90px;
-  width: 100%;
-  padding: 0.3em 0.5em;
+  gap: 0.2em;
 }
 /* Estilo para o bloco de informações do aluno dentro do quadrado azul */
 .aluno-dados {
@@ -57,8 +111,14 @@
 }
 
 .aluno-info-item {
-  margin: 0.1em 0 0.1em 0;
-  text-align: center;
+  color: #fff !important;
+  font-size: 1em;
+  font-weight: 600;
+  margin-bottom: 0.2em;
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  text-align: left;
   width: 100%;
 }
 

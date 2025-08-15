@@ -380,6 +380,7 @@
     <button type="submit" class="btn-destaque">Enviar respostas</button>
   </form>
   <section id="resultadoNatureza" class="quiz-resultado" style="display:none;"></section>
+  <button id="btnVoltarNatureza" class="btn-voltar-quiz" style="display:none;" onclick="window.location.href='/quiz'">Voltar para Quizzes</button>
   <script>
   document.getElementById('quizNaturezaForm').onsubmit = function(e) {
     e.preventDefault();
@@ -406,10 +407,10 @@
       }
     }
     resultado += `</ul><p><strong>Total de acertos: ${acertos} de 5</strong></p>`;
-    document.getElementById('resultadoNatureza').innerHTML = resultado;
-    document.getElementById('resultadoNatureza').style.display = 'block';
-    document.getElementById('btnVoltarNatureza').style.display = 'inline-block';
-    document.getElementById('quizNaturezaForm').style.display = 'none';
+  document.getElementById('resultadoNatureza').innerHTML = resultado;
+  document.getElementById('resultadoNatureza').style.display = 'block';
+  document.getElementById('btnVoltarNatureza').style.display = 'inline-block';
+  document.getElementById('quizNaturezaForm').style.display = 'none';
   };
   </script>
   <section class="quiz-tema-aviso">Descubra o mundo das plantas e ecossistemas! 🌳🌻</section>

@@ -3,6 +3,16 @@ section {
   margin: 0;
   padding: 0;
 }
+/* Corrige bug visual: só zera margin/padding de section dentro do conteúdo principal */
+.container > section {
+  margin: 0;
+  padding: 0;
+}
+/* Evita afetar cabeçalho, nav, modais e outros sections globais */
+body > section:not(.container):not(.dashboard-container):not(.bg-figma) {
+  margin: initial;
+  padding: initial;
+}
 /* Estilos exclusivos da página Professor Turmas */
 body {
   background: linear-gradient(120deg, #3bb273 0%, #00CFFF 100%);

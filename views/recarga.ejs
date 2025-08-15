@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/css/recarga.css">
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/recarga.css">
 <!-- Cabeçalho e Menu Inicial igual ao da página inicial -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
@@ -18,6 +19,11 @@
     <li><a href="/sobre">Sobre</a></li>
     <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
     <li><a href="/loja">Loja</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
+        </form>
+      </li>
   </ul>
 </nav>
 <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
@@ -26,6 +32,33 @@
 <link rel="stylesheet" href="/css/btn-voltar.css">
 <link rel="stylesheet" href="/css/index.css">
 <section class="bg-figma"></section>
+<!-- Modal de confirmação de logout -->
+<div id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+  <div style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+    <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+    <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+    <div style="display:flex; gap:1.2em; justify-content:center;">
+      <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Sim</button>
+      <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Não</button>
+    </div>
+    <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+  </div>
+</div>
+<script>
+  function abrirModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'flex';
+  }
+  function fecharModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'none';
+  }
+  function confirmarLogout() {
+    fetch('/logout', { method: 'POST' })
+      .then(() => { window.location.href = '/'; })
+      .catch(() => { window.location.href = '/'; });
+  }
+</script>
 <section style="height: 32px;"></section>
 <main style="max-width: 430px; margin: 0 auto; padding: 0; background: transparent; box-shadow: none;">
   <section class="hero" style="position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.2em; margin-top: 0; background: transparent; box-shadow: none; min-height: 340px; justify-content: flex-start;">

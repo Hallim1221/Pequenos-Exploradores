@@ -1,6 +1,33 @@
+
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
+
+// Dashboard do Professor
+router.get('/professor/dashboard', (req, res) => {
+  res.render('professor_dashboard', { series: [] });
+});
+// Cadastro do Professor (POST)
+router.post('/professor/cadastro', (req, res) => {
+  // Aqui você pode adicionar lógica de cadastro, validação, etc.
+  // Agora renderiza o dashboard do professor com a variável series
+  res.render('professor_dashboard', { series: [] });
+});
+
+// Cadastro do Professor
+router.get('/professor/cadastro', (req, res) => {
+  res.render('professor-cadastro');
+});
+
+// Cadastro do Aluno
+router.get('/aluno/cadastro', (req, res) => {
+  res.render('aluno-cadastro');
+});
+
+// Rota para página de compra de avatares
+router.get('/comprar-avatares', (req, res) => {
+  res.render('comprar-avatares');
+});
 
 // Página inicial
 router.get('/', (req, res) => {

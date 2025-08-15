@@ -1,4 +1,5 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<body class="sobre-body">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
   <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
@@ -22,56 +23,16 @@
 </button>
 <link rel="stylesheet" href="/css/btn-voltar.css">
 <link rel="stylesheet" href="/css/index.css">
-<style>
-  body {
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    font-family: 'Baloo 2', 'Fredoka', 'Quicksand', Arial, sans-serif;
-    background: #f7fff8;
-    overflow-x: hidden;
-  }
-  .sobre-titulo {
-    width: 100vw;
-    background: none;
-    color: #3bb273;
-    font-size: 2.1em;
-    font-weight: 900;
-    text-align: center;
-    margin: 0;
-    margin-top: 1.5em;
-    letter-spacing: 0.01em;
-    text-shadow: 0 2px 12px #3bb27322, 0 1px 0 #fff;
-    font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
-  }
-  .sobre-quadrado-verde {
-    background: #3bb273;
-    border-radius: 18px;
-    max-width: 400px;
-    margin: 2.5em auto 0.5em auto;
-    padding: 1.3em 1em;
-    box-shadow: 0 4px 18px #3bb27333;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 92vw;
-    min-width: 0;
-    box-sizing: border-box;
-  }
-  .sobre-quadrado-verde p {
-    color: #fff;
-    font-size: 1em;
-    font-weight: 600;
-    font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
-    margin: 0;
-    line-height: 1.5;
-    letter-spacing: 0.01em;
-    word-break: break-word;
-  }
-</style>
 <main>
-  <h1 class="sobre-titulo">Bem-vindo ao mundo dos pequenos exploradores</h1>
+  <div class="sobre-topo-flex">
+    <div class="sobre-img-circulares">
+      <img src="/img/imagem (1).png" alt="Explorador 1" class="sobre-img-circular">
+      <img src="/img/imagem.png" alt="Explorador 2" class="sobre-img-circular">
+    </div>
+    <div class="sobre-titulo-col">
+      <h1 class="sobre-titulo">Bem-vindo ao mundo dos pequenos exploradores</h1>
+    </div>
+  </div>
   <section class="sobre-quadrado-verde">
     <p>
       Nosso site é um espaço dedicado a inspirar crianças, pais e educadores a descobrir a importância do meio ambiente de forma divertida e educativa.<br><br>
@@ -80,6 +41,6 @@
       Junte-se a nós nessa jornada verde e ajude a criar um amanhã mais sustentável!
     </p>
   </section>
-  
 </main>
 <%- include('partials/footer') %>
+</body>
