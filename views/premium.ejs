@@ -238,8 +238,31 @@
   <section class="premium-preco-card creative-preco">
     <span class="preco-emoji" role="img" aria-label="Estrela">✨</span>
     <p class="preco">Assinatura: <strong>R$ 14,99/mês</strong></p>
-    <button class="btn-destaque creative-btn">Assine agora <span role="img" aria-label="Coroa">👑</span></button>
+  <button class="btn-destaque creative-btn" onclick="alternarPremiumAluno()" id="btn-premium-toggle">Assine agora <span role="img" aria-label="Coroa">👑</span></button>
     <p class="premium-aviso">Cancelamento fácil • Sem fidelidade • Experimente grátis!</p>
   </section>
 </main>
+<script>
+function alternarPremiumAluno() {
+  if (localStorage.getItem('premiumAluno') === 'true') {
+    localStorage.removeItem('premiumAluno');
+    alert('Premium desativado! As páginas do aluno voltam ao normal.');
+  } else {
+    localStorage.setItem('premiumAluno', 'true');
+    alert('Parabéns! Agora você é Premium. Todas as páginas do aluno ficarão roxas.');
+  }
+  window.location.reload();
+}
+// Troca o texto do botão conforme o estado
+window.addEventListener('DOMContentLoaded', function() {
+  var btn = document.getElementById('btn-premium-toggle');
+  if (btn) {
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      btn.innerHTML = 'Desativar Premium <span role="img" aria-label="Coroa">👑</span>';
+    } else {
+      btn.innerHTML = 'Assine agora <span role="img" aria-label="Coroa">👑</span>';
+    }
+  }
+});
+</script>
 <%- include('partials/footer') %>

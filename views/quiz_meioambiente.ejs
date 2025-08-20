@@ -1,6 +1,33 @@
 <link rel="stylesheet" href="/css/quiz_meioambiente.css">
+<link rel="stylesheet" href="/css/premium-aluno.css">
 <!-- View quiz_meioambiente -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<script>
+  if (localStorage.getItem('premiumAluno') === 'true') {
+    document.body.classList.add('premium-aluno');
+  }
+</script>
+<script>
+  (function(){
+    function forcePremiumQuizStyles(){
+      if(localStorage.getItem('premiumAluno') !== 'true') return;
+      document.body.classList.add('premium-aluno');
+      console.log('premium-aluno active: forcing quiz styles (meioambiente)');
+      var sels = ['.pagina-central','.quiz-card','.quiz-tema','.quiz-pergunta-card','.btn-destaque','.quiz-tema h1','.quiz-pergunta-card legend'];
+      sels.forEach(function(s){
+        document.querySelectorAll(s).forEach(function(el){
+          try{
+            el.style.setProperty('background','linear-gradient(120deg,#a78bfa 0%,#7c3aed 100%)','important');
+            el.style.setProperty('color','#fff','important');
+            el.style.setProperty('box-shadow','0 4px 32px 0 #a78bfa33','important');
+          }catch(e){}
+        });
+      });
+    }
+    if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', forcePremiumQuizStyles);
+    else forcePremiumQuizStyles();
+  })();
+</script>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
 <section class="top-banner"></section>
 

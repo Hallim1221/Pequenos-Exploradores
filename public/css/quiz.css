@@ -219,3 +219,22 @@ body {
     max-width: 98vw;
   }
 }
+
+/* Premium: turn green text to white only on quiz pages */
+body.premium-aluno .quiz-desc,
+body.premium-aluno .quiz-card p,
+body.premium-aluno .quiz-card h2,
+body.premium-aluno .quiz-titulo,
+body.premium-aluno .pagina-central p,
+body.premium-aluno .pagina-central li,
+body.premium-aluno .btn-destaque,
+body.premium-aluno .quiz-card,
+body.premium-aluno .quiz-aviso {
+  color: #fff !important;
+}
+
+body.premium-aluno .btn-destaque,
+body.premium-aluno .btn-destaque > span {
+  background: linear-gradient(90deg, #7c3aed 0%, #c084fc 100%) !important;
+  color: #fff !important;
+}

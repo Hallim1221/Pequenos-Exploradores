@@ -1,3 +1,27 @@
+body.premium-aluno .natureza,
+body.premium-aluno .natureza-videos-grid,
+body.premium-aluno .natureza-video-card,
+body.premium-aluno .natureza-play,
+body.premium-aluno .btn-destaque,
+body.premium-aluno h1,
+body.premium-aluno .natureza-desc {
+  /* Apply premium styling to containers and cards; DO NOT override thumbnail background-image here. */
+  background: linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%) !important;
+  color: #fff !important;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #a78bfa33;
+  border: none;
+}
+body.premium-aluno .natureza {
+  background: linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 32px 0 #a78bfa33, 0 1.5px 8px 0 #7c3aed22 !important;
+}
+body.premium-aluno .pagina-central {
+  background: linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 32px 0 #a78bfa33, 0 1.5px 8px 0 #7c3aed22 !important;
+}
 section {
   display: block;
   margin: 0;
@@ -55,4 +79,19 @@ section {
   .pagina-central h1 {
     font-size: 1.25em;
   }
+}
+
+/* Premium thumbnail overlay - keep image but add purple tint */
+.natureza-thumb { position: relative; overflow: hidden; }
+.natureza-thumb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  transition: background 0.28s, opacity 0.28s;
+  pointer-events: none;
+}
+/* Remove overlay so thumbnails keep natural colors even in premium mode */
+body.premium-aluno .natureza-thumb::after {
+  background: transparent !important;
 }

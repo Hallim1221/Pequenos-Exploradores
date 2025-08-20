@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/aluno.css">
   <link rel="stylesheet" href="/css/comprar-avatares.css">
+  <link rel="stylesheet" href="/css/premium-aluno.css">
 </head>
 <body>
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index:12050; position:fixed; top:16px; right:16px; left:auto;">
@@ -40,6 +41,11 @@
   </button>
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
   <main class="comprar-container">
     <h1>Comprar Novos Avatares</h1>
     <p class="comprar-desc">Escolha um novo avatar para personalizar seu perfil!</p>

@@ -9,12 +9,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/btn-voltar.css">
   <link rel="stylesheet" href="/css/aluno.css">
+    <link rel="stylesheet" href="/css/premium-aluno.css">
   
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
       <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
       <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
-    </svg>
+    <body>
+      <script>
+        if (localStorage.getItem('premiumAluno') === 'true') {
+          document.body.classList.add('premium-aluno');
+        }
+      </script>
   </button>
   <section class="top-banner"></section>
 
@@ -185,14 +191,14 @@
       <button onclick="document.getElementById('avatar-modal').style.display='none'" style="position:absolute; top:1em; right:1em; background:none; border:none; font-size:2em; color:#fff; cursor:pointer;">&times;</button>
       <h2 style="font-family:'Baloo 2',cursive; color:#fff; font-size:1.3em; font-weight:800; margin-bottom:1.2em;">Escolha seu Avatar</h2>
       <section style="display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); gap:1.1em; justify-items:center; align-items:center; margin-bottom:1.5em;">
-        <img src="/img/tcc.img/animal1.png" alt="Avatar 1" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal1.png')">
-        <img src="/img/tcc.img/animal2.png" alt="Avatar 2" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal2.png')">
-        <img src="/img/tcc.img/animal3.png" alt="Avatar 3" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal3.png')">
-        <img src="/img/tcc.img/animal4.png" alt="Avatar 4" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal4.png')">
-        <img src="/img/tcc.img/animal5.png" alt="Avatar 5" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal5.png')">
-        <img src="/img/tcc.img/animal6.png" alt="Avatar 6" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal6.png')">
-        <img src="/img/tcc.img/animal7.png" alt="Avatar 7" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal7.png')">
-        <img src="/img/tcc.img/animal8.png" alt="Avatar 8" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar('/img/tcc.img/animal8.png')">
+  <img src="/img/tcc.img/animal1.png" alt="Avatar 1" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
+  <img src="/img/tcc.img/animal2.png" alt="Avatar 2" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
+  <img src="/img/tcc.img/animal3.png" alt="Avatar 3" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
+  <img src="/img/tcc.img/animal4.png" alt="Avatar 4" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
+  <img src="/img/tcc.img/animal5.png" alt="Avatar 5" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
+  <img src="/img/tcc.img/animal6.png" alt="Avatar 6" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
+  <img src="/img/tcc.img/animal7.png" alt="Avatar 7" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
+  <img src="/img/tcc.img/animal8.png" alt="Avatar 8" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
         <section style="width:74px; height:74px; background:transparent;"></section>
       </section>
       <section style="display:flex; justify-content:center; width:100%; margin-top:0.2em;">
@@ -203,12 +209,46 @@
 
   <script>
     function selecionarAvatar(src) {
-      
+      // accepts either a string src or the image element (this)
+      var selectedSrc = null;
+      if (!src) return;
+      if (typeof src === 'string') selectedSrc = src;
+      else if (src && src.src) selectedSrc = src.src;
       var avatar = document.querySelector('.aluno-avatar');
-      if(avatar) avatar.src = src;
-      document.getElementById('avatar-modal').style.display = 'none';
-      
+      if (avatar && selectedSrc) avatar.src = selectedSrc;
+      var modal = document.getElementById('avatar-modal');
+      if (modal) modal.style.display = 'none';
     }
+  </script>
+  <script>
+    // Replace avatar options with premium avatars when premium is active
+    (function(){
+      function applyPremiumAvatars(){
+        if(localStorage.getItem('premiumAluno') !== 'true') return;
+        try{
+          var premiumList = [
+            '/img/animais premium/imagem.png',
+            '/img/animais premium/imagem (1).jpg',
+            '/img/animais premium/imagem (2).jpg',
+            '/img/animais premium/imagem (5).png',
+            '/img/animais premium/imagem (6).png',
+            '/img/animais premium/imagem (7).png',
+            '/img/animais premium/imagem (8).png',
+            '/img/animais premium/imagem (9).png'
+          ];
+          var avatars = document.querySelectorAll('.avatar-option');
+          if(!avatars || avatars.length === 0) return;
+          avatars.forEach(function(img, idx){
+            var premiumSrc = premiumList[idx % premiumList.length];
+            img.src = premiumSrc;
+            // keep pointer cursor
+            img.style.cursor = 'pointer';
+          });
+        }catch(e){/* ignore */}
+      }
+      if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyPremiumAvatars);
+      else applyPremiumAvatars();
+    })();
   </script>
   <%- include('partials/footer') %>
 </body>
