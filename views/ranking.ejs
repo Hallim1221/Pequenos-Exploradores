@@ -1,19 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Pequenos Exploradores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/btn-voltar.css">
   <link rel="stylesheet" href="/css/aluno.css">
-  <link rel="stylesheet" href="/css/ranking.css">
   <link rel="stylesheet" href="/css/premium-aluno.css">
-  <title>Ranking - Pequenos Exploradores</title>
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/ranking.css">
 </head>
 <body>
+  <script>
+    // Só exibe a aba de amigos se for premium
+    document.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('premiumAluno') === 'true') {
+        document.getElementById('drawer-amigos').style.display = 'block';
+      }
+    });
+  </script>
+  <!-- Drawer de Amigos Premium -->
+  <section id="drawer-amigos" style="display:none; position:fixed; left:0; right:0; bottom:0; z-index:30000;">
+    <section id="drawer-amigos-content" style="background:#fff; border-radius:16px 16px 0 0; box-shadow:0 -4px 32px #00CFFF33; width:100vw; max-width:430px; margin:0 auto; position:relative; transform:translateY(80%); transition:transform 0.35s cubic-bezier(.4,1.3,.5,1); min-height:70px;">
+      <section id="drawer-handle" style="width:100%;display:flex;justify-content:center;align-items:center;cursor:pointer;padding:0.5em 0 0.2em 0;">
+        <section style="width:48px;height:7px;background:#b2eaff;border-radius:4px;"></section>
+      </section>
+      <section id="drawer-amigos-area" style="display:none;flex-direction:column;align-items:center;padding:0.7em 1em 1.2em 1em;">
+        <input id="amigos-busca" type="text" placeholder="Buscar amigos..." style="width:100%;padding:0.6em 1em;border-radius:12px;border:1.5px solid #00CFFF;margin-bottom:1em;font-size:1em;">
+        <section id="amigos-lista" style="width:100%;max-height:230px;overflow-y:auto;display:flex;flex-direction:column;gap:0.7em;"></section>
+      </section>
+    </section>
+    <section id="drawer-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.12);z-index:29999;"></section>
+  </section>
+  <script>
+    // Mock de amigos online com avatares
+    const amigos = [
+      { nome: 'Ana', online: true, avatar: '/img/tcc.img/animal1.png' },
+      { nome: 'Lucas', online: true, avatar: '/img/tcc.img/animal2.png' },
+      { nome: 'João', online: false, avatar: '/img/tcc.img/animal3.png' },
+      { nome: 'Maria', online: true, avatar: '/img/tcc.img/animal4.png' },
+      { nome: 'Clara', online: false, avatar: '/img/tcc.img/animal5.png' },
+      { nome: 'Pedro', online: true, avatar: '/img/tcc.img/animal6.png' },
+      { nome: 'Julia', online: true, avatar: '/img/tcc.img/animal7.png' },
+      { nome: 'Rafa', online: false, avatar: '/img/tcc.img/animal8.png' }
+    ];
+    const drawer = document.getElementById('drawer-amigos');
+    const drawerContent = document.getElementById('drawer-amigos-content');
+    const drawerHandle = document.getElementById('drawer-handle');
+    const drawerArea = document.getElementById('drawer-amigos-area');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const amigosLista = document.getElementById('amigos-lista');
+    const amigosBusca = document.getElementById('amigos-busca');
+    let aberto = false;
+    function renderAmigos(filtro = '') {
+      amigosLista.innerHTML = amigos
+        .filter(a => a.nome.toLowerCase().includes(filtro.toLowerCase()))
+        .map(a => `
+          <section style='display:flex;align-items:center;gap:0.9em;background:#f7fafd;border-radius:16px;padding:0.5em 0.7em;'>
+            <img src='${a.avatar}' alt='avatar' style='width:38px;height:38px;border-radius:50%;border:2.5px solid ${a.online ? "#1ec773" : "#bbb"};object-fit:cover;background:#fff;'>
+            <span style='font-weight:700;font-size:1.08em;color:#222;'>${a.nome}</span>
+            ${a.online ? "<span style='color:#1ec773;font-size:0.97em;margin-left:auto;'>● online</span>" : "<span style='color:#bbb;font-size:0.97em;margin-left:auto;'>offline</span>"}
+          </section>
+        `)
+        .join('') || '<span style="color:#aaa;">Nenhum amigo encontrado</span>';
+    }
+    if(drawerHandle) {
+      drawerHandle.onclick = function() {
+        if(!aberto) {
+          drawerContent.style.transform = 'translateY(0)';
+          drawerArea.style.display = 'flex';
+          drawerOverlay.style.display = 'block';
+          renderAmigos();
+          aberto = true;
+        }
+      };
+    }
+    if(drawerOverlay) {
+      drawerOverlay.onclick = function() {
+        if(aberto) {
+          drawerContent.style.transform = 'translateY(80%)';
+          drawerArea.style.display = 'none';
+          drawerOverlay.style.display = 'none';
+          aberto = false;
+        }
+      };
+    }
+    if(amigosBusca) {
+      amigosBusca.oninput = function() {
+        renderAmigos(amigosBusca.value);
+      };
+    }
+  </script>
   <script>
     if (localStorage.getItem('premiumAluno') === 'true') {
       document.body.classList.add('premium-aluno');
     }
   </script>
-  <!-- Cabeçalho e Menu Inicial igual ao da página inicial -->
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
       <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
@@ -21,9 +106,127 @@
     </svg>
   </button>
   <section class="top-banner"></section>
+  <section class="ranking-main">
+  <!-- Blocos duplicados removidos conforme solicitado -->
+  </section>
 
-  <!-- Sidebar Menu -->
+  <!-- Modal de Ranking -->
+  <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
+    <section class="ranking-modal-content">
+      <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
+      <h3 class="ranking-modal-title">Top 10</h3>
+      <ul class="ranking-modal-list">
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">1º</span>
+          <img src="/img/tcc.img/animal1.png" alt="Avatar de Ana" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Ana</span>
+          <span class="ranking-modal-pontos">15000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">2º</span>
+          <img src="/img/tcc.img/animal2.png" alt="Avatar de Lucas" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Lucas</span>
+          <span class="ranking-modal-pontos">12000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">3º</span>
+          <img src="/img/tcc.img/animal3.png" alt="Avatar de João" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">João</span>
+          <span class="ranking-modal-pontos">10000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">4º</span>
+          <img src="/img/tcc.img/animal4.png" alt="Avatar de Maria" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Maria</span>
+          <span class="ranking-modal-pontos">8000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">5º</span>
+          <img src="/img/tcc.img/animal5.png" alt="Avatar de Pedro" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Pedro</span>
+          <span class="ranking-modal-pontos">6000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">6º</span>
+          <img src="/img/tcc.img/animal6.png" alt="Avatar de Clara" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Clara</span>
+          <span class="ranking-modal-pontos">5500</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">7º</span>
+          <img src="/img/tcc.img/animal7.png" alt="Avatar de Felipe" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Felipe</span>
+          <span class="ranking-modal-pontos">5000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">8º</span>
+          <img src="/img/tcc.img/animal8.png" alt="Avatar de Gabriela" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Gabriela</span>
+          <span class="ranking-modal-pontos">4500</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">9º</span>
+          <img src="/img/tcc.img/animal1.png" alt="Avatar de Rafaela" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Rafaela</span>
+          <span class="ranking-modal-pontos">4000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">10º</span>
+          <img src="/img/tcc.img/animal2.png" alt="Avatar de Bruno" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Bruno</span>
+          <span class="ranking-modal-pontos">900</span>
+        </li>
+      </ul>
+    </section>
+  </section>
+
+  <script>
+    function abrirRankingModal() {
+      document.getElementById('rankingModal').style.display = 'flex';
+    }
+    function fecharRankingModal() {
+      document.getElementById('rankingModal').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Pequenos Exploradores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/premium-aluno.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/ranking.css">
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
   <nav class="sidebar-menu" id="sidebarMenu">
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+          style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+          loading="lazy">
+      </section>
+      <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+    </section>
     <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
     <ul>
       <li><a href="/">Início</a></li>
@@ -32,7 +235,9 @@
       <li><a href="/loja">Loja</a></li>
       <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
         <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
-          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">
+            Sair
+          </button>
         </form>
       </li>
     </ul>
@@ -40,136 +245,182 @@
   <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
     <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
   </button>
-  <link rel="stylesheet" href="/css/btn-voltar.css">
-  <link rel="stylesheet" href="/css/index.css">
-  <section style="height: 48px;"></div>
-  <main class="ranking-novo ranking-centralizado">
-    <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-      <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
-        <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
-        <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
-      </svg>
-    </button>
-    <section class="ranking-header">
-      <h1 style="color:#0076CA; font-family: 'Baloo 2', cursive; font-size: 2.5em; letter-spacing: 2px; text-shadow: 0 2px 12px #00CFFF88, 0 1px 0 #fff; display: flex; align-items: center; justify-content: center; gap: 0.3em;">
-        <span style="font-size:1.3em;">🏆</span>
-        <span>Ranking dos <span style="color:#1ec773; text-shadow: 0 1px 8px #1ec77355; font-weight: bold;">Exploradores</span></span>
-        <span style="font-size:1.1em;">🌟</span>
-      </h1>
-      <button class="btn-circular-podio-animada" onclick="abrirRankingModal()" title="Ver Ranking" aria-label="Ver Ranking">
-        <span class="emoji-podio">🏆</span>
-      </button>
-    </section>
-    <!-- Esquema de Patente estilo Free Fire -->
-    <section class="patente-info" style="background: linear-gradient(135deg,#e0ffe7 60%,#b2f7ef 100%); border-radius: 18px; box-shadow: 0 2px 16px #1ec77333; padding: 1.2em 1em 1em 1em; margin: 1.2em auto 1.5em auto; max-width: 420px; border: 2px solid #3bb27344;">
-      <h2 style="color:#0076CA; font-family: 'Baloo 2', cursive; font-size: 2em; letter-spacing: 1px; text-shadow: 0 2px 10px #00CFFF55; display: flex; align-items: center; gap: 0.3em; justify-content: center;">
-        <span style="font-size:1.2em;">💎</span>
-        Sua Patente
-        <span style="font-size:1.1em;">🌟</span>
-      </h2>
-      <section class="patente-barra" style="display: flex; gap: 0.7em; justify-content: center; margin: 1em 0 0.7em 0;">
-        <span class="patente-nivel bronze" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">🥉</span>
-        <span class="patente-nivel prata" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">🥈</span>
-        <span class="patente-nivel ouro" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">🥇</span>
-        <span class="patente-nivel platina" style="color:#8bc34a; font-size:1.2em; background:#fff; border-radius:10px; padding:0.2em 0.7em; box-shadow:0 1px 6px #8bc34a33;">💎</span>
-        
+  <section class="ranking-main">
+  <section class="cards-topo">
+    <section class="ranking-card" id="rankingCard">
+      <section class="ranking-btns">
+        <button class="ranking-btn ranking-btn-1 selected">11º Geral</button>
+        <button class="ranking-btn ranking-btn-2">5º Escola</button>
+        <button class="ranking-btn ranking-btn-2">1º Sala</button>
       </section>
-      <section class="patente-progresso" style="margin: 1em 0 0.7em 0;">
-        <section class="patente-progresso-barra" style="width: 100%; height: 18px; border-radius: 9px; background: linear-gradient(90deg, #b2bec3 0%, #00CFFF 100%); box-shadow: 0 1px 8px #00CFFF33; position: relative;">
-          <span style="position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); color: #0076CA; font-weight: bold; font-size: 1em;">Diamante</span>
+      <section class="medalhao">
+        <section class="medalhao-circulo">
+          <span class="medalhao-emoji">🥉</span>
+        </section>
+        <span class="medalhao-label">Bronze I</span>
+      </section>
+      <section class="progress-bar-bg">
+        <section class="progress-bar-fill">50/100</section>
+      </section>
+      <section class="ranking-pontos">
+        <span class="fa fa-trophy emoji-trofeu">🏆</span> <span class="ranking-pontos-num">15.000</span>
+      </section>
+    </section>
+    <section class="medalhas-trofeu-btn-outer" style="display:flex;flex-direction:row;flex-wrap:nowrap;gap:0.22em;align-items:center;justify-content:center;margin-bottom:0.5em;transform:translateX(60px);">
+      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" onclick="abrirRankingModal()" title="Ver ranking" style="cursor:pointer;width:28px;height:28px;">
+        <span class="medalhao-emoji" style="font-size:1.18em;">🏆</span>
+      </section>
+      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Medalha de Ouro" style="cursor:pointer;width:28px;height:28px;" onclick="abrirNivelModal()">
+        <span class="medalhao-emoji" style="font-size:1.18em;">🥇</span>
+      </section>
+    <!-- Modal de Níveis -->
+    <section id="nivelModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.55); z-index:99999;" onclick="fecharNivelModal()">
+  <section id="nivelModalContent" style="background:#fff; border-radius:22px; box-shadow:0 4px 32px #0005; padding:2em 0 1.2em 0; width:100vw; max-width:none; text-align:center; position:fixed; left:0; right:auto; top:0; margin:0; transform:none; z-index:99999;" onclick="event.stopPropagation()">
+      <style>
+        @media (max-width: 600px) {
+          #nivelModalContent {
+            left: 50% !important;
+            top: 60% !important;
+            transform: translate(-50%, -50%) !important;
+          }
+        }
+      </style>
+        <button onclick="fecharNivelModal()" aria-label="Fechar" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+        <h3 style="font-family:'Fredoka','Baloo 2',cursive; color:#e6b800; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Seu Progresso de Nível</h3>
+        <section style="display:flex;align-items:center;justify-content:flex-start;gap:0.2em;flex-wrap:wrap;margin-bottom:0.7em;">
+          <span style="font-size:1em;font-weight:700;color:#b97a1a;">🥉 Bronze I</span>
+          <span style="font-size:1em;font-weight:700;color:#b97a1a;">🥉 Bronze II</span>
+          <span style="font-size:1em;font-weight:700;color:#b97a1a;">🥉 Bronze III</span>
+          <span style="font-size:1em;font-weight:700;color:#aaa;">🥈 Prata I</span>
+        </section>
+        <section style="background:#eee;border-radius:1em;height:18px;width:100%;margin-bottom:1.2em;overflow:hidden;">
+          <section id="nivelBarra" style="background:linear-gradient(90deg,#e6b800 60%,#b97a1a 100%);height:100%;width:40%;transition:width 0.4s;"></section>
+        </section>
+        <span style="font-size:1.1em;font-weight:700;color:#e6b800;">Nível atual: Bronze II</span>
+      </section>
+    </section>
+  <script>
+    function abrirNivelModal() {
+      document.getElementById('nivelModal').style.display = 'flex';
+    }
+    function fecharNivelModal() {
+      document.getElementById('nivelModal').style.display = 'none';
+    }
+  </script>
+      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Estrela" style="cursor:pointer;width:28px;height:28px;">
+        <span class="medalhao-emoji" style="font-size:1.18em;">⭐</span>
+      </section>
+    </section>
+  <section class="medalhas-card" style="transform:translateX(-40px);">
+      <section class="medalhas-title">
+        <span class="medalhas-title-emoji" onclick="abrirRankingModal()">🏆</span>
+        <span class="medalhas-title-text">Medalhas</span>
+      </section>
+      <section class="medalhas-list">
+        <section class="medalha">
+          <span class="medalha-icone">🥉</span>
+          <span class="medalha-label">Bronze I</span>
+        </section>
+        <section class="medalha">
+          <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+          <span class="medalha-label">Bronze II</span>
+        </section>
+        <section class="medalha">
+          <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+          <span class="medalha-label">Bronze III</span>
+        </section>
+        <section class="medalha">
+          <span class="medalha-icone bloqueada">🥈<span class="medalha-cadeado">🔒</span></span>
+          <span class="medalha-label">Prata I</span>
         </section>
       </section>
-      <p class="patente-descricao" style="color:#388e3c; font-size:1.1em; text-align:center; margin-top:0.7em;">Você está no nível <strong style="color:#0076CA; text-shadow:0 1px 8px #00CFFF55;">Diamante</strong>! Complete quizzes e desafios para manter sua patente.</p>
     </section>
-    <section class="anuncio-ranking" style="margin-top: -1.2em;">
-      <a href="/premium" style="display:inline-block;">
-        <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-img" style="cursor:pointer; transition:transform 0.18s; border-radius:16px; box-shadow:0 4px 18px #0076CA88;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
-      </a>
+  </section>
+  <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-img" style="display:block; margin:2.5em auto 5.5em auto; max-width:320px; width:90vw; border-radius:18px; box-shadow:0 2px 12px #0003;">
+  <footer style="background: #3bb273; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
+    <p>&copy; 2025 Pequenos Exploradores</p>
+  </footer>
+  <!-- Modal de confirmação de logout -->
+  <secton id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+    <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+      <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+      <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+      <section style="display:flex; gap:1.2em; justify-content:center;">
+        <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Sim</button>
+        <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Não</button>
+      </section>
+      <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
     </section>
-  </main>
+  </section>
+    <!-- medalhas-card e anuncio removidos do topo -->
+  </section>
 
-  <!-- Modal do Ranking -->
-  <section id="rankingModal" class="ranking-modal">
-    <section class="ranking-modal-content">
-      <button class="ranking-modal-close" onclick="fecharRankingModal()" aria-label="Fechar ranking">&times;</button>
-      <h2 class="ranking-modal-title" style="color:#3bb273;">Ranking dos 10 Melhores</h2>
-      <section class="ranking-podio-modal">
-        <section class="podio-modal segundo">
-          <span class="medalha">🥈</span>
-          <img src="/img/tcc.img/animal2.png" alt="Animal do Lucas" class="animal-ranking-img">
-          <span class="nome" style="color:#388e3c;">Lucas</span>
-          <span class="pontos" style="color:#388e3c;">120 pts</span>
-        </section>
-        <section class="podio-modal primeiro">
-          <span class="medalha">🥇</span>
-          <img src="/img/tcc.img/animal1.png" alt="Animal da Ana" class="animal-ranking-img">
-          <span class="nome" style="color:#388e3c;">Ana</span>
-          <span class="pontos" style="color:#388e3c;">150 pts</span>
-        </section>
-        <section class="podio-modal terceiro">
-          <span class="medalha">🥉</span>
-          <img src="/img/tcc.img/animal3.png" alt="Animal do João" class="animal-ranking-img">
-          <span class="nome" style="color:#388e3c;">João</span>
-          <span class="pontos" style="color:#388e3c;">100 pts</span>
-        </section>
-      </section>
-      <ul class="ranking-lista-modal">
-  <li><span class="pos" style="color:#388e3c;">4º</span> <img src="/img/tcc.img/animal4.png" alt="Animal da Maria" class="animal-ranking-img"> <span class="nome" style="color:#388e3c;">Maria</span> <span class="pontos" style="color:#388e3c;">80 pts</span></li>
-  <li><span class="pos" style="color:#388e3c;">5º</span> <img src="/img/tcc.img/animal5.png" alt="Animal do Pedro" class="animal-ranking-img"> <span class="nome" style="color:#388e3c;">Pedro</span> <span class="pontos" style="color:#388e3c;">60 pts</span></li>
-  <li><span class="pos" style="color:#388e3c;">6º</span> <img src="/img/tcc.img/animal6.png" alt="Animal da Clara" class="animal-ranking-img"> <span class="nome" style="color:#388e3c;">Clara</span> <span class="pontos" style="color:#388e3c;">55 pts</span></li>
-  <li><span class="pos" style="color:#388e3c;">7º</span> <img src="/img/tcc.img/animal7.png" alt="Animal do Felipe" class="animal-ranking-img"> <span class="nome" style="color:#388e3c;">Felipe</span> <span class="pontos" style="color:#388e3c;">50 pts</span></li>
-  <li><span class="pos" style="color:#388e3c;">8º</span> <img src="/img/tcc.img/animal8.png" alt="Animal da Gabriela" class="animal-ranking-img"> <span class="nome" style="color:#388e3c;">Gabriela</span> <span class="pontos" style="color:#388e3c;">45 pts</span></li>
-  <li><span class="pos" style="color:#388e3c;">9º</span> <img src="/img/tcc.img/animal1.png" alt="Animal da Rafaela" class="animal-ranking-img"> <span class="nome" style="color:#388e3c;">Rafaela</span> <span class="pontos" style="color:#388e3c;">40 pts</span></li>
-  <li><span class="pos" style="color:#388e3c;">10º</span> <img src="/img/tcc.img/animal2.png" alt="Animal do Bruno" class="animal-ranking-img"> <span class="nome" style="color:#388e3c;">Bruno</span> <span class="pontos" style="color:#388e3c;">35 pts</span></li>
-  <style>
-    .animal-ranking-img {
-      width: 32px;
-      height: 32px;
-      object-fit: contain;
-      border-radius: 50%;
-      margin-right: 0.5em;
-      vertical-align: middle;
-      box-shadow: 0 2px 8px #00CFFF33;
-    }
-    .btn-circular-podio-animada {
-      background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2em;
-      box-shadow: 0 4px 18px #38f9d766, 0 0 0 4px #fff;
-      cursor: pointer;
-      margin-top: 8px;
-      margin-bottom: 8px;
-      transition: box-shadow 0.25s, transform 0.18s, background 0.2s;
-      animation: pulse-podio 1.2s infinite alternate;
-      outline: none;
-      border: 3px solid #3bb27344;
-    }
-    .btn-circular-podio-animada:hover, .btn-circular-podio-animada:focus {
-      background: linear-gradient(135deg, #3bb273 0%, #8bc34a 100%);
-      box-shadow: 0 8px 32px #43e97b99, 0 0 0 8px #fff;
-      transform: scale(1.08) rotate(-2deg);
-    }
-    @keyframes pulse-podio {
-      0% { box-shadow: 0 4px 18px #38f9d766, 0 0 0 4px #fff; }
-      100% { box-shadow: 0 12px 36px #43e97b99, 0 0 0 8px #fff; }
-    }
-    .emoji-podio {
-      filter: drop-shadow(0 2px 8px #43e97b66);
-      font-size: 1.3em;
-      transition: transform 0.18s;
-    }
-    .btn-circular-podio-animada:hover .emoji-podio,
-    .btn-circular-podio-animada:focus .emoji-podio {
-      transform: scale(1.15) rotate(-8deg);
-    }
-  </style>
+  <!-- Modal de Ranking -->
+  <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
+  <section class="ranking-modal-content" id="rankingModalContent">
+      <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
+      <h3 class="ranking-modal-title">Top 10</h3>
+      <ul class="ranking-modal-list">
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">1º</span>
+          <img src="/img/tcc.img/animal1.png" alt="Avatar de Ana" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Ana</span>
+          <span class="ranking-modal-pontos">15000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">2º</span>
+          <img src="/img/tcc.img/animal2.png" alt="Avatar de Lucas" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Lucas</span>
+          <span class="ranking-modal-pontos">12000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">3º</span>
+          <img src="/img/tcc.img/animal3.png" alt="Avatar de João" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">João</span>
+          <span class="ranking-modal-pontos">10000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">4º</span>
+          <img src="/img/tcc.img/animal4.png" alt="Avatar de Maria" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Maria</span>
+          <span class="ranking-modal-pontos">8000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">5º</span>
+          <img src="/img/tcc.img/animal5.png" alt="Avatar de Pedro" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Pedro</span>
+          <span class="ranking-modal-pontos">6000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">6º</span>
+          <img src="/img/tcc.img/animal6.png" alt="Avatar de Clara" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Clara</span>
+          <span class="ranking-modal-pontos">5500</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">7º</span>
+          <img src="/img/tcc.img/animal7.png" alt="Avatar de Felipe" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Felipe</span>
+          <span class="ranking-modal-pontos">5000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">8º</span>
+          <img src="/img/tcc.img/animal8.png" alt="Avatar de Gabriela" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Gabriela</span>
+          <span class="ranking-modal-pontos">4500</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">9º</span>
+          <img src="/img/tcc.img/animal1.png" alt="Avatar de Rafaela" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Rafaela</span>
+          <span class="ranking-modal-pontos">4000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">10º</span>
+          <img src="/img/tcc.img/animal2.png" alt="Avatar de Bruno" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Bruno</span>
+          <span class="ranking-modal-pontos">900</span>
+        </li>
       </ul>
     </section>
   </section>
@@ -177,44 +428,157 @@
   <script>
     function abrirRankingModal() {
       document.getElementById('rankingModal').style.display = 'flex';
-      document.body.style.overflow = 'hidden';
+      // cor do modal
+      var content = document.getElementById('rankingModalContent');
+      if (localStorage.getItem('premiumAluno') === 'true') {
+        content.style.background = '#7c3aed'; // roxo premium
+        content.style.color = '#fff';
+      } else {
+        content.style.background = '#1ec773'; // verde padrão
+        content.style.color = '#fff';
+      }
     }
     function fecharRankingModal() {
       document.getElementById('rankingModal').style.display = 'none';
-      document.body.style.overflow = '';
     }
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') fecharRankingModal();
-    });
+    function abrirModalLogout() {
+      var modal = document.getElementById('modal-logout');
+      if(modal) modal.style.display = 'flex';
+    }
+    function fecharModalLogout() {
+      var modal = document.getElementById('modal-logout');
+      if(modal) modal.style.display = 'none';
+    }
+    function confirmarLogout() {
+      fetch('/logout', { method: 'POST' })
+        .then(() => { window.location.href = '/'; })
+        .catch(() => { window.location.href = '/'; });
+    }
   </script>
-  <%- include('partials/footer') %>
 </body>
-</body>
-<!-- Modal de confirmação de logout -->
-<div id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
-  <div style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
-    <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
-    <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
-    <div style="display:flex; gap:1.2em; justify-content:center;">
-      <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Sim</button>
-      <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Não</button>
-    </div>
-    <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
-  </div>
-</div>
-<script>
-  function abrirModalLogout() {
-    var modal = document.getElementById('modal-logout');
-    if(modal) modal.style.display = 'flex';
+</html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Pequenos Exploradores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/premium-aluno.css">
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking - Pequenos Exploradores</title>
+  <link rel="stylesheet" href="/css/ranking.css">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+  </head>
+  <body style="background:#181c24; margin:0; font-family:'Baloo 2',cursive;">
+    <section class="ranking-main">
+      <section class="ranking-top">
+        
+      
+  <!-- Card de medalhas duplicado removido -->
+    </section>
+
+    <!-- Modal de Ranking -->
+    <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
+      <section class="ranking-modal-content">
+        <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
+        <h3 class="ranking-modal-title">Top 10</h3>
+        <ul class="ranking-modal-list">
+          <!-- Lista do ranking já está abaixo, removido bloco EJS quebrado -->
+                <section class="progress-bar-bg">
+                  <section class="progress-bar-fill">50/100</section>
+                </section>
+                <section class="ranking-pontos">
+                  <span class="fa fa-trophy emoji-trofeu">🏆</span> <span class="ranking-pontos-num">15.000</span>
+                </section>
+              </section>
+              <section class="medalhas-card">
+                <section class="medalhas-title">
+                  <span class="emoji-trofeu medalhas-title-emoji">🏆</span>
+                  <span class="medalhas-title-text">Medalhas</span>
+                </section>
+                <section class="medalhas-list">
+                  <section class="medalha">
+                    <span class="medalha-icone">🥉</span>
+                    <span class="medalha-label">Bronze I</span>
+                  </section>
+                  <section class="medalha">
+                    <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+                    <span class="medalha-label">Bronze II</span>
+                  </section>
+                  <section class="medalha">
+                    <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+                    <span class="medalha-label">Bronze III</span>
+                  </section>
+                  <section class="medalha">
+                    <span class="medalha-icone bloqueada">🥈<span class="medalha-cadeado">🔒</span></span>
+                    <span class="medalha-label">Prata I</span>
+                  </section>
+                </section>
+              </section>
+            </section>
+    
+<style>
+.cards-topo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cards-topo .ranking-card,
+.cards-topo .medalhas-card {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 50vw;
+  box-sizing: border-box;
+}
+.cards-topo .ranking-card {
+  padding: 10px 6px 14px 6px;
+  max-width: 200px;
+}
+.cards-topo .medalhas-card {
+  padding: 10px 6px 10px 6px;
+  max-width: 170px;
+}
+@media (max-width: 480px) {
+  .cards-topo {
+    gap: 4px;
   }
-  function fecharModalLogout() {
-    var modal = document.getElementById('modal-logout');
-    if(modal) modal.style.display = 'none';
+  .cards-topo .ranking-card {
+    max-width: 48vw;
+    padding: 7px 2px 10px 2px;
   }
-  function confirmarLogout() {
-    fetch('/logout', { method: 'POST' })
-      .then(() => { window.location.href = '/'; })
-      .catch(() => { window.location.href = '/'; });
+  .cards-topo .medalhas-card {
+    max-width: 48vw;
+    padding: 7px 2px 7px 2px;
   }
+}
+</style>
+
 </script>
+             
 

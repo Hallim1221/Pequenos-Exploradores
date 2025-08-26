@@ -20,6 +20,14 @@
   <section class="top-banner"></section>
 
   <nav class="sidebar-menu" id="sidebarMenu">
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+          style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+          loading="lazy">
+      </section>
+      <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+    </section>
     <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
     <ul>
       <li><a href="/">Início</a></li>
@@ -34,11 +42,20 @@
   <link rel="stylesheet" href="/css/index.css">
   <section style="height: 32px;"></section>
   <section class="cadastro-aluno-container">
-    <div style="display: flex; flex-direction: column; align-items: center; gap: 0.7em; margin-bottom: 1.2em;">
+    <section style="display: flex; flex-direction: column; align-items: center; gap: 0.7em; margin-bottom: 1.2em;">
       <img src="/img/tcc.img/animal1.png" alt="Mascote Explorador" style="width: 70px; height: 70px; border-radius: 50%; box-shadow: 0 2px 12px #00CFFF33; background: #fff; border: 3px solid #3bb273; margin-bottom: 0.2em;">
       <h1 class="cadastro-aluno-titulo" style="margin-bottom: 0;">Crie sua conta de <span>Aluno</span></h1>
       <span style="color: #FFD600; font-size: 1.1em; font-weight: 700; text-shadow: 0 2px 8px #FFD60055;">Ganhe acesso a jogos, ranking, avatares e muito mais!</span>
-    </div>
+    </section>
+    <% if (typeof errors !== 'undefined' && errors.length > 0) { %>
+      <section style="background: #ffeaea; color: #b71c1c; border: 1px solid #e57373; border-radius: 8px; padding: 0.8em 1em; margin-bottom: 1em; font-weight: 600;">
+        <ul style="margin: 0; padding-left: 1.2em;">
+          <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+          <% }); %>
+        </ul>
+      </section>
+    <% } %>
     <form class="cadastro-aluno-form" method="POST" action="/aluno/cadastro">
       <input type="text" name="nome" placeholder="Nome completo" required autocomplete="name">
       <input type="email" name="email" placeholder="E-mail do Aluno" required autocomplete="email">
@@ -50,11 +67,11 @@
       <a href="/aluno/login" style="color:#00CFFF; font-weight:700; text-decoration:underline; font-size:1.08em;">Já tem uma conta? Faça login</a>
       <span style="margin-top:0.7em; color:#3bb273; font-size:1em; opacity:0.85; font-weight:600;">Aproveite para personalizar seu perfil e participar do ranking!</span>
     </footer>
-    <div style="margin-top: 2.2em; display: flex; justify-content: center; gap: 1.2em;">
+    <section style="margin-top: 2.2em; display: flex; justify-content: center; gap: 1.2em;">
       <img src="/img/tcc.img/animal2.png" alt="Explorador 2" style="width: 48px; height: 48px; border-radius: 50%; box-shadow: 0 2px 8px #00CFFF22; border: 2px solid #00CFFF;">
       <img src="/img/tcc.img/animal3.png" alt="Explorador 3" style="width: 48px; height: 48px; border-radius: 50%; box-shadow: 0 2px 8px #3bb27322; border: 2px solid #3bb273;">
       <img src="/img/tcc.img/animal4.png" alt="Explorador 4" style="width: 48px; height: 48px; border-radius: 50%; box-shadow: 0 2px 8px #FFD60022; border: 2px solid #FFD600;">
-    </div>
+    </section>
   </section>
   <%- include('partials/footer') %>
 </body>

@@ -3,15 +3,11 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
-// Dashboard do Professor
-router.get('/professor/dashboard', (req, res) => {
-  res.render('professor_dashboard', { series: [] });
-});
 // Cadastro do Professor (POST)
 router.post('/professor/cadastro', (req, res) => {
   // Aqui você pode adicionar lógica de cadastro, validação, etc.
-  // Agora renderiza o dashboard do professor com a variável series
-  res.render('professor_dashboard', { series: [] });
+  // Agora redireciona para a tela de turmas do professor (primeira série)
+  res.redirect(encodeURI('/professor/serie/1º Ano'));
 });
 
 // Cadastro do Professor
@@ -23,6 +19,32 @@ router.get('/professor/cadastro', (req, res) => {
 router.get('/aluno/cadastro', (req, res) => {
   res.render('aluno-cadastro');
 });
+
+// Cadastro do Aluno (POST) - processa o formulário e redireciona para a área do aluno
+router.post('/aluno/cadastro',
+  [
+    body('nome').notEmpty().withMessage('Nome é obrigatório'),
+    body('email').isEmail().withMessage('Email inválido'),
+    body('password').isLength({ min: 6 }).withMessage('Senha deve ter ao menos 6 caracteres'),
+    body('confirmPassword').custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error('As senhas não conferem');
+      }
+      return true;
+    })
+  ],
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      // Re-render a página de cadastro com os erros (poderíamos também enviar mensagens flash)
+      return res.status(400).render('aluno-cadastro', { errors: errors.array(), old: req.body });
+    }
+
+    // Aqui normalmente você salvaria o usuário no banco de dados.
+    // Para agora, apenas redirecionamos para a área do aluno após o cadastro bem-sucedido.
+    return res.redirect('/aluno');
+  }
+);
 
 // Rota para página de compra de avatares
 router.get('/comprar-avatares', (req, res) => {
