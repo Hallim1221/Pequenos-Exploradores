@@ -14,6 +14,171 @@
   <link rel="stylesheet" href="/css/ranking.css">
 </head>
 <body>
+  <!-- Botão de Troféu Dourado para abrir ranking -->
+  
+  <!-- Painel de Ranking animado -->
+  <section id="painel-ranking" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:11999;justify-content:center;align-items:flex-end;">
+  <section id="painel-ranking-content" style="background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -4px 32px #00CFFF33;width:100vw;max-width:480px;margin:0 auto;position:relative;transform:translateY(100%);transition:transform 0.45s cubic-bezier(.4,1.3,.5,1);padding:2.2em 0 3.2em 0;">
+      <section style="text-align:center;margin-bottom:0.7em;">
+        <span style="font-family:'Baloo 2',cursive;font-size:1.35em;font-weight:900;color:#3bb273;">Ranking</span>
+      </section>
+      <section style="display:flex;justify-content:center;gap:0.04em;margin-bottom:0.4em;scale:0.22;">
+        <button class="ranking-filtro-btn selected filtro-mini" style="font-size:0.32em !important;padding:0.07em 0.32em !important;min-width:16px !important;min-height:8px !important;line-height:1 !important;height:18px !important;width:38px !important;" onclick="trocarFiltroRanking('geral')">Geral</button>
+        <button class="ranking-filtro-btn filtro-mini" style="font-size:0.32em !important;padding:0.07em 0.32em !important;min-width:16px !important;min-height:8px !important;line-height:1 !important;height:18px !important;width:38px !important;" onclick="trocarFiltroRanking('escola')">Escola</button>
+        <button class="ranking-filtro-btn filtro-mini" style="font-size:0.32em !important;padding:0.07em 0.32em !important;min-width:16px !important;min-height:8px !important;line-height:1 !important;height:18px !important;width:38px !important;" onclick="trocarFiltroRanking('sala')">Sala</button>
+      </section>
+      <!-- Top 3 -->
+      <section style="display:flex;justify-content:center;align-items:flex-end;gap:0.7em;margin-bottom:1.2em;">
+  <section class="top3-card" style="order:2;background:#fff;box-shadow:0 2px 12px #bbb3;min-width:100px;max-width:120px;width:120px;height:180px;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;">
+          <span style="position:absolute;top:8px;left:0;right:0;text-align:center;font-size:0.82em;font-weight:900;color:#bdbdbd;">2</span>
+          <section style="margin-top:28px;margin-bottom:8px;width:44px;height:44px;overflow:hidden;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;">
+            <img src="/img/tcc.img/animal2.png" alt="2º" style="width:44px;height:44px;object-fit:cover;">
+          </section>
+          <span style="font-size:0.89em;font-weight:700;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">Lucas</span>
+          <section style="margin-top:7px;width:100%;height:15px;background:linear-gradient(90deg,#e0e0e0 60%,#bdbdbd 100%);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:0.97em;">🥈</span>
+          </section>
+        </section>
+  <section class="top3-card" style="order:1;background:#fff;box-shadow:0 2px 12px #FFD60055;min-width:120px;max-width:140px;width:140px;height:210px;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;">
+          <span style="position:absolute;top:8px;left:0;right:0;text-align:center;font-size:0.92em;font-weight:900;color:#FFD600;">1</span>
+          <section style="margin-top:18px;margin-bottom:8px;width:52px;height:52px;overflow:hidden;border-radius:50%;background:#fffde7;display:flex;align-items:center;justify-content:center;">
+            <img src="/img/tcc.img/animal1.png" alt="1º" style="width:52px;height:52px;object-fit:cover;">
+          </section>
+          <span style="font-size:0.97em;font-weight:900;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">Ana</span>
+          <section style="margin-top:7px;width:100%;height:18px;background:linear-gradient(90deg,#FFD600 60%,#FFB300 100%);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:1.05em;">🥇</span>
+          </section>
+        </section>
+  <section class="top3-card" style="order:3;background:#fff;box-shadow:0 2px 12px #b97a1a55;min-width:100px;max-width:120px;width:120px;height:180px;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;">
+          <span style="position:absolute;top:8px;left:0;right:0;text-align:center;font-size:0.82em;font-weight:900;color:#b97a1a;">3</span>
+          <section style="margin-top:28px;margin-bottom:8px;width:44px;height:44px;overflow:hidden;border-radius:50%;background:#fff3e0;display:flex;align-items:center;justify-content:center;">
+            <img src="/img/tcc.img/animal3.png" alt="3º" style="width:44px;height:44px;object-fit:cover;">
+          </section>
+          <span style="font-size:0.89em;font-weight:700;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">João</span>
+          <section style="margin-top:7px;width:100%;height:15px;background:linear-gradient(90deg,#ffecb3 60%,#b97a1a 100%);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:0.97em;">🥉</span>
+          </section>
+        </section>
+      </section>
+      <!-- Lista dos outros jogadores -->
+      <section style="margin:0 auto;max-width:340px;width:96vw;">
+        <section id="ranking-lista">
+          <!-- Exemplo de linha -->
+          <section class="ranking-lista-item" style="display:flex;align-items:center;gap:0.7em;padding:0.5em 0.3em;border-bottom:1px solid #e0e0e0;min-height:44px;max-height:44px;overflow:hidden;">
+            <span style="width:32px;text-align:center;font-weight:700;color:#bbb;">4</span>
+            <section style="width:36px;height:36px;overflow:hidden;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;">
+              <img src="/img/tcc.img/animal4.png" alt="4º" style="width:36px;height:36px;object-fit:cover;">
+            </section>
+            <span style="font-size:1em;font-weight:700;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">Maria</span>
+            <span style="margin-left:auto;font-size:1em;font-weight:700;color:#3bb273;">13.200</span>
+            <span style="font-size:1.1em;">🏆</span>
+          </section>
+          <!-- Repita para outros jogadores -->
+        </section>
+      </section>
+    </section>
+  </section>
+  <script>
+    // Animação de slide-up/slide-down do painel de ranking
+    const btnRanking = document.getElementById('btn-abrir-ranking');
+    const painelRanking = document.getElementById('painel-ranking');
+    const painelRankingContent = document.getElementById('painel-ranking-content');
+    let rankingAberto = false;
+    btnRanking.onclick = function() {
+      if (!rankingAberto) {
+        painelRanking.style.display = 'flex';
+        setTimeout(()=>{ painelRankingContent.style.transform = 'translateY(0)'; }, 10);
+        rankingAberto = true;
+      } else {
+        painelRankingContent.style.transform = 'translateY(100%)';
+        setTimeout(()=>{ painelRanking.style.display = 'none'; }, 450);
+        rankingAberto = false;
+      }
+    };
+    // Filtros (apenas visual, lógica pode ser expandida)
+    function trocarFiltroRanking(filtro) {
+      document.querySelectorAll('.ranking-filtro-btn').forEach(btn=>btn.classList.remove('selected'));
+      if(filtro==='geral') document.querySelectorAll('.ranking-filtro-btn')[0].classList.add('selected');
+      if(filtro==='escola') document.querySelectorAll('.ranking-filtro-btn')[1].classList.add('selected');
+      if(filtro==='sala') document.querySelectorAll('.ranking-filtro-btn')[2].classList.add('selected');
+      // Aqui você pode trocar os dados do ranking conforme o filtro
+    }
+  </script>
+  <style>
+    .top3-card {
+      overflow: hidden !important;
+      position: relative;
+    }
+    .top3-card > section,
+    .top3-card img,
+    .top3-card span {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      box-sizing: border-box;
+      display: block;
+    }
+    .top3-card img {
+      width: 100% !important;
+      height: auto !important;
+      max-height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #eee;
+    }
+    .ranking-lista-item {
+      overflow: hidden;
+    }
+    .ranking-lista-item > span,
+    .ranking-lista-item > section {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      box-sizing: border-box;
+      display: block;
+    }
+    .ranking-filtro-btn {
+      background:#fff;
+      border:2px solid #3bb273;
+      color:#3bb273;
+      font-weight:700;
+      font-size:1em;
+      border-radius:12px;
+      padding:0.4em 1.2em;
+      cursor:pointer;
+      transition:background 0.18s, color 0.18s, border 0.18s;
+    }
+    .filtro-mini {
+      font-size:0.32em !important;
+      padding:0.07em 0.32em !important;
+      min-width:16px !important;
+      min-height:8px !important;
+      line-height:1 !important;
+      height:18px !important;
+      width:38px !important;
+    }
+    .ranking-filtro-btn.selected, .ranking-filtro-btn:focus {
+      background:#3bb273;
+      color:#fff;
+      border-color:#3bb273;
+    }
+    .top3-card span, .ranking-lista-item span {
+      font-family:'Fredoka','Baloo 2',Arial,sans-serif;
+    }
+  /* garantir que o título Top 10 fique branco em todos os modos */
+  .ranking-modal-title { color: #fff !important; }
+    @media (max-width: 600px) {
+      #painel-ranking-content { max-width:98vw; }
+      .top3-card { min-width:64px !important; max-width:70px !important; width:70px !important; height:120px !important; }
+      .top3-card img { width:38px !important; height:38px !important; }
+      .ranking-lista-item { min-height:36px !important; max-height:36px !important; }
+    }
+    body {
+      background: #fff !important;
+    }
+  </style>
   <script>
     // Só exibe a aba de amigos se for premium
     document.addEventListener('DOMContentLoaded', function() {
@@ -106,118 +271,6 @@
     </svg>
   </button>
   <section class="top-banner"></section>
-  <section class="ranking-main">
-  <!-- Blocos duplicados removidos conforme solicitado -->
-  </section>
-
-  <!-- Modal de Ranking -->
-  <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
-    <section class="ranking-modal-content">
-      <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
-      <h3 class="ranking-modal-title">Top 10</h3>
-      <ul class="ranking-modal-list">
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">1º</span>
-          <img src="/img/tcc.img/animal1.png" alt="Avatar de Ana" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Ana</span>
-          <span class="ranking-modal-pontos">15000</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">2º</span>
-          <img src="/img/tcc.img/animal2.png" alt="Avatar de Lucas" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Lucas</span>
-          <span class="ranking-modal-pontos">12000</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">3º</span>
-          <img src="/img/tcc.img/animal3.png" alt="Avatar de João" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">João</span>
-          <span class="ranking-modal-pontos">10000</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">4º</span>
-          <img src="/img/tcc.img/animal4.png" alt="Avatar de Maria" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Maria</span>
-          <span class="ranking-modal-pontos">8000</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">5º</span>
-          <img src="/img/tcc.img/animal5.png" alt="Avatar de Pedro" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Pedro</span>
-          <span class="ranking-modal-pontos">6000</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">6º</span>
-          <img src="/img/tcc.img/animal6.png" alt="Avatar de Clara" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Clara</span>
-          <span class="ranking-modal-pontos">5500</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">7º</span>
-          <img src="/img/tcc.img/animal7.png" alt="Avatar de Felipe" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Felipe</span>
-          <span class="ranking-modal-pontos">5000</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">8º</span>
-          <img src="/img/tcc.img/animal8.png" alt="Avatar de Gabriela" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Gabriela</span>
-          <span class="ranking-modal-pontos">4500</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">9º</span>
-          <img src="/img/tcc.img/animal1.png" alt="Avatar de Rafaela" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Rafaela</span>
-          <span class="ranking-modal-pontos">4000</span>
-        </li>
-        <li class="ranking-modal-item">
-          <span class="ranking-modal-pos">10º</span>
-          <img src="/img/tcc.img/animal2.png" alt="Avatar de Bruno" class="ranking-modal-avatar">
-          <span class="ranking-modal-nome">Bruno</span>
-          <span class="ranking-modal-pontos">900</span>
-        </li>
-      </ul>
-    </section>
-  </section>
-
-  <script>
-    function abrirRankingModal() {
-      document.getElementById('rankingModal').style.display = 'flex';
-    }
-    function fecharRankingModal() {
-      document.getElementById('rankingModal').style.display = 'none';
-    }
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ranking - Pequenos Exploradores</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/btn-voltar.css">
-  <link rel="stylesheet" href="/css/aluno.css">
-  <link rel="stylesheet" href="/css/premium-aluno.css">
-  <link rel="stylesheet" href="/css/index.css">
-  <link rel="stylesheet" href="/css/ranking.css">
-</head>
-<body>
-  <script>
-    if (localStorage.getItem('premiumAluno') === 'true') {
-      document.body.classList.add('premium-aluno');
-    }
-  </script>
-  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
-      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
-      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
-    </svg>
-  </button>
-  <section class="top-banner"></section>
   <nav class="sidebar-menu" id="sidebarMenu">
     <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
       <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
@@ -249,9 +302,7 @@
   <section class="cards-topo">
     <section class="ranking-card" id="rankingCard">
       <section class="ranking-btns">
-        <button class="ranking-btn ranking-btn-1 selected">11º Geral</button>
-        <button class="ranking-btn ranking-btn-2">5º Escola</button>
-        <button class="ranking-btn ranking-btn-2">1º Sala</button>
+        
       </section>
       <section class="medalhao">
         <section class="medalhao-circulo">
@@ -273,38 +324,30 @@
       <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Medalha de Ouro" style="cursor:pointer;width:28px;height:28px;" onclick="abrirNivelModal()">
         <span class="medalhao-emoji" style="font-size:1.18em;">🥇</span>
       </section>
-    <!-- Modal de Níveis -->
-    <section id="nivelModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.55); z-index:99999;" onclick="fecharNivelModal()">
-  <section id="nivelModalContent" style="background:#fff; border-radius:22px; box-shadow:0 4px 32px #0005; padding:2em 0 1.2em 0; width:100vw; max-width:none; text-align:center; position:fixed; left:0; right:auto; top:0; margin:0; transform:none; z-index:99999;" onclick="event.stopPropagation()">
-      <style>
-        @media (max-width: 600px) {
-          #nivelModalContent {
-            left: 50% !important;
-            top: 60% !important;
-            transform: translate(-50%, -50%) !important;
-          }
-        }
-      </style>
-        <button onclick="fecharNivelModal()" aria-label="Fechar" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
-        <h3 style="font-family:'Fredoka','Baloo 2',cursive; color:#e6b800; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Seu Progresso de Nível</h3>
-        <section style="display:flex;align-items:center;justify-content:flex-start;gap:0.2em;flex-wrap:wrap;margin-bottom:0.7em;">
-          <span style="font-size:1em;font-weight:700;color:#b97a1a;">🥉 Bronze I</span>
-          <span style="font-size:1em;font-weight:700;color:#b97a1a;">🥉 Bronze II</span>
-          <span style="font-size:1em;font-weight:700;color:#b97a1a;">🥉 Bronze III</span>
-          <span style="font-size:1em;font-weight:700;color:#aaa;">🥈 Prata I</span>
-        </section>
-        <section style="background:#eee;border-radius:1em;height:18px;width:100%;margin-bottom:1.2em;overflow:hidden;">
-          <section id="nivelBarra" style="background:linear-gradient(90deg,#e6b800 60%,#b97a1a 100%);height:100%;width:40%;transition:width 0.4s;"></section>
-        </section>
-        <span style="font-size:1.1em;font-weight:700;color:#e6b800;">Nível atual: Bronze II</span>
-      </section>
-    </section>
+  <!-- removed nested nivelModal (repositioned to body end) -->
   <script>
     function abrirNivelModal() {
-      document.getElementById('nivelModal').style.display = 'flex';
+      const overlay = document.getElementById('nivelModal');
+      const content = document.getElementById('nivelModalContent');
+      if (overlay && content) {
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        // garantir que o conteúdo nunca ultrapasse a viewport
+        content.style.maxHeight = '90vh';
+        content.style.overflowY = 'auto';
+      } else {
+        document.getElementById('nivelModal').style.display = 'flex';
+      }
     }
     function fecharNivelModal() {
-      document.getElementById('nivelModal').style.display = 'none';
+      const overlay = document.getElementById('nivelModal');
+      const content = document.getElementById('nivelModalContent');
+      if (overlay) overlay.style.display = 'none';
+      if (content) {
+        content.style.maxHeight = '';
+        content.style.overflowY = '';
+      }
     }
   </script>
       <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Estrela" style="cursor:pointer;width:28px;height:28px;">
@@ -313,7 +356,7 @@
     </section>
   <section class="medalhas-card" style="transform:translateX(-40px);">
       <section class="medalhas-title">
-        <span class="medalhas-title-emoji" onclick="abrirRankingModal()">🏆</span>
+       
         <span class="medalhas-title-text">Medalhas</span>
       </section>
       <section class="medalhas-list">
@@ -330,8 +373,7 @@
           <span class="medalha-label">Bronze III</span>
         </section>
         <section class="medalha">
-          <span class="medalha-icone bloqueada">🥈<span class="medalha-cadeado">🔒</span></span>
-          <span class="medalha-label">Prata I</span>
+          
         </section>
       </section>
     </section>
@@ -359,7 +401,7 @@
   <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
   <section class="ranking-modal-content" id="rankingModalContent">
       <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
-      <h3 class="ranking-modal-title">Top 10</h3>
+  <h3 class="ranking-modal-title" style="color:#fff !important;">Top 10</h3>
       <ul class="ranking-modal-list">
         <li class="ranking-modal-item">
           <span class="ranking-modal-pos">1º</span>
@@ -457,6 +499,23 @@
   </script>
 </body>
 </html>
+<!-- Nivel Modal (centralizado, único) -->
+<section id="nivelModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:30000; display:flex; align-items:center; justify-content:center;" onclick="fecharNivelModal()">
+  <section id="nivelModalContent" style="background:#fff; border-radius:24px; box-shadow:0 12px 48px #0009; padding:3em 2.4em; width:clamp(360px,92vw,720px); text-align:center; position:relative; max-height:92vh; overflow:auto;" onclick="event.stopPropagation()">
+    <button onclick="fecharNivelModal()" aria-label="Fechar" style="position:absolute; top:0.8em; right:1.2em; background:none; border:none; font-size:2.4em; color:#00CFFF; cursor:pointer;">&times;</button>
+    <h3 style="font-family:'Fredoka','Baloo 2',cursive; color:#e6b800; font-size:1.6em; font-weight:900; margin-bottom:1.4em;">Seu Progresso de Nível</h3>
+    <section style="display:flex;align-items:center;justify-content:flex-start;gap:0.6em;flex-wrap:wrap;margin-bottom:1em;">
+      <span style="font-size:1.15em;font-weight:800;color:#b97a1a;">🥉 Bronze I</span>
+      <span style="font-size:1.15em;font-weight:800;color:#b97a1a;">🥉 Bronze II</span>
+      <span style="font-size:1.15em;font-weight:800;color:#b97a1a;">🥉 Bronze III</span>
+      <span style="font-size:1.15em;font-weight:800;color:#aaa;">🥈 Prata I</span>
+    </section>
+    <section style="background:#eee;border-radius:1.2em;height:20px;width:100%;margin-bottom:1.4em;overflow:hidden;">
+      <section id="nivelBarra" style="background:linear-gradient(90deg,#e6b800 60%,#b97a1a 100%);height:100%;width:40%;transition:width 0.4s;"></section>
+    </section>
+    <span style="font-size:1.12em;font-weight:800;color:#e6b800;">Nível atual: Bronze II</span>
+  </section>
+</section>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -504,7 +563,7 @@
     <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
       <section class="ranking-modal-content">
         <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
-        <h3 class="ranking-modal-title">Top 10</h3>
+    <h3 class="ranking-modal-title" style="color:#fff !important;">Top 10</h3>
         <ul class="ranking-modal-list">
           <!-- Lista do ranking já está abaixo, removido bloco EJS quebrado -->
                 <section class="progress-bar-bg">
@@ -516,7 +575,7 @@
               </section>
               <section class="medalhas-card">
                 <section class="medalhas-title">
-                  <span class="emoji-trofeu medalhas-title-emoji">🏆</span>
+                  
                   <span class="medalhas-title-text">Medalhas</span>
                 </section>
                 <section class="medalhas-list">
@@ -533,8 +592,7 @@
                     <span class="medalha-label">Bronze III</span>
                   </section>
                   <section class="medalha">
-                    <span class="medalha-icone bloqueada">🥈<span class="medalha-cadeado">🔒</span></span>
-                    <span class="medalha-label">Prata I</span>
+                    
                   </section>
                 </section>
               </section>
@@ -580,5 +638,5 @@
 </style>
 
 </script>
-             
+
 
