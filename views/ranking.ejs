@@ -57,6 +57,7 @@
           <span style="font-size:0.89em;font-weight:700;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">João</span>
           <section style="margin-top:7px;width:100%;height:15px;background:linear-gradient(90deg,#ffecb3 60%,#b97a1a 100%);display:flex;align-items:center;justify-content:center;">
             <span style="font-size:0.97em;">🥉</span>
+        
           </section>
         </section>
       </section>
@@ -104,6 +105,93 @@
       // Aqui você pode trocar os dados do ranking conforme o filtro
     }
   </script>
+  <!-- Premios Modal (top-level) -->
+  <section id="premiosModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:32000; align-items:center; justify-content:center; padding:1.2em 0;" onclick="fecharPremiosModal()">
+    <section id="premiosModalContent" style="background:linear-gradient(180deg,#ffffff 0%,#f3fbff 100%); border-radius:18px; width:clamp(280px,82vw,640px); max-height:80vh; overflow:auto; padding:1.0em 1.0em 1.2em 1.0em; box-shadow:0 18px 48px rgba(0,0,0,0.28); position:relative;" onclick="event.stopPropagation()">
+      <button onclick="fecharPremiosModal()" aria-label="Fechar prêmios" style="position:absolute; top:0.7em; right:0.9em; background:none; border:none; font-size:1.6em; color:#0077C8; cursor:pointer;">&times;</button>
+      <h3 style="font-family:'Baloo 2',cursive; font-size:1.45em; margin-bottom:0.6em; color:#0b5fa5; text-align:center;">Prêmios da Missão</h3>
+      <section style="display:flex;gap:0.6em;justify-content:center;flex-wrap:wrap;margin-bottom:0.9em;">
+        <section style="background:linear-gradient(90deg,#fff 0%,#e6f7ff 100%); padding:0.35em 0.8em; border-radius:12px; box-shadow:0 6px 18px rgba(3,102,214,0.06); font-weight:800;color:#0569a6;">🏅 Recompensas</section>
+        <section style="background:linear-gradient(90deg,#fff 0%,#fff7e6 100%); padding:0.35em 0.8em; border-radius:12px; box-shadow:0 6px 18px rgba(230,170,0,0.06); font-weight:800;color:#b97a1a;">✨ Exclusivo</section>
+      </section>
+      <section style="display:flex;flex-direction:column;gap:0.9em;">
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#f8fdff 0%,#ffffff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(3,102,214,0.06);">
+          <span style="font-size:1.4em;line-height:1;">🎯</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#054e7a;font-weight:900;margin-bottom:0.12em;">Acerte 10 perguntas seguidas no Quiz Ambiente</strong>
+            <span style="color:#3b6b86;font-size:0.95em;">Receba 200 moedas + medalha exclusiva</span>
+          </section>
+          <section style="background:#00CFFF; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">200 moedas</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#fff7f0 0%,#fff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(230,120,20,0.06);">
+          <span style="font-size:1.4em;line-height:1;">🚀</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#7a3a00;font-weight:900;margin-bottom:0.12em;">Alcance 2 níveis em uma semana</strong>
+            <span style="color:#7a4a20;font-size:0.95em;">Bônus de progressão acelerada e avatar especial</span>
+          </section>
+          <section style="background:#FFB703; color:#7a3a00; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">Avatar</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#f0fff6 0%,#fff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(26,160,120,0.06);">
+          <span style="font-size:1.4em;line-height:1;">📅</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#0c6b4a;font-weight:900;margin-bottom:0.12em;">Conclua 1 desafio por dia durante 5 dias</strong>
+            <span style="color:#1e7a58;font-size:0.95em;">Ganhe um diário de missões e 500 moedas</span>
+          </section>
+          <section style="background:#1ec773; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">500 moedas</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#f8fdff 0%,#ffffff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(3,102,214,0.06);">
+          <span style="font-size:1.4em;line-height:1;">🌊</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#054e7a;font-weight:900;margin-bottom:0.12em;">Complete a trilha do rio sem errar nenhuma etapa</strong>
+            <span style="color:#3b6b86;font-size:0.95em;">Desbloqueie um mascote aquático especial</span>
+          </section>
+          <section style="background:#00B4D8; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">Mascote</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#fff7f7 0%,#fff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(200,60,120,0.04);">
+          <span style="font-size:1.4em;line-height:1;">📖</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#7a1540;font-weight:900;margin-bottom:0.12em;">Desbloqueie o diário secreto do Kauezinho</strong>
+            <span style="color:#8a2b4b;font-size:0.95em;">Conteúdo exclusivo e segredos do personagem</span>
+          </section>
+          <section style="background:#ff6b6b; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">Exclusivo</section>
+        </section>
+      </section>
+      <section style="display:flex;justify-content:center;margin-top:1em;">
+        <section onclick="fecharPremiosModal()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; padding:0.7em 1.4em; border-radius:16px; font-weight:900; cursor:pointer;">Fechar</section>
+      </section>
+    </section>
+  </section>
+  <script>
+    window.abrirPremiosModal = function() {
+      console.log('abrirPremiosModal called');
+      var m = document.getElementById('premiosModal');
+      if(!m) { console.warn('premiosModal element not found'); return; }
+      m.style.display = 'flex';
+      m.style.visibility = 'visible';
+      m.style.opacity = '1';
+      m.style.zIndex = '99999';
+      var c = document.getElementById('premiosModalContent');
+      if(c) { c.style.transform = 'translateY(0)'; c.style.opacity = '1'; }
+    };
+    window.fecharPremiosModal = function() {
+      console.log('fecharPremiosModal called');
+      var m = document.getElementById('premiosModal');
+      if(!m) return;
+      m.style.display = 'none';
+    };
+    // Garantir que qualquer botão de estrela abra o modal (caso onclick inline não funcione)
+    (function bindStarListeners(){
+      function bind(){
+        var els = document.querySelectorAll('.medalhas-trofeu-btn[title="Estrela"]');
+        if(!els || els.length===0) { console.log('nenhum botão de estrela encontrado no bind'); }
+        els.forEach(function(el){
+          el.removeEventListener('click', window.abrirPremiosModal);
+          el.addEventListener('click', function(e){ e.preventDefault(); console.log('star element clicked'); window.abrirPremiosModal(); });
+        });
+      }
+      if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
+    })();
+  </script>
   <style>
     .top3-card {
       overflow: hidden !important;
@@ -127,6 +215,41 @@
       border-radius: 50%;
       background: #eee;
     }
+    /* Aumentar levemente elementos do ranking (escopo: painel-ranking-content) */
+    #painel-ranking-content .ranking-filtro-btn {
+      font-size: 1.06em !important;
+      padding: 0.46em 1.28em !important;
+      border-radius: 14px !important;
+    }
+    #painel-ranking-content .top3-card {
+      transform: scale(1.06);
+      transform-origin: center bottom;
+      box-shadow: 0 6px 22px rgba(0,0,0,0.08) !important;
+    }
+    #painel-ranking-content .top3-card img { width: 90% !important; height: auto !important; }
+    #painel-ranking-content .ranking-lista-item {
+      font-size: 1.03em !important;
+      padding: 0.66em 0.4em !important;
+      min-height: 48px !important;
+    }
+    #painel-ranking-content .medalhao, #painel-ranking-content .medalhas-card, #painel-ranking-content .medalha {
+      transform: scale(1.04);
+      transform-origin: center;
+    }
+    /* Garantir que a imagem de anúncio não seja alterada por estas regras (fica fora do painel) */
+    .anuncio-img { transform: none !important; }
+    /* Aumentar levemente tudo que aparece acima da imagem de anúncio */
+    .ranking-main, .cards-topo, .ranking-card, #painel-ranking-content, .medalhao, .medalhas-card {
+      /* small scale to make UI a bit larger without breaking layout */
+      transform: scale(1.035);
+      transform-origin: top center;
+    }
+    /* aumentar fontes e espaçamentos onde faz sentido */
+    .ranking-main .ranking-filtro-btn, #painel-ranking-content .ranking-filtro-btn { font-size:1.08em !important; }
+    #painel-ranking-content .ranking-lista-item { font-size:1.04em !important; padding-top:0.7em !important; padding-bottom:0.7em !important; }
+    #painel-ranking-content .top3-card { transform: scale(1.08); }
+    /* explicitly protect the announcement image from any inherited transform */
+    .anuncio-img { transform: none !important; }
     .ranking-lista-item {
       overflow: hidden;
     }
@@ -178,6 +301,8 @@
     body {
       background: #fff !important;
     }
+    /* Espaço para footer fixo */
+    body { padding-bottom: 72px; }
   </style>
   <script>
     // Só exibe a aba de amigos se for premium
@@ -350,7 +475,7 @@
       }
     }
   </script>
-      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Estrela" style="cursor:pointer;width:28px;height:28px;">
+      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Estrela" style="cursor:pointer;width:28px;height:28px;" onclick="abrirPremiosModal()">
         <span class="medalhao-emoji" style="font-size:1.18em;">⭐</span>
       </section>
     </section>
@@ -378,10 +503,7 @@
       </section>
     </section>
   </section>
-  <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-img" style="display:block; margin:2.5em auto 5.5em auto; max-width:320px; width:90vw; border-radius:18px; box-shadow:0 2px 12px #0003;">
-  <footer style="background: #3bb273; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
-    <p>&copy; 2025 Pequenos Exploradores</p>
-  </footer>
+  <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-img" style="display:block; margin:2.5em auto 5.5em auto; max-width:380px; width:94vw; border-radius:18px; box-shadow:0 2px 12px #0003;">
   <!-- Modal de confirmação de logout -->
   <secton id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
     <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
@@ -636,7 +758,8 @@
   }
 }
 </style>
-
+ 
 </script>
+
 
 

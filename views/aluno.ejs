@@ -127,7 +127,11 @@
       <!-- Avatar à direita -->
       <section style="flex:1; display: flex; align-items: center; justify-content: center;">
         <section style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0.5em; width: 100%;">
-          <section style="background: #fff; border-radius: 18px; box-shadow: 0 2px 12px #0076CA22; padding: 0.5em; display: flex; align-items: flex-start; justify-content: center; min-width: 95px; min-height: 135px; max-width: 150px; max-height: 180px; width: 100%; height: 100%; margin-top: 16px;">
+          <section style="background: #fff; border-radius: 18px; box-shadow: 0 2px 12px #0076CA22; padding: 0.5em; display: flex; align-items: flex-start; justify-content: center; min-width: 95px; min-height: 135px; max-width: 150px; max-height: 180px; width: 100%; height: 100%; margin-top: 16px; position:relative;">
+            <!-- Coroa (visível somente para usuários premium) -->
+            <section class="aluno-coroa" style="display:none; position:absolute; top:-34px; left:50%; transform:translateX(0%); width:64px; height:auto; pointer-events:none; z-index:2;">
+              <img src="/img/coroa.png" alt="Coroa Premium" style="width:100%; height:auto; display:block;">
+            </section>
             <img src="/boneca clarinha.png" alt="Avatar do Aluno" class="aluno-avatar" style="width: 100%; height: 100%; border-radius: 16px; object-fit: cover; box-shadow: 0 2px 8px #0076CA33;">
           </section>
           <button class="btn-editar-perfil" onclick="document.getElementById('avatar-modal').style.display='flex'">Editar</button>
@@ -219,6 +223,17 @@
       var modal = document.getElementById('avatar-modal');
       if (modal) modal.style.display = 'none';
     }
+  </script>
+  <script>
+    // Mostrar coroa no avatar para usuários premium
+    (function showCrownIfPremium(){
+      function apply(){
+        var isPremium = (localStorage.getItem('premiumAluno') === 'true') || document.body.classList.contains('premium-aluno');
+        var coroa = document.querySelector('.aluno-coroa');
+        if(coroa) coroa.style.display = isPremium ? 'block' : 'none';
+      }
+      if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
+    })();
   </script>
   <script>
     // Replace avatar options with premium avatars when premium is active
