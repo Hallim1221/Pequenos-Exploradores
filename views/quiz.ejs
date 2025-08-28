@@ -122,10 +122,16 @@
         <a href="/quiz/natureza" class="btn-destaque"><span>Jogar</span></a>
       </section>
     </section>
-    
+      <!-- Botão para voltar à área do aluno (apenas section) -->
+  <section style="display:flex;justify-content:center;padding:1em 0 2.2em 0;">
+    <section role="button" tabindex="0" onclick="window.location.href='/aluno'" onkeydown="if(event.key==='Enter'||event.key===' ') window.location.href='/aluno'" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; padding:0.9em 1.6em; border-radius:16px; font-weight:900; cursor:pointer; box-shadow:0 6px 20px rgba(0,196,255,0.18);">
+      ← Voltar para a área do aluno
+    </section>
+  </section>
   </main>
   <p></p>
- 
+  
+
   <%- include('partials/footer') %>
 </body>
 </body>

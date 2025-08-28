@@ -476,26 +476,53 @@
         </section>
   </section>
   <section class="natureza-cta">
-    <a href="/aluno" class="btn-destaque" style="margin-top: -1.2em;">Voltar para Área do Aluno</a>
+  <a href="/aluno" class="btn-destaque" style="margin-top: 2.2em; position:relative; top:-2.2em;">Voltar para Área do Aluno</a>
   </section>
- <p></p>
- <p></p>
- <p></p>
+ 
 </main>
 <%- include('partials/footer') %>
 <section id="modal-video-natureza" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:30000; align-items:center; justify-content:center;">
   <section style="background:#fff; border-radius:18px; box-shadow:0 8px 32px #0076CA44; padding:1.2em 1em 1em 1em; max-width:95vw; max-height:90vh; display:flex; flex-direction:column; align-items:center; position:relative;">
     <button onclick="fecharVideoNatureza()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
     <iframe id="iframe-natureza" width="560" height="315" style="max-width:90vw; max-height:70vh; border-radius:12px; border:none; box-shadow:0 2px 12px #00CFFF33;" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <!-- CTA para ir ao quiz relacionado ao vídeo (usando apenas section) -->
+    <section id="modal-video-cta" style="margin-top:-0.4em; width:100%; display:flex; justify-content:center; transition:transform 0.12s ease; transform:translateY(-6px);">
+      <section id="modal-video-cta-btn" role="button" tabindex="0" aria-label="Ir para o quiz" class="btn-destaque" style="cursor:pointer;">
+        Ir para o Quiz
+      </section>
+    </section>
   </section>
 </section>
 <script>
   function abrirVideo(id) {
     var modal = document.getElementById('modal-video-natureza');
     var iframe = document.getElementById('iframe-natureza');
+    var ctaBtn = document.getElementById('modal-video-cta-btn');
+    // mapa de vídeos para rotas de quiz
+    var videoQuizMap = {
+      'v-07DAXCdhI': '/quiz/biomas',
+      'imC5WjBa1II': '/quiz/meioambiente',
+      'FSC2zH0khuw': '/quiz/meioambiente',
+      'yVX9zgNW7fk': '/quiz/meioambiente',
+      'MhpRedd8HkY': '/quiz/natureza',
+      'CdBiEfAqBrY': '/quiz/animais'
+    };
     if(modal && iframe) {
       iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
       modal.style.display = 'flex';
+      // configurar CTA de quiz correspondente
+      if(ctaBtn) {
+  var target = videoQuizMap[id] || '/quiz';
+        ctaBtn.textContent = 'Ir para o Quiz';
+        // adicionar label mais descritivo quando possível
+        if(target === '/quiz_biomas') ctaBtn.textContent = 'Ir para Quiz: Biomas do Mundo';
+        if(target === '/quiz_meioambiente') ctaBtn.textContent = 'Ir para Quiz: Meio Ambiente';
+        if(target === '/quiz_natureza') ctaBtn.textContent = 'Ir para Quiz: Curiosidades da Natureza';
+        if(target === '/quiz_animais') ctaBtn.textContent = 'Ir para Quiz: Animais';
+        // vincular ação (remoção de handlers anteriores)
+        ctaBtn.onclick = function(){ window.location.href = target; };
+        ctaBtn.onkeydown = function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = target; } };
+      }
     }
   }
   function fecharVideoNatureza() {

@@ -197,7 +197,7 @@ body {
   min-width: 320px;
   position: relative;
   font-size: 1.02em;
-  top: -12px;
+  top: -31px;
 }
 .medalhas-title {
   display: flex;
@@ -226,6 +226,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 15px;
 }
 .medalha-icone {
   font-size: 1.6em;
@@ -1150,21 +1151,7 @@ body {
   z-index: 1200;
   line-height: 1;
 }
-/* Overlay escurecido opcional (se quiser adicionar depois) */
-/*
-.menu-ranking-overlay {
-  position: fixed;
-  left: 0; top: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.25);
-  z-index: 1099;
-  display: none;
-}
-.menu-ranking-slide.aberto ~ .menu-ranking-overlay {
-  display: block;
-}
-*/
 
-/* --- Patente e Medalha --- */
 .patente-info {
   background: #e0f7fa;
   border-radius: 14px;
