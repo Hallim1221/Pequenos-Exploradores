@@ -35,7 +35,7 @@
       <li><a href="/loja">Loja</a></li>
     </ul>
   </nav>
-  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0.7em; left: 0.7em; z-index: 11500;">
+  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: -0.3em; left: 0.7em; z-index: 11500;">
     <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
   </button>
   <link rel="stylesheet" href="/css/index.css">
@@ -49,10 +49,54 @@
     <form class="cadastro-professor-form" method="POST" action="/professor/dashboard">
       <input type="text" name="nome" placeholder="Nome completo" required autocomplete="name">
       <input type="email" name="email" placeholder="E-mail do Professor" required autocomplete="email">
-      <input type="password" name="password" placeholder="Crie uma senha" required autocomplete="new-password">
-      <input type="password" name="confirmPassword" placeholder="Confirme a senha" required autocomplete="new-password">
+      <input type="password" name="password" id="prof-password" placeholder="Crie uma senha" required autocomplete="new-password">
+      <input type="password" name="confirmPassword" id="prof-confirm-password" placeholder="Confirme a senha" required autocomplete="new-password">
+  <section id="prof-senha-erro" style="display:none;color:#b71c1c;background:#ffeaea;border:1px solid #e57373;border-radius:8px;padding:0.5em 1em;margin-bottom:0.7em;font-weight:600;font-size:1em;"></section>
+  <section id="prof-senha-min-erro" style="display:none;color:#b71c1c;background:#ffeaea;border:1px solid #e57373;border-radius:8px;padding:0.5em 1em;margin-bottom:0.7em;font-weight:600;font-size:1em;"></section>
       <button type="submit" class="cadastro-professor-btn">Cadastrar</button>
     </form>
+    <script>
+      // Validação de senha igual ao aluno e mínimo de 6 dígitos
+      document.addEventListener('DOMContentLoaded', function(){
+        var form = document.querySelector('.cadastro-professor-form');
+        var senha = document.getElementById('prof-password');
+        var confirma = document.getElementById('prof-confirm-password');
+        var erro = document.getElementById('prof-senha-erro');
+        var minErro = document.getElementById('prof-senha-min-erro');
+        if(form && senha && confirma && erro && minErro){
+          form.addEventListener('submit', function(e){
+            let bloqueia = false;
+            erro.style.display = 'none';
+            minErro.style.display = 'none';
+            if(senha.value.length < 6){
+              minErro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+              minErro.style.display = 'block';
+              senha.focus();
+              bloqueia = true;
+            }
+            if(senha.value !== confirma.value){
+              erro.textContent = 'As senhas não coincidem.';
+              erro.style.display = 'block';
+              confirma.focus();
+              bloqueia = true;
+            }
+            if(bloqueia){
+              e.preventDefault();
+            }
+          });
+          senha.addEventListener('input', function(){
+            erro.style.display = 'none';
+            if(senha.value.length < 6){
+              minErro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+              minErro.style.display = 'block';
+            }else{
+              minErro.style.display = 'none';
+            }
+          });
+          confirma.addEventListener('input', function(){ erro.style.display = 'none'; });
+        }
+      });
+    </script>
     <footer style="width:100%; display:flex; flex-direction:column; align-items:center; margin-top:1.7em;">
       <a href="/professor/login" style="color:#FFD600; font-weight:700; text-decoration:underline; font-size:1.08em;">Já tem uma conta? Faça login</a>
       <span style="margin-top:0.7em; color:#00518C; font-size:1em; opacity:0.85; font-weight:600;">Participe da comunidade de educadores!</span>

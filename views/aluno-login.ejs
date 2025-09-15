@@ -37,10 +37,37 @@
   <section class="login-aluno-container" style="margin-top: 5.5em; background: linear-gradient(120deg, #003366 70%, #00518C 100%); box-shadow: 0 6px 32px #00cfff33; border: 3px solid #00CFFF;">
     <h1 style="font-size:2em; font-weight:800; color:#00CFFF; text-align:center; margin-bottom:0.7em; letter-spacing:0.01em;">Área do<br><span style="color:#3bb273; font-size:1.15em; font-weight:800; letter-spacing:0.03em;">Aluno</span></h1>
     <form class="login-aluno-form" method="POST" action="/aluno/login">
-      <input type="email" name="email" placeholder="E-mail do Aluno" required autocomplete="email">
-      <input type="password" name="password" placeholder="Senha" required autocomplete="current-password">
+  <input type="email" name="email" placeholder="E-mail do Aluno" required autocomplete="email" style="width:100%;max-width:600px;box-sizing:border-box;">
+  <input type="password" name="password" id="aluno-login-password" placeholder="Senha" required autocomplete="current-password" style="width:100%;max-width:600px;box-sizing:border-box;">
+  <section id="aluno-login-senha-erro" style="display:none;color:#b71c1c;background:#ffeaea;border:1px solid #e57373;border-radius:8px;padding:0.3em 0.4em;margin-bottom:0.2em;font-weight:600;font-size:0.98em;min-height:1.2em;line-height:1.2em;box-sizing:border-box;overflow:hidden;max-width:600px;white-space:nowrap;text-overflow:ellipsis;"></section>
       <button type="submit" class="login-aluno-btn">Entrar</button>
     </form>
+      <script>
+        document.addEventListener('DOMContentLoaded', function(){
+          var form = document.querySelector('.login-aluno-form');
+          var senha = document.getElementById('aluno-login-password');
+          var erro = document.getElementById('aluno-login-senha-erro');
+          if(form && senha && erro){
+            form.addEventListener('submit', function(e){
+              erro.style.display = 'none';
+              if(senha.value.length < 6){
+                erro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+                erro.style.display = 'block';
+                senha.focus();
+                e.preventDefault();
+              }
+            });
+            senha.addEventListener('input', function(){
+              if(senha.value.length < 6){
+                erro.textContent = 'A senha deve ter pelo menos 6 caracteres.';
+                erro.style.display = 'block';
+              }else{
+                erro.style.display = 'none';
+              }
+            });
+          }
+        });
+      </script>
     <section style="margin: 2em 0 0.5em 0; text-align: center;">
       <section style="background: #fffbe7; border: 2.5px dashed #00CFFF; border-radius: 18px; padding: 1.2em 1em 1.5em 1em; box-shadow: 0 2px 12px #00CFFF22; display: inline-block; max-width: 340px;">
         <span style="font-size: 1.18em; color: #117741; font-weight: 800; letter-spacing: 0.01em; display: block; margin-bottom: 0.7em;">Ainda não tem uma conta?</span>

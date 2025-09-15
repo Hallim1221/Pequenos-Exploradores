@@ -1,3 +1,19 @@
+/* Modo premium: todos os cards do ranking com a mesma cor e estilo */
+body.premium-aluno .top3-card,
+body.premium-aluno .ranking-card,
+body.premium-aluno .medalhas-card {
+  background: linear-gradient(120deg, #b388ff 60%, #7c4dff 100%) !important;
+  border-radius: 1.5em !important;
+  box-shadow: 0 4px 24px #b388ff55, 0 2px 12px #7c4dff33 !important;
+  color: #fff !important;
+  border: 2.5px solid #FFD600 !important;
+}
+body.premium-aluno .top3-card *,
+body.premium-aluno .ranking-card *,
+body.premium-aluno .medalhas-card * {
+  color: #fff !important;
+  text-shadow: 0 2px 8px #0076CA22;
+}
 .medalhas-list {
   display: flex !important;
   gap: 0.28em !important;
@@ -14,7 +30,7 @@
   align-items: center;
   margin-bottom: -1.2em;
   margin-right: 0.2em;
-  margin-top: 2em;
+  margin-top: 3em;
   margin-left: 2.5em;
 }
 .medalhas-trofeu-btn--small {
@@ -197,7 +213,7 @@ body {
   min-width: 320px;
   position: relative;
   font-size: 1.02em;
-  top: -31px;
+  top: -35px;
 }
 .medalhas-title {
   display: flex;
@@ -226,7 +242,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-left: 15px;
 }
 .medalha-icone {
   font-size: 1.6em;
@@ -1151,7 +1166,21 @@ body {
   z-index: 1200;
   line-height: 1;
 }
+/* Overlay escurecido opcional (se quiser adicionar depois) */
+/*
+.menu-ranking-overlay {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1099;
+  display: none;
+}
+.menu-ranking-slide.aberto ~ .menu-ranking-overlay {
+  display: block;
+}
+*/
 
+/* --- Patente e Medalha --- */
 .patente-info {
   background: #e0f7fa;
   border-radius: 14px;

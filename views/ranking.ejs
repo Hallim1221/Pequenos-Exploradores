@@ -108,7 +108,7 @@
             <span style="font-size:1.65em;">🥇</span>
           </section>
         </section>
-  <section class="top3-card" style="order:3;background:#fff;box-shadow:0 4px 24px #b97a1a55;min-width:150px;max-width:180px;width:180px;height:260px;border-radius:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;">
+  <section class="top3-card" style="order:3;background:#fff;box-shadow:0 4px 24px #b97a1a55;min-width:150px;max-width:180px;width:180px;height:260px;border-radius:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;top:-8px;">
           <span style="position:absolute;top:14px;left:0;right:0;text-align:center;font-size:1.25em;font-weight:900;color:#b97a1a;">3</span>
           <section style="margin-top:38px;margin-bottom:14px;width:70px;height:70px;overflow:hidden;border-radius:50%;background:#fff3e0;display:flex;align-items:center;justify-content:center;">
             <img src="/img/tcc.img/animal3.png" alt="3º" style="width:70px;height:70px;object-fit:cover;">
@@ -316,34 +316,34 @@
       height: 98px !important;
       object-fit: cover !important;
     }
-   
+    /* Aumentar textos e nomes dentro dos cards proporcionalmente */
     #painel-ranking-content .top3-card span,
     #painel-ranking-content .top3-card > section span {
       font-size: 1.14em !important;
       font-weight: 800 !important;
     }
     #painel-ranking-content .top3-card > section { margin-top: 36px !important; }
-   
+    /* Itens da lista: maior e com ícone/avatar proporcional */
     #painel-ranking-content .ranking-lista-item { font-size: 1.28em !important; padding: 1em 0.6em !important; min-height:64px !important; }
     #painel-ranking-content .ranking-lista-item img { width:44px !important; height:44px !important; border-radius:50% !important; }
-   
+    /* Medalhas com leve aumento adicional */
   #painel-ranking-content .medalhao, #painel-ranking-content .medalhas-card, #painel-ranking-content .medalha { transform: scale(1.05) !important; transform-origin:center !important; padding:0.35em !important; }
-    
+    /* Espaçamento interno do painel para acomodar cards maiores */
     #painel-ranking-content { padding-bottom: 1.2em !important; }
-    
+    /* Mover o card da esquerda um pouco mais para esquerda */
     #painel-ranking-content .cards-topo > .top3-card:first-child {
       margin-left: 28px !important;
     }
-    
-    
+    /* --- Novas regras: aumentar itens acima da imagem de anúncio (apenas sections) --- */
+    /* Escopo claro: tudo dentro da área principal de ranking */
     .ranking-main, .cards-topo, .ranking-card, #painel-ranking-content {
-      font-size: 1.02rem; 
+      font-size: 1.02rem; /* base slightly larger */
     }
     #painel-ranking-content .ranking-filtro-btn {
       font-size: 1.4em !important;
       padding: 0.66em 1.9em !important;
     }
-   
+    /* Top3: aumentar box e imagem sem quebrar layout */
     #painel-ranking-content .top3-card {
       min-width: 160px !important;
       max-width: 200px !important;
@@ -356,30 +356,30 @@
       height: 90px !important;
       object-fit: cover !important;
     }
-    
+    /* Lista do ranking: maior legibilidade */
     #painel-ranking-content .ranking-lista-item {
       font-size: 1.06em !important;
       padding: 0.7em 0.4em !important;
       min-height: 48px !important;
     }
-
+    /* Medalha e medalhão: destaque maior */
     #painel-ranking-content .medalhao { font-size:1.08em !important; }
     #painel-ranking-content .medalhas-card, #painel-ranking-content .medalha { padding: 0.5em !important; }
-  
+    /* Pequeno ajuste no espaçamento dos cards de topo */
     .cards-topo { gap: 0.9em !important; }
-    
+    /* Garantir que a imagem de anúncio não seja afetada */
     .anuncio-img { max-width: 380px !important; width: 94vw !important; }
-   
+    /* Aumentar levemente tudo que aparece acima da imagem de anúncio */
     .ranking-main, .cards-topo, .ranking-card, #painel-ranking-content, .medalhao, .medalhas-card {
-      
+      /* small scale to make UI a bit larger without breaking layout */
       transform: scale(1.035);
       transform-origin: top center;
     }
-  
+    /* aumentar fontes e espaçamentos onde faz sentido */
     .ranking-main .ranking-filtro-btn, #painel-ranking-content .ranking-filtro-btn { font-size:1.08em !important; }
     #painel-ranking-content .ranking-lista-item { font-size:1.04em !important; padding-top:0.7em !important; padding-bottom:0.7em !important; }
     #painel-ranking-content .top3-card { transform: scale(1.08); }
-   
+    /* explicitly protect the announcement image from any inherited transform */
     .anuncio-img { transform: none !important; }
     .ranking-lista-item {
       overflow: hidden;
@@ -432,12 +432,12 @@
     body {
       background: #fff !important;
     }
-    
+    /* Espaço para footer fixo */
     body { padding-bottom: 72px; }
   </style>
-  
+  <!-- Normalize: garantir que apenas o card de progresso mantenha estilos específicos; resetar transforms aplicados anteriormente -->
   <style>
-   
+    /* Resetar escalas e transformações indesejadas para elementos do painel de ranking */
     #painel-ranking-content .top3-card,
     #painel-ranking-content .ranking-lista-item,
     #painel-ranking-content .ranking-filtro-btn,
@@ -452,7 +452,7 @@
       margin: inherit !important;
     }
 
-   
+    /* Restaurar visual do card de medalhas sem afetar outros itens */
     #painel-ranking-content .medalhas-card {
       transform: scale(1.035) !important;
       transform-origin: top center !important;
@@ -461,7 +461,7 @@
       margin: 0 !important;
     }
 
-  
+    /* Garantir que a imagem de anúncio continue protegida */
     .anuncio-img { transform: none !important; }
   </style>
 
@@ -481,7 +481,7 @@
         selectors.forEach(function(sel){
           document.querySelectorAll(sel).forEach(function(el){
             try{
-             
+              // limpar apenas as propriedades que forçaram o layout
               el.style.transform = '';
               el.style.transformOrigin = '';
               el.style.fontSize = '';
@@ -499,7 +499,7 @@
     })();
   </script>
   <script>
-    
+    // Só exibe a aba de amigos se for premium
     document.addEventListener('DOMContentLoaded', function() {
       if (localStorage.getItem('premiumAluno') === 'true') {
         document.getElementById('drawer-amigos').style.display = 'block';
@@ -507,29 +507,29 @@
     });
   </script>
     <script>
-      
+      // Forçar ajustes inline para garantir visibilidade das alterações
       (function forceScaleRanking(){
         function apply(){
           var panel = document.getElementById('painel-ranking-content');
           if(!panel) return;
           console.log('apply forceScaleRanking');
-          
+          // tighten gap between top3
           var cardsTopo = document.querySelector('.cards-topo');
           if(cardsTopo) cardsTopo.style.gap = '0.45em';
-        
+          // top3 cards: size + inner scaling
           var top3 = panel.querySelectorAll('.top3-card');
           top3.forEach(function(card){
             card.style.minWidth = '170px';
             card.style.width = '190px';
             card.style.height = '290px';
             card.style.borderRadius = '22px';
-            
+            // scale inner img
             var img = card.querySelector('img');
             if(img){ img.style.width = '98px'; img.style.height = '98px'; img.style.objectFit = 'cover'; }
-           
+            // text
             card.querySelectorAll('span').forEach(function(s){ s.style.fontSize = '1.14em'; s.style.fontWeight = '800'; });
           });
-        
+          // list items
           panel.querySelectorAll('.ranking-lista-item').forEach(function(li){
             li.style.fontSize = '1.28em';
             li.style.padding = '1em 0.6em';
@@ -734,7 +734,7 @@
       <section class="medalhas-list">
         <section class="medalha">
           <span class="medalha-icone">🥉</span>
-          <span class="medalha-label">Bronze I</span> 
+          <span class="medalha-label">Bronze I</span>
         </section>
         <section class="medalha">
           <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>

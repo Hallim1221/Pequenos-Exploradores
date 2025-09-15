@@ -218,14 +218,24 @@
   </section>
 
   <script>
+    // Persistência do avatar selecionado
+    function atualizarAvatarSalvo() {
+      var avatarImg = document.querySelector('.aluno-avatar');
+      var avatarSalvo = localStorage.getItem('alunoAvatarSelecionado');
+      if(avatarImg && avatarSalvo) {
+        avatarImg.src = avatarSalvo;
+      }
+    }
+    document.addEventListener('DOMContentLoaded', atualizarAvatarSalvo);
     function selecionarAvatar(src) {
-      // accepts either a string src or the image element (this)
       var selectedSrc = null;
       if (!src) return;
       if (typeof src === 'string') selectedSrc = src;
       else if (src && src.src) selectedSrc = src.src;
-      var avatar = document.querySelector('.aluno-avatar');
-      if (avatar && selectedSrc) avatar.src = selectedSrc;
+      if (selectedSrc) {
+        localStorage.setItem('alunoAvatarSelecionado', selectedSrc);
+        atualizarAvatarSalvo();
+      }
       var modal = document.getElementById('avatar-modal');
       if (modal) modal.style.display = 'none';
     }
