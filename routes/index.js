@@ -1,4 +1,3 @@
-
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
@@ -161,6 +160,21 @@ router.get('/recarga', (req, res) => {
 // Página de vídeos de Natureza
 router.get('/natureza', (req, res) => {
   res.render('natureza');
+});
+
+// Rota GET para adicionar turma
+router.get('/adicionar-turma', (req, res) => {
+  res.render('adicionar-turma');
+});
+
+// Rota GET para /turma (turma normal)
+router.get('/turma', (req, res) => {
+  res.render('turma');
+});
+
+// Rota GET para /aluno2
+router.get('/aluno2', (req, res) => {
+  res.render('aluno2');
 });
 
 module.exports = router;

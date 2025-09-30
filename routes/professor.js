@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 // Permite acessar seleção de série via GET também
@@ -46,6 +45,13 @@ router.get('/serie/:serie/turma/:turma', (req, res) => {
   if (!series.includes(serie) || !turmas.includes(turma)) return res.redirect('/professor/dashboard');
   const alunos = alunosPorSerieTurma[serie][turma] || [];
   res.render('professor_alunos', { serie, turma, alunos });
+});
+
+// Rota GET para /turmas (série padrão: 1º Ano)
+router.get('/turmas', (req, res) => {
+  const serie = '1º Ano';
+  const turmas = ['A', 'B', 'C', 'D', 'E'];
+  res.render('professor_turmas', { serie, turmas });
 });
 
 module.exports = router;
