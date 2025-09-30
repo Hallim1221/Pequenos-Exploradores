@@ -15,6 +15,26 @@
   <link rel="stylesheet" href="/css/premium-aluno.css">
 </head>
 <body>
+<<<<<<< HEAD
+=======
+  <!-- Modal de confirmação de compra -->
+  <section id="modal-compra-bg" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.45);z-index:20000;align-items:center;justify-content:center;">
+    <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%);border-radius:28px;box-shadow:0 8px 32px #00CFFF44;padding:2.2em 2em 1.7em 2em;max-width:340px;width:90vw;text-align:center;position:relative;animation:fadeInUp 0.4s;display:flex;flex-direction:column;align-items:center;">
+      <span style="font-size:2.2em;">🛒✨</span>
+      <h2 style="color:#0076CA;font-family:'Fredoka','Baloo 2',cursive;font-size:1.18em;font-weight:900;margin:0.7em 0 0.5em 0;">Confirmar compra?</h2>
+      <section id="modal-compra-desc" style="color:#1ec773;font-size:1.08em;font-weight:700;margin-bottom:1.7em;"></section>
+      <section style="display:flex;gap:1.2em;justify-content:center;">
+        <button id="modal-compra-sim" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%);color:#fff;font-weight:900;border:none;border-radius:16px;padding:0.7em 2.2em;font-size:1.08em;box-shadow:0 2px 12px #00CFFF33;cursor:pointer;letter-spacing:0.04em;transition:background 0.18s,transform 0.18s;text-transform:uppercase;">Sim</button>
+        <button id="modal-compra-nao" style="background:#fff;color:#0076CA;font-weight:900;border:2px solid #00CFFF;border-radius:16px;padding:0.7em 2.2em;font-size:1.08em;box-shadow:0 2px 8px #00CFFF22;cursor:pointer;letter-spacing:0.04em;transition:background 0.18s,transform 0.18s;text-transform:uppercase;">Não</button>
+      </section>
+      <button onclick="fecharModalCompra()" style="position:absolute;top:0.7em;right:1em;background:none;border:none;font-size:2em;color:#00CFFF;cursor:pointer;">&times;</button>
+    </section>
+  </section>
+  <section style="position:fixed;top:60px;left:8px;z-index:11000;display:flex;align-items:center;gap:0.3em;background:#1ec773;color:#fff;border-radius:16px;padding:0.35em 0.9em 0.35em 0.9em;font-weight:700;font-size:1.13em;box-shadow:0 2px 12px #1ec77344;backdrop-filter:blur(2px);">
+    <span style='color:#fff;'><%= typeof saldo !== 'undefined' ? saldo : 0 %></span>
+    <span class="moeda-icone" style='color:#fff;'>🪙</span>
+  </section>
+>>>>>>> d37a33b (commit inicial do projeto e ajustes visuais na página aluno2)
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index:12050; position:fixed; top:16px; right:16px; left:auto;">
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
       <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
@@ -23,12 +43,29 @@
   </button>
   <section class="top-banner"></section>
   <nav class="sidebar-menu" id="sidebarMenu">
+<<<<<<< HEAD
     <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
     <ul>
       <li><a href="/">Início</a></li>
       <li><a href="/sobre">Sobre</a></li>
       <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
       <li><a href="/loja">Loja</a></li>
+=======
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+          style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+          loading="lazy">
+      </section>
+      <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+    </section>
+    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+  <ul style="margin-top:0.5em;gap:0.2em;display:flex;flex-direction:column;">
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Futuro</a></li>
+>>>>>>> d37a33b (commit inicial do projeto e ajustes visuais na página aluno2)
       <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
         <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
           <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
@@ -37,7 +74,11 @@
     </ul>
   </nav>
   <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral">
+<<<<<<< HEAD
     <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+=======
+  <svg width="28" height="28" viewBox="0 0 28 28" style="position:relative;top:-0.7em;"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+>>>>>>> d37a33b (commit inicial do projeto e ajustes visuais na página aluno2)
   </button>
 </head>
 <body>
@@ -49,7 +90,79 @@
   <main class="comprar-container">
     <h1>Comprar Novos Avatares</h1>
     <p class="comprar-desc">Escolha um novo avatar para personalizar seu perfil!</p>
+<<<<<<< HEAD
     <section class="avatar-list">
+=======
+  <section class="avatar-list" style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.8em 6em;justify-items:center;align-items:stretch;max-width:900px;margin:0 auto 2em auto;padding:0 2vw;">
+    <style>
+      @media (min-width: 600px) {
+        .avatar-list {
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 1.2em 9em !important;
+        }
+      }
+      @media (min-width: 900px) {
+        .avatar-list {
+          grid-template-columns: repeat(5, 1fr) !important;
+          gap: 1.2em 13em !important;
+        }
+      }
+    </style>
+    <style>
+      @media (min-width: 600px) {
+        .avatar-list {
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 1.2em 5em !important;
+        }
+      }
+      @media (min-width: 900px) {
+        .avatar-list {
+          grid-template-columns: repeat(5, 1fr) !important;
+          gap: 1.2em 7em !important;
+        }
+      }
+    </style>
+    <style>
+      @media (min-width: 600px) {
+        .avatar-list {
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 1.2em 3em !important;
+        }
+      }
+      @media (min-width: 900px) {
+        .avatar-list {
+          grid-template-columns: repeat(5, 1fr) !important;
+          gap: 1.2em 4em !important;
+        }
+      }
+    </style>
+    <style>
+      @media (min-width: 600px) {
+        .avatar-list {
+          grid-template-columns: repeat(3, 1fr) !important;
+          gap: 1.2em 2em !important;
+        }
+      }
+      @media (min-width: 900px) {
+        .avatar-list {
+          grid-template-columns: repeat(5, 1fr) !important;
+          gap: 1.2em 2.2em !important;
+        }
+      }
+    </style>
+    <style>
+      @media (min-width: 600px) {
+        .avatar-list {
+          grid-template-columns: repeat(3, 1fr) !important;
+        }
+      }
+      @media (min-width: 900px) {
+        .avatar-list {
+          grid-template-columns: repeat(5, 1fr) !important;
+        }
+      }
+    </style>
+>>>>>>> d37a33b (commit inicial do projeto e ajustes visuais na página aluno2)
       <section class="avatar-item">
         <img src="/img/tcc.img/animal1.png" alt="Avatar 1" class="avatar-img">
         <section class="avatar-preco"><span class="moeda-emoji">🪙</span> 100</section>
@@ -228,4 +341,79 @@
       .catch(() => { window.location.href = '/'; });
   }
 </script>
+<<<<<<< HEAD
+=======
+</script>
+<script>
+// Corrige execução do JS do modal de compra apenas após DOM pronto
+document.addEventListener('DOMContentLoaded', function() {
+  let compraBtnTemp = null;
+  function abrirModalCompra(descricao, btn) {
+    document.getElementById('modal-compra-desc').textContent = descricao;
+    document.getElementById('modal-compra-bg').style.display = 'flex';
+    compraBtnTemp = btn;
+  }
+  function fecharModalCompra() {
+    document.getElementById('modal-compra-bg').style.display = 'none';
+    compraBtnTemp = null;
+  }
+  function atualizarSaldo(novoSaldo) {
+    const saldoSpan = document.querySelector('section[style*="background:#1ec773"] span');
+    if (saldoSpan) saldoSpan.textContent = novoSaldo;
+  }
+  function marcarComprado(botao) {
+    botao.textContent = 'Comprado';
+    botao.disabled = true;
+    botao.style.background = '#bdbdbd';
+    botao.style.cursor = 'not-allowed';
+  }
+  document.querySelectorAll('.avatar-item').forEach(function(item) {
+    const btn = item.querySelector('.comprar-btn');
+    const preco = item.querySelector('.avatar-preco');
+    const img = item.querySelector('img');
+    if (!btn || !preco || !img) return;
+    btn.onclick = function() {
+      const valor = preco.textContent.replace(/[^0-9]/g, '');
+      const avatar = img.getAttribute('src');
+      if (!valor || !avatar) return;
+      abrirModalCompra('Você irá gastar ' + valor + ' moedas neste avatar.', btn);
+      btn.dataset.valor = valor;
+      btn.dataset.avatar = avatar;
+    };
+  });
+  document.getElementById('modal-compra-sim').onclick = function() {
+    if (!compraBtnTemp) return fecharModalCompra();
+    const valor = compraBtnTemp.dataset.valor;
+    const avatar = compraBtnTemp.dataset.avatar;
+    compraBtnTemp.disabled = true;
+    fetch('/comprar-avatar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ avatar: avatar, preco: valor })
+    })
+    .then(r => r.json())
+    .then(res => {
+      if (res.sucesso) {
+        atualizarSaldo(res.saldo);
+        marcarComprado(compraBtnTemp);
+        fecharModalCompra();
+        setTimeout(()=>alert('Avatar comprado com sucesso!'), 200);
+      } else {
+        compraBtnTemp.disabled = false;
+        fecharModalCompra();
+        setTimeout(()=>alert(res.mensagem || 'Erro ao comprar avatar.'), 200);
+      }
+    })
+    .catch(() => {
+      compraBtnTemp.disabled = false;
+      fecharModalCompra();
+      setTimeout(()=>alert('Erro ao comprar avatar.'), 200);
+    });
+  };
+  document.getElementById('modal-compra-nao').onclick = fecharModalCompra;
+  window.fecharModalCompra = fecharModalCompra;
+});
+</script>
+</script>
+>>>>>>> d37a33b (commit inicial do projeto e ajustes visuais na página aluno2)
 </html>

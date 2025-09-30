@@ -1,0 +1,80 @@
+.aluno2-abas {
+  display: flex;
+  justify-content: center;
+  gap: 2.2em;
+  margin-top: 2em;
+  margin-bottom: 1.2em;
+}
+.aba {
+  background: none;
+  border: none;
+  font-size: 1.15em;
+  font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+  color: #333;
+  font-weight: 700;
+  padding: 0.5em 1.2em;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: color 0.18s, border 0.18s;
+}
+.aba.ativa {
+  color: #4CAF50;
+  border-bottom: 3px solid #4CAF50;
+}
+.aluno2-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
+}
+.aluno2-card-turma {
+  background: #4CAF50;
+  color: #fff;
+  font-weight: 900;
+  font-size: 2em;
+  border-radius: 22px;
+  padding: 1.2em 1.5em;
+  margin-bottom: 2em;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 24px #4CAF5044;
+  text-align: left;
+  letter-spacing: 0.01em;
+  box-sizing: border-box;
+}
+.aluno2-mural {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  width: 100%;
+  max-width: 420px;
+  align-items: center;
+}
+.aluno2-mensagem {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border: 2px solid #2196F3;
+  border-radius: 16px;
+  padding: 1em 1.2em;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 2px 12px #2196F322;
+  gap: 1em;
+}
+.aluno2-icone-user {
+  font-size: 2em;
+  margin-right: 0.7em;
+}
+.aluno2-msg-texto {
+  color: #333;
+  font-size: 1.08em;
+  font-weight: 600;
+}
+@media (max-width: 600px) {
+  .aluno2-card-turma, .aluno2-mural {
+    max-width: 98vw;
+  }
+}

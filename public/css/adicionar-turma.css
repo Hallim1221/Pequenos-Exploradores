@@ -1,0 +1,150 @@
+/* Overlay escuro do modal de turma */
+#modal-overlay-turma {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.6);
+  z-index: 20000;
+  align-items: center;
+  justify-content: center;
+}
+/* Modal central */
+#modal-turma {
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #0002;
+  max-width: 350px;
+  width: 92vw;
+  padding: 2.2em 1.5em 1.7em 1.5em;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  animation: fadeInUp 0.3s;
+}
+#modal-turma-titulo {
+  font-weight: 900;
+  font-size: 1.18em;
+  color: #222;
+  margin-bottom: 0.7em;
+  text-align: left;
+  font-family: 'Fredoka','Baloo 2',cursive;
+}
+.modal-turma-bloco {
+  background: #A4E67C;
+  border-radius: 16px;
+  padding: 1.2em 1em 1.2em 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+}
+.modal-turma-bloco label {
+  font-weight: bold;
+  color: #333;
+  font-size: 1.08em;
+  margin-bottom: 0.2em;
+}
+.modal-turma-bloco small {
+  color: #444;
+  font-size: 0.98em;
+  margin-bottom: 0.5em;
+}
+.modal-turma-input {
+  border-radius: 12px;
+  border: 1px solid #bbb;
+  padding: 0.7em 1em;
+  font-size: 1.08em;
+  background: #fff;
+  margin-bottom: 0.7em;
+  outline: none;
+  transition: border 0.18s;
+}
+.modal-turma-input:focus {
+  border: 1.5px solid #4CAF50;
+}
+.modal-turma-btn {
+  background: #4CAF50;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 16px;
+  padding: 0.8em 2.2em;
+  font-size: 1.08em;
+  cursor: pointer;
+  box-shadow: 0 2px 12px #4CAF5044;
+  transition: background 0.18s;
+  margin-top: 0.2em;
+}
+.modal-turma-btn:hover {
+  background: #388e3c;
+}
+.modal-turma-close {
+  position: absolute;
+  top: 0.7em;
+  right: 1em;
+  background: none;
+  border: none;
+  font-size: 2em;
+  color: #4CAF50;
+  cursor: pointer;
+  z-index: 1;
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+body {
+  background: #fff;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+}
+.container-turma {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  width: 100vw;
+}
+.turma-ilustracao {
+  width: 120px;
+  height: 120px;
+  background: #e0e0e0;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2.2em;
+  box-shadow: 0 4px 24px #0001;
+  font-size: 3.5em;
+  color: #888;
+}
+.turma-texto {
+  color: #333;
+  font-size: 1.25em;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 2.2em;
+  letter-spacing: 0.01em;
+}
+.turma-btn {
+  background: #4CAF50;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 22px;
+  padding: 1em 2.5em;
+  font-size: 1.1em;
+  cursor: pointer;
+  box-shadow: 0 2px 12px #4CAF5044;
+  transition: background 0.18s;
+  margin-top: 0.5em;
+}
+.turma-btn:hover {
+  background: #388e3c;
+}

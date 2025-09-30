@@ -14,6 +14,18 @@ app.set('views', path.join(__dirname, 'views'));
 // Middlewares
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
+<<<<<<< HEAD
+=======
+    
+    // Sessão
+    const session = require('express-session');
+    app.use(session({
+      secret: 'pequenos-exploradores-secret',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false } // true se usar https
+    }));
+>>>>>>> d37a33b (commit inicial do projeto e ajustes visuais na página aluno2)
 
 // Rotas
 
