@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Natureza - Pequenos Exploradores</title>
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/natureza.css">
+  <link rel="stylesheet" href="/css/premium-aluno.css">
+<!-- View natureza -->
+<script>
+  (function(){
+    function applyPremiumNatureza(){
+      if (localStorage.getItem('premiumAluno') === 'true') {
+        document.body.classList.add('premium-aluno');
+        // Force inline styles so browsers show premium immediately (overrides any caching/priority issues)
+  var selector = '.natureza, .natureza-videos-grid, .natureza-video-card, .natureza-play, .btn-destaque, .top-banner';
+        var els = document.querySelectorAll(selector);
+        els.forEach(function(el){
+          try{
+            el.style.setProperty('background', 'linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%)', 'important');
+            el.style.setProperty('color', '#fff', 'important');
+            el.style.setProperty('box-shadow', '0 4px 32px 0 #a78bfa33', 'important');
+          }catch(e){/* ignore */}
+        });
+        // ensure main container also updated
+        var main = document.querySelector('.natureza');
+        if(main){ main.style.setProperty('background', 'linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%)', 'important'); }
+      }
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyPremiumNatureza);
+    else applyPremiumNatureza();
+  })();
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+    <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+    <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+  </svg>
+  <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="24" cy="24" r="22" fill="#00CFFF"/>
+    <polygon points="30,14 18,24 30,34" fill="#0077B6"/>
+    <ellipse cx="38" cy="38" rx="2.5" ry="1.5" fill="#B2F7EF"/>
+  </svg>
+</button>
+<section class="top-banner"></section>
+
+<!-- Sidebar Menu -->
+<nav class="sidebar-menu" id="sidebarMenu">
+  <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+    <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+      <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+        style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+        loading="lazy">
+    </section>
+    <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+  </section>
+  <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+  <ul>
+    <li><a href="/">Início</a></li>
+    <li><a href="/sobre">Sobre</a></li>
+    <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+    <li><a href="/loja">Loja</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
+        </form>
+      </li>
+  </ul>
+</nav>
+<button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
+  <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+</button>
+<link rel="stylesheet" href="/css/btn-voltar.css">
+<style>
+  /* Sidebar Menu Styles */
+  .sidebar-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: #3bb273;
+    box-shadow: 2px 0 16px rgba(0,0,0,0.10);
+    z-index: 12000;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(.4,1.3,.5,1);
+    padding-top: 2.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+  .sidebar-menu.open {
+    transform: translateX(0);
+  }
+  .sidebar-menu ul {
+    list-style: none;
+    padding: 0 1.2em;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+  }
+  .sidebar-menu li a {
+    color: #fff;
+    font-size: 1.18em;
+    font-weight: 700;
+    text-decoration: none;
+    padding: 0.4em 0.2em;
+    border-radius: 8px;
+    transition: background 0.18s;
+    display: block;
+  }
+  .sidebar-menu li a:hover {
+    background: rgba(255,255,255,0.13);
+  }
+  .sidebar-close {
+    position: absolute;
+    top: 0.7em;
+    right: 1em;
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: #fff;
+    cursor: pointer;
+    z-index: 1;
+    line-height: 1;
+    transition: color 0.18s;
+  }
+  .sidebar-close:hover {
+    color: #FFD600;
+  }
+  .sidebar-toggle {
+    position: fixed;
+    top: 0.7em;
+    left: 0.7em;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    padding: 0.3em 0.4em;
+    z-index: 11500;
+    cursor: pointer;
+    box-shadow: none;
+    transition: background 0.18s, border 0.18s;
+  }
+  .sidebar-toggle:hover {
+    background: rgba(255,255,255,0.12);
+    border: none;
+  }
+  @media (max-width: 600px) {
+    .sidebar-menu { width: 80vw; min-width: 0; }
+  }
+</style>
+<style>
+  .top-banner {
+    width: 100vw;
+    min-width: 100vw;
+    height: 32px;
+    background: #3bb273;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    border-radius: 0;
+    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    font-size: 1.15em;
+    color: #fff;
+    overflow: hidden;
+    animation: bannerFadeIn 0.7s;
+    pointer-events: none;
+  }
+  .btn-voltar {
+    pointer-events: auto;
+  }
+  @keyframes bannerFadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  html, body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    min-height: 100vh;
+  }
+  body {
+    background: linear-gradient(120deg, #3bb273 0%, #00CFFF 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    position: relative;
+  }
+  .bg-figma {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    background: url('/img/tcc.img/tela inicio.png') center center/cover no-repeat;
+    opacity: 0.10;
+    pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  .natureza {
+    max-width: 900px;
+    margin: 4.5em auto 0 auto;
+    padding: 2.5em 2em 2.5em 2em;
+    background: rgba(255,255,255,0.93);
+    border-radius: 18px;
+    box-shadow: 0 4px 32px 0 rgba(60, 180, 115, 0.10), 0 1.5px 8px 0 rgba(0,0,0,0.04);
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInUp 0.7s;
+    padding-bottom: 3.5em;
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .natureza h1 {
+    text-align: center;
+    font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+    font-size: 2.1em;
+    color: #3bb273;
+    font-weight: 800;
+    margin-bottom: 0.7em;
+    margin-top: 0.5em;
+    letter-spacing: 0.01em;
+  }
+  .natureza-desc {
+    font-size: 1.18em;
+    color: #00CFFF;
+    font-family: 'Fredoka', Arial, sans-serif;
+    line-height: 1.7;
+    margin-bottom: 1.5em;
+    text-align: center;
+    font-weight: 600;
+  }
+  .natureza-videos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2em;
+    justify-content: center;
+    margin-bottom: 2.2em;
+    width: 100%;
+    max-width: 900px;
+  }
+
+  .natureza-video-card {
+    /* ...existing code... */
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  @media (max-width: 900px) {
+    .natureza-videos-grid {
+      grid-template-columns: 1fr;
+      gap: 1.2em;
+      max-width: 98vw;
+    }
+  }
+  .natureza-video-card {
+    background: linear-gradient(120deg, #fffbe7 60%, #3bb273 100%);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 1.2em 1em 1em 1em;
+    min-width: 210px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.13em;
+    font-weight: 700;
+    color: #00CFFF;
+    border: 1.5px solid #3bb273;
+    position: relative;
+    transition: box-shadow 0.18s, transform 0.18s;
+    animation: fadeInUp 0.7s;
+    cursor: pointer;
+  }
+  .natureza-video-card:hover {
+    box-shadow: 0 6px 24px 0 #3bb27333, 0 2px 8px 0 #00CFFF22;
+    transform: scale(1.05);
+    background: linear-gradient(120deg, #3bb273 60%, #fffbe7 100%);
+    color: #fff;
+  }
+  .natureza-thumb {
+    width: 340px;
+    height: 192px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 0.7em;
+    position: relative;
+    box-shadow: 0 2px 8px #00CFFF22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .natureza-play {
+    font-size: 2.2em;
+    color: #FFD600;
+    background: rgba(255,255,255,0.85);
+    border-radius: 50%;
+    padding: 0.1em 0.3em 0.1em 0.4em;
+    box-shadow: 0 1px 4px #FFD60011;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    transition: background 0.18s;
+  }
+  .natureza-video-card:hover .natureza-play {
+    background: #FFD600;
+    color: #fff;
+  }
+  .natureza-cta {
+    margin-top: 0.2em;
+    text-align: center;
+  }
+  .btn-destaque {
+    display: inline-block;
+    background: linear-gradient(90deg, #3bb273 0%, #FFD600 100%);
+    color: #fff;
+    font-size: 1.1em;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 0.7em 1.7em;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
+    margin-top: 0.5em;
+    outline: none;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    position: relative;
+    overflow: hidden;
+    appearance: button;
+    font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+  }
+  .btn-destaque:after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    border-radius: 10px;
+    box-shadow: 0 0 0 0 #FFD600;
+    transition: box-shadow 0.18s;
+    pointer-events: none;
+  }
+  .btn-destaque:focus {
+    outline: 2px solid #FFD600;
+    outline-offset: 2px;
+  }
+  .btn-destaque:hover {
+    background: linear-gradient(90deg, #FFD600 0%, #3bb273 100%);
+    transform: scale(1.07);
+    box-shadow: 0 6px 24px 0 rgba(60, 180, 115, 0.18), 0 2px 8px 0 rgba(0,0,0,0.13);
+    text-decoration: none;
+  }
+  .btn-destaque:active {
+    filter: brightness(0.97);
+    transform: scale(0.98);
+  }
+  @media (max-width: 900px) {
+    .natureza {
+      max-width: 98vw;
+      padding: 1.2em 0.5em 1.5em 0.5em;
+      border-radius: 10px;
+    }
+    .natureza h1 {
+      font-size: 1.25em;
+    }
+    .natureza-videos-grid {
+      gap: 0.7em;
+    }
+    .natureza-video-card {
+      min-width: 120px;
+      font-size: 0.98em;
+      padding: 1em 0.7em 0.7em 0.7em;
+    }
+    .natureza-thumb {
+      width: 260px;
+      height: 146px;
+    }
+  }
+  </style>
+</head>
+<body>
+<section class="bg-figma"></section>
+<!-- Modal de confirmação de logout -->
+<section id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+  <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+    <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+    <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+    <section style="display:flex; gap:1.2em; justify-content:center;">
+      <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Sim</button>
+      <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Não</button>
+    </section>
+    <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+  </section>
+</section>
+<script>
+  function abrirModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'flex';
+  }
+  function fecharModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'none';
+  }
+  function confirmarLogout() {
+    fetch('/logout', { method: 'POST' })
+      .then(() => { window.location.href = '/'; })
+      .catch(() => { window.location.href = '/'; });
+  }
+</script>
+<section style="height: 32px;"></section>
+<main class="natureza">
+  <header style="text-align:center; margin-bottom:1.2em;">
+    <h1 style="font-size: 2em; font-weight: 800; color: #3bb273; margin:0; letter-spacing:0.01em;">Curiosidades da <span style='color:#FFD600;'>Natureza</span></h1>
+    <p style="font-size:1.1em; color:#00CFFF; font-weight:600; margin:0.2em 0 0 0;">Descubra, assista e explore o mundo natural!</p>
+  </header>
+
+  <section class="natureza-videos-grid">
+    <!-- Vídeos infantis brasileiros sobre biomas e natureza (links testados e disponíveis) -->
+        <!-- Smile and Learn Natureza - vídeos enviados pelo usuário -->
+        <section class="natureza-video-card" data-video="v-07DAXCdhI">
+          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/v-07DAXCdhI/hqdefault.jpg')" onclick="abrirVideo('v-07DAXCdhI')">
+            <span class="natureza-play">▶</span>
+          </section>
+          <span>O que é a biodiversidade? (Smile and Learn)</span>
+        </section>
+        <section class="natureza-video-card" data-video="imC5WjBa1II">
+          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/imC5WjBa1II/hqdefault.jpg')" onclick="abrirVideo('imC5WjBa1II')">
+            <span class="natureza-play">▶</span>
+          </section>
+          <span>O que é o meio ambiente? (Smile and Learn)</span>
+        </section>
+        <section class="natureza-video-card" data-video="FSC2zH0khuw">
+          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/FSC2zH0khuw/hqdefault.jpg')" onclick="abrirVideo('FSC2zH0khuw')">
+            <span class="natureza-play">▶</span>
+          </section>
+          <span>O que é reciclagem? (Smile and Learn)</span>
+        </section>
+        <section class="natureza-video-card" data-video="yVX9zgNW7fk">
+          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/yVX9zgNW7fk/hqdefault.jpg')" onclick="abrirVideo('yVX9zgNW7fk')">
+            <span class="natureza-play">▶</span>
+          </section>
+          <span>O que é sustentabilidade? (Smile and Learn)</span>
+        </section>
+        <section class="natureza-video-card" data-video="MhpRedd8HkY">
+          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/MhpRedd8HkY/hqdefault.jpg')" onclick="abrirVideo('MhpRedd8HkY')">
+            <span class="natureza-play">▶</span>
+          </section>
+          <span>O que é poluição? (Smile and Learn)</span>
+        </section>
+        <section class="natureza-video-card" data-video="CdBiEfAqBrY">
+          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/CdBiEfAqBrY/hqdefault.jpg')" onclick="abrirVideo('CdBiEfAqBrY')">
+            <span class="natureza-play">▶</span>
+          </section>
+          <span>O que é aquecimento global? (Smile and Learn)</span>
+        </section>
+  </section>
+  <section class="natureza-cta">
+  <a href="/aluno" class="btn-destaque" style="margin-top: 2.2em; position:relative; top:-2.2em;">Voltar para Área do Aluno</a>
+  </section>
+ 
+</main>
+<%- include('partials/footer') %>
+<section id="modal-video-natureza" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:30000; align-items:center; justify-content:center;">
+  <section style="background:#fff; border-radius:18px; box-shadow:0 8px 32px #0076CA44; padding:1.2em 1em 1em 1em; max-width:95vw; max-height:90vh; display:flex; flex-direction:column; align-items:center; position:relative;">
+    <button onclick="fecharVideoNatureza()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+    <iframe id="iframe-natureza" width="560" height="315" style="max-width:90vw; max-height:70vh; border-radius:12px; border:none; box-shadow:0 2px 12px #00CFFF33;" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <!-- CTA para ir ao quiz relacionado ao vídeo (usando apenas section) -->
+    <section id="modal-video-cta" style="margin-top:-0.4em; width:100%; display:flex; justify-content:center; transition:transform 0.12s ease; transform:translateY(-6px);">
+      <section id="modal-video-cta-btn" role="button" tabindex="0" aria-label="Ir para o quiz" class="btn-destaque" style="cursor:pointer;">
+        Ir para o Quiz
+      </section>
+    </section>
+  </section>
+</section>
+<script>
+  function abrirVideo(id) {
+    var modal = document.getElementById('modal-video-natureza');
+    var iframe = document.getElementById('iframe-natureza');
+    var ctaBtn = document.getElementById('modal-video-cta-btn');
+    // mapa de vídeos para rotas de quiz
+    var videoQuizMap = {
+      'v-07DAXCdhI': '/quiz/biomas',
+      'imC5WjBa1II': '/quiz/meioambiente',
+      'FSC2zH0khuw': '/quiz/meioambiente',
+      'yVX9zgNW7fk': '/quiz/meioambiente',
+      'MhpRedd8HkY': '/quiz/natureza',
+      'CdBiEfAqBrY': '/quiz/animais'
+    };
+    if(modal && iframe) {
+      iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+      modal.style.display = 'flex';
+      // configurar CTA de quiz correspondente
+      if(ctaBtn) {
+  var target = videoQuizMap[id] || '/quiz';
+        ctaBtn.textContent = 'Ir para o Quiz';
+        // adicionar label mais descritivo quando possível
+        if(target === '/quiz_biomas') ctaBtn.textContent = 'Ir para Quiz: Biomas do Mundo';
+        if(target === '/quiz_meioambiente') ctaBtn.textContent = 'Ir para Quiz: Meio Ambiente';
+        if(target === '/quiz_natureza') ctaBtn.textContent = 'Ir para Quiz: Curiosidades da Natureza';
+        if(target === '/quiz_animais') ctaBtn.textContent = 'Ir para Quiz: Animais';
+        // vincular ação (remoção de handlers anteriores)
+        ctaBtn.onclick = function(){ window.location.href = target; };
+        ctaBtn.onkeydown = function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = target; } };
+      }
+    }
+  }
+  function fecharVideoNatureza() {
+    var modal = document.getElementById('modal-video-natureza');
+    var iframe = document.getElementById('iframe-natureza');
+    if(modal && iframe) {
+      iframe.src = '';
+      modal.style.display = 'none';
+    }
+  }
+</script>
+<script src="/js/natureza.js"></script>
+
+</body>
+</html>

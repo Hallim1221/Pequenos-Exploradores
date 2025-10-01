@@ -1,0 +1,172 @@
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+/* login-aluno.css - Estilo para página de login de aluno */
+
+body {
+  background: linear-gradient(120deg, #e0f7fa 0%, #b2ebf2 100%);
+  font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.login-aluno-container {
+  max-width: 370px;
+  margin: 6em auto 0 auto;
+  background: linear-gradient(120deg, #003366 70%, #00518C 100%);
+  border-radius: 22px;
+  box-shadow: 0 4px 24px #00cfff22;
+  padding: 2.5em 2em 2.5em 2em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.login-aluno-title {
+  color: #00bcd4;
+  font-size: 2em;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.01em;
+  text-shadow: 1px 1px 0 #0002, -1px 1px 0 #0002, 1px -1px 0 #0002, -1px -1px 0 #0002;
+}
+
+.login-aluno-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1em;
+}
+
+.login-aluno-form label {
+  font-weight: 700;
+  color: #00bcd4;
+  margin-bottom: 0.2em;
+  font-size: 1em;
+}
+
+.login-aluno-form input[type="email"],
+.login-aluno-form input[type="password"] {
+  width: 100%;
+  padding: 0.7em 1em;
+  border-radius: 8px;
+  border: 1.5px solid #b2ebf2;
+  font-size: 1.05em;
+  background: #f7fafd;
+  transition: border 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px 0 #00cfff11;
+}
+
+.login-aluno-form input[type="email"]:focus,
+.login-aluno-form input[type="password"]:focus {
+  border: 1.5px solid #00bcd4;
+  outline: none;
+  box-shadow: 0 2px 8px 0 #00cfff33;
+}
+
+.login-aluno-btn {
+  font-size: 1.1em;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00CFFF 0%, #00bcd4 100%);
+  border: none;
+  border-radius: 8px;
+  padding: 0.6em 1.5em;
+  color: #fff;
+  box-shadow: 0 2px 8px 0 #00cfff22;
+  cursor: pointer;
+  margin-top: 0.2em;
+  transition: background 0.18s, box-shadow 0.18s;
+}
+
+.login-aluno-btn:hover {
+  background: linear-gradient(90deg, #00bcd4 0%, #00CFFF 100%);
+  box-shadow: 0 4px 16px 0 #00cfff33;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 600px) {
+  .login-aluno-container {
+    max-width: 95vw;
+    padding: 1.2em 0.5em 1.2em 0.5em;
+  }
+}
+
+/* Sidebar and header styles (imported from index.css, but ensure no override) */
+.sidebar-menu {
+  background: #003366ee;
+  color: #fff;
+  width: 220px;
+  position: fixed;
+  top: 0;
+  left: -220px;
+  height: 100vh;
+  z-index: 12000;
+  transition: left 0.3s;
+  box-shadow: 2px 0 16px #00336644;
+  padding-top: 2.5em;
+}
+.sidebar-menu.open {
+  left: 0;
+}
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar-menu li {
+  margin: 0.5em 0 0.5em 0;
+}
+.sidebar-menu a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.15em;
+  font-weight: 500;
+  padding: 0.5em 1.5em;
+  display: block;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.sidebar-menu a:hover {
+  background: #00CFFF;
+  color: #003366;
+}
+.sidebar-close {
+  position: absolute;
+  top: 0.7em;
+  right: 1em;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2em;
+  cursor: pointer;
+}
+.sidebar-toggle {
+  z-index: 13000;
+}
+.top-banner {
+  width: 100vw;
+  height: 60px;
+  background: linear-gradient(90deg, #003366 60%, #00CFFF 100%);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 11000;
+  box-shadow: 0 2px 12px #00336633;
+}
+@media (max-width: 600px) {
+  .login-aluno-container {
+    max-width: 98vw;
+    padding: 1.2em 0.5em 2em 0.5em;
+  }
+  .login-aluno-title {
+    font-size: 1.3em;
+  }
+}

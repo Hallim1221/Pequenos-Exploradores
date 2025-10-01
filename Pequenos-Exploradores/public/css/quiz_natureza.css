@@ -1,0 +1,135 @@
+body.premium-aluno .pagina-central {
+  background: linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 32px 0 #a78bfa33, 0 1.5px 8px 0 #7c3aed22 !important;
+}
+body.premium-aluno .quiz-pergunta-card,
+body.premium-aluno .quiz-form,
+body.premium-aluno .quiz-tema,
+body.premium-aluno .quiz-tema-desc,
+body.premium-aluno .quiz-resultado,
+body.premium-aluno .btn-destaque,
+body.premium-aluno .btn-voltar-quiz {
+  background: linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%) !important;
+  color: #fff !important;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px #a78bfa33;
+  border: none;
+}
+body.premium-aluno .pergunta,
+body.premium-aluno .alternativa,
+body.premium-aluno .resposta,
+body.premium-aluno .opcao,
+body.premium-aluno .questao,
+body.premium-aluno .painel,
+body.premium-aluno .container,
+body.premium-aluno .box,
+body.premium-aluno .campo,
+body.premium-aluno .area,
+body.premium-aluno .titulo,
+body.premium-aluno .cabecalho,
+body.premium-aluno .footer,
+body.premium-aluno .barra,
+body.premium-aluno .progress,
+body.premium-aluno .score,
+body.premium-aluno .resultado,
+body.premium-aluno .mensagem,
+body.premium-aluno .texto,
+body.premium-aluno .label,
+body.premium-aluno .select,
+body.premium-aluno .radio,
+body.premium-aluno .checkbox,
+body.premium-aluno .submit,
+body.premium-aluno .next,
+body.premium-aluno .prev,
+body.premium-aluno .confirm,
+body.premium-aluno .cancel {
+  background: linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%) !important;
+  color: #fff !important;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px #a78bfa33;
+  border: none;
+}
+body.premium-aluno .pagina-central {
+  background: linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 32px 0 #a78bfa33, 0 1.5px 8px 0 #7c3aed22 !important;
+}
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+/* Estilos exclusivos da página Quiz Natureza */
+.pagina-central {
+  max-width: 900px;
+  margin: 2.5em auto 0 auto;
+  padding: 2.2em 1.5em 2.5em 1.5em;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px 0 rgba(60, 180, 115, 0.10), 0 1.5px 8px 0 rgba(0,0,0,0.04);
+  min-height: 60vh;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pagina-central h1 {
+  text-align: center;
+  font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+  font-size: 2em;
+  color: #00CFFF;
+  font-weight: 800;
+  margin-bottom: 1.2em;
+  margin-top: 0.5em;
+  letter-spacing: 0.01em;
+}
+.pagina-central p, .pagina-central ul, .pagina-central li {
+  font-size: 1.13em;
+  color: #222;
+  font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+  line-height: 1.7;
+  margin-bottom: 1.1em;
+  text-align: center;
+}
+.pagina-central ul {
+  padding-left: 1.2em;
+  text-align: left;
+}
+@media (max-width: 900px) {
+  .pagina-central {
+    max-width: 98vw;
+    padding: 1.2em 0.2em 2em 0.2em;
+  }
+}
+@media (max-width: 600px) {
+  .pagina-central {
+    margin: 1.2em auto 0 auto;
+    padding: 0.7em 0.1em 1.2em 0.1em;
+    border-radius: 10px;
+  }
+  .pagina-central h1 {
+    font-size: 1.25em;
+  }
+}
+
+/* Premium: make quiz text white on quiz pages */
+body.premium-aluno .pagina-central p,
+body.premium-aluno .pagina-central li,
+body.premium-aluno .pagina-central h1,
+body.premium-aluno .quiz-card p,
+body.premium-aluno .quiz-card h2,
+body.premium-aluno .quiz-titulo,
+body.premium-aluno .quiz-desc,
+body.premium-aluno .quiz-aviso {
+  color: #fff !important;
+}
+
+body.premium-aluno .quiz-card,
+body.premium-aluno .btn-destaque,
+body.premium-aluno .pagina-central {
+  background: linear-gradient(120deg, #7c3aed 0%, #a78bfa 100%) !important;
+  color: #fff !important;
+}

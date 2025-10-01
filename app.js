@@ -15,6 +15,15 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: false }));
 
+// Sessão
+const session = require('express-session');
+app.use(session({
+  secret: 'pequenos-exploradores-secret',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // true se usar https
+}));
+
 // Rotas
 
 app.use('/', indexRouter);

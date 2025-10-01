@@ -1,0 +1,46 @@
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+.btn-voltar {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 9999;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  max-width: 56px;
+  max-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  transition: box-shadow 0.2s, transform 0.2s;
+  font-size: 1.7em;
+  
+  
+}
+.btn-voltar:hover {
+ 
+  transform: scale(1.12) rotate(-8deg);
+
+}
+@media (max-width: 600px) {}
+  .btn-voltar{
+    top: 8px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    min-height: 40px;
+    max-width: 44px;
+    max-height: 44px;
+    font-size: 1.2em;
+    border-radius: 50%;
+  }

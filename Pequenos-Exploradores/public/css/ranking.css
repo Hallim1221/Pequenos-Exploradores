@@ -1,0 +1,1571 @@
+/* Modo premium: todos os cards do ranking com a mesma cor e estilo */
+body.premium-aluno .top3-card,
+body.premium-aluno .ranking-card,
+body.premium-aluno .medalhas-card {
+  background: linear-gradient(120deg, #b388ff 60%, #7c4dff 100%) !important;
+  border-radius: 1.5em !important;
+  box-shadow: 0 4px 24px #b388ff55, 0 2px 12px #7c4dff33 !important;
+  color: #fff !important;
+  border: 2.5px solid #FFD600 !important;
+}
+body.premium-aluno .top3-card *,
+body.premium-aluno .ranking-card *,
+body.premium-aluno .medalhas-card * {
+  color: #fff !important;
+  text-shadow: 0 2px 8px #0076CA22;
+}
+.medalhas-list {
+  display: flex !important;
+  gap: 0.28em !important;
+  justify-content: center;
+  align-items: center;
+  transform: scale(0.54);
+  margin-top: -8px;
+  margin-bottom: -8px;
+}
+/* Troféu fora do card de medalhas */
+.medalhas-trofeu-btn-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: -1.2em;
+  margin-right: 0.2em;
+  margin-top: 3em;
+  margin-left: 2.5em;
+}
+.medalhas-trofeu-btn--small {
+  width: 20px;
+  height: 20px;
+  border-width: 1.6px;
+}
+.medalhas-trofeu-btn--small .medalhao-emoji {
+  font-size: 0.82em;
+}
+/* Círculo de troféu acima do card de medalhas */
+.medalhas-trofeu-btn {
+  background: #FFD700;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 0.4em auto;
+  box-shadow: 0 2px 6px #FFA50066;
+  border: 2px solid #FFA500;
+  transition: filter 0.18s;
+}
+.medalhas-trofeu-btn:hover {
+  filter: brightness(1.1) drop-shadow(0 2px 8px #FFD70088);
+}
+body {
+  background: #121212;
+  font-family: 'Poppins', 'Nunito', 'Baloo 2', cursive, sans-serif;
+}
+.ranking-main {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 0 0 24px 0;
+  position: relative;
+}
+/* Diminuído os itens do card principal */
+.ranking-btns {
+  display: flex;
+  gap: 0.3em;
+  margin-bottom: 0.5em;
+}
+.ranking-btn {
+  background: #e0f7e9;
+  color: #1a7f3c;
+  border: none;
+  border-radius: 1em;
+  font-size: 0.85em;
+  font-weight: bold;
+  padding: 0.35em 0.7em;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ranking-btn.selected {
+  background: #1a7f3c;
+  color: #fff;
+}
+.medalhao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0.4em 0 0.3em 0;
+}
+.medalhao-circulo {
+  background: #f7c873;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.08em;
+}
+.medalhao-emoji {
+  font-size: 0.92em;
+}
+.medalhao-label {
+  font-size: 0.62em;
+  font-weight: bold;
+  color: #b97a1a;
+}
+.progress-bar-bg {
+  background: #e0e0e0;
+  border-radius: 1em;
+  width: 100%;
+  height: 0.7em;
+  margin: 0.3em 0 0.3em 0;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: #1a7f3c;
+  color: #fff;
+  font-size: 0.8em;
+  font-weight: bold;
+  height: 100%;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1em;
+}
+.ranking-pontos {
+  font-size: 1em;
+  font-weight: bold;
+  color: #1a7f3c;
+  display: flex;
+  align-items: center;
+  gap: 0.2em;
+}
+.emoji-trofeu {
+  font-size: 1em;
+}
+.ranking-pontos-num {
+  font-size: 0.85em;
+}
+  align-items: center;
+  margin-bottom: 18px;
+}
+.medalhas-list .medalhao-circulo {
+  width: 38px;
+  height: 38px;
+  border-width: 1.6px;
+  margin-bottom: 2px;
+}
+.medalhao-emoji {
+  font-size: 1.6em;
+  filter: drop-shadow(0 2px 6px #FFA50066);
+}
+.medalhao-label {
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.78em;
+  margin-top: 1px;
+  text-shadow: 0 2px 6px #0008;
+}
+.progress-bar-bg {
+  background: #232736;
+  border-radius: 12px;
+  width: 100%;
+  height: 14px;
+  margin: 0 auto 6px auto;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: linear-gradient(90deg,#3ABEFF 60%,#009DFF 100%);
+  height: 100%;
+  border-radius: 12px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: bold;
+  font-size: 0.85em;
+  text-shadow: 0 2px 8px #009DFF88;
+}
+.ranking-pontos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #009DFF;
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+.ranking-pontos-num {
+  color: #009DFF;
+  font-weight: bold;
+  font-size: 0.95em;
+}
+.medalhas-card {
+  background: #1E1E2F;
+  border-radius: 28px;
+  box-shadow: 0 4px 18px #0006;
+  padding: 36px 30px 30px 30px;
+  margin: 0 auto 20px auto;
+  max-width: 540px;
+  min-width: 320px;
+  position: relative;
+  font-size: 1.02em;
+  top: -35px;
+}
+.medalhas-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.medalhas-title-emoji {
+  font-size: 1.3em;
+  color: #FFD700;
+  filter: drop-shadow(0 2px 8px #FFA50088);
+}
+.medalhas-title-text {
+  color: #FFA500;
+  font-size: 1.2em;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+.medalhas-list {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+}
+.medalha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.medalha-icone {
+  font-size: 1.6em;
+  border-radius: 50%;
+  background: #232736;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+  position: relative;
+  color: #FFA500;
+}
+.medalha-icone.bloqueada {
+  filter: grayscale(1) brightness(0.7);
+  color: #888;
+}
+.medalha-cadeado {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background: #1E1E2F;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 0.9em;
+  box-shadow: 0 1px 4px #0005;
+}
+.medalha-label {
+  color: #fff;
+  font-size: 0.85em;
+  text-align: center;
+}
+.anuncio-img {
+  width: 100%;
+  max-width: 340px;
+  margin: 32px auto 0 auto;
+  display: block;
+  border-radius: 18px;
+  box-shadow: 0 2px 18px #0005;
+}
+@media (max-width: 480px) {
+  .ranking-main { max-width: 100vw; }
+  .anuncio-img { max-width: 98vw; }
+  .ranking-card { max-width: 98vw; }
+}
+body {
+  background: #181c24;
+  margin: 0;
+  font-family: 'Baloo 2', cursive;
+}
+.ranking-main {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 0 0 24px 0;
+}
+/* Cards lado a lado e responsivos */
+/* Cards lado a lado, medalhas à direita, responsivo */
+/* Cards lado a lado, medalhas à direita, responsivo */
+.cards-topo {
+  display: flex;
+  flex-direction: row;
+  gap: 0.7em;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 2em;
+  margin-top: 2.5em;
+}
+.ranking-card {
+  background: #1E1E2F;
+  border-radius: 1.5em;
+  box-shadow: 0 2px 12px #0002;
+  padding: 1em 0.7em 1.2em 0.7em;
+  min-width: 160px;
+  max-width: 210px;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  left: 1.2em;
+}
+.medalhas-card {
+  background: #1E1E2F;
+  border-radius: 1.2em;
+  box-shadow: 0 2px 12px #0005;
+  padding: 0.7em 0.5em 1em 0.5em;
+  min-width: 120px;
+  max-width: 140px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 7em !important;
+  position: relative;
+  left: -1.2em;
+}
+@media (max-width: 600px) {
+  .cards-topo {
+    flex-direction: column;
+    gap: 1em;
+  }
+  .ranking-card, .medalhas-card {
+    min-width: 90vw;
+    max-width: 98vw;
+  }
+}
+}
+.ranking-btn {
+  background: linear-gradient(90deg,#1e90ff 60%,#00c3ff 100%);
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  font-size: 1em;
+  font-family: 'Baloo 2',cursive;
+  font-weight: 700;
+  padding: 7px 16px;
+  box-shadow: 0 2px 8px #1e90ff55;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.ranking-btn.selected {
+  background: linear-gradient(90deg,#ffb347 60%,#ffcc33 100%);
+  color: #232736;
+}
+.medalhao {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.medalhao-circulo {
+  background: #ffe4b5;
+  border-radius: 50%;
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px #ffb34788;
+  margin-bottom: 8px;
+  position: relative;
+}
+.medalhao-circulo button {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.medalhao-emoji {
+  font-size: 2.5em;
+}
+.medalhao-label {
+  color: #ffb347;
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-top: 2px;
+}
+.progress-bar-bg {
+  background: #222b3a;
+  border-radius: 12px;
+  width: 100%;
+  height: 18px;
+  margin: 0 auto 8px auto;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  background: linear-gradient(90deg,#1e90ff 60%,#00c3ff 100%);
+  height: 100%;
+  border-radius: 12px;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1em;
+  padding-right: 8px;
+}
+.progress-bar-label {
+  color: #fff;
+  font-size: 0.95em;
+  margin-bottom: 8px;
+  text-align: right;
+}
+.ranking-pontos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #1e90ff;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.ranking-pontos .fa-trophy {
+  color: #ffb347;
+  font-size: 1.2em;
+}
+.medalhas-card {
+  background: #232736;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px #0005;
+  padding: 20px 12px 12px 12px;
+  margin: 0 auto 24px auto;
+  max-width: 420px;
+  position: relative;
+}
+.medalhas-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.medalhas-title-emoji {
+  background: #ffe4b5;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  box-shadow: 0 2px 8px #ffb34788;
+  cursor: pointer;
+}
+.medalhas-title-text {
+  color: #ffb347;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.medalhas-list {
+  display: flex;
+  justify-content: space-around;
+  gap: 8px;
+}
+.medalha {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.medalha-icone {
+  font-size: 2.1em;
+  border-radius: 50%;
+  background: #222b3a;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2px;
+  position: relative;
+}
+.medalha-icone.bloqueada {
+  filter: grayscale(1) brightness(0.7);
+}
+.medalha-cadeado {
+  position: absolute;
+  bottom: -6px;
+  right: -6px;
+  background: #232736;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 1em;
+}
+.medalha-label {
+  color: #fff;
+  font-size: 0.85em;
+  text-align: center;
+}
+.anuncio-img {
+  width: 100%;
+  max-width: 340px;
+  margin: 32px auto 0 auto;
+  display: block;
+  border-radius: 18px;
+  box-shadow: 0 2px 18px #0005;
+}
+@media (max-width: 480px) {
+  .ranking-main { max-width: 100vw; }
+  .anuncio-img { max-width: 98vw; }
+}
+
+/* Modal de Ranking */
+#rankingModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.65);
+  z-index: 20000;
+  align-items: center;
+  justify-content: center;
+}
+.ranking-modal-content {
+  background: #232736;
+  border-radius: 24px;
+  box-shadow: 0 2px 18px #0008;
+  padding: 18px 10px 24px 10px;
+  max-width: 340px;
+  width: 96vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.ranking-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #ffb347;
+  color: #232736;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.3em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #ffb347;
+}
+.ranking-modal-title {
+  color: #ffb347;
+  text-align: center;
+  font-size: 1.2em;
+  font-family: 'Baloo 2',cursive;
+  margin-bottom: 1em;
+}
+
+/* Forçar título Top 10 branco no modo premium e por padrão se necessário */
+body.premium-aluno .ranking-modal-title,
+.ranking-modal-title { color: #fff !important; }
+.ranking-modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-height: 55vh;
+  overflow-y: auto;
+}
+.ranking-modal-item {
+  background: linear-gradient(90deg,#232736 60%,#1e90ff 100%);
+  border-radius: 18px;
+  box-shadow: 0 2px 10px #1e90ff33;
+  margin-bottom: 0.7em;
+  padding: 0.7em 1em;
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  font-size: 1em;
+  border: 2px solid #1e90ff;
+}
+.ranking-modal-pos {
+  font-size: 1.2em;
+  color: #ffb347;
+  font-weight: bold;
+  width: 2.2em;
+  text-align: center;
+}
+.ranking-modal-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid #ffb347;
+  background: #fff;
+  box-shadow: 0 2px 6px #ffb347;
+}
+.ranking-modal-nome {
+  flex: 1;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1em;
+}
+.ranking-modal-pontos {
+  color: #1e90ff;
+  font-weight: 700;
+}
+section {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-family: 'Baloo 2', Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+  margin: 0;
+  padding: 0;
+}
+.ranking-centralizado {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding-top: 32px;
+}
+.ranking-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.btn-ver-ranking {
+  background: linear-gradient(90deg, #00CFFF 60%, #0077B6 100%);
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  padding: 14px 38px;
+  font-size: 1.2em;
+  font-family: 'Baloo 2', Arial, sans-serif;
+  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background 0.2s, transform 0.18s;
+}
+.btn-ver-ranking:hover {
+  background: #0077B6;
+  transform: scale(1.05);
+}
+.anuncio-ranking {
+  margin: 36px 0 0 0;
+  display: flex;
+  justify-content: center;
+}
+.anuncio-img {
+  max-width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+/* Modal do Ranking */
+.ranking-modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 207, 255, 0.18);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s;
+}
+.ranking-modal-content {
+  background: #fff;
+  border-radius: 24px;
+
+  body {
+    background: linear-gradient(120deg, #fffbe0 0%, #ffe082 100%);
+  }
+  .ranking-novo {
+    min-height: 100vh;
+    padding: 0 0 40px 0;
+  }
+  .ranking-header h1 {
+    margin-bottom: 0.2em;
+  }
+  .btn-bau-animado {
+    background: linear-gradient(120deg, #ffe082 60%, #fffbe0 100%);
+    color: #bfa100;
+    border: 3px solid #FFD70099;
+    border-radius: 40px 40px 60px 60px/40px 40px 80px 80px;
+    padding: 1.2em 2.8em 1.5em 2.8em;
+    font-size: 1.3em;
+    font-family: 'Baloo 2', cursive;
+    font-weight: bold;
+    box-shadow: 0 4px 32px #FFD70033, 0 2px 8px #FFD70022;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    outline: none;
+    margin-bottom: 1.5em;
+    position: relative;
+    animation: bauPulse 1.2s infinite alternate;
+  }
+  .btn-bau-animado:hover {
+    background: linear-gradient(120deg, #fffbe0 60%, #ffe082 100%);
+    transform: scale(1.08) rotate(-2deg);
+    box-shadow: 0 8px 32px #FFD70055;
+  }
+  @keyframes bauPulse {
+    0% { box-shadow: 0 4px 32px #FFD70033, 0 2px 8px #FFD70022; }
+    100% { box-shadow: 0 8px 48px #FFD70066, 0 4px 16px #FFD70033; }
+  }
+  .bau-emoji {
+    display: block;
+    animation: bauTampa 1.2s infinite alternate;
+  }
+  @keyframes bauTampa {
+    0% { transform: rotate(-8deg) scale(1.05); }
+    100% { transform: rotate(8deg) scale(1.15); }
+  }
+  .ranking-modal {
+    display: none;
+  }
+  .ranking-modal[style*="display: flex"] {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.45);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20000;
+  }
+  .bau-tesouro {
+    background: linear-gradient(120deg,#fffbe0 60%,#ffe082 100%);
+    border-radius: 32px 32px 48px 48px/40px 40px 80px 80px;
+    box-shadow: 0 8px 48px #FFD70044, 0 2px 16px #FFD70022;
+    border: 4px solid #FFD70099;
+    animation: bauShow 0.6s cubic-bezier(.7,-0.2,.3,1.4);
+  }
+  @keyframes bauShow {
+    0% { transform: scale(0.7) translateY(60px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+  }
+  .ranking-modal-close {
+    position: absolute;
+    top: 18px;
+    right: 24px;
+    background: #FFD700;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    font-size: 2em;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #FFD70044;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .ranking-modal-close:hover {
+    background: #bfa100;
+    transform: scale(1.1) rotate(8deg);
+  }
+  .ranking-modal-title {
+    color: #bfa100;
+    text-align: center;
+    font-size: 1.7em;
+    margin-bottom: 1.2em;
+    font-family: 'Baloo 2', cursive;
+  }
+  .ranking-podio-modal {
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    gap: 2.5em;
+    margin-bottom: 2.5em;
+  }
+  .podio-modal {
+    background: none;
+    border: none;
+    box-shadow: none;
+  }
+  .animal-ranking-img {
+    border-radius: 50%;
+    border: 3px solid #FFD70055;
+    background: #fff;
+    box-shadow: 0 2px 8px #FFD70022;
+  }
+  .mascote-grande {
+    animation: mascotePulse 1.2s infinite alternate;
+  }
+  .mascote-pequeno {
+    filter: drop-shadow(0 2px 8px #FFD70033);
+  }
+  @keyframes mascotePulse {
+    0% { transform: scale(1.05); }
+    100% { transform: scale(1.15); }
+  }
+  .medalha-animada {
+    animation: medalhaBrilho 1.2s infinite alternate;
+  }
+  @keyframes medalhaBrilho {
+    0% { filter: drop-shadow(0 0 0 #FFD700); }
+    100% { filter: drop-shadow(0 0 12px #FFD700); }
+  }
+  .carta-ranking {
+    background: linear-gradient(90deg,#fffbe0 60%,#ffe082 100%);
+    border-radius: 18px;
+    box-shadow: 0 2px 12px #FFD70022;
+    margin-bottom: 1em;
+    padding: 1.1em 1.5em;
+    display: flex;
+    align-items: center;
+    gap: 1.2em;
+    font-size: 1.18em;
+    border: 2.5px solid #FFD70055;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .carta-ranking:hover {
+    transform: scale(1.04) rotate(-1deg);
+    box-shadow: 0 8px 32px #FFD70044;
+  }
+  .carta-ranking .pos {
+    font-weight: bold;
+    color: #FFD700;
+    min-width: 2.2em;
+    font-size: 1.1em;
+  }
+  .carta-ranking .nome {
+    flex: 1;
+    color: #bfa100;
+    font-weight: 700;
+  }
+  .carta-ranking .pontos {
+    color: #bfa100;
+    font-weight: 700;
+  }
+/* Seta menor, centralizada, fixa no topo da barra de ranking */
+.seta-abrir-ranking-topo {
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, #00CFFF 60%, #0077B6 100%);
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px #00CFFF55, 0 0 0 2px #fff;
+  cursor: pointer;
+  padding: 2px;
+  outline: none;
+  transition: transform 0.18s, box-shadow 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1202;
+  width: 34px;
+  height: 34px;
+  animation: seta-pulse 1.5s infinite alternate;
+}
+.seta-abrir-ranking-topo svg {
+  filter: drop-shadow(0 2px 8px #00CFFF33);
+  transition: transform 0.18s;
+}
+.seta-abrir-ranking-topo:hover {
+  transform: translateX(-50%) translateY(-3px) scale(1.08);
+  box-shadow: 0 6px 16px #00CFFF99, 0 0 0 4px #fff;
+}
+.seta-abrir-ranking-topo:hover svg {
+  transform: scale(1.12);
+  filter: drop-shadow(0 4px 16px #00CFFF66);
+}
+@keyframes seta-pulse {
+  0% { box-shadow: 0 2px 8px #00CFFF55, 0 0 0 2px #fff; }
+  100% { box-shadow: 0 6px 16px #00CFFF99, 0 0 0 4px #fff; }
+}
+.menu-ranking-slide {
+  /* ...existing code... */
+  border-top: 4px solid #00CFFF;
+  box-shadow: 0 -8px 32px #00CFFF33, 0 0 0 8px #00CFFF22 inset;
+  background: linear-gradient(180deg, #e0f7fa 0%, #fff 100%);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -60vh;
+  margin: 0 auto;
+  max-width: 900px;
+  min-height: 0;
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  transition: bottom 0.4s cubic-bezier(.77,0,.18,1);
+  z-index: 1100;
+  padding: 38px 16px 24px 16px;
+}
+.menu-ranking-slide {
+  /* ...existing code... */
+  border-top: 4px solid #00CFFF;
+  box-shadow: 0 -8px 32px #00CFFF33, 0 0 0 8px #00CFFF22 inset;
+  background: linear-gradient(180deg, #e0f7fa 0%, #fff 100%);
+}
+.menu-ranking-slide {
+  background: linear-gradient(180deg, #e0f7fa 0%, #fff 100%);
+  box-shadow: 0 -4px 32px rgba(0,0,0,0.18), 0 0 0 8px #00CFFF22 inset;
+  border: 3px solid #00CFFF22;
+  border-bottom: none;
+  scrollbar-width: thin;
+  scrollbar-color: #00CFFF #e0f7fa;
+}
+.menu-ranking-slide::-webkit-scrollbar {
+  width: 8px;
+}
+.menu-ranking-slide::-webkit-scrollbar-thumb {
+  background: #00CFFF;
+  border-radius: 8px;
+}
+.menu-ranking-slide::-webkit-scrollbar-track {
+  background: #e0f7fa;
+}
+.ranking-tabela table {
+  border: 2px solid #00CFFF44;
+  background: #f9f9f9cc;
+}
+.ranking-tabela th, .ranking-tabela td {
+  border-bottom: 1px solid #00CFFF22;
+}
+.ranking-tabela tr.primeiro td {
+  background: linear-gradient(90deg, #fffbe7 60%, #fffde4 100%);
+  color: #bfa100;
+  font-weight: bold;
+  font-size: 1.1em;
+  box-shadow: 0 2px 8px #ffd70033;
+}
+.ranking-tabela tr.segundo td {
+  background: linear-gradient(90deg, #f0f0f0 60%, #e0e0e0 100%);
+  color: #888;
+  font-weight: bold;
+}
+.ranking-tabela tr.terceiro td {
+  background: linear-gradient(90deg, #ffe0b2 60%, #fff3e0 100%);
+  color: #b87333;
+  font-weight: bold;
+}
+.ranking-tabela tr td {
+  transition: background 0.2s;
+}
+.ranking-tabela tr:hover td {
+  background: #b2ebf2cc;
+}
+.ranking-tabela tr:not(.primeiro):not(.segundo):not(.terceiro):nth-child(even) td {
+  background: #f5f5f5cc;
+}
+.ranking-tabela tr:not(.primeiro):not(.segundo):not(.terceiro):nth-child(odd) td {
+  background: #e0f7fa99;
+}
+.ranking-tabela th {
+  border-top: 2px solid #00CFFF;
+  border-bottom: 2px solid #00CFFF;
+  background: #00CFFF;
+  color: #fff;
+  letter-spacing: 1px;
+}
+.ranking-tabela td {
+  font-size: 1.05em;
+}
+.ranking-podio {
+  margin-bottom: 24px;
+  border-bottom: 2px dashed #00CFFF44;
+  padding-bottom: 18px;
+  gap: 32px;
+}
+.podio-item {
+  position: relative;
+  box-shadow: 0 2px 12px #00CFFF22;
+  border: 2px solid #00CFFF44;
+  background: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.podio-item:hover {
+  transform: scale(1.05) rotate(-2deg);
+  box-shadow: 0 6px 24px #00CFFF44;
+  z-index: 2;
+}
+.podio-item.primeiro {
+  background: linear-gradient(120deg, #fffbe7 60%, #fffde4 100%);
+  border-color: #FFD700;
+}
+.podio-item.segundo {
+  background: linear-gradient(120deg, #f0f0f0 60%, #e0e0e0 100%);
+  border-color: #C0C0C0;
+}
+.podio-item.terceiro {
+  background: linear-gradient(120deg, #ffe0b2 60%, #fff3e0 100%);
+  border-color: #CD7F32;
+}
+.podio-item .medalha {
+  text-shadow: 0 2px 8px #ffd70044;
+}
+.fechar-ranking-btn {
+  color: #fff;
+  background: #00CFFF;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  font-size: 2em;
+  box-shadow: 0 2px 8px #00CFFF44;
+  transition: background 0.2s;
+}
+.fechar-ranking-btn:hover {
+  background: #0077B6;
+}
+/* --- Slide-up Ranking Menu --- */
+.abrir-ranking-btn {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  background: #00CFFF;
+  color: #fff;
+  border: none;
+  border-radius: 32px;
+  padding: 16px 36px;
+  font-size: 1.2em;
+  font-family: 'Baloo 2', Arial, sans-serif;
+  font-weight: bold;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+  cursor: pointer;
+  z-index: 1001;
+  transition: background 0.2s;
+}
+.abrir-ranking-btn:hover {
+  background: #0077B6;
+}
+.menu-ranking-slide {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -60vh;
+  background: linear-gradient(180deg, #e0f7fa 0%, #fff 100%);
+  box-shadow: 0 -4px 32px rgba(0,0,0,0.18), 0 0 0 8px #00CFFF22 inset;
+  border: 3px solid #00CFFF22;
+  border-bottom: none;
+  border-radius: 24px 24px 0 0;
+  z-index: 1100;
+  padding: 32px 16px 24px 16px;
+  max-width: 900px;
+  margin: 0 auto;
+  transition: bottom 0.4s cubic-bezier(.77,0,.18,1);
+  min-height: 0;
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.menu-ranking-slide.aberto {
+  bottom: 0;
+}
+/* Lista vertical do ranking */
+.ranking-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+.ranking-lista li {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #e0f7fa;
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-size: 1.1em;
+  box-shadow: 0 2px 8px #00CFFF22;
+  transition: background 0.2s, transform 0.2s;
+  border: 2px solid #00CFFF22;
+}
+.ranking-lista li.primeiro {
+  background: linear-gradient(90deg, #fffbe7 60%, #fffde4 100%);
+  color: #bfa100;
+  font-weight: bold;
+  font-size: 1.15em;
+  border-color: #FFD700;
+}
+.ranking-lista li.segundo {
+  background: linear-gradient(90deg, #f0f0f0 60%, #e0e0e0 100%);
+  color: #888;
+  font-weight: bold;
+  border-color: #C0C0C0;
+}
+.ranking-lista li.terceiro {
+  background: linear-gradient(90deg, #ffe0b2 60%, #fff3e0 100%);
+  color: #b87333;
+  font-weight: bold;
+  border-color: #CD7F32;
+}
+.ranking-lista li .pos {
+  font-weight: bold;
+  min-width: 2.2em;
+  text-align: right;
+}
+.ranking-lista li .medalha {
+  font-size: 1.3em;
+}
+.ranking-lista li .nome {
+  flex: 1;
+  font-weight: 500;
+}
+.ranking-lista li .pontos {
+  font-size: 1em;
+  color: #0077B6;
+  font-weight: bold;
+}
+.ranking-lista li:hover {
+  background: #b2ebf2cc;
+  transform: scale(1.03);
+}
+.fechar-ranking-btn {
+  position: absolute;
+  top: 18px;
+  right: 24px;
+  background: none;
+  border: none;
+  font-size: 2.2em;
+  color: #0077B6;
+  cursor: pointer;
+  z-index: 1200;
+  line-height: 1;
+}
+/* Overlay escurecido opcional (se quiser adicionar depois) */
+/*
+.menu-ranking-overlay {
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.25);
+  z-index: 1099;
+  display: none;
+}
+.menu-ranking-slide.aberto ~ .menu-ranking-overlay {
+  display: block;
+}
+*/
+
+/* --- Patente e Medalha --- */
+.patente-info {
+  background: #e0f7fa;
+  border-radius: 14px;
+  padding: 24px 18px 18px 18px;
+  margin: 24px 0 0 0;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.patente-info h2 {
+  color: #0077B6;
+  font-size: 1.3em;
+  margin-bottom: 8px;
+}
+.patente-destaque {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+.patente-nome {
+  font-weight: bold;
+  color: #0077B6;
+}
+.patente-medalha {
+  font-size: 2em;
+}
+
+.anuncio-ranking {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.anuncio-ranking img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+@media (max-width: 700px) {
+  .menu-ranking-slide {
+    padding: 18px 2vw 12px 2vw;
+    min-height: 70vh;
+  }
+  .abrir-ranking-btn {
+    padding: 12px 18px;
+    font-size: 1em;
+  }
+}
+body {
+  font-family: 'Baloo 2', Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+  margin: 0;
+  padding: 0;
+}
+.ranking-novo {
+  max-width: 900px;
+  margin: 32px auto 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  padding: 32px 24px 24px 24px;
+}
+.ranking-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+.ranking-header h1 {
+  font-size: 2.2em;
+  color: #0077B6;
+  margin: 0;
+}
+.btn-voltar {
+  background: #00CFFF;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: background 0.2s;
+}
+.btn-voltar:hover {
+  background: #0077B6;
+}
+.ranking-podio {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+.podio-item {
+  background: #e0f7fa;
+  border-radius: 12px;
+  padding: 16px 24px;
+  text-align: center;
+  min-width: 120px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.podio-item.primeiro {
+  border: 3px solid #FFD700;
+}
+.podio-item.segundo {
+  border: 3px solid #C0C0C0;
+}
+.podio-item.terceiro {
+  border: 3px solid #CD7F32;
+}
+.podio-item .medalha {
+  font-size: 2.2em;
+  display: block;
+}
+.podio-item .nome {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-top: 8px;
+}
+.podio-item .pontos {
+  color: #0077B6;
+  font-size: 1em;
+}
+.ranking-tabela {
+  margin: 32px 0;
+  overflow-x: auto;
+}
+.ranking-tabela table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #f9f9f9;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ranking-tabela th, .ranking-tabela td {
+  padding: 12px 8px;
+  text-align: center;
+}
+.ranking-tabela th {
+  background: #00CFFF;
+  color: #fff;
+  font-size: 1.1em;
+}
+.ranking-tabela tr.primeiro {
+  background: #FFF9C4;
+  font-weight: bold;
+}
+.ranking-tabela tr.segundo {
+  background: #F0F0F0;
+}
+.ranking-tabela tr.terceiro {
+  background: #FFE0B2;
+}
+.ranking-tabela tr:not(.primeiro):not(.segundo):not(.terceiro):nth-child(even) {
+  background: #f5f5f5;
+}
+.ranking-premios {
+  margin: 32px 0 16px 0;
+}
+.ranking-premios h2 {
+  color: #0077B6;
+  font-size: 1.3em;
+  margin-bottom: 10px;
+}
+.ranking-premios ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ranking-premios li {
+  background: #e0f7fa;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 10px 16px;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ranking-objetivos {
+  margin: 24px 0;
+}
+.ranking-objetivos h2 {
+  color: #0077B6;
+  font-size: 1.2em;
+  margin-bottom: 8px;
+}
+.ranking-objetivos ul {
+  list-style: none;
+  padding: 0;
+}
+.ranking-objetivos li {
+  background: #f1f8e9;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  padding: 10px 16px;
+  font-size: 1.1em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ranking-objetivos .medalha {
+  font-size: 1.3em;
+}
+.ranking-mensagem {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 1.1em;
+  color: #0077B6;
+}
+@media (max-width: 700px) {
+  .ranking-novo {
+    padding: 12px 2vw 12px 2vw;
+  }
+  .ranking-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .ranking-podio {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+/* Estilos exclusivos da página Ranking */
+
+/* Sidebar Menu Styles */
+.sidebar-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 250px;
+  height: 100vh;
+  background: #3bb273;
+  box-shadow: 2px 0 16px rgba(0,0,0,0.10);
+  z-index: 12000;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(.4,1.3,.5,1);
+  padding-top: 2.5em;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+.sidebar-menu.open {
+  transform: translateX(0);
+}
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0 1.2em;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+.sidebar-menu li a {
+  color: #fff;
+  font-size: 1.18em;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.4em 0.2em;
+  border-radius: 8px;
+  transition: background 0.18s;
+  display: block;
+}
+.sidebar-menu li a:hover {
+  background: rgba(255,255,255,0.13);
+}
+.sidebar-close {
+  position: absolute;
+  top: 0.7em;
+  right: 1em;
+  background: none;
+  border: none;
+  font-size: 2em;
+  color: #fff;
+  cursor: pointer;
+  z-index: 1;
+  line-height: 1;
+  transition: color 0.18s;
+}
+.sidebar-close:hover {
+  color: #FFD600;
+}
+.sidebar-toggle {
+  position: fixed;
+  top: 0.7em;
+  left: 0.7em;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  padding: 0.3em 0.4em;
+  z-index: 11500;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 0.18s, border 0.18s;
+}
+.sidebar-toggle:hover {
+  background: rgba(255,255,255,0.12);
+  border: none;
+}
+@media (max-width: 600px) {
+  .sidebar-menu { width: 80vw; min-width: 0; }
+}
+
+.top-banner {
+  width: 100vw;
+  min-width: 100vw;
+  height: 32px;
+  background: #3bb273;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  border-radius: 0;
+  font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 1.15em;
+  color: #fff;
+  overflow: hidden;
+  animation: bannerFadeIn 0.7s;
+  pointer-events: none;
+}
+.btn-voltar {
+  pointer-events: auto;
+}
+@keyframes bannerFadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+  position: relative;
+}
+
+.cards-topo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cards-topo .ranking-card,
+.cards-topo .medalhas-card {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 50vw;
+  box-sizing: border-box;
+}
+.cards-topo .ranking-card {
+  padding: 10px 6px 14px 6px;
+  max-width: 200px;
+}
+.cards-topo .medalhas-card {
+  padding: 14px 8px 12px 8px;
+  max-width: 240px;
+}
+@media (max-width: 480px) {
+  .cards-topo {
+    gap: 4px;
+  }
+  .cards-topo .ranking-card {
+    max-width: 48vw;
+    padding: 7px 2px 10px 2px;
+  }
+  .cards-topo .medalhas-card {
+    max-width: 48vw;
+    padding: 7px 2px 7px 2px;
+  }
+}

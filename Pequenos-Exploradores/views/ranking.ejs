@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Pequenos Exploradores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/premium-aluno.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/ranking.css">
+</head>
+<body>
+  <!-- Botão de Troféu Dourado para abrir ranking -->
+  
+  <!-- Painel de Ranking animado -->
+  <section id="painel-ranking" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:11999;justify-content:center;align-items:flex-end;">
+  <section id="painel-ranking-content" style="background:#fff;border-radius:22px 22px 0 0;box-shadow:0 -4px 32px #00CFFF33;width:100vw;max-width:480px;margin:0 auto;position:relative;transform:translateY(100%);transition:transform 0.45s cubic-bezier(.4,1.3,.5,1);padding:2.2em 0 3.2em 0;">
+  <section style="text-align:center;margin-bottom:1.2em;transform:scale(1.12);">
+        <span style="font-family:'Baloo 2',cursive;font-size:2.7em;font-weight:900;color:#3bb273;letter-spacing:0.01em;">Ranking</span>
+      </section>
+      <script>
+        (function(){
+          function enlargeRankingItems(){
+            var panel = document.getElementById('painel-ranking-content');
+            if(!panel) return;
+            try{
+              console.log('enlargeRankingItems: applying inline size overrides');
+              // Filters / buttons
+              var btns = panel.querySelectorAll('.ranking-filtro-btn');
+              btns.forEach(function(b){
+                b.style.fontSize = '0.9em';
+                b.style.padding = '0.45em 0.9em';
+                b.style.height = '38px';
+                b.style.width = '88px';
+              });
+
+              // Top3 cards (reduce inner content sizes slightly)
+              var top3 = panel.querySelectorAll('.top3-card');
+              top3.forEach(function(card){
+                // keep card dimensions but reduce inner content sizes
+                // badges / positions
+                var pos = card.querySelector('span');
+                if(pos) pos.style.fontSize = '1.05em';
+                // avatar image
+                var img = card.querySelector('img');
+                if(img){ img.style.width = '60px'; img.style.height = '60px'; }
+                // name (second-to-last span inside card)
+                var name = Array.from(card.querySelectorAll('span')).slice(-2)[0];
+                if(name) name.style.fontSize = '1.0em';
+                // medal / badge inside card
+                var medal = card.querySelectorAll('section') && card.querySelectorAll('section').length ? card.querySelectorAll('section')[card.querySelectorAll('section').length-1] : null;
+                if(medal){
+                  var ms = medal.querySelector('span');
+                  if(ms) ms.style.fontSize = '1.15em';
+                }
+              });
+
+              // Ranking list items
+              var items = panel.querySelectorAll('.ranking-lista-item');
+              items.forEach(function(it){
+                it.style.padding = '0.9em 0.6em';
+                it.style.minHeight = '64px';
+                it.style.gap = '1em';
+                // index
+                var idx = it.querySelector('span');
+                if(idx) idx.style.fontSize = '1.15em';
+                // avatar img
+                var avatar = it.querySelector('img');
+                if(avatar){ avatar.style.width = '56px'; avatar.style.height = '56px'; }
+                // name and score
+                var spans = it.querySelectorAll('span');
+                if(spans && spans.length>=3){ spans[1].style.fontSize = '1.15em'; spans[2].style.fontSize = '1.15em'; }
+              });
+            }catch(e){ console.error('enlargeRankingItems error', e); }
+          }
+          if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', enlargeRankingItems);
+          else enlargeRankingItems();
+        })();
+      </script>
+  <section style="display:flex;justify-content:center;gap:0.5em;margin-bottom:1.1em;transform:scale(1.12);">
+        <button class="ranking-filtro-btn selected filtro-mini" style="font-size:0.62em !important;padding:0.18em 0.7em !important;min-width:32px !important;min-height:18px !important;line-height:1 !important;height:32px !important;width:70px !important;" onclick="trocarFiltroRanking('geral')">Geral</button>
+        <button class="ranking-filtro-btn filtro-mini" style="font-size:0.62em !important;padding:0.18em 0.7em !important;min-width:32px !important;min-height:18px !important;line-height:1 !important;height:32px !important;width:70px !important;" onclick="trocarFiltroRanking('escola')">Escola</button>
+        <button class="ranking-filtro-btn filtro-mini" style="font-size:0.62em !important;padding:0.18em 0.7em !important;min-width:32px !important;min-height:18px !important;line-height:1 !important;height:32px !important;width:70px !important;" onclick="trocarFiltroRanking('sala')">Sala</button>
+      </section>
+      <!-- Top 3 -->
+  <section style="display:flex;justify-content:center;align-items:flex-end;gap:1.5em;margin-bottom:2.2em;transform:scale(1.12);">
+  <section id="top3-left-card" class="top3-card" style="order:2;background:#fff;box-shadow:0 4px 24px #bbb3;min-width:150px;max-width:180px;width:180px;height:260px;border-radius:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;margin-left:38px;outline:3px solid rgba(255,59,59,0.85);">
+          <span style="position:absolute;top:14px;left:0;right:0;text-align:center;font-size:1.25em;font-weight:900;color:#bdbdbd;">2</span>
+          <section style="margin-top:38px;margin-bottom:14px;width:70px;height:70px;overflow:hidden;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;">
+            <img src="/img/tcc.img/animal2.png" alt="2º" style="width:70px;height:70px;object-fit:cover;">
+          </section>
+          <span style="font-size:1.25em;font-weight:700;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">Lucas</span>
+          <section style="margin-top:14px;width:100%;height:28px;background:linear-gradient(90deg,#e0e0e0 60%,#bdbdbd 100%);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:1.35em;">🥈</span>
+          </section>
+        </section>
+  <section class="top3-card" style="order:1;background:#fff;box-shadow:0 4px 24px #FFD60055;min-width:180px;max-width:220px;width:220px;height:320px;border-radius:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;">
+          <span style="position:absolute;top:14px;left:0;right:0;text-align:center;font-size:1.45em;font-weight:900;color:#FFD600;">1</span>
+          <section style="margin-top:28px;margin-bottom:14px;width:90px;height:90px;overflow:hidden;border-radius:50%;background:#fffde7;display:flex;align-items:center;justify-content:center;">
+            <img src="/img/tcc.img/animal1.png" alt="1º" style="width:90px;height:90px;object-fit:cover;">
+          </section>
+          <span style="font-size:1.45em;font-weight:900;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">Ana</span>
+          <section style="margin-top:14px;width:100%;height:36px;background:linear-gradient(90deg,#FFD600 60%,#FFB300 100%);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:1.65em;">🥇</span>
+          </section>
+        </section>
+  <section class="top3-card" style="order:3;background:#fff;box-shadow:0 4px 24px #b97a1a55;min-width:150px;max-width:180px;width:180px;height:260px;border-radius:32px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:hidden;position:relative;top:-8px;">
+          <span style="position:absolute;top:14px;left:0;right:0;text-align:center;font-size:1.25em;font-weight:900;color:#b97a1a;">3</span>
+          <section style="margin-top:38px;margin-bottom:14px;width:70px;height:70px;overflow:hidden;border-radius:50%;background:#fff3e0;display:flex;align-items:center;justify-content:center;">
+            <img src="/img/tcc.img/animal3.png" alt="3º" style="width:70px;height:70px;object-fit:cover;">
+          </section>
+          <span style="font-size:1.25em;font-weight:700;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">João</span>
+          <section style="margin-top:14px;width:100%;height:28px;background:linear-gradient(90deg,#ffecb3 60%,#b97a1a 100%);display:flex;align-items:center;justify-content:center;">
+            <span style="font-size:1.35em;">🥉</span>
+        
+          </section>
+        </section>
+      </section>
+      <!-- Lista do outros jogadores -->
+  <section style="margin:0 auto;max-width:440px;width:98vw;transform:scale(1.10);">
+        <section id="ranking-lista">
+          <!-- Exemplo de linha -->
+          <section class="ranking-lista-item" style="display:flex;align-items:center;gap:1.2em;padding:1.1em 0.6em;border-bottom:2px solid #e0e0e0;min-height:68px;max-height:68px;overflow:hidden;">
+            <span style="width:48px;text-align:center;font-weight:900;color:#bbb;font-size:1.25em;">4</span>
+            <section style="width:54px;height:54px;overflow:hidden;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;">
+              <img src="/img/tcc.img/animal4.png" alt="4º" style="width:54px;height:54px;object-fit:cover;">
+            </section>
+            <span style="font-size:1.25em;font-weight:900;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;">Maria</span>
+            <span style="margin-left:auto;font-size:1.25em;font-weight:900;color:#3bb273;">13.200</span>
+            <span style="font-size:1.35em;">🏆</span>
+          </section>
+          <!-- Repita para outros jogadores -->
+        </section>
+      </section>
+    </section>
+  </section>
+  <script>
+    // Animação de slide-up/slide-down do painel de ranking
+    const btnRanking = document.getElementById('btn-abrir-ranking');
+    const painelRanking = document.getElementById('painel-ranking');
+    const painelRankingContent = document.getElementById('painel-ranking-content');
+    let rankingAberto = false;
+    btnRanking.onclick = function() {
+      if (!rankingAberto) {
+        painelRanking.style.display = 'flex';
+        setTimeout(()=>{ painelRankingContent.style.transform = 'translateY(0)'; }, 10);
+        rankingAberto = true;
+      } else {
+        painelRankingContent.style.transform = 'translateY(100%)';
+        setTimeout(()=>{ painelRanking.style.display = 'none'; }, 450);
+        rankingAberto = false;
+      }
+    };
+    // Filtros (apenas visual, lógica pode ser expandida)
+    function trocarFiltroRanking(filtro) {
+      document.querySelectorAll('.ranking-filtro-btn').forEach(btn=>btn.classList.remove('selected'));
+      if(filtro==='geral') document.querySelectorAll('.ranking-filtro-btn')[0].classList.add('selected');
+      if(filtro==='escola') document.querySelectorAll('.ranking-filtro-btn')[1].classList.add('selected');
+      if(filtro==='sala') document.querySelectorAll('.ranking-filtro-btn')[2].classList.add('selected');
+      // Aqui você pode trocar os dados do ranking conforme o filtro
+    }
+  </script>
+  <!-- Premios Modal (top-level) -->
+  <section id="premiosModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:32000; align-items:center; justify-content:center; padding:1.2em 0;" onclick="fecharPremiosModal()">
+    <section id="premiosModalContent" style="background:linear-gradient(180deg,#ffffff 0%,#f3fbff 100%); border-radius:18px; width:clamp(280px,82vw,640px); max-height:80vh; overflow:auto; padding:1.0em 1.0em 1.2em 1.0em; box-shadow:0 18px 48px rgba(0,0,0,0.28); position:relative;" onclick="event.stopPropagation()">
+      <button onclick="fecharPremiosModal()" aria-label="Fechar prêmios" style="position:absolute; top:0.7em; right:0.9em; background:none; border:none; font-size:1.6em; color:#0077C8; cursor:pointer;">&times;</button>
+      <h3 style="font-family:'Baloo 2',cursive; font-size:1.45em; margin-bottom:0.6em; color:#0b5fa5; text-align:center;">Prêmios da Missão</h3>
+      <section style="display:flex;gap:0.6em;justify-content:center;flex-wrap:wrap;margin-bottom:0.9em;">
+        <section style="background:linear-gradient(90deg,#fff 0%,#e6f7ff 100%); padding:0.35em 0.8em; border-radius:12px; box-shadow:0 6px 18px rgba(3,102,214,0.06); font-weight:800;color:#0569a6;">🏅 Recompensas</section>
+        <section style="background:linear-gradient(90deg,#fff 0%,#fff7e6 100%); padding:0.35em 0.8em; border-radius:12px; box-shadow:0 6px 18px rgba(230,170,0,0.06); font-weight:800;color:#b97a1a;">✨ Exclusivo</section>
+      </section>
+      <section style="display:flex;flex-direction:column;gap:0.9em;">
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#f8fdff 0%,#ffffff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(3,102,214,0.06);">
+          <span style="font-size:1.4em;line-height:1;">🎯</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#054e7a;font-weight:900;margin-bottom:0.12em;">Acerte 10 perguntas seguidas no Quiz Ambiente</strong>
+            <span style="color:#3b6b86;font-size:0.95em;">Receba 200 moedas + medalha exclusiva</span>
+          </section>
+          <section style="background:#00CFFF; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">200 moedas</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#fff7f0 0%,#fff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(230,120,20,0.06);">
+          <span style="font-size:1.4em;line-height:1;">🚀</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#7a3a00;font-weight:900;margin-bottom:0.12em;">Alcance 2 níveis em uma semana</strong>
+            <span style="color:#7a4a20;font-size:0.95em;">Bônus de progressão acelerada e avatar especial</span>
+          </section>
+          <section style="background:#FFB703; color:#7a3a00; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">Avatar</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#f0fff6 0%,#fff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(26,160,120,0.06);">
+          <span style="font-size:1.4em;line-height:1;">📅</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#0c6b4a;font-weight:900;margin-bottom:0.12em;">Conclua 1 desafio por dia durante 5 dias</strong>
+            <span style="color:#1e7a58;font-size:0.95em;">Ganhe um diário de missões e 500 moedas</span>
+          </section>
+          <section style="background:#1ec773; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">500 moedas</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#f8fdff 0%,#ffffff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(3,102,214,0.06);">
+          <span style="font-size:1.4em;line-height:1;">🌊</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#054e7a;font-weight:900;margin-bottom:0.12em;">Complete a trilha do rio sem errar nenhuma etapa</strong>
+            <span style="color:#3b6b86;font-size:0.95em;">Desbloqueie um mascote aquático especial</span>
+          </section>
+          <section style="background:#00B4D8; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">Mascote</section>
+        </section>
+        <section style="display:flex;gap:0.8em;align-items:flex-start;background:linear-gradient(90deg,#fff7f7 0%,#fff 100%);padding:0.9em;border-radius:12px;box-shadow:0 6px 18px rgba(200,60,120,0.04);">
+          <span style="font-size:1.4em;line-height:1;">📖</span>
+          <section style="flex:1;">
+            <strong style="display:block;color:#7a1540;font-weight:900;margin-bottom:0.12em;">Desbloqueie o diário secreto do Kauezinho</strong>
+            <span style="color:#8a2b4b;font-size:0.95em;">Conteúdo exclusivo e segredos do personagem</span>
+          </section>
+          <section style="background:#ff6b6b; color:#fff; padding:0.35em 0.7em; border-radius:12px; font-weight:900;">Exclusivo</section>
+        </section>
+      </section>
+      <section style="display:flex;justify-content:center;margin-top:1em;">
+        <section onclick="fecharPremiosModal()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; padding:0.7em 1.4em; border-radius:16px; font-weight:900; cursor:pointer;">Fechar</section>
+      </section>
+    </section>
+  </section>
+  <script>
+    window.abrirPremiosModal = function() {
+      console.log('abrirPremiosModal called');
+      var m = document.getElementById('premiosModal');
+      if(!m) { console.warn('premiosModal element not found'); return; }
+      m.style.display = 'flex';
+      m.style.visibility = 'visible';
+      m.style.opacity = '1';
+      m.style.zIndex = '99999';
+      var c = document.getElementById('premiosModalContent');
+      if(c) { c.style.transform = 'translateY(0)'; c.style.opacity = '1'; }
+    };
+    window.fecharPremiosModal = function() {
+      console.log('fecharPremiosModal called');
+      var m = document.getElementById('premiosModal');
+      if(!m) return;
+      m.style.display = 'none';
+    };
+    // Garantir que qualquer botão de estrela abra o modal (caso onclick inline não funcione)
+    (function bindStarListeners(){
+      function bind(){
+        var els = document.querySelectorAll('.medalhas-trofeu-btn[title="Estrela"]');
+        if(!els || els.length===0) { console.log('nenhum botão de estrela encontrado no bind'); }
+        els.forEach(function(el){
+          el.removeEventListener('click', window.abrirPremiosModal);
+          el.addEventListener('click', function(e){ e.preventDefault(); console.log('star element clicked'); window.abrirPremiosModal(); });
+        });
+      }
+      if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bind); else bind();
+    })();
+  </script>
+  <style>
+    .top3-card {
+      overflow: hidden !important;
+      position: relative;
+    }
+    .top3-card > section,
+    .top3-card img,
+    .top3-card span {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      box-sizing: border-box;
+      display: block;
+    }
+    .top3-card img {
+      width: 100% !important;
+      height: auto !important;
+      max-height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      background: #eee;
+    }
+    /* Aumentar levemente elementos do ranking (escopo: painel-ranking-content) */
+    #painel-ranking-content .ranking-filtro-btn {
+      font-size: 1.06em !important;
+      padding: 0.46em 1.28em !important;
+      border-radius: 14px !important;
+    }
+    /* fortes aumentos para garantir visibilidade */
+    #painel-ranking-content .top3-card {
+      transform: scale(1.18) !important;
+      transform-origin: center bottom !important;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.10) !important;
+    }
+    #painel-ranking-content .top3-card img { width: 110% !important; height: auto !important; }
+    #painel-ranking-content .ranking-lista-item {
+      font-size: 1.22em !important;
+      padding: 1em 0.6em !important;
+      min-height: 64px !important;
+    }
+    #painel-ranking-content .medalhao, #painel-ranking-content .medalhas-card, #painel-ranking-content .medalha {
+      transform: scale(1.05) !important;
+      transform-origin: center !important;
+      padding: 0.35em !important;
+      font-size: 0.95em !important;
+    }
+    /* Garantir que a imagem de anúncio não seja alterada por estas regras (fica fora do painel) */
+    .anuncio-img { transform: none !important; }
+    /* Ajustes finos: aproximar cards e escalar conteúdos proporcionalmente */
+    .cards-topo { gap: 0.45em !important; display:flex; justify-content:center; align-items:flex-end; }
+    /* Tornar os cards um pouco maiores e proporcionalizar o conteúdo interno */
+    #painel-ranking-content .top3-card {
+      min-width: 170px !important;
+      max-width: 210px !important;
+      width: 190px !important;
+      height: 290px !important;
+      border-radius: 22px !important;
+      transform: none !important; /* já ajustamos dimensões diretamente */
+    }
+    #painel-ranking-content .top3-card img {
+      width: 98px !important;
+      height: 98px !important;
+      object-fit: cover !important;
+    }
+    /* Aumentar textos e nomes dentro dos cards proporcionalmente */
+    #painel-ranking-content .top3-card span,
+    #painel-ranking-content .top3-card > section span {
+      font-size: 1.14em !important;
+      font-weight: 800 !important;
+    }
+    #painel-ranking-content .top3-card > section { margin-top: 36px !important; }
+    /* Itens da lista: maior e com ícone/avatar proporcional */
+    #painel-ranking-content .ranking-lista-item { font-size: 1.28em !important; padding: 1em 0.6em !important; min-height:64px !important; }
+    #painel-ranking-content .ranking-lista-item img { width:44px !important; height:44px !important; border-radius:50% !important; }
+    /* Medalhas com leve aumento adicional */
+  #painel-ranking-content .medalhao, #painel-ranking-content .medalhas-card, #painel-ranking-content .medalha { transform: scale(1.05) !important; transform-origin:center !important; padding:0.35em !important; }
+    /* Espaçamento interno do painel para acomodar cards maiores */
+    #painel-ranking-content { padding-bottom: 1.2em !important; }
+    /* Mover o card da esquerda um pouco mais para esquerda */
+    #painel-ranking-content .cards-topo > .top3-card:first-child {
+      margin-left: 28px !important;
+    }
+    /* --- Novas regras: aumentar itens acima da imagem de anúncio (apenas sections) --- */
+    /* Escopo claro: tudo dentro da área principal de ranking */
+    .ranking-main, .cards-topo, .ranking-card, #painel-ranking-content {
+      font-size: 1.02rem; /* base slightly larger */
+    }
+    #painel-ranking-content .ranking-filtro-btn {
+      font-size: 1.4em !important;
+      padding: 0.66em 1.9em !important;
+    }
+    /* Top3: aumentar box e imagem sem quebrar layout */
+    #painel-ranking-content .top3-card {
+      min-width: 160px !important;
+      max-width: 200px !important;
+      width: 180px !important;
+      height: 260px !important;
+      border-radius: 24px !important;
+    }
+    #painel-ranking-content .top3-card img {
+      width: 90px !important;
+      height: 90px !important;
+      object-fit: cover !important;
+    }
+    /* Lista do ranking: maior legibilidade */
+    #painel-ranking-content .ranking-lista-item {
+      font-size: 1.06em !important;
+      padding: 0.7em 0.4em !important;
+      min-height: 48px !important;
+    }
+    /* Medalha e medalhão: destaque maior */
+    #painel-ranking-content .medalhao { font-size:1.08em !important; }
+    #painel-ranking-content .medalhas-card, #painel-ranking-content .medalha { padding: 0.5em !important; }
+    /* Pequeno ajuste no espaçamento dos cards de topo */
+    .cards-topo { gap: 0.9em !important; }
+    /* Garantir que a imagem de anúncio não seja afetada */
+    .anuncio-img { max-width: 380px !important; width: 94vw !important; }
+    /* Aumentar levemente tudo que aparece acima da imagem de anúncio */
+    .ranking-main, .cards-topo, .ranking-card, #painel-ranking-content, .medalhao, .medalhas-card {
+      /* small scale to make UI a bit larger without breaking layout */
+      transform: scale(1.035);
+      transform-origin: top center;
+    }
+    /* aumentar fontes e espaçamentos onde faz sentido */
+    .ranking-main .ranking-filtro-btn, #painel-ranking-content .ranking-filtro-btn { font-size:1.08em !important; }
+    #painel-ranking-content .ranking-lista-item { font-size:1.04em !important; padding-top:0.7em !important; padding-bottom:0.7em !important; }
+    #painel-ranking-content .top3-card { transform: scale(1.08); }
+    /* explicitly protect the announcement image from any inherited transform */
+    .anuncio-img { transform: none !important; }
+    .ranking-lista-item {
+      overflow: hidden;
+    }
+    .ranking-lista-item > span,
+    .ranking-lista-item > section {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      box-sizing: border-box;
+      display: block;
+    }
+    .ranking-filtro-btn {
+      background:#fff;
+      border:2px solid #3bb273;
+      color:#3bb273;
+      font-weight:700;
+      font-size:1em;
+      border-radius:12px;
+      padding:0.4em 1.2em;
+      cursor:pointer;
+      transition:background 0.18s, color 0.18s, border 0.18s;
+    }
+    .filtro-mini {
+      font-size:0.32em !important;
+      padding:0.07em 0.32em !important;
+      min-width:16px !important;
+      min-height:8px !important;
+      line-height:1 !important;
+      height:18px !important;
+      width:38px !important;
+    }
+    .ranking-filtro-btn.selected, .ranking-filtro-btn:focus {
+      background:#3bb273;
+      color:#fff;
+      border-color:#3bb273;
+    }
+    .top3-card span, .ranking-lista-item span {
+      font-family:'Fredoka','Baloo 2',Arial,sans-serif;
+    }
+  /* garantir que o título Top 10 fique branco em todos os modos */
+  .ranking-modal-title { color: #fff !important; }
+    @media (max-width: 600px) {
+      #painel-ranking-content { max-width:98vw; }
+      .top3-card { min-width:64px !important; max-width:70px !important; width:70px !important; height:120px !important; }
+      .top3-card img { width:38px !important; height:38px !important; }
+      .ranking-lista-item { min-height:36px !important; max-height:36px !important; }
+    }
+    body {
+      background: #fff !important;
+    }
+    /* Espaço para footer fixo */
+    body { padding-bottom: 72px; }
+  </style>
+  <!-- Normalize: garantir que apenas o card de progresso mantenha estilos específicos; resetar transforms aplicados anteriormente -->
+  <style>
+    /* Resetar escalas e transformações indesejadas para elementos do painel de ranking */
+    #painel-ranking-content .top3-card,
+    #painel-ranking-content .ranking-lista-item,
+    #painel-ranking-content .ranking-filtro-btn,
+    #painel-ranking-content .cards-topo,
+    #painel-ranking-content .medalha,
+    #painel-ranking-content .medalhas-list,
+    #painel-ranking-content .ranking-card:not(#rankingCard) {
+      transform: none !important;
+      transform-origin: initial !important;
+      font-size: inherit !important;
+      padding: inherit !important;
+      margin: inherit !important;
+    }
+
+    /* Restaurar visual do card de medalhas sem afetar outros itens */
+    #painel-ranking-content .medalhas-card {
+      transform: scale(1.035) !important;
+      transform-origin: top center !important;
+      padding: 0.5em !important;
+      font-size: 0.95em !important;
+      margin: 0 !important;
+    }
+
+    /* Garantir que a imagem de anúncio continue protegida */
+    .anuncio-img { transform: none !important; }
+  </style>
+
+  <script>
+    (function normalizeRankingUI(){
+      var selectors = [
+        '#painel-ranking-content .top3-card',
+        '#painel-ranking-content .ranking-lista-item',
+        '#painel-ranking-content .ranking-filtro-btn',
+        '#painel-ranking-content .cards-topo',
+        '#painel-ranking-content .medalha',
+        '#painel-ranking-content .medalhas-card',
+        '#painel-ranking-content .medalhas-list',
+        '#painel-ranking-content .ranking-card:not(#rankingCard)'
+      ];
+      function clearStyles(){
+        selectors.forEach(function(sel){
+          document.querySelectorAll(sel).forEach(function(el){
+            try{
+              // limpar apenas as propriedades que forçaram o layout
+              el.style.transform = '';
+              el.style.transformOrigin = '';
+              el.style.fontSize = '';
+              el.style.padding = '';
+              el.style.margin = '';
+            }catch(e){/* noop */}
+          });
+        });
+      }
+      if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', clearStyles); else clearStyles();
+      try{
+        var obs = new MutationObserver(function(){ clearStyles(); });
+        obs.observe(document.body, { childList:true, subtree:true, attributes:true });
+      }catch(e){}
+    })();
+  </script>
+  <script>
+    // Só exibe a aba de amigos se for premium
+    document.addEventListener('DOMContentLoaded', function() {
+      if (localStorage.getItem('premiumAluno') === 'true') {
+        document.getElementById('drawer-amigos').style.display = 'block';
+      }
+    });
+  </script>
+    <script>
+      // Forçar ajustes inline para garantir visibilidade das alterações
+      (function forceScaleRanking(){
+        function apply(){
+          var panel = document.getElementById('painel-ranking-content');
+          if(!panel) return;
+          console.log('apply forceScaleRanking');
+          // tighten gap between top3
+          var cardsTopo = document.querySelector('.cards-topo');
+          if(cardsTopo) cardsTopo.style.gap = '0.45em';
+          // top3 cards: size + inner scaling
+          var top3 = panel.querySelectorAll('.top3-card');
+          top3.forEach(function(card){
+            card.style.minWidth = '170px';
+            card.style.width = '190px';
+            card.style.height = '290px';
+            card.style.borderRadius = '22px';
+            // scale inner img
+            var img = card.querySelector('img');
+            if(img){ img.style.width = '98px'; img.style.height = '98px'; img.style.objectFit = 'cover'; }
+            // text
+            card.querySelectorAll('span').forEach(function(s){ s.style.fontSize = '1.14em'; s.style.fontWeight = '800'; });
+          });
+          // list items
+          panel.querySelectorAll('.ranking-lista-item').forEach(function(li){
+            li.style.fontSize = '1.28em';
+            li.style.padding = '1em 0.6em';
+            li.style.minHeight = '64px';
+            var avatar = li.querySelector('img');
+            if(avatar){ avatar.style.width='44px'; avatar.style.height='44px'; avatar.style.borderRadius='50%'; }
+          });
+          // medals
+          panel.querySelectorAll('.medalhao, .medalhas-card, .medalha').forEach(function(m){ m.style.transform = 'scale(1.05)'; m.style.padding = '0.35em'; });
+        }
+        if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', apply); else apply();
+      })();
+    </script>
+      <script>
+        (function moveFirstTop3(){
+          function applyMove(){
+            var el = document.querySelector('#painel-ranking-content .cards-topo > .top3-card:first-child');
+            if(!el){ console.log('moveFirstTop3: element not found yet'); return; }
+            el.style.marginLeft = '28px';
+            console.log('moveFirstTop3 applied to', el);
+          }
+          if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function(){ applyMove(); setTimeout(applyMove,200); }); else { applyMove(); setTimeout(applyMove,200); }
+          try{
+            var obs = new MutationObserver(function(){ applyMove(); });
+            obs.observe(document.body, { childList: true, subtree: true });
+          }catch(e){ /* noop */ }
+        })();
+      </script>
+  <!-- Drawer de Amigos Premium -->
+  <section id="drawer-amigos" style="display:none; position:fixed; left:0; right:0; bottom:0; z-index:30000;">
+    <section id="drawer-amigos-content" style="background:#fff; border-radius:16px 16px 0 0; box-shadow:0 -4px 32px #00CFFF33; width:100vw; max-width:430px; margin:0 auto; position:relative; transform:translateY(80%); transition:transform 0.35s cubic-bezier(.4,1.3,.5,1); min-height:70px;">
+      <section id="drawer-handle" style="width:100%;display:flex;justify-content:center;align-items:center;cursor:pointer;padding:0.5em 0 0.2em 0;">
+        <section style="width:48px;height:7px;background:#b2eaff;border-radius:4px;"></section>
+      </section>
+      <section id="drawer-amigos-area" style="display:none;flex-direction:column;align-items:center;padding:0.7em 1em 1.2em 1em;">
+        <input id="amigos-busca" type="text" placeholder="Buscar amigos..." style="width:100%;padding:0.6em 1em;border-radius:12px;border:1.5px solid #00CFFF;margin-bottom:1em;font-size:1em;">
+        <section id="amigos-lista" style="width:100%;max-height:230px;overflow-y:auto;display:flex;flex-direction:column;gap:0.7em;"></section>
+      </section>
+    </section>
+    <section id="drawer-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.12);z-index:29999;"></section>
+  </section>
+  <script>
+    // Mock de amigos online com avatares
+    const amigos = [
+      { nome: 'Ana', online: true, avatar: '/img/tcc.img/animal1.png' },
+      { nome: 'Lucas', online: true, avatar: '/img/tcc.img/animal2.png' },
+      { nome: 'João', online: false, avatar: '/img/tcc.img/animal3.png' },
+      { nome: 'Maria', online: true, avatar: '/img/tcc.img/animal4.png' },
+      { nome: 'Clara', online: false, avatar: '/img/tcc.img/animal5.png' },
+      { nome: 'Pedro', online: true, avatar: '/img/tcc.img/animal6.png' },
+      { nome: 'Julia', online: true, avatar: '/img/tcc.img/animal7.png' },
+      { nome: 'Rafa', online: false, avatar: '/img/tcc.img/animal8.png' }
+    ];
+    const drawer = document.getElementById('drawer-amigos');
+    const drawerContent = document.getElementById('drawer-amigos-content');
+    const drawerHandle = document.getElementById('drawer-handle');
+    const drawerArea = document.getElementById('drawer-amigos-area');
+    const drawerOverlay = document.getElementById('drawer-overlay');
+    const amigosLista = document.getElementById('amigos-lista');
+    const amigosBusca = document.getElementById('amigos-busca');
+    let aberto = false;
+    function renderAmigos(filtro = '') {
+      amigosLista.innerHTML = amigos
+        .filter(a => a.nome.toLowerCase().includes(filtro.toLowerCase()))
+        .map(a => `
+          <section style='display:flex;align-items:center;gap:0.9em;background:#f7fafd;border-radius:16px;padding:0.5em 0.7em;'>
+            <img src='${a.avatar}' alt='avatar' style='width:38px;height:38px;border-radius:50%;border:2.5px solid ${a.online ? "#1ec773" : "#bbb"};object-fit:cover;background:#fff;'>
+            <span style='font-weight:700;font-size:1.08em;color:#222;'>${a.nome}</span>
+            ${a.online ? "<span style='color:#1ec773;font-size:0.97em;margin-left:auto;'>● online</span>" : "<span style='color:#bbb;font-size:0.97em;margin-left:auto;'>offline</span>"}
+          </section>
+        `)
+        .join('') || '<span style="color:#aaa;">Nenhum amigo encontrado</span>';
+    }
+    if(drawerHandle) {
+      drawerHandle.onclick = function() {
+        if(!aberto) {
+          drawerContent.style.transform = 'translateY(0)';
+          drawerArea.style.display = 'flex';
+          drawerOverlay.style.display = 'block';
+          renderAmigos();
+          aberto = true;
+        }
+      };
+    }
+    if(drawerOverlay) {
+      drawerOverlay.onclick = function() {
+        if(aberto) {
+          drawerContent.style.transform = 'translateY(80%)';
+          drawerArea.style.display = 'none';
+          drawerOverlay.style.display = 'none';
+          aberto = false;
+        }
+      };
+    }
+    if(amigosBusca) {
+      amigosBusca.oninput = function() {
+        renderAmigos(amigosBusca.value);
+      };
+    }
+  </script>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+          style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+          loading="lazy">
+      </section>
+      <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+    </section>
+    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Loja</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">
+            Sair
+          </button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
+    <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+  </button>
+  <section class="ranking-main">
+  <section class="cards-topo">
+  <section class="ranking-card" id="rankingCard" style="position:relative; top:36px; min-width:190px; min-height:190px; padding:0.45em;">
+      <section class="ranking-btns">
+        
+      </section>
+      <section class="medalhao">
+        <section class="medalhao-circulo">
+          <span class="medalhao-emoji">🥉</span>
+        </section>
+        <span class="medalhao-label">Bronze I</span>
+      </section>
+      <section class="progress-bar-bg" style="height:8px;border-radius:8px;overflow:hidden;background:#eee;margin:0.45em 0;">
+        <section class="progress-bar-fill" style="width:50%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%);color:#fff;font-weight:900;font-size:0.82em;">50/100</section>
+      </section>
+      <section class="ranking-pontos" style="margin-top:0.4em;">
+        <span class="fa fa-trophy emoji-trofeu" style="font-size:0.96em;">🏆</span>
+        <span class="ranking-pontos-num" style="font-size:0.96em;font-weight:900;margin-left:0.32em;">15.000</span>
+      </section>
+    </section>
+  <section class="medalhas-trofeu-btn-outer" style="display:flex;flex-direction:row;flex-wrap:nowrap;gap:0.22em;align-items:center;justify-content:center;margin-bottom:0.5em;transform:translateX(-8px);">
+      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" onclick="abrirRankingModal()" title="Ver ranking" style="cursor:pointer;width:28px;height:28px;">
+        <span class="medalhao-emoji" style="font-size:1.18em;">🏆</span>
+      </section>
+      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Medalha de Ouro" style="cursor:pointer;width:28px;height:28px;" onclick="abrirNivelModal()">
+        <span class="medalhao-emoji" style="font-size:1.18em;">🥇</span>
+      </section>
+  <!-- removed nested nivelModal (repositioned to body end) -->
+  <script>
+    function abrirNivelModal() {
+      const overlay = document.getElementById('nivelModal');
+      const content = document.getElementById('nivelModalContent');
+      if (overlay && content) {
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        // garantir que o conteúdo nunca ultrapasse a viewport
+        content.style.maxHeight = '90vh';
+        content.style.overflowY = 'auto';
+      } else {
+        document.getElementById('nivelModal').style.display = 'flex';
+      }
+    }
+    function fecharNivelModal() {
+      const overlay = document.getElementById('nivelModal');
+      const content = document.getElementById('nivelModalContent');
+      if (overlay) overlay.style.display = 'none';
+      if (content) {
+        content.style.maxHeight = '';
+        content.style.overflowY = '';
+      }
+    }
+  </script>
+      <section class="medalhas-trofeu-btn medalhas-trofeu-btn--small" title="Estrela" style="cursor:pointer;width:28px;height:28px;" onclick="abrirPremiosModal()">
+        <span class="medalhao-emoji" style="font-size:1.18em;">⭐</span>
+      </section>
+    </section>
+  <section class="medalhas-card" style="transform:translateX(-120px);">
+      <section class="medalhas-title">
+       
+  <span class="medalhas-title-text" style="font-size:0.9em;">Medalhas</span>
+      </section>
+      <section class="medalhas-list">
+        <section class="medalha">
+          <span class="medalha-icone">🥉</span>
+          <span class="medalha-label">Bronze I</span>
+        </section>
+        <section class="medalha">
+          <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+          <span class="medalha-label">Bronze II</span>
+        </section>
+        <section class="medalha">
+          <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+          <span class="medalha-label">Bronze III</span>
+        </section>
+        <section class="medalha">
+          
+        </section>
+      </section>
+    </section>
+  </section>
+  <script>
+    (function(){
+      function increaseAboveAd(){
+        try{
+          console.log('increaseAboveAd: running');
+          var selectors = ['#painel-ranking-content', '.medalhas-card', '.medalhas-title', '.medalhas-list', '.medalhas-trofeu-btn', '.top3-card', '.ranking-filtro-btn', '#ranking-lista', '.ranking-lista-item'];
+          selectors.forEach(function(sel){
+            document.querySelectorAll(sel).forEach(function(el){
+              // avoid changing header, footer, sidebar, back button or modals by checking ancestors
+              var forbidden = el.closest('header, footer, nav, .sidebar-menu, .btn-voltar, #rankingModal, #nivelModal, #modal-logout');
+              if(forbidden) return;
+              // apply scale and font bump
+              try{
+                el.style.transform = (el.style.transform ? el.style.transform + ' ' : '') + 'scale(1.10)';
+                el.style.transformOrigin = 'top center';
+                el.style.transition = 'transform 0.12s ease, font-size 0.12s ease';
+                // bump font size if present
+                var cs = window.getComputedStyle(el);
+                var fs = parseFloat(cs.fontSize) || 16;
+                el.style.fontSize = (fs * 1.18) + 'px';
+                // increase paddings
+                var padTop = parseFloat(cs.paddingTop) || 0;
+                var padBottom = parseFloat(cs.paddingBottom) || 0;
+                el.style.paddingTop = (padTop * 1.15) + 'px';
+                el.style.paddingBottom = (padBottom * 1.15) + 'px';
+              }catch(e){/* ignore per-element errors */}
+            });
+          });
+        }catch(e){ console.error('increaseAboveAd error', e); }
+      }
+      if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', increaseAboveAd);
+      else increaseAboveAd();
+    })();
+  </script>
+  <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-img" style="display:block; margin:2.5em auto 5.5em auto; max-width:380px; width:94vw; border-radius:18px; box-shadow:0 2px 12px #0003;">
+  <!-- Modal de confirmação de logout -->
+  <secton id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+    <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+      <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+      <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+      <section style="display:flex; gap:1.2em; justify-content:center;">
+        <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Sim</button>
+        <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Não</button>
+      </section>
+      <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+    </section>
+  </section>
+    <!-- medalhas-card e anuncio removidos do topo -->
+  </section>
+
+  <!-- Modal de Ranking -->
+  <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
+  <section class="ranking-modal-content" id="rankingModalContent">
+      <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
+  <h3 class="ranking-modal-title" style="color:#fff !important;">Top 10</h3>
+      <ul class="ranking-modal-list">
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">1º</span>
+          <img src="/img/tcc.img/animal1.png" alt="Avatar de Ana" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Ana</span>
+          <span class="ranking-modal-pontos">15000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">2º</span>
+          <img src="/img/tcc.img/animal2.png" alt="Avatar de Lucas" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Lucas</span>
+          <span class="ranking-modal-pontos">12000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">3º</span>
+          <img src="/img/tcc.img/animal3.png" alt="Avatar de João" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">João</span>
+          <span class="ranking-modal-pontos">10000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">4º</span>
+          <img src="/img/tcc.img/animal4.png" alt="Avatar de Maria" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Maria</span>
+          <span class="ranking-modal-pontos">8000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">5º</span>
+          <img src="/img/tcc.img/animal5.png" alt="Avatar de Pedro" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Pedro</span>
+          <span class="ranking-modal-pontos">6000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">6º</span>
+          <img src="/img/tcc.img/animal6.png" alt="Avatar de Clara" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Clara</span>
+          <span class="ranking-modal-pontos">5500</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">7º</span>
+          <img src="/img/tcc.img/animal7.png" alt="Avatar de Felipe" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Felipe</span>
+          <span class="ranking-modal-pontos">5000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">8º</span>
+          <img src="/img/tcc.img/animal8.png" alt="Avatar de Gabriela" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Gabriela</span>
+          <span class="ranking-modal-pontos">4500</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">9º</span>
+          <img src="/img/tcc.img/animal1.png" alt="Avatar de Rafaela" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Rafaela</span>
+          <span class="ranking-modal-pontos">4000</span>
+        </li>
+        <li class="ranking-modal-item">
+          <span class="ranking-modal-pos">10º</span>
+          <img src="/img/tcc.img/animal2.png" alt="Avatar de Bruno" class="ranking-modal-avatar">
+          <span class="ranking-modal-nome">Bruno</span>
+          <span class="ranking-modal-pontos">900</span>
+        </li>
+      </ul>
+    </section>
+  </section>
+
+  <script>
+    function abrirRankingModal() {
+      document.getElementById('rankingModal').style.display = 'flex';
+      // cor do modal
+      var content = document.getElementById('rankingModalContent');
+      if (localStorage.getItem('premiumAluno') === 'true') {
+        content.style.background = '#7c3aed'; // roxo premium
+        content.style.color = '#fff';
+      } else {
+        content.style.background = '#1ec773'; // verde padrão
+        content.style.color = '#fff';
+      }
+    }
+    function fecharRankingModal() {
+      document.getElementById('rankingModal').style.display = 'none';
+    }
+    function abrirModalLogout() {
+      var modal = document.getElementById('modal-logout');
+      if(modal) modal.style.display = 'flex';
+    }
+    function fecharModalLogout() {
+      var modal = document.getElementById('modal-logout');
+      if(modal) modal.style.display = 'none';
+    }
+    function confirmarLogout() {
+      fetch('/logout', { method: 'POST' })
+        .then(() => { window.location.href = '/'; })
+        .catch(() => { window.location.href = '/'; });
+    }
+  </script>
+</body>
+</html>
+<!-- Nivel Modal (centralizado, único) -->
+<section id="nivelModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.75); z-index:30000; display:flex; align-items:center; justify-content:center;" onclick="fecharNivelModal()">
+  <section id="nivelModalContent" style="background:#fff; border-radius:24px; box-shadow:0 12px 48px #0009; padding:3em 2.4em; width:clamp(360px,92vw,720px); text-align:center; position:relative; max-height:92vh; overflow:auto;" onclick="event.stopPropagation()">
+    <button onclick="fecharNivelModal()" aria-label="Fechar" style="position:absolute; top:0.8em; right:1.2em; background:none; border:none; font-size:2.4em; color:#00CFFF; cursor:pointer;">&times;</button>
+    <h3 style="font-family:'Fredoka','Baloo 2',cursive; color:#e6b800; font-size:1.6em; font-weight:900; margin-bottom:1.4em;">Seu Progresso de Nível</h3>
+    <section style="display:flex;align-items:center;justify-content:flex-start;gap:0.6em;flex-wrap:wrap;margin-bottom:1em;">
+      <span style="font-size:1.15em;font-weight:800;color:#b97a1a;">🥉 Bronze I</span>
+      <span style="font-size:1.15em;font-weight:800;color:#b97a1a;">🥉 Bronze II</span>
+      <span style="font-size:1.15em;font-weight:800;color:#b97a1a;">🥉 Bronze III</span>
+      <span style="font-size:1.15em;font-weight:800;color:#aaa;">🥈 Prata I</span>
+    </section>
+    <section style="background:#eee;border-radius:1.2em;height:20px;width:100%;margin-bottom:1.4em;overflow:hidden;">
+      <section id="nivelBarra" style="background:linear-gradient(90deg,#e6b800 60%,#b97a1a 100%);height:100%;width:40%;transition:width 0.4s;"></section>
+    </section>
+    <span style="font-size:1.12em;font-weight:800;color:#e6b800;">Nível atual: Bronze II</span>
+  </section>
+</section>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Pequenos Exploradores</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/premium-aluno.css">
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
+  <html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking - Pequenos Exploradores</title>
+  <link rel="stylesheet" href="/css/ranking.css">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&display=swap" rel="stylesheet">
+  </head>
+  <body style="background:#181c24; margin:0; font-family:'Baloo 2',cursive;">
+    <section class="ranking-main">
+      <section class="ranking-top">
+        
+      
+  <!-- Card de medalhas duplicado removido -->
+    </section>
+
+    <!-- Modal de Ranking -->
+    <section id="rankingModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:20000; align-items:center; justify-content:center;">
+      <section class="ranking-modal-content">
+        <button onclick="fecharRankingModal()" aria-label="Fechar ranking" class="ranking-modal-close">&times;</button>
+    <h3 class="ranking-modal-title" style="color:#fff !important;">Top 10</h3>
+        <ul class="ranking-modal-list">
+          <!-- Lista do ranking já está abaixo, removido bloco EJS quebrado -->
+                <section class="progress-bar-bg">
+                  <section class="progress-bar-fill">50/100</section>
+                </section>
+                <section class="ranking-pontos">
+                  <span class="fa fa-trophy emoji-trofeu">🏆</span> <span class="ranking-pontos-num">15.000</span>
+                </section>
+              </section>
+              <section class="medalhas-card">
+                <section class="medalhas-title">
+                  
+                  <span class="medalhas-title-text">Medalhas</span>
+                </section>
+                <section class="medalhas-list">
+                  <section class="medalha">
+                    <span class="medalha-icone">🥉</span>
+                    <span class="medalha-label">Bronze I</span>
+                  </section>
+                  <section class="medalha">
+                    <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+                    <span class="medalha-label">Bronze II</span>
+                  </section>
+                  <section class="medalha">
+                    <span class="medalha-icone bloqueada">🥉<span class="medalha-cadeado">🔒</span></span>
+                    <span class="medalha-label">Bronze III</span>
+                  </section>
+                  <section class="medalha">
+                    
+                  </section>
+                </section>
+              </section>
+            </section>
+    
+<style>
+.cards-topo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cards-topo .ranking-card,
+.cards-topo .medalhas-card {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 50vw;
+  box-sizing: border-box;
+}
+.cards-topo .ranking-card {
+  padding: 10px 6px 14px 6px;
+  max-width: 200px;
+}
+.cards-topo .medalhas-card {
+  padding: 12px 10px;
+  max-width: 170px;
+  min-width: 140px;
+  min-height: 140px; /* make card more square */
+  width: 170px;
+  box-sizing: border-box;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45em;
+  border-radius: 14px; /* rounded corners */
+  /* match ranking-card appearance */
+  background:  );
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  border: 1px solid rgba(3,102,214,0.06);
+}
+@media (max-width: 480px) {
+  .cards-topo {
+    gap: 4px;
+  }
+  .cards-topo .ranking-card {
+    max-width: 48vw;
+    padding: 7px 2px 10px 2px;
+  }
+  .cards-topo .medalhas-card {
+  max-width: 48vw;
+  padding: 8px 6px;
+  box-sizing: border-box;
+  overflow: hidden;
+  }
+}
+/* Ensure medal items stay inside their card */
+.medalhas-card .medalhas-title { width:100%; box-sizing:border-box; overflow:hidden; }
+.medalhas-card .medalhas-list { width:100%; display:flex; flex-direction:row; flex-wrap:nowrap; gap:0.4em; box-sizing:border-box; justify-content:flex-start; overflow-x:auto; -webkit-overflow-scrolling:touch; padding-bottom:0.25em; }
+.medalhas-card .medalha { display:flex; align-items:center; gap:0.4em; box-sizing:border-box; overflow:hidden; flex: 0 0 auto; width:110px; min-width:90px; padding:0.25em 0.4em; justify-content:flex-start; }
+.medalhas-card .medalha-icone { flex: 0 0 auto; font-size:1.05em; line-height:1; }
+.medalhas-card .medalha-label { flex: 1 1 auto; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:0.88em; }
+
+/* ensure clear visible spacing and allow scrollbars without affecting layout */
+.medalhas-card .medalhas-list::-webkit-scrollbar { height:8px; }
+.medalhas-card .medalhas-list::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius:4px; }
+
+@media (max-width:480px){
+  .medalhas-card .medalha { width:96px; min-width:82px; padding:0.22em; }
+  .medalhas-card .medalha-label { font-size:0.82em; }
+  .medalhas-card .medalha-icone { font-size:0.95em; }
+}
+
+</style>
+
+</script>
+
+

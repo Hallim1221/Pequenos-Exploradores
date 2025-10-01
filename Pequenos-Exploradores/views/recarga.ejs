@@ -1,0 +1,154 @@
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/recarga.css">
+<!-- Cabeçalho e Menu Inicial igual ao da página inicial -->
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+<button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+    <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+    <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+  </svg>
+</button>
+<section class="top-banner"></section>
+
+<!-- Sidebar Menu -->
+<nav class="sidebar-menu" id="sidebarMenu">
+  <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+    <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+      <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+        style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+        loading="lazy">
+    </section>
+    <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+  </section>
+  <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+  <ul>
+    <li><a href="/">Início</a></li>
+    <li><a href="/sobre">Sobre</a></li>
+    <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+    <li><a href="/loja">Loja</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
+        </form>
+      </li>
+  </ul>
+</nav>
+<button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
+  <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+</button>
+<link rel="stylesheet" href="/css/btn-voltar.css">
+<link rel="stylesheet" href="/css/index.css">
+<section class="bg-figma"></section>
+<!-- Modal de confirmação de logout -->
+<div id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+  <div style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+    <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+    <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+    <div style="display:flex; gap:1.2em; justify-content:center;">
+      <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Sim</button>
+      <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Não</button>
+    </div>
+    <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+  </div>
+</div>
+<script>
+  function abrirModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'flex';
+  }
+  function fecharModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if(modal) modal.style.display = 'none';
+  }
+  function confirmarLogout() {
+    fetch('/logout', { method: 'POST' })
+      .then(() => { window.location.href = '/'; })
+      .catch(() => { window.location.href = '/'; });
+  }
+</script>
+<section style="height: 32px;"></section>
+<main style="max-width: 430px; margin: 0 auto; padding: 0; background: transparent; box-shadow: none;">
+  <section class="hero" style="position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.2em; margin-top: 0; background: transparent; box-shadow: none; min-height: 340px; justify-content: flex-start;">
+    <img src="/img/tcc.img/lojinha moedas/inicio (2).png" alt="Baú Mágico" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 430px; height: auto; z-index: 0; box-shadow: 0 2px 12px #b2f7ef33;" loading="lazy">
+    <section class="hero-content" style="width: 100%; position: relative; z-index: 1; margin-top: -3.2em;">
+      <h1 class="welcome-title" style="font-family: 'Baloo 2', cursive; font-size: 2em; color: #FF9800; text-shadow: 0 2px 12px #FF980088;">Exploradores</h1>
+      <p style="font-size: 1em; color: #fff; font-family: 'Baloo 2', cursive; font-weight: 700; border-radius: 14px; padding: 0.5em 1em; margin: -3.8em auto 0 auto; max-width: 350px; background: none; box-shadow: none; text-shadow: 0 0 2px #000, 0 1px 0 #000, 1px 0 0 #000, -1px 0 0 #000;">Você encontrou um baú mágico!<br>Chame um adulto para te ajudar a abrir e ganhar mais moedinhas para suas aventuras!</p>
+      <button onclick="document.getElementById('comprar-moedas').scrollIntoView({behavior: 'smooth'});" style="display: block; margin: 9em auto 0 auto; background: #0076CA; color: #fff; font-family: 'Baloo 2', cursive; font-size: 1.15em; font-weight: 800; border: none; border-radius: 14px; padding: 0.7em 2.2em; box-shadow: 0 2px 12px #0076CA55; letter-spacing: 0.03em; text-shadow: 0 0 2px #000, 0 1px 0 #000; cursor: pointer; transition: background 0.2s; border: 2.5px solid #003366;">Compre aqui!</button>
+    </section>
+  </section>
+  <section class="catalogo-recarga" style="margin-top: 16em;">
+    <p></p>
+    <p></p>
+    <h2 id="comprar-moedas" style="color: #1ec773; font-family: 'Baloo 2', cursive; font-size: 1.25em; font-weight: 800; text-align: center; margin-top: 14em; margin-bottom: 1.2em; letter-spacing: 0.03em;">PARA OS PAIS/RESPONSÁVEIS</h2>
+    
+    <section style="background: #fff !important; border-radius: 22px; box-shadow: 0 4px 24px #FFD60022; border: 3px solid #FFD600; max-width: 370px; margin: 0 auto; padding: 2em 1.2em; position: relative; z-index: 10; background-image: none !important;">
+      <h3 style="color: #0076CA; font-family: 'Baloo 2', cursive; font-size: 1.1em; font-weight: 800; text-align: center; margin-bottom: 1em;">Bem-vindo à área segura de recarga do site Pequenos Exploradores!</h3>
+      <ul style="list-style: none; padding: 0; margin: 0;">
+        <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #FFD600; padding: 1em 0; font-size: 1.12em; font-weight: 700; color: #333; background: #fff; border-radius: 12px; margin-bottom: 0.7em;">
+          <section style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span style="color: #0076CA; font-size: 1.08em; font-weight: 800;">R$ 4,99</span>
+            <span style="color: #FFD600; font-weight: 800; font-size: 1.05em;">100 moedinhas</span>
+          </section>
+          <button style="background: linear-gradient(90deg, #FFD600 70%, #FFF176 100%); color: #00518C; font-weight: 800; border: none; border-radius: 10px; padding: 0.5em 1.2em; font-size: 1em; box-shadow: 0 2px 8px #FFD60044; cursor: pointer; transition: background 0.2s;">Comprar</button>
+        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #FFD600; padding: 1em 0; font-size: 1.12em; font-weight: 700; color: #333; background: #fff; border-radius: 12px; margin-bottom: 0.7em;">
+          <section style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span style="color: #0076CA; font-size: 1.08em; font-weight: 800;">R$ 9,99</span>
+            <span style="color: #FFD600; font-weight: 800; font-size: 1.05em;">300 moedinhas</span>
+          </section>
+          <button style="background: linear-gradient(90deg, #FFD600 70%, #FFF176 100%); color: #00518C; font-weight: 800; border: none; border-radius: 10px; padding: 0.5em 1.2em; font-size: 1em; box-shadow: 0 2px 8px #FFD60044; cursor: pointer; transition: background 0.2s;">Comprar</button>
+        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #FFD600; padding: 1em 0; font-size: 1.12em; font-weight: 700; color: #333; background: #fff; border-radius: 12px; margin-bottom: 0.7em;">
+          <section style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span style="color: #0076CA; font-size: 1.08em; font-weight: 800;">R$ 14,99</span>
+            <span style="color: #FFD600; font-weight: 800; font-size: 1.05em;">700 moedinhas</span>
+          </section>
+          <button style="background: linear-gradient(90deg, #FFD600 70%, #FFF176 100%); color: #00518C; font-weight: 800; border: none; border-radius: 10px; padding: 0.5em 1.2em; font-size: 1em; box-shadow: 0 2px 8px #FFD60044; cursor: pointer; transition: background 0.2s;">Comprar</button>
+        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px dashed #FFD600; padding: 1em 0; font-size: 1.12em; font-weight: 700; color: #333; background: #fff; border-radius: 12px; margin-bottom: 0.7em;">
+          <section style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span style="color: #0076CA; font-size: 1.08em; font-weight: 800;">R$ 19,99</span>
+            <span style="color: #FFD600; font-weight: 800; font-size: 1.05em;">3.000 moedinhas</span>
+          </section>
+          <button style="background: linear-gradient(90deg, #FFD600 70%, #FFF176 100%); color: #00518C; font-weight: 800; border: none; border-radius: 10px; padding: 0.5em 1.2em; font-size: 1em; box-shadow: 0 2px 8px #FFD60044; cursor: pointer; transition: background 0.2s;">Comprar</button>
+        </li>
+        <li style="display: flex; justify-content: space-between; align-items: center; border-bottom: none; padding: 1em 0; font-size: 1.12em; font-weight: 700; color: #333; background: #fff; border-radius: 12px; margin-bottom: 0.7em;">
+          <section style="display: flex; flex-direction: column; align-items: flex-start;">
+            <span style="color: #0076CA; font-size: 1.08em; font-weight: 800;">R$ 29,99</span>
+            <span style="color: #FFD600; font-weight: 800; font-size: 1.05em;">4.200 moedinhas</span>
+          </section>
+          <button style="background: linear-gradient(90deg, #FFD600 70%, #FFF176 100%); color: #00518C; font-weight: 800; border: none; border-radius: 10px; padding: 0.5em 1.2em; font-size: 1em; box-shadow: 0 2px 8px #FFD60044; cursor: pointer; transition: background 0.2s;">Comprar</button>
+        </li>
+      </ul>
+      <p style="text-align: center; color: #888; font-size: 0.95em; margin-top: 1.2em;">Escolha o pacote desejado para recarregar as moedinhas do seu explorador!</p>
+    </section>
+    <img src="/img/tcc.img/lojinha moedas/imagem.png" alt="Moedinhas" style="display: block; margin: 0 0 0 0; max-width: 260px; height: auto; float: left;">
+    <section style="height: 32px;"></div>
+    <section style="background: #C8F7C5; border-radius: 18px; box-shadow: 0 2px 12px #1ec77322; max-width: 370px; margin: 0 auto 0 auto; padding: 1.5em 1em; text-align: center;">
+      <h3 style="color: #1ec773; font-family: 'Baloo 2', cursive; font-size: 1.15em; font-weight: 800; margin-bottom: 0.7em;">Dica para os pais!</h3>
+      <p style="color: #0076CA; font-size: 1em; font-family: 'Baloo 2', cursive; font-weight: 700;">Acompanhe as aventuras do seu explorador e incentive o uso consciente das moedinhas!</p>
+    </section>
+    </div>
+  </section>
+</main>
+      <span class="plano-bonus">+100 moedas bônus!</span>
+      <span class="plano-premium">Pacote Premium</span>
+    </section>
+  </section>
+  <section class="pagamentos-recarga">
+    <h2>Formas de Pagamento</h2>
+    <ul>
+      <li><span class="pag-icone">💸</span> Pix</li>
+      <li><span class="pag-icone">💳</span> Cartão</li>
+      <li><span class="pag-icone">🅿️</span> PayPal</li>
+      <li><span class="pag-icone">📱</span> PicPay</li>
+      <li><span class="pag-icone">🛒</span> Mercado Pago</li>
+    </ul>
+  </section>
+  <section class="recarga-cta">
+    <button class="btn-destaque" onclick="window.location.href='/premium'">Assine agora e ganhe bônus!</button>
+    <p class="recarga-aviso">* Moedas bônus válidas por tempo limitado!</p>
+  </section>
+</main>
+<%- include('partials/footer') %>

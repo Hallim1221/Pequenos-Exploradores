@@ -1,0 +1,245 @@
+<!-- Cabeçalho reutilizável -->
+<header>
+  <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+    <span class="hamburger-bar"></span>
+  </button>
+
+  <div class="header-row"></div>
+  <nav id="novo-menu" class="novo-menu">
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="/loja">Loja</a></li>
+      <li><a href="/premium">Premium</a></li>
+      <li><a href="/aluno">Área do Aluno</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/contato">Contato</a></li>
+    </ul>
+  </nav>
+</header>
+<style>
+  header {
+    position: relative;
+    background: #3bb273;
+    height: 18px;
+    min-height: 0;
+    /* Banner verde super fino */
+  }
+  .menu-toggle {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    z-index: 10010;
+    background: #3bb273;
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    box-shadow: 0 1px 3px rgba(59,178,115,0.06);
+    border-radius: 50%;
+    margin: 0;
+  }
+  .hamburger-bar {
+    display: block !important;
+    width: 10px;
+    height: 1.5px;
+    margin: 1.5px 0;
+    background: #fff !important;
+    border-radius: 1px;
+    transition: all 0.3s;
+    opacity: 1 !important;
+  }
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+    margin-left: 0;
+  }
+  .menu-title {
+    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+    font-size: 0.95em;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    /* margin-left removido para alinhar com o logo */
+    margin-top: 24px;
+    color: #fff;
+    flex: 1;
+    text-align: left;
+    z-index: 1;
+    text-shadow: 2px 3px 8px rgba(0,0,0,0.22), 0px 1px 0px #fff;
+  }
+  .novo-menu {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #3bb273;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10002;
+    animation: fadeInMenu 0.3s;
+    transform: translateX(-100vw);
+    transition: transform 0.3s cubic-bezier(.77,0,.18,1);
+  }
+  .novo-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 90vw;
+    max-width: 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2em;
+    align-items: center;
+  }
+  .novo-menu li {
+    width: 100%;
+  }
+  .novo-menu a {
+    display: block;
+    width: 100%;
+    background: #fff;
+    color: #3bb273;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 1.15em;
+    border-radius: 12px;
+    padding: 1em 0;
+    box-sizing: border-box;
+    text-align: center;
+    transition: background 0.2s, color 0.2s;
+    border: none;
+  }
+  .novo-menu a:hover {
+    background: #eafbf0;
+    color: #3bb273;
+  }
+  body.menu-open .novo-menu {
+    display: flex;
+    transform: translateX(0);
+  }
+  body.menu-dragging .novo-menu {
+    display: flex;
+    transition: none;
+  }
+  @keyframes fadeInMenu {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  .menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.18);
+    z-index: 10001;
+  }
+  body.menu-open .menu-overlay {
+    display: block;
+  }
+  @media (max-width: 600px) {
+    .menu-toggle {
+      width: 12px;
+      height: 12px;
+      top: 1px;
+      left: 1px;
+      position: absolute;
+      padding: 0;
+    }
+    .hamburger-bar {
+      width: 7px;
+      height: 1px;
+      margin: 1px 0;
+      opacity: 1 !important;
+      background: #fff !important;
+      display: block !important;
+    }
+  }
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@700&family=Quicksand:wght@700&display=swap">
+<script src="/js/menu.js"></script>
+<script>
+  // Adiciona suporte a swipe para abrir e fechar o menu lateral
+  let touchStartX = 0;
+  let touchEndX = 0;
+  let dragging = false;
+  let dragMenu = document.getElementById('novo-menu');
+  let dragBody = document.body;
+  let dragCurrentX = 0;
+  let menuWasOpen = false;
+
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      dragging = false;
+      menuWasOpen = dragBody.classList.contains('menu-open');
+    }
+  });
+
+  document.addEventListener('touchmove', function(e) {
+    if (e.touches.length === 1) {
+      dragCurrentX = e.touches[0].clientX;
+      let delta = dragCurrentX - touchStartX;
+      // Abrir menu (swipe da esquerda)
+      if (!menuWasOpen && touchStartX < 80 && delta > 0) {
+        dragging = true;
+        dragBody.classList.add('menu-dragging');
+        dragMenu.style.transform = `translateX(${-window.innerWidth + Math.min(delta, window.innerWidth)}px)`;
+      }
+      // Fechar menu (swipe da direita)
+      if (menuWasOpen && touchStartX > window.innerWidth - 80 && delta < 0) {
+        dragging = true;
+        dragBody.classList.add('menu-dragging');
+        dragMenu.style.transform = `translateX(${Math.max(delta, -window.innerWidth)}px)`;
+      }
+    }
+  });
+
+  document.addEventListener('touchend', function(e) {
+    if (dragging) {
+      dragBody.classList.remove('menu-dragging');
+      dragMenu.style.transform = '';
+      // Abrir menu
+      if (!menuWasOpen && dragCurrentX - touchStartX > 60) {
+        dragBody.classList.add('menu-open');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'true');
+      }
+      // Fechar menu
+      if (menuWasOpen && touchStartX - dragCurrentX > 60) {
+        dragBody.classList.remove('menu-open');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'false');
+      }
+      dragging = false;
+      dragCurrentX = 0;
+      return;
+    }
+    if (e.changedTouches.length === 1) {
+      touchEndX = e.changedTouches[0].clientX;
+      // Abrir menu: arrastar da esquerda para a direita
+      if (touchEndX - touchStartX > 60 && touchStartX < 80) {
+        dragBody.classList.add('menu-open');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'true');
+      }
+      // Fechar menu: arrastar da direita para a esquerda
+      if (touchStartX > window.innerWidth - 80 && touchStartX - touchEndX > 60) {
+        dragBody.classList.remove('menu-open');
+        document.querySelector('.menu-toggle').setAttribute('aria-expanded', 'false');
+      }
+    }
+  });
+</script>

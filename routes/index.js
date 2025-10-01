@@ -2,6 +2,42 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
+// Página do mural do aluno (aluno2)
+router.get('/aluno2', (req, res) => {
+  res.render('aluno2');
+});
+
+// Página da turma (após participar)
+router.get('/turma', (req, res) => {
+  res.render('turma');
+});
+
+// Página para adicionar turma (aluno)
+router.get('/adicionar-turma', (req, res) => {
+  res.render('adicionar-turma');
+});
+
+// Compra de avatar
+router.post('/comprar-avatar', (req, res) => {
+  const { avatar, preco } = req.body;
+  let saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
+  let avatares = Array.isArray(req.session.avatares) ? req.session.avatares : [];
+  const precoNum = parseInt(preco, 10);
+  if (!avatar || isNaN(precoNum) || precoNum <= 0) {
+    return res.status(400).json({ sucesso: false, mensagem: 'Dados inválidos.' });
+  }
+  if (saldo < precoNum) {
+    return res.status(400).json({ sucesso: false, mensagem: 'Saldo insuficiente.' });
+  }
+  if (avatares.includes(avatar)) {
+    return res.status(400).json({ sucesso: false, mensagem: 'Avatar já comprado.' });
+  }
+  saldo -= precoNum;
+  avatares.push(avatar);
+  req.session.saldo = saldo;
+  req.session.avatares = avatares;
+  return res.json({ sucesso: true, saldo, avatares });
+});
 // Cadastro do Professor (POST)
 router.post('/professor/cadastro', (req, res) => {
   // Aqui você pode adicionar lógica de cadastro, validação, etc.
@@ -40,14 +76,16 @@ router.post('/aluno/cadastro',
     }
 
     // Aqui normalmente você salvaria o usuário no banco de dados.
-    // Para agora, apenas redirecionamos para a área do aluno após o cadastro bem-sucedido.
+    // Para agora, define saldo inicial na sessão e redireciona para a área do aluno.
+    req.session.saldo = 700;
     return res.redirect('/aluno');
   }
 );
 
 // Rota para página de compra de avatares
 router.get('/comprar-avatares', (req, res) => {
-  res.render('comprar-avatares');
+  const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
+  res.render('comprar-avatares', { saldo });
 });
 
 // Página inicial
@@ -104,15 +142,20 @@ router.get('/aluno/login', (req, res) => {
   res.render('aluno-login');
 });
 
+
 router.post('/aluno/login', (req, res) => {
   // Aqui você pode validar o e-mail e senha se desejar
-  // Por enquanto, apenas redireciona para a área do aluno
+  // Por enquanto, define saldo inicial na sessão e redireciona para a área do aluno
+  req.session.saldo = 700;
   res.redirect('/aluno');
 });
 
 // Área do Aluno
+
 router.get('/aluno', (req, res) => {
-  res.render('aluno');
+  // Usa saldo da sessão, se existir, senão 700
+  const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
+  res.render('aluno', { saldo });
 });
 
 // Loja

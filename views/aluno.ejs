@@ -40,6 +40,7 @@
     <li><a href="/sobre">Sobre</a></li>
     <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
     <li><a href="/loja">Futuro</a></li>
+  
       <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
         <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
           <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
@@ -127,7 +128,8 @@
         </section>
         <section class="aluno-badges">
           <section class="medalhas"></section>
-          <section class="moedas"> <span>$500</span> <span class="moeda-icone">🪙</span></section>
+          
+          <section class="moedas"> <span><%= typeof saldo !== 'undefined' ? saldo : 0 %></span> <span class="moeda-icone">🪙</span></section>
         </section>
       </section>
       <!-- Avatar à direita -->
@@ -191,6 +193,7 @@
         </section>
       
       <section class="aluno-destaque">
+        <p>Continue explorando para desbloquear novos mundos, ganhar prêmios e se tornar um <span class="aluno-explorador">Super Explorador!</span></p>
         <section style="margin-top:1em; display:flex; flex-direction:column; align-items:center; justify-content:center;">
           <img src="/img/tcc.img/animal1.png" alt="Avatar do Aluno no Mural" style="width:80px; height:80px; border-radius:22px; box-shadow:0 4px 16px #0076CA44; object-fit:cover; margin-bottom:0.5em;">
           <span style="font-weight:800; color:#0076CA; font-size:1.15em;">Aluno Explorador</span>
