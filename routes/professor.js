@@ -54,4 +54,11 @@ router.get('/turmas', (req, res) => {
   res.render('professor_turmas', { serie, turmas });
 });
 
+// Criação de turma do professor (POST)
+router.post('/turmas/criar', (req, res) => {
+  // Aqui você pode validar e salvar os dados da turma, se desejar
+  // Para agora, apenas redireciona para a página de turmas do professor
+  res.redirect('/professor/turmas');
+});
+
 module.exports = router;

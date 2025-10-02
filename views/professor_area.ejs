@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minhas Turmas</title>
-  <link rel="stylesheet" href="/css/professor_turmas.css">
+  <title>Área do Professor</title>
+  <link rel="stylesheet" href="/css/aluno2.css">
   <link rel="stylesheet" href="/css/btn-voltar.css">
   <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/professor_area.css">
 </head>
-<body>
+<body style="background:#fff;">
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index:12000;position:fixed;top:0.5em;right:0.5em;left:auto;">
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
       <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
     </svg>
   </button>
-  <header style="position:relative;z-index:1000;">
-    <section class="top-banner"></section>
-  </header>
+  <section class="top-banner"></section>
   <nav class="sidebar-menu" id="sidebarMenu">
     <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
       <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
@@ -38,15 +37,23 @@
   <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
     <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
   </button>
-  <main class="prof-turmas-main" style="padding-top: 0px; align-items: flex-start; min-height: 100vh;">
-    <section class="turma-card" style="width:100%;max-width:420px;margin-top:2.5em;text-align:left;">
-    <!-- Adiciona espaço extra para o botão flutuante não ficar sob o rodapé -->
-    <style>
-      main { padding-bottom: 100px !important; }
-    </style>
-      <a href="/professor_area" style="display:block;color:inherit;text-decoration:none;width:100%;height:100%;cursor:pointer;">
-        Séries - 5º Ano D
-      </a>
+  <nav class="aluno2-abas">
+    <button class="aba ativa" id="aba-mural">Mural</button>
+    <button class="aba" id="aba-atividades">Atividades</button>
+    <button class="aba" id="aba-pessoas">Pessoas</button>
+  </nav>
+  <main class="aluno2-main" style="padding-left: 1.2em; padding-right: 1.2em;">
+    <section class="aluno2-card-turma" style="display:flex;flex-direction:column;align-items:center;gap:0.7em;">
+      Séries - 5ºAno D
+    </section>
+    <section id="conteudo-mural" class="aluno2-mural aba-conteudo">
+      <section class="aluno2-mensagem">
+        <span class="aluno2-icone-user">👤</span>
+        <input type="text" class="prof-post-input" placeholder="Escreva uma mensagem" style="flex:1;border:none;outline:none;font-size:1em;background:transparent;padding:0.5em 0.2em;">
+        
+      <!-- Mensagens do mural podem ser listadas aqui -->
+    </section>
+   
     </section>
   </main>
   <footer style="background: #3bb273; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">

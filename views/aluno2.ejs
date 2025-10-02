@@ -59,7 +59,7 @@
     <button class="aba" id="aba-pessoas" onclick="trocarAba('pessoas')">Pessoas</button>
   </nav>
   <main class="aluno2-main" style="padding-left: 1.2em; padding-right: 1.2em;">
-    <section class="aluno2-card-turma">Séries - 5º Ano D</section>
+  <section id="card-turma-mural" class="aluno2-card-turma">Séries - 5º Ano D</section>
     <section id="conteudo-mural" class="aluno2-mural aba-conteudo">
       <section class="aluno2-mensagem">
         <span class="aluno2-icone-user">👤</span>
@@ -68,6 +68,20 @@
       <!-- Adicione mais mensagens aqui -->
     </section>
     <section id="conteudo-atividades" class="aba-conteudo" style="display:none;max-width:420px;width:100%;margin:0 auto;text-align:center;">
+      <!-- Seção compacta de atividades -->
+      <section class="aluno2-card-turma" style="max-width:350px;width:100%;margin:0 auto 0.7em auto;padding:0.10em 0.5em 0.10em 0.5em;box-sizing:border-box;background:#fff;box-shadow:0 2px 8px #1ec77322;border-radius:13px;display:flex;flex-direction:column;align-items:stretch;gap:0.05em;min-height:unset;">
+        <span style="font-weight:900;color:#1ec773;font-size:0.99em;letter-spacing:0.01em;margin-bottom:0.13em;line-height:1.1;">Suas atividades</span>
+        <a href="/quiz/biomas" style="display:flex;align-items:center;gap:0.38em;padding:0.22em 0;text-decoration:none;color:#222;font-size:0.91em;transition:background 0.15s;border-radius:7px;min-height:22px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:#e8f5e9;border-radius:4px;font-size:0.98em;flex-shrink:0;">🍃</span>
+          <span style="font-weight:700;line-height:1.1;">Quiz biomas brasileiros</span>
+        </a>
+        <section style="height:1px;background:#e0e0e0;margin:0.07em 0 0.07em 0;"></section>
+        <a href="/quiz/biomas" style="display:flex;align-items:center;gap:0.38em;padding:0.22em 0;text-decoration:none;color:#222;font-size:0.91em;transition:background 0.15s;border-radius:7px;min-height:22px;">
+          <span style="display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;background:#e8f5e9;border-radius:4px;font-size:0.98em;flex-shrink:0;">🎬</span>
+          <span style="font-weight:700;line-height:1.1;">Quiz biomas brasileiros</span>
+        </a>
+      </section>
+      <!-- Conteúdo original restaurado -->
       <main class="pagina-central" style="margin:0;padding:0;box-shadow:none;background:rgba(255,255,255,0.93);border-radius:18px;">
         <h1 class="quiz-titulo"> Quiz dos Pequenos Exploradores </h1>
         <p class="quiz-desc">Teste seus conhecimentos sobre natureza, meio ambiente, biomas e animais! Ganhe moedinhas e prêmios a cada acerto!</p>
@@ -107,7 +121,9 @@
         <span style="color:#4CAF50;font-weight:900;font-size:1.15em;">Estudantes</span>
         <section style="margin-top:0.7em;display:flex;flex-direction:column;gap:1em;">
           <section style="display:flex;align-items:center;background:#29B6F6;border-radius:16px;padding:0.9em 1em;gap:1em;box-shadow:0 2px 12px #29B6F633;">
-            <span style="font-size:2em;background:#fff;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;">👦</span>
+            <section style="width:48px;height:48px;min-width:48px;min-height:48px;max-width:48px;max-height:48px;border-radius:50%;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px #0076CA22;">
+              <img src="/img/tcc.img/animal1.png" alt="Avatar do Aluno" style="width:48px;height:48px;object-fit:cover;border-radius:50%;display:block;margin:auto;">
+            </section>
             <span style="font-weight:700;color:#fff;min-width:90px;">Lucas Oliveira</span>
             <section style="flex:1;display:flex;flex-direction:column;gap:0.2em;">
               <section style="background:#fff;border-radius:8px;height:8px;width:100%;overflow:hidden;">
@@ -116,7 +132,7 @@
               <section style="font-size:0.95em;color:#fff;">50/100</section>
             </section>
             <span style="font-size:1.3em;margin-left:0.5em;">🪙</span>
-            <span style="font-size:0.85em;margin-left:0.5em;">🏆 15.000</span>
+            <span style="font-size:0.85em;margin-left:0.2em;">🏆 15.000</span>
           </section>
           <!-- Adicione mais estudantes aqui -->
         </section>
@@ -133,6 +149,13 @@
       document.getElementById('conteudo-mural').style.display = 'none';
       document.getElementById('conteudo-atividades').style.display = 'none';
       document.getElementById('conteudo-pessoas').style.display = 'none';
+      // card turma
+      var cardTurma = document.getElementById('card-turma-mural');
+      if(aba === 'mural' || aba === 'pessoas') {
+        if(cardTurma) cardTurma.style.display = '';
+      } else {
+        if(cardTurma) cardTurma.style.display = 'none';
+      }
       if(aba === 'mural') {
         document.getElementById('aba-mural').classList.add('ativa');
         document.getElementById('conteudo-mural').style.display = '';
@@ -144,6 +167,10 @@
         document.getElementById('conteudo-pessoas').style.display = '';
       }
     }
+    // Exibe corretamente ao carregar a página
+    window.addEventListener('DOMContentLoaded', function() {
+      trocarAba(document.querySelector('.aba.ativa').id.replace('aba-',''));
+    });
   </script>
 </body>
   <%- include('partials/footer') %>

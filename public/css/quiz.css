@@ -71,7 +71,7 @@ body {
   width: 100%;
 }
 .quiz-card {
-  background: linear-gradient(120deg, #fffbe7 60%, #FFD600 100%);
+  background: #FFFBE7;
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.07);
   padding: 1.5em 1.2em 1.5em 1.2em;

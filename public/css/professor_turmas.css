@@ -15,10 +15,35 @@ body > section:not(.container):not(.dashboard-container):not(.bg-figma) {
 }
 /* Estilos exclusivos da página Professor Turmas */
 body {
-  background: linear-gradient(120deg, #3bb273 0%, #00CFFF 100%);
-  font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
-  min-height: 100vh;
+  background: #f7fafb;
+  font-family: 'Inter', Arial, sans-serif;
   margin: 0;
+  padding: 0;
+}
+
+.turma-card {
+  background: #4CAF50;
+  color: #fff;
+  font-weight: 900;
+  font-size: 2em;
+  border-radius: 22px;
+  padding: 1.2em 1.5em;
+  margin: 0 auto 0 auto;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 4px 24px #4CAF5044;
+  text-align: left;
+  letter-spacing: 0.01em;
+  box-sizing: border-box;
+ 
+}
+
+.prof-turmas-main {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 8px 80px 8px;
 }
 .container {
   max-width: 420px;
@@ -107,4 +132,28 @@ h1 {
 @keyframes fadeInTurma {
   from { opacity:0; transform:translateY(30px) scale(0.95); }
   to { opacity:1; transform:translateY(0) scale(1); }
+}
+.prof-turma-card {
+  background: #1db954;
+  color: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px #0001;
+  padding: 38px 32px;
+  max-width: 340px;
+  width: 100%;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.01em;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 500px) {
+  .prof-turma-card {
+    padding: 24px 6vw;
+    font-size: 1.05rem;
+    max-width: 98vw;
+  }
 }

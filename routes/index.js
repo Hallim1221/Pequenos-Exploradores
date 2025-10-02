@@ -220,4 +220,21 @@ router.get('/aluno2', (req, res) => {
   res.render('aluno2');
 });
 
+// Página de criação de turma (professor)
+router.get('/criar_turma', (req, res) => {
+  res.render('criar_turma');
+});
+
+// Criação de turma do professor (POST)
+router.post('/professor/turmas/criar', (req, res) => {
+  // Aqui você pode validar e salvar os dados da turma, se desejar
+  // Para agora, apenas redireciona para a página de turmas do professor
+  res.redirect('/professor/turmas');
+});
+
+// Página da área do professor
+router.get('/professor_area', (req, res) => {
+  res.render('professor_area');
+});
+
 module.exports = router;
