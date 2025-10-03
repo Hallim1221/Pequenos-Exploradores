@@ -38,26 +38,149 @@
     <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
   </button>
   <nav class="aluno2-abas">
-    <button class="aba ativa" id="aba-mural">Mural</button>
-    <button class="aba" id="aba-atividades">Atividades</button>
-    <button class="aba" id="aba-pessoas">Pessoas</button>
+    <button class="aba ativa" id="aba-mural" onclick="trocarAbaProf('mural')">Mural</button>
+    <button class="aba" id="aba-atividades" onclick="trocarAbaProf('atividades')">Atividades</button>
+    <button class="aba" id="aba-pessoas" onclick="trocarAbaProf('pessoas')">Pessoas</button>
   </nav>
   <main class="aluno2-main" style="padding-left: 1.2em; padding-right: 1.2em;">
-    <section class="aluno2-card-turma" style="display:flex;flex-direction:column;align-items:center;gap:0.7em;">
-      Séries - 5ºAno D
-    </section>
+    <section id="card-turma-mural" class="aluno2-card-turma">Séries - 5º Ano D</section>
     <section id="conteudo-mural" class="aluno2-mural aba-conteudo">
-      <section class="aluno2-mensagem">
-        <span class="aluno2-icone-user">👤</span>
-        <input type="text" class="prof-post-input" placeholder="Escreva uma mensagem" style="flex:1;border:none;outline:none;font-size:1em;background:transparent;padding:0.5em 0.2em;">
+      <!-- Área de postagem do professor -->
+      <form class="prof-postagem-form aluno2-mensagem" style="display:flex;align-items:flex-start;gap:0.7em;margin-bottom:1.2em;max-width:420px;background:#fff;border-radius:18px 18px 18px 4px;box-shadow:0 2px 8px #1ec77311;border:1.5px solid #e0e0e0;padding:0.7em 1em 0.7em 0.7em;">
+        <span class="aluno2-icone-user" style="margin-top:0.18em;">👤</span>
+        <textarea class="prof-postagem-textarea" placeholder="Escreva uma mensagem ou atividade para sua turma" rows="2" style="flex:1;resize:none;border:none;outline:none;background:transparent;font-size:1em;font-family:inherit;padding:0.2em 0.7em 0.2em 0.7em;min-height:32px;max-width:100%;box-shadow:none;"></textarea>
         
-      <!-- Mensagens do mural podem ser listadas aqui -->
+      <!-- Mensagens já postadas -->
+     
+      <!-- Adicione mais mensagens aqui -->
     </section>
-   
+    <!-- Atividades -->
+    <section id="conteudo-atividades" class="aba-conteudo" style="display:none;max-width:420px;width:100%;margin:0 auto;text-align:center;">
+      <h2 style="color:#4CAF50;font-size:1.18em;font-weight:900;margin-bottom:1.2em;text-align:left;width:100%;max-width:420px;">Seus trabalhos</h2>
+      <ul class="prof-atividades-list" style="list-style:none;padding:0;margin:0;width:100%;max-width:420px;">
+        <li class="prof-atividade-item" style="display:flex;align-items:center;gap:1em;padding:1em 0;border-bottom:1px solid #f2f2f2;">
+          <span class="prof-atividade-icone" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#e8f5e9;border-radius:50%;font-size:1.3em;flex-shrink:0;">🍃</span>
+          <span class="prof-atividade-titulo" style="font-size:1.08em;color:#222;font-weight:600;">Quiz biomas brasileiros</span>
+        </li>
+        <li class="prof-atividade-item" style="display:flex;align-items:center;gap:1em;padding:1em 0;border-bottom:1px solid #f2f2f2;">
+          <span class="prof-atividade-icone" style="display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:#e8f5e9;border-radius:50%;font-size:1.3em;flex-shrink:0;">📝</span>
+          <span class="prof-atividade-titulo" style="font-size:1.08em;color:#222;font-weight:600;">Quiz biomas brasileiros</span>
+        </li>
+      </ul>
+      <button class="btn-fab-add quadrado" aria-label="Adicionar atividade" style="position:fixed;right:1.2em;bottom:2.2em;width:56px;height:56px;border-radius:13px;background:#4CAF50;color:#fff;border:none;box-shadow:0 4px 16px #4CAF5044;display:flex;align-items:center;justify-content:center;font-size:2em;cursor:pointer;z-index:12010;transition:background 0.2s;">
+        <span style="font-size:2em;line-height:1;">+</span>
+        <script>
+          // Garante que só adiciona o evento uma vez
+          document.addEventListener('DOMContentLoaded', function() {
+            var btn = document.querySelector('.btn-fab-add.quadrado');
+            if(btn) {
+              btn.onclick = function(e) {
+                e.preventDefault();
+                window.location.href = '/criar_atividade';
+              };
+            }
+          });
+        </script>
+      </button>
+    </section>
+    <!-- Alunos -->
+    <section id="conteudo-pessoas" class="aba-conteudo" style="display:none;max-width:420px;width:100%;margin:0 auto;">
+      <!-- Seção Educadores -->
+      <section style="margin-bottom:2em;">
+        <span style="color:#4CAF50;font-weight:900;font-size:1.15em;">Educadores</span>
+        <section style="margin-top:0.7em;display:flex;align-items:center;gap:0.7em;justify-content:space-between;background:#fff;border-radius:13px;padding:0.7em 1em;box-shadow:0 2px 8px #4CAF5011;max-width:420px;">
+          <span style="display:flex;align-items:center;gap:0.7em;">
+            <span style="font-size:2em;background:#e0e0e0;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;">👤</span>
+            <span style="font-weight:700;color:#333;">Izabel Santos Soares</span>
+          </span>
+          <button title="Adicionar educador" style="background:#4CAF50;border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px #4CAF5022;cursor:pointer;transition:background 0.2s;">
+            <span style="font-size:1.3em;color:#fff;">➕</span>
+          </button>
+        </section>
+      </section>
+      <!-- Seção Estudantes -->
+      <section>
+        <span style="color:#4CAF50;font-weight:900;font-size:1.15em;">Estudantes</span>
+        <section style="margin-top:0.7em;display:flex;flex-direction:column;gap:1em;">
+          <section style="display:flex;align-items:center;background:#03A9F4;border-radius:16px;padding:0.9em 1em;gap:1em;box-shadow:0 2px 12px #03A9F433;">
+            <section style="width:48px;height:48px;min-width:48px;min-height:48px;max-width:48px;max-height:48px;border-radius:50%;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px #0076CA22;">
+              <img src="/img/tcc.img/animal1.png" alt="Avatar do Aluno" style="width:48px;height:48px;object-fit:cover;border-radius:50%;display:block;margin:auto;">
+            </section>
+            <span style="font-weight:700;color:#fff;min-width:90px;">Lucas Oliveira</span>
+            <section style="flex:1;display:flex;flex-direction:column;gap:0.2em;">
+              <section style="background:#fff;border-radius:8px;height:8px;width:100%;overflow:hidden;">
+                <section style="background:#2196F3;height:100%;width:50%;border-radius:8px;"></section>
+              </section>
+              <section style="font-size:0.95em;color:#fff;">50/100</section>
+            </section>
+            <span style="font-size:1.3em;margin-left:-7px;">🪙</span>
+            <span style="font-size:0.85em;margin-left:-7px;padding:0.3em 0.6em;border-radius:8px;font-weight:700;">🏆 15.000</span>
+          </section>
+          <!-- Adicione mais estudantes aqui -->
+        </section>
+      </section>
     </section>
   </main>
+  <style>
+    .btn-fab-add {
+      position: fixed;
+      right: 1.2em;
+      bottom: 2.2em;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 16px #4CAF5044;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2em;
+      cursor: pointer;
+      z-index: 12010;
+      transition: background 0.2s;
+    }
+    .btn-fab-add:hover {
+      background: #388e3c;
+    }
+    @media (max-width: 600px) {
+      .btn-fab-add {
+        right: 1em;
+        bottom: 1.2em;
+        width: 48px;
+        height: 48px;
+        font-size: 1.7em;
+      }
+    }
+  </style>
   <footer style="background: #3bb273; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
     <p>&copy; 2025 Pequenos Exploradores</p>
   </footer>
+  <script>
+    // Alternância de abas dinâmica para professor_area.ejs
+    function trocarAbaProf(aba) {
+      document.getElementById('aba-mural').classList.remove('ativa');
+      document.getElementById('aba-atividades').classList.remove('ativa');
+      document.getElementById('aba-pessoas').classList.remove('ativa');
+      document.getElementById('conteudo-mural').style.display = 'none';
+      document.getElementById('conteudo-atividades').style.display = 'none';
+      document.getElementById('conteudo-pessoas').style.display = 'none';
+      if(aba === 'mural') {
+        document.getElementById('aba-mural').classList.add('ativa');
+        document.getElementById('conteudo-mural').style.display = '';
+      } else if(aba === 'atividades') {
+        document.getElementById('aba-atividades').classList.add('ativa');
+        document.getElementById('conteudo-atividades').style.display = '';
+      } else if(aba === 'pessoas') {
+        document.getElementById('aba-pessoas').classList.add('ativa');
+        document.getElementById('conteudo-pessoas').style.display = '';
+      }
+    }
+    // Exibe corretamente ao carregar a página
+    window.addEventListener('DOMContentLoaded', function() {
+      trocarAbaProf(document.querySelector('.aba.ativa').id.replace('aba-',''));
+    });
+  </script>
 </body>
 </html>

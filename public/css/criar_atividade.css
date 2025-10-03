@@ -1,0 +1,150 @@
+body {
+  background: #fff;
+  font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.criar-atividade-main {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2.5em 1em 1.5em 1em;
+  background: #fff;
+}
+.criar-atividade-form {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px #4CAF5012;
+  padding: 2em 1.2em 1.5em 1.2em;
+  max-width: 410px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+}
+.criar-atividade-titulo {
+  color: #4CAF50;
+  font-size: 1.35em;
+  font-weight: 900;
+  margin-bottom: 0.7em;
+  text-align: center;
+}
+.criar-atividade-label {
+  color: #222;
+  font-weight: 700;
+  font-size: 1em;
+  margin-bottom: 0.3em;
+}
+.criar-atividade-input {
+  border-radius: 13px;
+  border: 1.5px solid #e0e0e0;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  background: #f2f2f2;
+  outline: none;
+  margin-bottom: 0.5em;
+  transition: border 0.2s;
+}
+.criar-atividade-input:focus {
+  border: 1.5px solid #4CAF50;
+  background: #fff;
+}
+.criar-atividade-turma {
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  margin-bottom: 0.7em;
+}
+.criar-atividade-icone-grupo {
+  font-size: 1.5em;
+  color: #4CAF50;
+}
+.criar-atividade-turma-btn {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 11px;
+  padding: 0.5em 1.2em;
+  font-size: 1em;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #4CAF5022;
+  transition: background 0.2s;
+}
+.criar-atividade-turma-btn:hover {
+  background: #388e3c;
+}
+.criar-atividade-textarea {
+  border-radius: 13px;
+  border: 1.5px solid #e0e0e0;
+  padding: 0.8em 1em;
+  font-size: 1em;
+  background: #f2f2f2;
+  outline: none;
+  min-height: 80px;
+  resize: vertical;
+  margin-bottom: 0.5em;
+  transition: border 0.2s;
+}
+.criar-atividade-textarea:focus {
+  border: 1.5px solid #4CAF50;
+  background: #fff;
+}
+.criar-atividade-anexo {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 0.7em;
+}
+.criar-atividade-icone-clipe {
+  font-size: 1.2em;
+  color: #0288d1;
+}
+.criar-atividade-link-anexo {
+  color: #0288d1;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1em;
+  transition: text-decoration 0.2s;
+}
+.criar-atividade-link-anexo:hover {
+  text-decoration: underline;
+}
+.criar-atividade-recompensa {
+  background: #f2f2f2;
+  color: #555;
+  border-radius: 9px;
+  padding: 0.5em 1em;
+  font-size: 1em;
+  font-weight: 700;
+  text-align: left;
+  margin-bottom: 0.7em;
+  display: inline-block;
+}
+.criar-atividade-btn-enviar {
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 13px;
+  padding: 0.9em 0;
+  font-size: 1.15em;
+  font-weight: 900;
+  width: 100%;
+  margin-top: 0.7em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #4CAF5044;
+  transition: background 0.2s;
+  text-align: center;
+}
+.criar-atividade-btn-enviar:hover {
+  background: #388e3c;
+}
+@media (max-width: 600px) {
+  .criar-atividade-main {
+    padding: 1.2em 0.2em 1.2em 0.2em;
+  }
+  .criar-atividade-form {
+    padding: 1.2em 0.5em 1em 0.5em;
+  }
+}

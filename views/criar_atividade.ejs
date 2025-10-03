@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Atividade</title>
+  <link rel="stylesheet" href="/css/aluno2.css">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/professor_area.css">
+  <link rel="stylesheet" href="/css/criar_atividade.css">
+</head>
+<body style="background:#fff;">
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index:12000;position:fixed;top:0.5em;right:0.5em;left:auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+          style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+          loading="lazy">
+      </section>
+      <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+    </section>
+    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Futuro</a></li>
+    </ul>
+  </nav>
+  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
+    <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+  </button>
+  <main class="criar-atividade-main">
+    <form class="criar-atividade-form" autocomplete="off">
+      <h2 class="criar-atividade-titulo">Nova Atividade</h2>
+      <label for="titulo" class="criar-atividade-label">Título da Atividade (obrigatório)</label>
+      <input type="text" id="titulo" name="titulo" class="criar-atividade-input" placeholder="Digite o nome da atividade" required>
+      <div class="criar-atividade-turma">
+        <span class="criar-atividade-icone-grupo">👥</span>
+        <button type="button" class="criar-atividade-turma-btn">5º Ano D</button>
+      </div>
+      <label for="descricao" class="criar-atividade-label">Descrição</label>
+      <textarea id="descricao" name="descricao" class="criar-atividade-textarea" placeholder="Escreva os detalhes da atividade"></textarea>
+      <div class="criar-atividade-anexo">
+        <span class="criar-atividade-icone-clipe">📎</span>
+        <a href="#" class="criar-atividade-link-anexo">Adicionar anexo</a>
+      </div>
+      <div class="criar-atividade-recompensa" id="abrir-modal-moedas" style="cursor:pointer;">100 moedinhas</div>
+      <!-- Modal de edição de moedas -->
+      <div id="modal-moedas-overlay" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.55);z-index:20000;align-items:center;justify-content:center;">
+        <div id="modal-moedas" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px #0002;max-width:340px;width:90vw;padding:0 1.2em 1.5em 1.2em;display:flex;flex-direction:column;align-items:center;">
+          <div style="width:calc(100% + 2.4em);margin-left:-1.2em;margin-bottom:1.2em;background:#4CAF50;border-radius:18px 18px 0 0;padding:1.1em 0 1em 0;text-align:center;">
+            <span style="color:#fff;font-weight:900;font-size:1.13em;">Editar valor de moedinhas</span>
+          </div>
+          <label for="input-moedas" style="font-weight:700;color:#222;font-size:1em;margin-bottom:0.5em;">Adicionar valor</label>
+          <input id="input-moedas" type="number" min="0" step="1" value="100" style="width:120px;text-align:center;font-size:1.15em;padding:0.5em 0.7em;border-radius:11px;border:1.5px solid #e0e0e0;background:#f2f2f2;outline:none;margin-bottom:1.2em;" />
+          <button id="btn-modal-moedas" type="button" style="background:#4CAF50;color:#fff;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:900;cursor:pointer;box-shadow:0 2px 8px #4CAF5044;transition:background 0.2s;">Adicionar</button>
+        </div>
+      </div>
+      <button type="submit" class="criar-atividade-btn-enviar">Enviar</button>
+    </form>
+  </main>
+  <footer style="background: #3bb273; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
+    <p>&copy; 2025 Pequenos Exploradores</p>
+  </footer>
+  <script>
+    // Modal de edição de moedas
+    const abrirModalMoedas = document.getElementById('abrir-modal-moedas');
+    const overlayMoedas = document.getElementById('modal-moedas-overlay');
+    const inputMoedas = document.getElementById('input-moedas');
+    const btnModalMoedas = document.getElementById('btn-modal-moedas');
+    abrirModalMoedas.addEventListener('click', function() {
+      overlayMoedas.style.display = 'flex';
+      inputMoedas.value = abrirModalMoedas.textContent.replace(/\D/g, '') || 100;
+      inputMoedas.focus();
+    });
+    overlayMoedas.addEventListener('click', function(e) {
+      if (e.target === overlayMoedas) overlayMoedas.style.display = 'none';
+    });
+    btnModalMoedas.addEventListener('click', function() {
+      let valor = parseInt(inputMoedas.value, 10);
+      if (isNaN(valor) || valor < 0) valor = 0;
+      abrirModalMoedas.textContent = valor + ' moedinhas';
+      overlayMoedas.style.display = 'none';
+    });
+    inputMoedas.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') btnModalMoedas.click();
+    });
+  </script>
+</body>
+</html>

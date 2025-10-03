@@ -1,6 +1,12 @@
+
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
+
+// Página de criação de atividade (professor)
+router.get('/criar_atividade', (req, res) => {
+  res.render('criar_atividade');
+});
 
 // Página do mural do aluno (aluno2)
 router.get('/aluno2', (req, res) => {
