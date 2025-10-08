@@ -1,3 +1,113 @@
+/* Abas roxas e contraste no modo premium (aluno2) */
+body.premium-aluno .aluno2-abas {
+  background: #f3eaff !important;
+  border-radius: 16px 16px 0 0 !important;
+  padding: 0.2em 0.5em !important;
+}
+body.premium-aluno .aluno2-abas .aba {
+  background: #fff !important;
+  color: #7c3aed !important;
+  border: 2px solid #7c3aed !important;
+  font-weight: bold;
+  border-radius: 12px 12px 0 0 !important;
+  margin: 0 0.2em !important;
+  box-shadow: 0 2px 8px #7c3aed22 !important;
+  transition: background 0.18s, color 0.18s;
+}
+body.premium-aluno .aluno2-abas .aba.ativa {
+  background: #7c3aed !important;
+  color: #fff !important;
+  border-bottom: 2px solid #fff !important;
+  z-index: 2;
+}
+/* Card turma e botão + roxos no modo premium */
+body.premium-aluno .turma-card {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 2px 12px #7c3aed44 !important;
+  border-radius: 22px !important;
+}
+body.premium-aluno .turma-card a {
+  color: #fff !important;
+}
+body.premium-aluno .turma-fab {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 2px 12px #7c3aed44 !important;
+  border: none !important;
+}
+body.premium-aluno .turma-fab svg rect {
+  fill: #fff !important;
+}
+body.premium-aluno .turma-fab:hover, body.premium-aluno .turma-fab:focus {
+  background: #5f23b6 !important;
+}
+/* Modal Participar da Turma roxo no modo premium */
+body.premium-aluno #modal-turma {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 8px 32px #7c3aed44 !important;
+}
+body.premium-aluno #modal-turma-titulo {
+  color: #fff !important;
+}
+body.premium-aluno .modal-turma-input {
+  border: 2px solid #fff !important;
+  background: #f3eaff !important;
+  color: #7c3aed !important;
+}
+body.premium-aluno .modal-turma-btn {
+  background: #fff !important;
+  color: #7c3aed !important;
+  font-weight: bold;
+  border: none !important;
+  box-shadow: 0 2px 12px #fff4 !important;
+}
+body.premium-aluno .modal-turma-btn:hover, body.premium-aluno .modal-turma-btn:focus {
+  background: #f3eaff !important;
+  color: #5f23b6 !important;
+}
+body.premium-aluno .modal-turma-close {
+  color: #fff !important;
+}
+/* Botão Participar da Turma roxo no modo premium */
+body.premium-aluno .turma-btn {
+  background: #7c3aed !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 2px 12px #7c3aed44 !important;
+}
+body.premium-aluno .turma-btn:hover, body.premium-aluno .turma-btn:focus {
+  background: #5f23b6 !important;
+}
+/* premium-aluno: fundo branco e cards roxos para premium */
+body.premium-aluno {
+  background: #fff !important;
+}
+body.premium-aluno .aluno-main section[style*="background: #1ec773"],
+body.premium-aluno .aluno-main section[style*="background:#1ec773"],
+body.premium-aluno .aluno-main section[style*="background:#1ec773;"] {
+  background: #7c3aed !important;
+  box-shadow: 0 2px 12px #7c3aed44 !important;
+}
+body.premium-aluno .aluno-main .aluno-dados-azul {
+  background: #fff !important;
+  color: #7c3aed !important;
+}
+body.premium-aluno .aluno-main .aluno-info-item,
+body.premium-aluno .aluno-main .aluno-ranking {
+  color: #fff !important;
+}
+body.premium-aluno .aluno-main .aluno-badges {
+  color: #fff !important;
+}
+body.premium-aluno .aluno-main .aluno-avatar {
+  box-shadow: 0 2px 8px #7c3aed33 !important;
+}
+body.premium-aluno .aluno-main .btn-editar-perfil {
+  background: #5000b2 !important;
+  color: #1e40af;
+}
 /* Texto Olá, ! e Escolha seu avatar branco no premium */
 .premium-aluno .aluno-info-item strong,
 .premium-aluno .aluno-info-item .aluno-nome,
@@ -8,12 +118,14 @@
 .premium-aluno .avatar-modal-titulo,
 .premium-aluno h2,
 .premium-aluno .avatar-modal-titulo {
-  color: #fff !important;
+  color: #1e40af;
+  
+  
 }
 /* Retângulo atrás das informações de moeda (azul escuro no premium) */
 .premium-aluno .aluno-dados-azul {
-  background: linear-gradient(120deg, #1e40af 0%, #3b82f6 100%) !important;
-  color: #fff !important;
+  background: #1e40af;
+  color:#1e40af33;
   box-shadow: 0 2px 8px #1e40af33;
 }
 /* Estilo premium para páginas do aluno (roxo como cor principal, verde só no cabeçalho/menu) */
@@ -42,9 +154,9 @@ body.premium-aluno {
 .premium-aluno .natureza,
 .premium-aluno .quiz-painel,
 .premium-aluno .ranking-centralizado {
-  background: linear-gradient(135deg, #e0e7ff 0%, #60a5fa 100%);
-  box-shadow: 0 4px 32px 0 #60a5fa33, 0 1.5px 8px 0 #e0e7ff22;
-  color: #1e293b;
+  
+ background: 
+  
 }
 
 body.premium-aluno .pagina-central {
@@ -70,7 +182,7 @@ body.premium-aluno .pagina-central {
 .premium-aluno .btn-editar-perfil,
 .premium-aluno .btn-ver-ranking,
 .premium-aluno .premium-btn {
-  background: linear-gradient(90deg, #c084fc 0%, #a78bfa 60%, #7c3aed 100%);
+  
   color: #fff !important;
   border-radius: 14px;
   box-shadow: 0 2px 8px #a78bfa33;
@@ -91,10 +203,10 @@ body.premium-aluno .pagina-central {
 /* Atalhos circulares */
 /* Atalhos circulares com roxo claro e escuro */
 .premium-aluno .atalho-circulo {
-  background: linear-gradient(135deg, #ede9fe 0%, #a78bfa 60%, #7c3aed 100%) !important;
-  color: #6d28d9 !important;
-  border: 2px solid #a78bfa !important;
-  box-shadow: 0 2px 8px #a78bfa33;
+  background: #7c3aed !important;
+  color: #5d00ff;
+  border: #5d00ff;
+  box-shadow: #5d00ff;
 }
 
 /* Cards de avatar, quiz, ranking, etc */
@@ -120,7 +232,8 @@ body.premium-aluno .aluno-info-item h2,
 body.premium-aluno .aluno-info-item .aluno-nome-destaque,
 body.premium-aluno #avatar-modal h2,
 body.premium-aluno .aluno-atalhos h2 {
-  color: #fff !important;
+  color: #1e40af !important;
+
 }
 
 /* Remove div, só section */

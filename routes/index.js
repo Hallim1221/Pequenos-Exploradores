@@ -3,6 +3,11 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
+// Página de turmas do professor
+router.get('/professor_turmas', (req, res) => {
+  res.render('professor_turmas');
+});
+
 // Página de criação de atividade (professor)
 router.get('/criar_atividade', (req, res) => {
   res.render('criar_atividade');

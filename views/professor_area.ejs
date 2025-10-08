@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
+<head>ue
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Área do Professor</title>
+  <link rel="stylesheet" href="/css/aluno.css">
   <link rel="stylesheet" href="/css/aluno2.css">
   <link rel="stylesheet" href="/css/btn-voltar.css">
   <link rel="stylesheet" href="/css/index.css">
@@ -17,7 +18,7 @@
     </svg>
   </button>
   <section class="top-banner"></section>
-  <nav class="sidebar-menu" id="sidebarMenu">
+  <nav class="sidebar-menu" id="sidebarMenu" style="z-index: 9000;">
     <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
       <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
         <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
@@ -32,6 +33,11 @@
       <li><a href="/sobre">Sobre</a></li>
       <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
       <li><a href="/loja">Futuro</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" onclick="abrirModalLogout()">Sair</button>
+        </form>
+      </li>
     </ul>
   </nav>
   <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
@@ -102,7 +108,7 @@
       <section>
         <span style="color:#4CAF50;font-weight:900;font-size:1.15em;">Estudantes</span>
         <section style="margin-top:0.7em;display:flex;flex-direction:column;gap:1em;">
-          <section style="display:flex;align-items:center;background:#03A9F4;border-radius:16px;padding:0.9em 1em;gap:1em;box-shadow:0 2px 12px #03A9F433;">
+          <section style="display:flex;align-items:center;background:#29B6F6;border-radius:16px;padding:0.9em 1em;gap:1em;box-shadow:0 2px 12px #29B6F633;">
             <section style="width:48px;height:48px;min-width:48px;min-height:48px;max-width:48px;max-height:48px;border-radius:50%;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px #0076CA22;">
               <img src="/img/tcc.img/animal1.png" alt="Avatar do Aluno" style="width:48px;height:48px;object-fit:cover;border-radius:50%;display:block;margin:auto;">
             </section>
@@ -113,8 +119,8 @@
               </section>
               <section style="font-size:0.95em;color:#fff;">50/100</section>
             </section>
-            <span style="font-size:1.3em;margin-left:-7px;">🪙</span>
-            <span style="font-size:0.85em;margin-left:-7px;padding:0.3em 0.6em;border-radius:8px;font-weight:700;">🏆 15.000</span>
+            <span style="font-size:1.3em;margin-left:0.5em;">🪙</span>
+            <span style="font-size:0.85em;margin-left:0.2em;">🏆 15.000</span>
           </section>
           <!-- Adicione mais estudantes aqui -->
         </section>
@@ -155,6 +161,19 @@
     }
   </style>
   <footer style="background: #3bb273; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
+  <!-- Modal de confirmação de logout (cópia exata do aluno2.ejs) -->
+  <section id="modal-logout-overlay" onclick="fecharModalLogout(event)" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.45);z-index:120000;align-items:center;justify-content:center;">
+    <section id="modal-logout" onclick="event.stopPropagation()" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px #00CFFF22;max-width:340px;width:90vw;padding:1.5em 1.2em 1.2em 1.2em;display:flex;flex-direction:column;align-items:center;position:relative;z-index:120001;">
+      <button class="modal-logout-close" onclick="fecharModalLogout(event)" style="position:absolute;top:0.7em;right:1em;font-size:2em;background:none;border:none;color:#00CFFF;cursor:pointer;">&times;</button>
+      <section style="font-weight:900;font-size:1.15em;color:#1ec773;margin-top:1.2em;margin-bottom:0.7em;">Deseja realmente sair?</section>
+      <section style="width:100%;display:flex;flex-direction:row;gap:1em;justify-content:center;margin-top:1.2em;">
+        <button onclick="fecharModalLogout(event)" style="background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #00CFFF22;transition:background 0.2s;">Cancelar</button>
+        <form action="/logout" method="POST" style="margin:0;display:inline;">
+          <button type="button" class="logout-creative" style="font-size:1em;padding:0.7em 2.2em;" onclick="logoutAndRedirect(this)">Sair</button>
+        </form>
+      </section>
+    </section>
+  </section>
     <p>&copy; 2025 Pequenos Exploradores</p>
   </footer>
   <script>
@@ -183,4 +202,26 @@
     });
   </script>
 </body>
+  <script>
+    // Modal de logout igual ao aluno2.ejs
+    function abrirModalLogout() {
+      document.getElementById('modal-logout-overlay').style.display = 'flex';
+      setTimeout(function() {
+        var btns = document.querySelectorAll('#modal-logout button, #modal-logout form button');
+        if(btns.length) btns[0].focus();
+      }, 200);
+    }
+    function fecharModalLogout(e) {
+      if (e) e.preventDefault();
+      document.getElementById('modal-logout-overlay').style.display = 'none';
+    }
+    // Logout com redirecionamento para página inicial
+    function logoutAndRedirect(btn) {
+      var form = btn.closest('form');
+      if(form) {
+        fetch(form.action, { method: 'POST', credentials: 'same-origin' })
+          .then(function() { window.location.href = '/'; });
+      }
+    }
+  </script>
 </html>

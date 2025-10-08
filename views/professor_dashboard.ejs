@@ -1,3 +1,16 @@
+  <!-- Modal Participar da Turma -->
+  <section id="modal-overlay-turma" onclick="fecharModalTurma(event)" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.45);z-index:20000;align-items:center;justify-content:center;">
+    <section id="modal-turma" onclick="event.stopPropagation()" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px #0002;max-width:340px;width:90vw;padding:0 1.2em 1.5em 1.2em;display:flex;flex-direction:column;align-items:center;position:relative;">
+      <button class="modal-turma-close" onclick="fecharModalTurma(event)" style="position:absolute;top:0.7em;right:1em;font-size:2em;background:none;border:none;color:#888;cursor:pointer;">&times;</button>
+      <section id="modal-turma-titulo" style="font-weight:900;font-size:1.15em;color:#4CAF50;margin-top:1.5em;margin-bottom:0.7em;">Participar da turma:</section>
+      <section class="modal-turma-bloco" style="width:100%;display:flex;flex-direction:column;align-items:center;gap:0.7em;">
+        <label for="senha-turma">Senha de acesso:</label>
+        <small>Peça para seu professor a senha da turma e digite-o aqui.</small>
+        <input type="password" id="senha-turma" class="modal-turma-input" placeholder="Digite a senha" autocomplete="off" style="border-radius:11px;border:1.5px solid #e0e0e0;padding:0.7em 1em;font-size:1em;background:#f2f2f2;outline:none;width:100%;max-width:220px;">
+  <button class="modal-turma-btn" style="background:#4CAF50;color:#fff;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:900;cursor:pointer;box-shadow:0 2px 8px #4CAF5044;transition:background 0.2s;margin-top:0.7em;" onclick="window.location.href='/professor_turmas'">Participar</button>
+      </section>
+    </section>
+  </section>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -5,6 +18,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel do Professor</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aluno.css">
+  <link rel="stylesheet" href="/css/aluno2.css">
   <link rel="stylesheet" href="/css/professor_dashboard.css">
   <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/btn-voltar.css">
@@ -14,6 +29,7 @@
   </style>
 </head>
 <body>
+  <style>body { background: #fff !important; }</style>
   <!-- Cabeçalho igual à página inicial -->
   <header>
     <section class="top-banner"></section>
@@ -26,7 +42,7 @@
   </header>
 
   <!-- Sidebar Menu (igual à página inicial) -->
-  <nav class="sidebar-menu" id="sidebarMenu">
+  <nav class="sidebar-menu" id="sidebarMenu" style="z-index: 9000;">
     <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
       <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
         <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
@@ -43,6 +59,11 @@
       <li><a href="/sobre">Sobre</a></li>
       <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
       <li><a href="/loja">Futuro</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" onclick="abrirModalLogout()">Sair</button>
+        </form>
+      </li>
     </ul>
   </nav>
   <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
@@ -64,9 +85,58 @@
     </section>
     <section class="dashboard-btns" style="display:flex;flex-direction:row;gap:14px;justify-content:center;align-items:center;width:100%;max-width:340px;margin-top:18px;">
       <button class="btn-create-turma" style="min-width:120px;max-width:48vw;white-space:nowrap;" onclick="window.location.href='/criar_turma'">Criar turma</button>
-      <button class="btn-join-turma" style="min-width:120px;max-width:48vw;white-space:nowrap;">Participar da turma</button>
+  <button class="btn-join-turma" style="min-width:120px;max-width:48vw;white-space:nowrap;" onclick="abrirModalTurma()">Participar da turma</button>
+
     </section>
   </section>
+  <footer style="background: #3bb273; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
+  <!-- Modal de confirmação de logout (cópia exata do aluno2.ejs) -->
+  <section id="modal-logout-overlay" onclick="fecharModalLogout(event)" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.45);z-index:120000;align-items:center;justify-content:center;">
+    <section id="modal-logout" onclick="event.stopPropagation()" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px #00CFFF22;max-width:340px;width:90vw;padding:1.5em 1.2em 1.2em 1.2em;display:flex;flex-direction:column;align-items:center;position:relative;z-index:120001;">
+      <button class="modal-logout-close" onclick="fecharModalLogout(event)" style="position:absolute;top:0.7em;right:1em;font-size:2em;background:none;border:none;color:#00CFFF;cursor:pointer;">&times;</button>
+      <section style="font-weight:900;font-size:1.15em;color:#1ec773;margin-top:1.2em;margin-bottom:0.7em;">Deseja realmente sair?</section>
+      <section style="width:100%;display:flex;flex-direction:row;gap:1em;justify-content:center;margin-top:1.2em;">
+        <button onclick="fecharModalLogout(event)" style="background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #00CFFF22;transition:background 0.2s;">Cancelar</button>
+        <form action="/logout" method="POST" style="margin:0;display:inline;">
+          <button type="button" class="logout-creative" style="font-size:1em;padding:0.7em 2.2em;" onclick="logoutAndRedirect(this)">Sair</button>
+        </form>
+      </section>
+    </section>
+  </section>
+    <p>&copy; 2025 Pequenos Exploradores</p>
+  </footer>
+  <script>
+    // Logout com redirecionamento para página inicial
+    function logoutAndRedirect(btn) {
+      var form = btn.closest('form');
+      if(form) {
+        fetch(form.action, { method: 'POST', credentials: 'same-origin' })
+          .then(function() { window.location.href = '/'; });
+      }
+    }
+    // Modal de logout igual ao aluno2.ejs
+    function abrirModalLogout() {
+      document.getElementById('modal-logout-overlay').style.display = 'flex';
+      setTimeout(function() {
+        var btns = document.querySelectorAll('#modal-logout button, #modal-logout form button');
+        if(btns.length) btns[0].focus();
+      }, 200);
+    }
+    function fecharModalLogout(e) {
+      if (e) e.preventDefault();
+      document.getElementById('modal-logout-overlay').style.display = 'none';
+    }
+    function abrirModalTurma() {
+      document.getElementById('modal-overlay-turma').style.display = 'flex';
+      setTimeout(function() {
+        document.getElementById('senha-turma').focus();
+      }, 200);
+    }
+    function fecharModalTurma(e) {
+      if (e) e.preventDefault();
+      document.getElementById('modal-overlay-turma').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
 

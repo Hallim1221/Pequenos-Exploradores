@@ -15,6 +15,11 @@
   <link rel="stylesheet" href="/css/aluno2.css">
 </head>
 <body>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
   <style>
     body {
       background: #fff !important;
