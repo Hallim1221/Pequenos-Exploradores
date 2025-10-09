@@ -1,3 +1,67 @@
+/* Números das pontuações brancos no modal de ranking em modo premium */
+body.premium-aluno .ranking-modal-list .ranking-modal-item .ranking-modal-pontos,
+body.premium-aluno .ranking-modal-list .ranking-modal-item span.ranking-modal-pontos {
+  color: #fff !important;
+}
+/* Pontuações brancas no modal de ranking em modo premium */
+body.premium-aluno .ranking-modal-list .ranking-modal-pontos {
+  color: #fff !important;
+}
+body.premium-aluno #avatar-modal .avatar-titulo {
+  color: #fff !important;
+}
+/* Texto 'Escolha seu Avatar' branco no modo premium (aluno) */
+body.premium-aluno #avatar-modal h2 {
+  color: #fff !important;
+}
+/* Textos Educadores e Estudantes roxos na aba pessoas (aluno2) no modo premium */
+body.premium-aluno #conteudo-pessoas span[style*="color:#4CAF50"] {
+  color: #7c3aed !important;
+}
+/* Card de fundo das partes de quizzes roxo na aba atividades (aluno2) no modo premium */
+body.premium-aluno #conteudo-atividades .pagina-central {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 2px 12px #7c3aed44 !important;
+  border-radius: 18px !important;
+}
+/* Cards de quizzes roxos na aba atividades (aluno2) no modo premium */
+body.premium-aluno #conteudo-atividades .quiz-card {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 2px 12px #7c3aed44 !important;
+  border-radius: 16px !important;
+}
+body.premium-aluno #conteudo-atividades .quiz-card h2,
+body.premium-aluno #conteudo-atividades .quiz-card p,
+body.premium-aluno #conteudo-atividades .quiz-card a {
+  color: #fff !important;
+}
+body.premium-aluno #conteudo-atividades .quiz-card a.btn-destaque {
+  background: #fff !important;
+  color: #7c3aed !important;
+  font-weight: bold;
+  border-radius: 10px !important;
+  box-shadow: 0 2px 8px #fff4 !important;
+}
+body.premium-aluno #conteudo-atividades .quiz-card a.btn-destaque:hover,
+body.premium-aluno #conteudo-atividades .quiz-card a.btn-destaque:focus {
+  background: #f3eaff !important;
+  color: #5f23b6 !important;
+}
+/* Textos do card 'Suas atividades' brancos no modo premium (aluno2) */
+body.premium-aluno #conteudo-atividades .aluno2-card-turma,
+body.premium-aluno #conteudo-atividades .aluno2-card-turma * {
+  color: #fff !important;
+}
+/* Card 5º Ano roxo no modo premium (aluno2) */
+body.premium-aluno .aluno2-card-turma {
+  background: #7c3aed !important;
+  color: #fff !important;
+  box-shadow: 0 2px 12px #7c3aed44 !important;
+  border-radius: 18px !important;
+  font-weight: bold;
+}
 /* Abas roxas e contraste no modo premium (aluno2) */
 body.premium-aluno .aluno2-abas {
   background: #f3eaff !important;

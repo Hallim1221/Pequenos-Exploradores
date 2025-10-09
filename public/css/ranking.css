@@ -1,3 +1,7 @@
+.ranking-modal-list .ranking-modal-item .ranking-modal-pontos,
+.ranking-modal-list .ranking-modal-item span.ranking-modal-pontos {
+  color: #fff !important;
+}
 /* Modo premium: todos os cards do ranking com a mesma cor e estilo */
 body.premium-aluno .top3-card,
 body.premium-aluno .ranking-card,
@@ -16,12 +20,15 @@ body.premium-aluno .medalhas-card * {
 }
 .medalhas-list {
   display: flex !important;
-  gap: 0.28em !important;
+  gap: 0em !important;
   justify-content: center;
   align-items: center;
   transform: scale(0.54);
   margin-top: -8px;
   margin-bottom: -8px;
+  margin-left: 15px;
+;
+  
 }
 /* Troféu fora do card de medalhas */
 .medalhas-trofeu-btn-outer {

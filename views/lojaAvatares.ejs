@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛍️ Loja de Avatares</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+  <link rel="stylesheet" href="/css/index.css">
+  <link rel="stylesheet" href="/css/loja-avatares.css">
+  <link rel="stylesheet" href="/css/aluno.css">
+</head>
+<body style="background:#fff;">
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
+
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
+          style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
+          loading="lazy">
+      </section>
+      <section style="margin-top:0.3em;text-align:center;width:100%;">
+      </section>
+    </section>
+    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Futuro</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
+        </form>
+      </li>
+</nav>
+<script>
+  function abrirModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if (modal) modal.style.display = 'flex';
+  }
+  function fecharModalLogout() {
+    var modal = document.getElementById('modal-logout');
+    if (modal) modal.style.display = 'none';
+  }
+  function confirmarLogout() {
+    fetch('/logout', { method: 'POST' })
+      .then(() => { window.location.href = '/'; });
+  }
+</script>
+
+<!-- Modal de confirmação de logout -->
+<section id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+      <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+        <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+        <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+        <section style="display:flex; gap:1.2em; justify-content:center;">
+          <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+            Sim
+          </button>
+          <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+            Não
+          </button>
+        </section>
+        <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+      </section>
+    </section>
+      </section>
+</section>
+  <li><form action="/logout" method="POST" style="margin:0;"><button type="submit" style="background:none;border:none;color:#fff;font-size:1em;cursor:pointer;padding:0.2em 0;width:100%;text-align:left;">Sair</button></form></li>
+    </ul>
+  </nav>
+  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
+    <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
+  </button>
+  <div class="loja-saldo" id="lojaSaldo" style="position:fixed;top:2.2em;left:0.7em;z-index:12000;background:#1ec773;border-radius:8px;padding:0.12em 0.5em;font-size:0.98em;font-weight:700;box-shadow:0 1px 6px #00CFFF22;display:flex;align-items:center;gap:0.12em;min-width:unset;max-width:80px;width:auto;color:#fff;">💰 <span id="saldoValor" style="background:none;color:#fff;padding:0;border-radius:6px;">0</span></div>
+  <section class="loja-topo">
+    <h1 style="font-size:2em;font-weight:900;color:#0076CA;margin-bottom:0.2em;">🛍️ Loja de Avatares</h1>
+
+  </section>
+  <section class="loja-grid" id="lojaGrid"></section>
+  <!-- Modal de confirmação de compra -->
+  <section class="loja-modal" id="modalConfirmarCompra" style="display:none;">
+    <section class="loja-modal-content">
+      <h2>Deseja comprar este avatar?</h2>
+      <div style="display:flex;gap:1.2em;justify-content:center;margin-top:1.2em;">
+        <button id="btnConfirmarCompra" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%);color:#fff;font-weight:900;border:none;border-radius:16px;padding:0.7em 2.2em;font-size:1.08em;box-shadow:0 2px 12px #00CFFF33;cursor:pointer;letter-spacing:0.04em;transition:background 0.18s,transform 0.18s;text-transform:uppercase;">Sim</button>
+        <button onclick="fecharModalConfirmarCompra()" style="background:#fff;color:#0076CA;font-weight:900;border:2px solid #00CFFF;border-radius:16px;padding:0.7em 2.2em;font-size:1.08em;box-shadow:0 2px 8px #00CFFF22;cursor:pointer;letter-spacing:0.04em;transition:background 0.18s,transform 0.18s;text-transform:uppercase;">Não</button>
+      </div>
+    </section>
+  </section>
+  <!-- Modal de sucesso -->
+  <section class="loja-modal" id="lojaModal">
+    <section class="loja-modal-content">
+      <h2>Avatar comprado com sucesso!</h2>
+      <button onclick="fecharModalLoja()">OK</button>
+    </section>
+  </section>
+  <script>
+    // Lista de avatares disponíveis na loja
+    const AVATARES = [
+      { nome: 'Colala', preco: 200, img: '/img/animais premium/imagem.png' },
+      { nome: 'Girafinha (feminina)', preco: 180, img: '/img/animais premium/imagem (1).jpg' },
+      { nome: 'Coruja zuja', preco: 220, img: '/img/animais premium/imagem (2).jpg' },
+      { nome: 'Macaca fofa', preco: 150, img: '/img/animais premium/imagem (5).png' },
+      { nome: 'Elefanto', preco: 250, img: '/img/animais premium/imagem (6).png' },
+      { nome: 'Zebrinho', preco: 170, img: '/img/animais premium/imagem (7).png' },
+      { nome: 'Guaxa', preco: 210, img: '/img/animais premium/imagem (8).png' },
+      { nome: 'Perereka(Skin Lendária)', preco: 99999999, img: '/img/animais premium/imagem (9).png' }
+    ];
+    // Saldo inicial do aluno (pode ser puxado do backend ou localStorage)
+    function getSaldo() {
+      return parseInt(localStorage.getItem('moedasAluno') || '700', 10);
+    }
+    function setSaldo(valor) {
+      localStorage.setItem('moedasAluno', valor);
+      document.getElementById('saldoValor').textContent = valor;
+    }
+    // Avatares comprados
+    function getAvataresComprados() {
+      try {
+        return JSON.parse(localStorage.getItem('avataresComprados') || '[]');
+      } catch { return []; }
+    }
+    function setAvataresComprados(lista) {
+      localStorage.setItem('avataresComprados', JSON.stringify(lista));
+    }
+    // Renderizar grid de avatares
+    let avatarParaComprar = null;
+    function renderLoja() {
+      const grid = document.getElementById('lojaGrid');
+      grid.innerHTML = '';
+      const saldo = getSaldo();
+      setSaldo(saldo); // Atualiza barra
+      const comprados = getAvataresComprados();
+      AVATARES.forEach((avatar, idx) => {
+        const card = document.createElement('div');
+        card.className = 'loja-card';
+        // Imagem
+        const imgDiv = document.createElement('div');
+        imgDiv.className = 'loja-avatar-img';
+        const img = document.createElement('img');
+        img.src = avatar.img;
+        img.alt = avatar.nome;
+        imgDiv.appendChild(img);
+        card.appendChild(imgDiv);
+        // Nome
+        const nome = document.createElement('div');
+        nome.className = 'loja-avatar-nome';
+        nome.textContent = avatar.nome;
+        card.appendChild(nome);
+        // Preço
+        const preco = document.createElement('div');
+        preco.className = 'loja-avatar-preco';
+        preco.innerHTML = '💰 ' + avatar.preco;
+        card.appendChild(preco);
+        // Botão
+        const btn = document.createElement('button');
+        btn.className = 'loja-comprar-btn';
+        btn.textContent = comprados.includes(avatar.img) ? 'Comprado' : 'Comprar';
+        btn.disabled = comprados.includes(avatar.img) || saldo < avatar.preco;
+        btn.onclick = function() {
+          if (btn.disabled) return;
+          avatarParaComprar = { avatar, btn, saldo, comprados };
+          abrirModalConfirmarCompra();
+        };
+        card.appendChild(btn);
+        grid.appendChild(card);
+      });
+    }
+
+    // Modal de confirmação de compra
+    function abrirModalConfirmarCompra() {
+      document.getElementById('modalConfirmarCompra').style.display = 'flex';
+    }
+    function fecharModalConfirmarCompra() {
+      document.getElementById('modalConfirmarCompra').style.display = 'none';
+      avatarParaComprar = null;
+    }
+    document.getElementById('btnConfirmarCompra').onclick = function() {
+      if (!avatarParaComprar) return;
+      const { avatar, btn, saldo, comprados } = avatarParaComprar;
+      setSaldo(saldo - avatar.preco);
+      const novos = [...comprados, avatar.img];
+      setAvataresComprados(novos);
+      btn.textContent = 'Comprado';
+      btn.disabled = true;
+      fecharModalConfirmarCompra();
+      abrirModalLoja();
+      window.dispatchEvent(new CustomEvent('avatarComprado', { detail: avatar.img }));
+    };
+    // Modal sucesso
+    function abrirModalLoja() {
+      document.getElementById('lojaModal').style.display = 'flex';
+    }
+    function fecharModalLoja() {
+      document.getElementById('lojaModal').style.display = 'none';
+    }
+    // Sincronizar seleção de avatares na página aluno.ejs
+    window.addEventListener('avatarComprado', function(e) {
+      // Adiciona avatar comprado à seleção do aluno (se a página aluno estiver aberta)
+      try {
+        const avatars = document.querySelectorAll('.avatar-option');
+        if (!avatars || avatars.length === 0) return;
+        // Adiciona novo avatar se não existir
+        const imgSrc = e.detail;
+        let existe = false;
+        avatars.forEach(function(img) { if (img.src === imgSrc) existe = true; });
+        if (!existe) {
+          // Cria novo elemento
+          const novo = document.createElement('img');
+          novo.src = imgSrc;
+          novo.className = 'avatar-option';
+          novo.style.width = '74px';
+          novo.style.height = '74px';
+          novo.style.borderRadius = '18px';
+          novo.style.border = '3px solid #fff';
+          novo.style.background = '#1ec773';
+          novo.style.cursor = 'pointer';
+          novo.style.transition = 'transform 0.2s';
+          novo.style.boxShadow = '0 2px 8px #fff8';
+          novo.onclick = function() { selecionarAvatar(novo); };
+          // Adiciona ao grid de seleção
+          const grid = document.querySelector('#avatar-modal section[style*="grid"]');
+          if (grid) grid.appendChild(novo);
+        }
+      } catch {}
+    });
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', renderLoja);
+  </script>
+</body>
+<%- include('partials/footer') %>
+</html>

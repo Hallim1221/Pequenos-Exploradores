@@ -129,7 +129,7 @@
         <section class="aluno-badges">
           <section class="medalhas"></section>
           
-          <section class="moedas"> <span><%= typeof saldo !== 'undefined' ? saldo : 0 %></span> <span class="moeda-icone">🪙</span></section>
+          <section class="moedas"> <span id="alunoSaldoValorInline">0</span> <span class="moeda-icone">🪙</span></section>
         </section>
       </section>
       <!-- Avatar à direita -->
@@ -203,7 +203,7 @@
   <section id="avatar-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.55); z-index:12000; align-items:center; justify-content:center;">
     <section style="background:#0076CA; border-radius:24px; padding:2em 1.5em 1.5em 1.5em; max-width:480px; width:95vw; box-shadow:0 8px 32px #0076CA44; text-align:center; position:relative;">
       <button onclick="document.getElementById('avatar-modal').style.display='none'" style="position:absolute; top:1em; right:1em; background:none; border:none; font-size:2em; color:#fff; cursor:pointer;">&times;</button>
-      <h2 style="font-family:'Baloo 2',cursive; color:#fff; font-size:1.3em; font-weight:800; margin-bottom:1.2em;">Escolha seu Avatar</h2>
+  <h2 class="avatar-titulo" style="font-family:'Baloo 2',cursive; font-size:1.3em; font-weight:800; margin-bottom:1.2em; color:#fff;">Escolha seu Avatar</h2>
       <section style="display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); gap:1.1em; justify-items:center; align-items:center; margin-bottom:1.5em;">
   <img src="/img/tcc.img/animal1.png" alt="Avatar 1" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
   <img src="/img/tcc.img/animal2.png" alt="Avatar 2" class="avatar-option" style="width:74px; height:74px; border-radius:18px; border:3px solid #fff; background:#1ec773; cursor:pointer; transition:transform 0.2s; box-shadow:0 2px 8px #fff8;" onclick="selecionarAvatar(this)">
@@ -216,12 +216,34 @@
         <section style="width:74px; height:74px; background:transparent;"></section>
       </section>
       <section style="display:flex; justify-content:center; width:100%; margin-top:0.2em;">
-        <a href="/comprar-avatares" style="display:inline-block; background:linear-gradient(90deg,#1ec773 0%,#00CFFF 100%); color:#fff; font-size:1.18em; font-weight:800; border:none; border-radius:14px; padding:0.8em 2.2em; cursor:pointer; box-shadow:0 2px 12px #1ec77355,0 1px 4px #00CFFF33; letter-spacing:0.03em; text-decoration:none; transition:background 0.18s,transform 0.18s; text-shadow:0 2px 8px #0076CA22;">✨ Compre mais</a>
+  <a href="/lojaAvatares" style="display:inline-block; background:linear-gradient(90deg,#1ec773 0%,#00CFFF 100%); color:#fff; font-size:1.18em; font-weight:800; border:none; border-radius:14px; padding:0.8em 2.2em; cursor:pointer; box-shadow:0 2px 12px #1ec77355,0 1px 4px #00CFFF33; letter-spacing:0.03em; text-decoration:none; transition:background 0.18s,transform 0.18s; text-shadow:0 2px 8px #0076CA22;">✨ Compre mais</a>
       </section>
     </section>
   </section>
 
   <script>
+    // Atualiza saldo do aluno na tela
+    function atualizarSaldoAluno() {
+      var saldo = parseInt(localStorage.getItem('moedasAluno') || '700', 10);
+      var el = document.getElementById('alunoSaldoValor');
+      if(el) el.textContent = saldo;
+    }
+    function atualizarSaldoAlunoInline() {
+      var saldo = parseInt(localStorage.getItem('moedasAluno') || '700', 10);
+      var el = document.getElementById('alunoSaldoValorInline');
+      if(el) el.textContent = saldo;
+    }
+    window.addEventListener('storage', function(e) {
+      if(e.key === 'moedasAluno') {
+        atualizarSaldoAluno();
+        atualizarSaldoAlunoInline();
+      }
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+      atualizarSaldoAluno();
+      atualizarSaldoAlunoInline();
+    });
+
     // Persistência do avatar selecionado
     function atualizarAvatarSalvo() {
       var avatarImg = document.querySelector('.aluno-avatar');

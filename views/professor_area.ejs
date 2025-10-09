@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>ue
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Área do Professor</title>
@@ -99,7 +99,7 @@
             <span style="font-size:2em;background:#e0e0e0;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;">👤</span>
             <span style="font-weight:700;color:#333;">Izabel Santos Soares</span>
           </span>
-          <button title="Adicionar educador" style="background:#4CAF50;border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px #4CAF5022;cursor:pointer;transition:background 0.2s;">
+          <button title="Adicionar aluno na turma" id="btnAddAluno" style="background:#4CAF50;border:none;border-radius:50%;width:38px;height:38px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px #4CAF5022;cursor:pointer;transition:background 0.2s;">
             <span style="font-size:1.3em;color:#fff;">➕</span>
           </button>
         </section>
@@ -126,7 +126,35 @@
         </section>
       </section>
     </section>
+  <!-- Modal de adicionar aluno na turma -->
+  <section id="modal-add-aluno" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+    <section style="background:#fff; border-radius:22px; box-shadow:0 4px 32px #00CFFF33; padding:2.2em 2.5em 2em 2.5em; display:flex; flex-direction:column; align-items:center; position:relative; min-width:270px;">
+  <h2 style="color:#0076CA; font-size:1.18em; font-weight:900; margin-bottom:1.2em;">Adicionar aluno na turma</h2>
+      <input id="inputEmailAluno" type="email" placeholder="E-mail do aluno" style="width:100%;max-width:320px;padding:0.7em 1em;border-radius:12px;border:1.5px solid #00CFFF;font-size:1.08em;margin-bottom:1.5em;outline:none;">
+      <button id="btnConfirmarAddAluno" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Adicionar</button>
+  <button onclick="event.preventDefault();fecharModalAddAluno();" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
+    </section>
+  </section>
   </main>
+  <script>
+    document.getElementById('btnAddAluno').onclick = function(e) {
+      if(e) e.preventDefault();
+      document.getElementById('modal-add-aluno').style.display = 'flex';
+    };
+    function fecharModalAddAluno() {
+      document.getElementById('modal-add-aluno').style.display = 'none';
+    }
+    document.getElementById('btnConfirmarAddAluno').onclick = function() {
+      var email = document.getElementById('inputEmailAluno').value.trim();
+      if(!email) {
+        alert('Digite o e-mail do aluno.');
+        return;
+      }
+      // Aqui você pode adicionar a lógica de envio para o backend
+      fecharModalAddAluno();
+      alert('Aluno adicionado (simulação).');
+    };
+  </script>
   <style>
     .btn-fab-add {
       position: fixed;

@@ -1,3 +1,9 @@
+// ...existing code...
+// ...existing code...
+// ...existing code...
+// ...existing code...
+
+
 
 const express = require('express');
 const { body, validationResult } = require('express-validator');
@@ -169,6 +175,11 @@ router.get('/aluno', (req, res) => {
   res.render('aluno', { saldo });
 });
 
+
+// Loja de Avatares
+router.get('/lojaAvatares', (req, res) => {
+  res.render('lojaAvatares');
+});
 // Loja
 router.get('/loja', (req, res) => {
   res.render('loja');

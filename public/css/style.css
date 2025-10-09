@@ -1,3 +1,140 @@
+/* ===================== DESKTOP RESPONSIVE (min-width: 1024px) ===================== */
+@media (min-width: 1024px) {
+  body {
+    font-size: 1.13em;
+    background: #eafbf0;
+  }
+  main, .container, .main, .content, .card, .form, .quiz, .dashboard-container, .login-container {
+    max-width: 1200px;
+    margin: 2.5rem auto 0 auto !important;
+    padding: 2.8rem 2.5rem !important;
+    border-radius: 18px !important;
+    box-sizing: border-box;
+  }
+  header, footer {
+    padding: 2.2rem 4rem;
+    font-size: 1.13em;
+  }
+  h1 {
+    font-size: 2.8em !important;
+  }
+  h2 {
+    font-size: 2em !important;
+  }
+  h3 {
+    font-size: 1.4em !important;
+  }
+  button, .btn-primary, .btn-destaque, .btn-secondary, button[type="submit"] {
+    font-size: 1.18em !important;
+    padding: 1em 2.2em !important;
+    border-radius: 14px !important;
+  }
+  nav a {
+    font-size: 1.13em;
+    margin-right: 2.2rem;
+  }
+  .features-list {
+    flex-direction: row !important;
+    gap: 3.5rem !important;
+    justify-content: center;
+  }
+  .features-list article {
+    padding: 2rem 1.5rem;
+    font-size: 1.13em;
+  }
+  .about-features ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5em 2.5em;
+  }
+  .about-extra {
+    padding: 2.2rem 2.5rem;
+    font-size: 1.13em;
+    margin-bottom: 2.2rem;
+  }
+  .about-cta {
+    font-size: 1.35em;
+  }
+  .series, .cards, .quizzes {
+    flex-direction: row !important;
+    gap: 2.2em !important;
+    align-items: flex-start !important;
+    justify-content: center;
+  }
+  .serie-card, .card, .quiz-card {
+    min-width: 340px !important;
+    max-width: 1fr;
+    padding: 1.5em 1.2em !important;
+    font-size: 1.08em !important;
+  }
+  .aluno2-main, .aluno-main, .dashboard-container, .main, .content {
+    max-width: 1200px;
+    margin: 2.5rem auto 0 auto !important;
+    padding: 2.8rem 2.5rem !important;
+    border-radius: 18px !important;
+    box-sizing: border-box;
+  }
+  .aluno-atalhos, .aluno-destaque, .aluno-badges, .aluno-info-col {
+    flex-direction: row !important;
+    gap: 2em !important;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .aluno-info-col {
+    max-width: 600px;
+  }
+  .aluno-badges {
+    margin-left: 2em !important;
+  }
+  .aluno-dados-azul, .aluno-info-item {
+    font-size: 1.13em !important;
+    padding: 1.2em 1.5em !important;
+  }
+  .aluno-avatar, .avatar-option {
+    width: 110px !important;
+    height: 110px !important;
+  }
+  .loja-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.2em !important;
+    justify-items: center;
+    align-items: stretch;
+  }
+  .loja-card {
+    min-width: 260px !important;
+    max-width: 1fr;
+    padding: 1.5em 1.2em !important;
+    font-size: 1.08em !important;
+  }
+  .loja-topo, .loja-saldo {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .sidebar-menu {
+    left: 0;
+    top: 0;
+    width: 320px !important;
+    border-radius: 0 18px 18px 0 !important;
+    padding: 2.2em 1.2em !important;
+    font-size: 1.13em;
+  }
+  .sidebar-toggle {
+    left: 1.5em !important;
+    top: 1.5em !important;
+  }
+  .btn-voltar {
+    top: 1.5em !important;
+    right: 2em !important;
+    width: 64px !important;
+    height: 64px !important;
+  }
+  /* Centralizar e limitar largura do conteúdo principal */
+  .container, .main, .content, .aluno2-main, .aluno-main, .dashboard-container {
+    max-width: 1200px;
+    margin: 2.5rem auto 0 auto !important;
+  }
+}
 section {
   display: block;
   margin: 0;
