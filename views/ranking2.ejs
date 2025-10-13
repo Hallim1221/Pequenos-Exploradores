@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/ranking2.css">
+  <link rel="stylesheet" href="/css/btn-voltar.css">
+   <link rel="stylesheet" href="/css/premium-aluno.css">
+  <link rel="stylesheet" href="/css/index.css">
+
+</head>
+<body>
+  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
+    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
+      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
+      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
+    </svg>
+  </button>
+  <section class="top-banner"></section>
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);" loading="lazy">
+      </section>
+      <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
+    </section>
+    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Futuro</a></li>
+      <li style="margin:1.2em 0 0 0; padding:0; list-style:none;">
+        <form action="/logout" method="POST" style="margin:0; display:flex; justify-content:flex-start; align-items:center;">
+          <button type="button" class="btn-logout-sidebar logout-creative" style="margin:0;" onclick="abrirModalLogout()">Sair</button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
+    </svg>
+  </button>
+  <nav class="sidebar-menu" id="sidebarMenu">
+    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
+      <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
+        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" style="width:126px;height:126px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);" loading="lazy">
+      </section>
+    </section>
+    <ul>
+      <li><a href="/">Início</a></li>
+      <li><a href="/sobre">Sobre</a></li>
+      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
+      <li><a href="/loja">Futuro</a></li>
+        </form>
+      </li>
+    </ul>
+  </nav>
+  </button>
+    </svg>
+  </button>
+    
+  </section>
+  <section class="ranking2-container">
+    <section class="ranking2-card">
+      <section class="ranking2-title">RANKING</section>    
+      <section class="ranking2-medalha">
+      <span class="broze">🥉</span>
+      </section>
+      <section class="ranking2-faixa">Bronze I</section>
+      <section class="ranking2-barra">
+        <section class="ranking2-barra-progresso"></section>
+        <section class="ranking2-barra-texto">50/100</section>
+      </section>
+      <button class="ranking2-btn-trofeu">
+        <p></p>5.000 <span class="icon-trofeu">🏆</span>
+      </button>
+    </section>
+    <section>
+      <section class="ranking2-icones">
+  <section class="ranking2-icone-circulo medal-modal-trigger" tabindex="0" aria-label="Abrir leaderboard" style="cursor:pointer;"><span class="icon">🏅</span></section>
+        <section class="ranking2-icone-circulo"><span class="icon">🏆</span></section>
+      </section>
+      <section class="ranking2-medalhas-card">
+        <section class="ranking2-medalhas-title">Medalhas</section>
+        <section class="ranking2-medalhas-list">
+          <section class="ranking2-medalha-item">
+            <section class="ranking2-medalha-img"><span class="broze1">🥉</span></section>
+            <section class="ranking2-medalha-legenda">Bronze<p>I</p></section>
+          </section>
+          <section class="ranking2-medalha-item">
+            <section class="ranking2-medalha-img locked"><span class="icon-cadeado">🔒</span></section>
+            <section class="ranking2-medalha-legenda">Bronze<p>II</p></section>
+          </section>
+          <section class="ranking2-medalha-item">
+            <section class="ranking2-medalha-img locked"><span class="icon-cadeado">🔒</span></section>
+            <section class="ranking2-medalha-legenda">Bronze<p>III</p></section>
+          </section>
+          <section class="ranking2-medalha-item" style="margin-bottom: 0;">
+            <section class="ranking2-medalha-img locked"><span class="icon-cadeado">🔒</span></section>
+            <section class="ranking2-medalha-legenda">Prata<p>I</p></section>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+  <section class="ranking2-anuncio">
+    <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio Ranking">
+  </section>
+  <!-- Modal Leaderboard -->
+  <section id="leaderboard-overlay" class="leaderboard-overlay" style="display:none;">
+    <section class="leaderboard-modal" role="dialog" aria-modal="true" tabindex="-1">
+      <section class="leaderboard-header">
+        <span class="leaderboard-title">RANKING</span>
+        
+      </section>
+      <section class="leaderboard-filters">
+       
+       
+        
+      </section>
+      <section class="leaderboard-podium">
+        <section class="podium-second">
+          <section class="podium-avatar"><img src="/img/animal1.png" alt="Animal 1"/></section>
+          <section class="podium-name">Lucas</section>
+          <section class="podium-score">8450</section>
+        </section>
+        <section class="podium-first">
+          <section class="podium-avatar"><img src="/img/animais premium/imagem (10).png" alt="Animal 2"/></section>
+          <section class="podium-name">Neymar</section>
+          <section class="podium-score">9765</section>
+        </section>
+        <section class="podium-third">
+          <section class="podium-avatar"><img src="/img/animais premium/imagem (11).png" alt="Animal 3"/></section>
+          <section class="podium-name">Agnaldo</section>
+          <section class="podium-score">7990</section>
+        </section>
+      </section>
+      <section class="leaderboard-list">
+        <section class="leaderboard-card">
+          <section class="card-pos">4º</section>
+          <section class="card-avatar"><img src="/img/animais premium/imagem (5).png" alt="Animal 4"/></section>
+          <section class="card-name">Gabriella</section>
+          <section class="card-score">5743 pts</section>
+        </section>
+        <section class="leaderboard-card">
+          <section class="card-pos">5º</section>
+          <section class="card-avatar"><img src="/img/animais premium/imagem (6).png" alt="Animal 5"/></section>
+          <section class="card-name">Antonieta</section>
+          <section class="card-score">5320 pts</section>
+        </section>
+        <section class="leaderboard-card">
+          <section class="card-pos">6º</section>
+          <section class="card-avatar"><img src="/img/animais premium/imagem (7).png" alt="Animal 6"/></section>
+          <section class="card-name">João</section>
+          <section class="card-score">4980 pts</section>
+        </section>
+      </section>
+    </section>
+  </section>
+  <script>
+    // Modal open/close logic
+    const medalTrigger = document.querySelector('.medal-modal-trigger');
+    const overlay = document.getElementById('leaderboard-overlay');
+    const modal = overlay && overlay.querySelector('.leaderboard-modal');
+    const closeBtn = overlay && overlay.querySelector('.leaderboard-close');
+    function openModal() {
+      overlay.style.display = 'flex';
+      setTimeout(() => overlay.classList.add('show'), 10);
+      document.body.style.overflow = 'hidden';
+      modal.focus();
+    }
+    function closeModal() {
+      overlay.classList.remove('show');
+      setTimeout(() => {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 250);
+    }
+    if (medalTrigger) {
+      medalTrigger.addEventListener('click', openModal);
+      medalTrigger.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') openModal(); });
+    }
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+    // Accessibility: ESC to close
+    document.addEventListener('keydown', function(e) { if (overlay.style.display === 'flex' && e.key === 'Escape') closeModal(); });
+  </script>
+  <!-- Rodapé reutilizável -->
+<footer style="background: #3bb273; color: #fff; width: 100%; text-align: center; padding: 0.7em 0; font-size: 1em; border-top-left-radius: 18px; border-top-right-radius: 18px; box-shadow: 0 -2px 12px #3bb27344;">
+  <p style="margin: 0;">&copy; 2025 Pequenos Exploradores</p>
+</footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const medalTrigger = document.querySelector('.medal-modal-trigger');
+      const overlay = document.getElementById('leaderboard-overlay');
+      const modal = overlay && overlay.querySelector('.leaderboard-modal');
+      const closeBtn = overlay && overlay.querySelector('.leaderboard-close');
+      function openModal() {
+        overlay.style.display = 'flex';
+        setTimeout(() => overlay.classList.add('show'), 10);
+        document.body.style.overflow = 'hidden';
+        modal.focus();
+      }
+      function closeModal() {
+        overlay.classList.remove('show');
+        setTimeout(() => {
+          overlay.style.display = 'none';
+          document.body.style.overflow = '';
+        }, 250);
+      }
+      if (medalTrigger) {
+        medalTrigger.addEventListener('click', openModal);
+        medalTrigger.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') openModal(); });
+      }
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+      document.addEventListener('keydown', function(e) { if (overlay.style.display === 'flex' && e.key === 'Escape') closeModal(); });
+    });
+  </script>
+</body>
+</html>

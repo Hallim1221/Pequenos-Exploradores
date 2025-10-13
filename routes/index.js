@@ -217,6 +217,11 @@ router.get('/ranking', (req, res) => {
   res.render('ranking');
 });
 
+// Ranking2
+router.get('/ranking2', (req, res) => {
+  res.render('ranking2');
+});
+
 // Recarga
 router.get('/recarga', (req, res) => {
   res.render('recarga');

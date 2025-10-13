@@ -1,0 +1,577 @@
+/* Leaderboard Modal Styles */
+.leaderboard-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(20, 40, 40, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: background 0.3s;
+}
+.leaderboard-overlay.show {
+  animation: fadeInOverlay 0.3s;
+  background: rgba(20, 40, 40, 0.85);
+}
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.leaderboard-modal {
+  background: linear-gradient(135deg, #00ff88 0%, #00a651 60%, #004d26 100%);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px #0005;
+  width: 90vw;
+  max-width: 420px;
+  max-height: 90vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.2em 1em 2em 1em;
+  position: relative;
+  animation: scaleInModal 0.35s cubic-bezier(.5,1.5,.5,1);
+  overflow-y: auto;
+}
+@keyframes scaleInModal {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.leaderboard-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+}
+.leaderboard-title {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.5em;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-left: 120px;
+}
+.leaderboard-close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2em;
+  cursor: pointer;
+  font-weight: 700;
+  transition: color 0.2s;
+  border-radius: 50%;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+}
+.leaderboard-close:hover {
+  color: #f5b700;
+  background: #004d26;
+}
+.leaderboard-filters {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 1.2em;
+  justify-content: center;
+}
+.leaderboard-filter {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1em;
+  padding: 0.4em 1.1em;
+  border-radius: 12px;
+  border: none;
+  background: #004d26;
+  color: #eaffea;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.leaderboard-filter.active {
+  background: #f5b700;
+  color: #fff;
+  box-shadow: 0 2px 8px #f5b70044;
+}
+.leaderboard-podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.5em;
+  margin-bottom: 1.2em;
+  width: 100%;
+}
+.podium-first, .podium-second, .podium-third {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  background: none;
+}
+.podium-first {
+  z-index: 2;
+}
+.podium-crown {
+  margin-bottom: -18px;
+  margin-top: -8px;
+  height: 32px;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.podium-avatar {
+  width: 82px; height: 82px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f5b700 0%, #fff700 100%);
+  box-shadow: 0 4px 16px #f5b70033;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 0.3em;
+}
+.podium-first .podium-avatar {
+  width: 100px; height: 100px;
+  box-shadow: 0 6px 24px #f5b70055;
+}
+.podium-second .podium-avatar, .podium-third .podium-avatar {
+  width: 82px; height: 82px;
+}
+.podium-avatar img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.podium-name {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 600;
+  margin-top: 0.2em;
+}
+.podium-score {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.3em;
+  color: #f5b700;
+  font-weight: 700;
+  margin-top: 0.1em;
+}
+.leaderboard-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+  margin-top: 0.5em;
+  margin-bottom: 0.2em;
+}
+.leaderboard-card {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #00a651 0%, #004d26 100%);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px #004d2633;
+  padding: 0.6em 1em;
+  gap: 0.7em;
+  transition: transform 0.18s, box-shadow 0.18s;
+  cursor: pointer;
+}
+.leaderboard-card:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 24px #00a65144;
+}
+.card-pos {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1.1em;
+  color: #fff;
+  font-weight: 700;
+  width: 2.2em;
+  text-align: center;
+}
+.card-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.card-avatar img {
+  width: 100%; height: 100%; object-fit: cover;
+}
+.card-name {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1em;
+  color: #fff;
+  font-weight: 600;
+  flex: 1;
+  margin-left: 0.2em;
+}
+.card-score {
+  font-family: 'Montserrat', Arial, sans-serif;
+  font-size: 1em;
+  color: #f5b700;
+  font-weight: 700;
+  margin-left: 0.5em;
+}
+@media (min-width: 600px) {
+  .leaderboard-modal {
+    max-width: 600px;
+    padding: 2em 2em 2.5em 2em;
+  }
+  .podium-avatar {
+    width: 100px; height: 100px;
+  }
+  .podium-first .podium-avatar {
+    width: 120px; height: 120px;
+  }
+  .card-avatar {
+    width: 48px; height: 48px;
+  }
+  .leaderboard-title {
+    font-size: 2em;
+  }
+}
+@media (min-width: 900px) {
+  .leaderboard-modal {
+    max-width: 700px;
+    padding: 2.5em 3em 3em 3em;
+  }
+  .podium-avatar {
+    width: 120px; height: 120px;
+  }
+  .podium-first .podium-avatar {
+    width: 150px; height: 150px;
+  }
+  .card-avatar {
+    width: 56px; height: 56px;
+  }
+  .leaderboard-title {
+    font-size: 2.3em;
+  }
+}
+/* End Leaderboard Modal Styles */
+html, body {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  box-sizing: border-box;
+}
+.sidebar-toggle {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+  z-index: 11500 !important;
+}
+body {
+  padding-left: 0 !important;
+}
+/* Forçar botão menu lateral no canto superior esquerdo */
+.sidebar-toggle {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 11500 !important;
+}
+/* Bronze emoji grande */
+.broze {
+  font-size: 2.7em;
+  vertical-align: middle;
+}
+.broze1 {
+  font-size: 1.5em;
+  vertical-align: middle;
+}
+body {
+ 
+  color: #fff;
+  font-family: 'Quicksand', 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: hidden;
+}
+.ranking2-container {
+  width: 100vw;
+  max-width: 100vw;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  margin-top: 30px;
+}
+@media (min-width: 1024px) {
+  .ranking2-container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 2em;
+    padding: 2.5em 0 3em 0;
+  }
+}
+.ranking2-card {
+  background: #1A1A1A;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px #0008;
+  padding: 2em 1.5em 2.5em 1.5em;
+  min-width: 290px;
+  max-width: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
+}
+.ranking2-title {
+  font-size: 2em;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 0.7em;
+  text-align: center;
+}
+.ranking2-bolinhas {
+  display: flex;
+  gap: 1em;
+  margin-bottom: 1.2em;
+  justify-content: center;
+}
+.ranking2-bolinha {
+  background: #fff;
+  border: 2px solid #444;
+  border-radius: 50%;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.08em;
+  color: #222;
+  font-weight: 700;
+  box-shadow: 0 2px 8px #fff2;
+  transition: box-shadow 0.18s;
+}
+.ranking2-bolinha:hover {
+  box-shadow: 0 4px 18px #00CFFF44;
+}
+.ranking2-medalha {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(120deg,#FBD9A0 60%,#F9A825 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 24px #F9A82544;
+  margin-bottom: 0.7em;
+  position: relative;
+  overflow: hidden;
+}
+.ranking2-medalha img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 2px 8px #F9A82588);
+}
+.ranking2-faixa {
+  background: linear-gradient(90deg,#FF9800 60%,#F57C00 100%);
+  color: #fff;
+  font-weight: 900;
+  border-radius: 14px;
+  padding: 0.6em 2em;
+  font-size: 1.18em;
+  text-align: center;
+  margin-bottom: 0.7em;
+  box-shadow: 0 2px 12px #FF980044;
+}
+.ranking2-barra {
+  width: 100%;
+  max-width: 220px;
+  background: #e3f2fd;
+  border-radius: 12px;
+  height: 22px;
+  position: relative;
+  margin-bottom: 0.7em;
+  box-shadow: 0 2px 8px #00CFFF22;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+.ranking2-barra-progresso {
+  background: linear-gradient(90deg,#00CFFF 60%,#1ec773 100%);
+  height: 100%;
+  width: 50%;
+  border-radius: 12px 0 0 12px;
+  transition: width 0.3s;
+}
+.ranking2-barra-texto {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  color: #0076CA;
+  font-weight: 900;
+  font-size: 1em;
+  text-shadow: 0 2px 8px #fff8;
+}
+.ranking2-btn-trofeu {
+  background: linear-gradient(90deg,#00CFFF 60%,#FFD600 100%);
+  color: #fff;
+  font-weight: 900;
+  border: none;
+  border-radius: 32px;
+  padding: 0.7em 2.2em;
+  font-size: 1.18em;
+  box-shadow: 0 2px 12px #00CFFF33;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background 0.18s,transform 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  margin: 0 auto;
+  margin-top: 0.7em;
+  justify-content: center;
+}
+.ranking2-btn-trofeu:hover {
+  background: linear-gradient(90deg,#00CFFF 60%,#FFD600 100%);
+  color: #FFD600;
+  transform: scale(1.05);
+}
+.ranking2-btn-trofeu .icon-trofeu {
+  font-size: 1.3em;
+  color: #FFD600;
+  margin-left: 0.5em;
+  filter: drop-shadow(0 2px 8px #FFD60088);
+}
+/* Medalhas Card */
+.ranking2-medalhas-card {
+  background: #7A4A10;
+  border-radius: 22px;
+  box-shadow: 0 4px 24px #7A4A1088;
+  padding: 0.7em;
+  min-width: 290px;
+  max-width: 340px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2em;
+}
+.ranking2-medalhas-title {
+  font-size: 1.5em;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 1em;
+  text-align: center;
+}
+.ranking2-medalhas-list {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 0.7em;
+}
+.ranking2-medalha-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3em;
+  min-width: 64px;
+  max-width: 80px;
+}
+.ranking2-medalha-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: linear-gradient(120deg,#FBD9A0 60%,#F9A825 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px #F9A82544;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.2em;
+  transition: box-shadow 0.18s;
+}
+.ranking2-medalha-img img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 2px 8px #F9A82588);
+}
+.ranking2-medalha-img.locked {
+  background: #333;
+  box-shadow: 0 2px 8px #0008;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ranking2-medalha-img.locked .icon-cadeado {
+  font-size: 1.7em;
+  color: #FFD600;
+  filter: drop-shadow(0 2px 8px #FFD60088);
+}
+.ranking2-medalha-legenda {
+  color: #fff;
+  font-size: 0.98em;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 0.2em;
+}
+/* Ícones grandes */
+.ranking2-icones {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2em;
+  margin-top: 0.5em;
+}
+.ranking2-icone-circulo {
+  background: #FBD9A0;
+  border-radius: 50%;
+  width: 74px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px #F9A82544;
+  margin: 0 0.2em;
+  transition: box-shadow 0.18s;
+}
+.ranking2-icone-circulo:hover {
+  box-shadow: 0 4px 18px #F9A82588;
+}
+.ranking2-icone-circulo .icon {
+  font-size: 2.2em;
+  color: #F57C00;
+}
+/* Anúncio */
+.ranking2-anuncio {
+  width: 100%;
+  max-width: 340px;
+  margin: 2.5em auto 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ranking2-anuncio img {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px #0076CA88;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.ranking2-anuncio img:hover {
+  transform: scale(1.04);
+}
