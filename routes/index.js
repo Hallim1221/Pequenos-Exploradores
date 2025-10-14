@@ -143,10 +143,12 @@ router.get('/login', (req, res) => {
 router.post('/login', (req, res) => {
   const role = req.body.role;
   if (role === 'aluno') {
+    req.session.user = { tipo: 'aluno', email: req.body.email };
     return res.redirect('/aluno');
   }
   if (role === 'professor') {
-    return res.redirect('/professor/login');
+    req.session.user = { tipo: 'professor', email: req.body.email };
+    return res.redirect('/professor/dashboard');
   }
   // Se quiser tratar outros perfis futuramente
   res.redirect('/');
@@ -162,15 +164,19 @@ router.get('/aluno/login', (req, res) => {
 
 router.post('/aluno/login', (req, res) => {
   // Aqui você pode validar o e-mail e senha se desejar
-  // Por enquanto, define saldo inicial na sessão e redireciona para a área do aluno
+  // Salva login do aluno na sessão
   req.session.saldo = 700;
+  req.session.user = { tipo: 'aluno', email: req.body.email };
   res.redirect('/aluno');
 });
 
 // Área do Aluno
 
 router.get('/aluno', (req, res) => {
-  // Usa saldo da sessão, se existir, senão 700
+  // Protege rota: exige login
+  if (!req.session.user || req.session.user.tipo !== 'aluno') {
+    return res.redirect('/aluno/login');
+  }
   const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
   res.render('aluno', { saldo });
 });

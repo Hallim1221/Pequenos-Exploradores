@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 // Permite acessar seleção de série via GET também
 router.get('/dashboard', (req, res) => {
+  // Protege rota: exige login
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.redirect('/professor/login');
+  }
   res.render('professor_dashboard', { series });
 });
 
