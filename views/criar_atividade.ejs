@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/professor_area.css">
   <link rel="stylesheet" href="/css/criar_atividade.css">
 </head>
+ <%- include('partials/header') %>
 <body style="background:#fff;">
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index:12000;position:fixed;top:0.5em;right:0.5em;left:auto;">
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -115,26 +116,5 @@
     });
   </script>
 </body>
-  <script>
-    // Modal de logout igual ao aluno2.ejs
-    function abrirModalLogout() {
-      document.getElementById('modal-logout-overlay').style.display = 'flex';
-      setTimeout(function() {
-        var btns = document.querySelectorAll('#modal-logout button, #modal-logout form button');
-        if(btns.length) btns[0].focus();
-      }, 200);
-    }
-    function fecharModalLogout(e) {
-      if (e) e.preventDefault();
-      document.getElementById('modal-logout-overlay').style.display = 'none';
-    }
-    // Logout com redirecionamento para página inicial
-    function logoutAndRedirect(btn) {
-      var form = btn.closest('form');
-      if(form) {
-        fetch(form.action, { method: 'POST', credentials: 'same-origin' })
-          .then(function() { window.location.href = '/'; });
-      }
-    }
-  </script>
+
 </html>

@@ -15,6 +15,7 @@
   <link rel="stylesheet" href="/css/aluno2.css">
 </head>
 <body>
+  <%- include('partials/header') %>
   <script>
     if (localStorage.getItem('premiumAluno') === 'true') {
       document.body.classList.add('premium-aluno');
@@ -127,7 +128,7 @@
         <section style="margin-top:0.7em;display:flex;flex-direction:column;gap:1em;">
           <section style="display:flex;align-items:center;background:#29B6F6;border-radius:16px;padding:0.9em 1em;gap:1em;box-shadow:0 2px 12px #29B6F633;">
             <section style="width:48px;height:48px;min-width:48px;min-height:48px;max-width:48px;max-height:48px;border-radius:50%;background:#fff;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px #0076CA22;">
-              <img src="/img/tcc.img/animal1.png" alt="Avatar do Aluno" style="width:48px;height:48px;object-fit:cover;border-radius:50%;display:block;margin:auto;">
+              <img src="/img/tcc.img/animal8.png" alt="Avatar do Aluno" style="width:48px;height:48px;object-fit:cover;border-radius:50%;display:block;margin:auto;">
             </section>
             <span style="font-weight:700;color:#fff;min-width:90px;">Lucas Oliveira</span>
             <section style="flex:1;display:flex;flex-direction:column;gap:0.2em;">

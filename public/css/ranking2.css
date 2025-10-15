@@ -247,32 +247,7 @@
     font-size: 2.3em;
   }
 }
-/* End Leaderboard Modal Styles */
-html, body {
-  padding-left: 0 !important;
-  margin-left: 0 !important;
-  box-sizing: border-box;
-}
-.sidebar-toggle {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  margin-left: 0 !important;
-  padding-left: 0 !important;
-  z-index: 11500 !important;
-}
-body {
-  padding-left: 0 !important;
-}
-/* Forçar botão menu lateral no canto superior esquerdo */
-.sidebar-toggle {
-  position: fixed !important;
-  top: 0 !important;
-  left: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  z-index: 11500 !important;
-}
+
 /* Bronze emoji grande */
 .broze {
   font-size: 2.7em;
