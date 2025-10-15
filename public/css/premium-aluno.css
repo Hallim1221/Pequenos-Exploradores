@@ -27,15 +27,15 @@ body.premium-aluno #conteudo-atividades .pagina-central {
 }
 /* Cards de quizzes roxos na aba atividades (aluno2) no modo premium */
 body.premium-aluno #conteudo-atividades .quiz-card {
-  background: #7c3aed !important;
-  color: #fff !important;
-  box-shadow: 0 2px 12px #7c3aed44 !important;
+  background: linear-gradient(135deg, #F8F4FF 0%, #F3EAFE 100%) !important;
+  color: #7c3aed !important;
+  box-shadow: 0 2px 12px #7C3AED22 !important;
   border-radius: 16px !important;
 }
 body.premium-aluno #conteudo-atividades .quiz-card h2,
 body.premium-aluno #conteudo-atividades .quiz-card p,
 body.premium-aluno #conteudo-atividades .quiz-card a {
-  color: #fff !important;
+  color: #5f23b6 !important;
 }
 body.premium-aluno #conteudo-atividades .quiz-card a.btn-destaque {
   background: #fff !important;

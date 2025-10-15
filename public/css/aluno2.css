@@ -1,3 +1,9 @@
+/* Premium: cards de quiz na aba Atividades */
+.premium-aluno #conteudo-atividades .quiz-card {
+  border: 2.5px solid #7C3AED;
+  background: linear-gradient(135deg, #F8F4FF 0%, #F3EAFE 100%);
+  box-shadow: 0 2px 12px #7C3AED22;
+}
 .aluno2-abas {
   display: flex;
   justify-content: center;
