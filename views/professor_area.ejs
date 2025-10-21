@@ -1,6 +1,181 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+  <style>
+    @media (min-width: 900px) {
+      /* Aba Pessoas: card Lucas Oliveira menor */
+      .aba-conteudo section[style*="background:#29B6F6"] {
+        max-width: 340px !important;
+          font-size: 0.78em !important;
+          padding: 0.08em 0.5em !important;
+          min-height: 34px !important;
+          height: 42px !important;
+        box-sizing: border-box !important;
+        display: flex !important;
+        align-items: center !important;
+          display: none !important;
+      }
+        /* Avatar dentro do card azul */
+        .aba-conteudo section[style*="background:#29B6F6"] img[alt*="Avatar"] {
+          width: 18px !important;
+          height: 18px !important;
+          min-width: 18px !important;
+          min-height: 18px !important;
+          max-width: 18px !important;
+          max-height: 18px !important;
+          margin: 0 !important;
+        }
+        /* Nome do aluno */
+        .aba-conteudo section[style*="background:#29B6F6"] span[style*="font-weight:700;"][style*="color:#fff;"] {
+          min-width: 32px !important;
+          font-size: 0.78em !important;
+          margin: 0 !important;
+        }
+        /* Barra de progresso */
+        .aba-conteudo section[style*="background:#29B6F6"] section[style*="background:#fff"] {
+          height: 6px !important;
+          border-radius: 6px !important;
+        }
+        .aba-conteudo section[style*="background:#29B6F6"] section[style*="background:#2196F3"] {
+          height: 100% !important;
+          border-radius: 6px !important;
+        }
+        /* Pontuação */
+        .aba-conteudo section[style*="background:#29B6F6"] section[style*="font-size:0.95em;"] {
+          font-size: 0.78em !important;
+          color: #fff !important;
+          margin: 0 !important;
+        }
+        /* Ícone moeda */
+        .aba-conteudo section[style*="background:#29B6F6"] span[style*="font-size:1.3em;"] {
+          font-size: 1em !important;
+          margin-left: 0.3em !important;
+        }
+        /* Pontuação final */
+        .aba-conteudo section[style*="background:#29B6F6"] span[style*="font-size:0.85em;"] {
+          font-size: 0.7em !important;
+          margin-left: 0.1em !important;
+        }
+        .aba-conteudo img[alt*="Avatar"] {
+          width: 18px !important;
+          height: 18px !important;
+          min-width: 18px !important;
+          min-height: 18px !important;
+          max-width: 18px !important;
+          max-height: 18px !important;
+      }
+        .aba-conteudo span[style*="font-weight:700;"][style*="color:#fff;"] {
+          min-width: 32px !important;
+          font-size: 0.78em !important;
+      }
+        .aba-conteudo section[style*="background:#29B6F6"] section[style*="background:#fff"] {
+          height: 6px !important;
+        }
+        .aba-conteudo section[style*="background:#29B6F6"] section[style*="font-size:0.95em;"] {
+          font-size: 0.78em !important;
+        }
+        .aba-conteudo section[style*="background:#29B6F6"] span[style*="font-size:1.3em;"] {
+          font-size: 1em !important;
+          margin-left: 0.3em !important;
+        }
+        .aba-conteudo section[style*="background:#29B6F6"] span[style*="font-size:0.85em;"] {
+          font-size: 0.7em !important;
+          margin-left: 0.1em !important;
+        }
+      .aba-conteudo section[style*="background:#fff"] {
+        font-size: 1em !important;
+        padding: 0.7em 1.2em !important;
+      }
+      .aba-conteudo .prof-atividade-icone {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 1em !important;
+      }
+      .aba-conteudo .prof-atividade-titulo {
+        font-size: 1em !important;
+      }
+    }
+  </style>
+  <style>
+    @media (min-width: 900px) {
+      .aluno2-main {
+        padding-left: 3em !important;
+        padding-right: 3em !important;
+      }
+      .aluno2-card-turma {
+        font-size: 1.45em !important;
+        max-width: 700px !important;
+  margin: 0.5em auto 1.5em auto !important;
+      }
+      .aba {
+        font-size: 1.18em !important;
+        padding: 0.7em 2.2em !important;
+      }
+      .aba-conteudo {
+        max-width: 700px !important;
+        font-size: 1.18em !important;
+        margin: 0 auto 2em auto !important;
+      }
+      .prof-postagem-form {
+        max-width: 700px !important;
+        font-size: 1.15em !important;
+        padding: 1.2em 2em 1.2em 1.2em !important;
+      }
+      .prof-postagem-textarea {
+        font-size: 1.15em !important;
+        min-height: 48px !important;
+      }
+      .prof-atividades-list,
+      .prof-atividade-item {
+        max-width: 700px !important;
+        font-size: 1.15em !important;
+      }
+      .prof-atividade-icone {
+        width: 48px !important;
+        height: 48px !important;
+        font-size: 1.7em !important;
+      }
+      .prof-atividade-titulo {
+        font-size: 1.18em !important;
+      }
+      .btn-fab-add {
+        width: 70px !important;
+        height: 70px !important;
+        font-size: 2.3em !important;
+      }
+      .aba-conteudo section[style*="background:#fff"] {
+        max-width: 700px !important;
+        font-size: 1.15em !important;
+        padding: 1.2em 2em !important;
+      }
+      .aba-conteudo section[style*="background:#29B6F6"] {
+        max-width: 700px !important;
+        font-size: 1.15em !important;
+        padding: 1.2em 2em !important;
+      }
+      .aba-conteudo img[alt*="Avatar"] {
+        width: 64px !important;
+        height: 64px !important;
+        min-width: 64px !important;
+        min-height: 64px !important;
+        max-width: 64px !important;
+        max-height: 64px !important;
+      }
+      #modal-add-aluno section {
+        min-width: 400px !important;
+        font-size: 1.15em !important;
+        padding: 2.5em 3em 2.2em 3em !important;
+      }
+      #inputEmailAluno {
+        max-width: 400px !important;
+        font-size: 1.15em !important;
+      }
+      #btnConfirmarAddAluno {
+        font-size: 1.15em !important;
+        padding: 1em 2.5em !important;
+      }
+    }
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Área do Professor</title>

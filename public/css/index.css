@@ -259,6 +259,11 @@ body {
   z-index: -2;
   background: url('/img/tcc.img/tela inicio.png') center center/cover no-repeat;
 }
+@media (min-width: 900px) {
+  .bg-figma {
+    background: url('/img/tcc.img/desktop.png') center center/cover no-repeat;
+  }
+}
 .bg-gradient {
   position: fixed;
   top: 0; left: 0; width: 100vw; height: 100vh;

@@ -1,3 +1,51 @@
+  /* Move the speech balloon a bit to the right on mobile */
+  .sobre-topo-flex section[style*="background:#fff"] {
+    margin-left: 18px !important;
+  }
+@media (max-width: 899px) {
+  /* Move Zuzu image slightly to the right only on mobile */
+  .sobre-topo-flex section[style*="display:flex;"] > section > img[src*="zuzu.png"] {
+  margin-left: -24px !important;
+  margin-top: 18px !important;
+  }
+}
+  /* Move only the Zuzu image to the left on desktop */
+  .sobre-topo-flex section[style*="display:flex;"] > section > img[src*="zuzu.png"] {
+    margin-left: -40px !important;
+    position: relative;
+    left: -20px;
+  }
+@media (min-width: 900px) {
+  .sobre-topo-flex {
+    font-size: 1.45em;
+  }
+  /* Raise all main items a bit on desktop */
+  .sobre-topo-flex > section:first-child {
+    margin-top: 3em !important;
+  }
+  .sobre-quadrado-verde {
+    margin-top: 1.5em !important;
+  }
+  .sobre-topo-flex img {
+    height: 180px !important;
+    min-width: 120px !important;
+    max-width: 260px !important;
+  }
+  .sobre-topo-flex section[style*="background:#fff"] {
+    font-size: 1.25em !important;
+    padding: 1.7em 2.5em !important;
+    min-width: 600px !important;
+    max-width: 1000px !important;
+  }
+  .sobre-quadrado-verde {
+    font-size: 1.35em !important;
+    padding: 2.2em 2.5em !important;
+    max-width: 1000px !important;
+  }
+  .sobre-quadrado-verde p {
+    font-size: 1.18em !important;
+  }
+}
 section {
   display: block;
   margin: 0;
@@ -41,6 +89,12 @@ section {
   text-align: left;
 }
 @media (max-width: 900px) {
+  /* Move Zuzu a bit to the right on mobile only (doesn't affect the balloon) */
+  .sobre-topo-flex section[style*="display:flex;"] > section > img[src*="zuzu.png"] {
+    margin-left: 18px !important;
+    position: relative;
+    left: 10px;
+  }
   .pagina-central {
     max-width: 98vw;
     padding: 1.2em 0.2em 2em 0.2em;

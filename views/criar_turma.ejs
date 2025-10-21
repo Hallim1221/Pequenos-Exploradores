@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+  <style>
+    @media (min-width: 900px) {
+      .criar-turma-card input[type="text"],
+      .criar-turma-card input[type="password"] {
+        max-width: 800px !important;
+      }
+    }
+  </style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Criar Turma</title>
@@ -53,17 +61,20 @@
   </button>
 
   <main class="criar-turma-main" style="padding-top: 32px; align-items: flex-start; min-height: 100vh;">
-    <section class="criar-turma-card">
+  <section class="criar-turma-card" style="max-width: 750px; width: 100%; margin-top: 4em;">
       <h1 class="criar-turma-title">Criar Turma</h1>
       <form class="criar-turma-form" method="POST" action="/professor/turmas/criar">
         <label for="nomeTurma">Nome da Turma(obrigatório) <span class="obrigatorio">*</span></label>
-        <input type="text" id="nomeTurma" name="nomeTurma" required autocomplete="off" maxlength="60">
-
+        <p></p>
+  <input type="text" id="nomeTurma" name="nomeTurma" required autocomplete="off" maxlength="60" style="max-width: 600px; width: 100%;">
+     <p></p>
         <label for="senhaTurma">Criar senha de acesso</label>
-        <input type="password" id="senhaTurma" name="senhaTurma" autocomplete="new-password">
-
+        <p></p>
+  <input type="password" id="senhaTurma" name="senhaTurma" autocomplete="new-password" style="max-width: 600px; width: 100%;">
+      <p></p>
         <label for="confirmarSenha">Confirmar senha</label>
-        <input type="password" id="confirmarSenha" name="confirmarSenha" autocomplete="new-password">
+        <p></p>
+  <input type="password" id="confirmarSenha" name="confirmarSenha" autocomplete="new-password" style="max-width: 600px; width: 100%;">
 
         <button type="submit" class="btn-criar-turma">Criar turma</button>
       </form>

@@ -1,3 +1,11 @@
+@media (min-width: 900px) {
+  .turma-card {
+    max-width: 520px !important;
+  }
+  .prof-turma-card {
+    max-width: 410px !important;
+  }
+}
 section {
   display: block;
   margin: 0;

@@ -108,14 +108,26 @@
   <script>
     // Lista de avatares disponíveis na loja
     const AVATARES = [
-      { nome: 'Colala', preco: 200, img: '/img/animais premium/imagem.png' },
-      { nome: 'Girafinha (feminina)', preco: 180, img: '/img/animais premium/imagem (1).jpg' },
-      { nome: 'Coruja zuja', preco: 220, img: '/img/animais premium/imagem (2).jpg' },
-      { nome: 'Macaca fofa', preco: 150, img: '/img/animais premium/imagem (5).png' },
-      { nome: 'Elefanto', preco: 250, img: '/img/animais premium/imagem (6).png' },
-      { nome: 'Zebrinho', preco: 170, img: '/img/animais premium/imagem (7).png' },
-      { nome: 'Guaxa', preco: 210, img: '/img/animais premium/imagem (8).png' },
-      { nome: 'Perereka(Skin Lendária)', preco: 99999999, img: '/img/animais premium/imagem (9).png' }
+  { nome: 'Camaleão', preco: 300, img: '/img/animais premium/premium inicial/imagem (1).png' },
+  { nome: 'Foca', preco: 320, img: '/img/animais premium/premium inicial/imagem (2).png' },
+  { nome: 'Peru', preco: 340, img: '/img/animais premium/premium inicial/imagem (3).png' },
+  { nome: 'Raposa', preco: 360, img: '/img/animais premium/premium inicial/imagem (4).png' },
+  { nome: 'Jorge o Curioso', preco: 500, img: '/img/animais premium/premium inicial/593e5848-e3a0-4711-9770-067a17715c3b.jpg' },
+  { nome: 'Colala', preco: 240, img: '/img/animais premium/imagem.png' },
+  { nome: 'Girafinha (feminina)', preco: 180, img: '/img/animais premium/imagem (1).jpg' },
+  { nome: 'Coruja zuja', preco: 230, img: '/img/animais premium/imagem (2).jpg' },
+  { nome: 'Macaca fofa', preco: 155, img: '/img/animais premium/imagem (5).png' },
+  { nome: 'Elefanto', preco: 255, img: '/img/animais premium/imagem (6).png' },
+  { nome: 'Zebrinho', preco: 175, img: '/img/animais premium/imagem (7).png' },
+  { nome: 'Guaxa', preco: 215, img: '/img/animais premium/imagem (8).png' },
+  { nome: 'Sapinho (Skin Lendária)', preco: 99999999, img: '/img/animais premium/imagem (9).png' },
+  { nome: 'Gueopardo', preco: 200, img: '/img/animais premium/imagem (10).png' },
+  { nome: 'Ursinho', preco: 210, img: '/img/animais premium/imagem (11).png' },
+  { nome: 'Polar', preco: 220, img: '/img/animais premium/imagem.jpg' },
+  { nome: 'Girafinho', preco: 50, img: '/img/animais premium/WhatsApp Image 2025-08-09 at 11.27.38.jpeg' },
+  { nome: 'Poquinhozinho', preco: 50, img: '/img/animais premium/WhatsApp Image 2025-08-09 at 11.28.00.jpeg' },
+  { nome: 'Mikelangelo', preco: 50, img: '/img/animais premium/WhatsApp Image 2025-08-09 at 11.28.01 (2).jpeg' },
+  { nome: 'Macaquinho leâo Dourado', preco: 50, img: '/img/animais premium/WhatsApp Image 2025-08-09 at 11.28.01.jpeg' }
     ];
     // Saldo inicial do aluno (pode ser puxado do backend ou localStorage)
     function getSaldo() {
@@ -204,6 +216,7 @@
     }
     function fecharModalLoja() {
       document.getElementById('lojaModal').style.display = 'none';
+      location.reload();
     }
     // Sincronizar seleção de avatares na página aluno.ejs
     window.addEventListener('avatarComprado', function(e) {

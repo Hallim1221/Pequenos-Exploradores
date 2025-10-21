@@ -1,3 +1,26 @@
+@media (min-width: 900px) {
+  .pagina-central.creative-login {
+    margin-top: 0.2em !important;
+  }
+  .role-select-box {
+    margin-top: 1.2em !important;
+  }
+}
+@media (min-width: 900px) {
+  .pagina-central {
+    max-width: 600px;
+    padding: 3em 2.5em 3em 2.5em;
+  }
+  .login-role-select {
+    gap: 2.5em !important;
+  }
+  .role-btn {
+    font-size: 1.35em !important;
+    min-width: 180px;
+    min-height: 70px;
+    padding: 1.2em 1.5em !important;
+  }
+}
 section {
   display: block;
   margin: 0;

@@ -532,8 +532,8 @@ body {
 }
 /* Anúncio */
 .ranking2-anuncio {
-  width: 100%;
-  max-width: 340px;
+  width: 100vw;
+  max-width: 100vw;
   margin: 2.5em auto 0 auto;
   display: flex;
   align-items: center;
@@ -549,4 +549,21 @@ body {
 }
 .ranking2-anuncio img:hover {
   transform: scale(1.04);
+}
+
+@media (min-width: 1024px) {
+  .ranking2-anuncio img {
+    width: 100% !important;
+    max-width: 800px !important;
+    max-height: 340px !important;
+    height: auto !important;
+    display: block;
+    object-fit: contain;
+  }
+  .leaderboard-title {
+    margin-left: 0;
+    text-align: center;
+    width: 100%;
+    display: block;
+  }
 }

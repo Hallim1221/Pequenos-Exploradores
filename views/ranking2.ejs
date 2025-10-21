@@ -27,7 +27,7 @@
         <section class="ranking2-barra-texto">50/100</section>
       </section>
       <button class="ranking2-btn-trofeu">
-        <p></p>5.000 <span class="icon-trofeu">🏆</span>
+        <p></p>50<span class="icon-trofeu">🏆</span>
       </button>
     </section>
     <section>
@@ -81,7 +81,7 @@
         </section>
         <section class="podium-first">
           <section class="podium-avatar"><img src="/img/animais premium/imagem (10).png" alt="Animal 2"/></section>
-          <section class="podium-name">Neymar</section>
+          <section class="podium-name">Neymar <img src="/img/coroa.png" alt="Coroa" class="coroa-mini"></section>
           <section class="podium-score">9765</section>
         </section>
         <section class="podium-third">
@@ -107,7 +107,32 @@
           <section class="card-pos">6º</section>
           <section class="card-avatar"><img src="/img/animais premium/imagem (7).png" alt="Animal 6"/></section>
           <section class="card-name">João</section>
-          <section class="card-score">4980 pts</section>
+            <section class="card-score">4980 pts</section>
+            <style>
+              .coroa-mini {
+                width: 18px;
+                height: 18px;
+                vertical-align: middle;
+                margin-left: 4px;
+                position: relative;
+                top: -3px;
+              }
+            </style>
+            <script>
+              // Adiciona coroa ao lado do nome João
+              document.addEventListener('DOMContentLoaded', function() {
+                var joaoName = document.querySelectorAll('.card-name');
+                joaoName.forEach(function(el) {
+                  if (el.textContent.trim() === 'João') {
+                    var img = document.createElement('img');
+                    img.src = '/img/coroa.png';
+                    img.alt = 'Coroa';
+                    img.className = 'coroa-mini';
+                    el.appendChild(img);
+                  }
+                });
+              });
+            </script>
         </section>
       </section>
     </section>

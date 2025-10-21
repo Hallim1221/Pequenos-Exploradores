@@ -428,3 +428,85 @@ html, body {
     font-size: 1.25em;
   }
 }
+
+/* Desktop adjustments: caprichado e proporcional para telas >= 900px */
+@media (min-width: 900px) {
+  .aluno-main {
+    max-width: 900px;
+    padding: 4em 3em 3em 3em;
+    border-radius: 32px;
+    box-shadow: 0 8px 32px #00CFFF22;
+  }
+  .aluno-main h1 {
+    font-size: 2.7em;
+    margin-bottom: 2em;
+    margin-top: 1em;
+  }
+  .aluno-header {
+    gap: 2.5em;
+    margin-bottom: 2em;
+  }
+  .aluno-avatar {
+    width: 110px;
+    height: 110px;
+    border-width: 5px;
+    box-shadow: 0 6px 24px #FFD60033;
+  }
+  .aluno-nome h2 {
+    font-size: 2em;
+    margin-bottom: 0.5em;
+  }
+  .aluno-frase {
+    font-size: 1.25em;
+  }
+  .aluno-dados, .aluno-missoes, .aluno-destaque {
+    padding: 2em 2.5em;
+    border-radius: 18px;
+    margin-bottom: 2em;
+    font-size: 1.18em;
+    box-shadow: 0 2px 12px #00CFFF11;
+  }
+  .aluno-dados p {
+    font-size: 1.18em;
+  }
+  .aluno-atalhos {
+    gap: 2em;
+    margin-bottom: 2.5em;
+  }
+  .atalho-circulo {
+    width: 110px;
+    height: 110px;
+    font-size: 2.7em;
+    border-width: 4px;
+    margin-bottom: 0.7em;
+  }
+  .atalho-circulo span {
+    font-size: 1em;
+    margin-top: 0.5em;
+  }
+  .aluno-badges {
+    gap: 2em;
+    margin-bottom: 2em;
+  }
+  .moedas {
+    font-size: 1.3em;
+    padding: 0.5em 1.2em;
+    margin: 0 1em;
+  }
+  .aluno-premios span {
+    font-size: 2em;
+  }
+  .aluno-acoes {
+    gap: 2em;
+    margin-bottom: 2em;
+  }
+  .btn-secondary, .btn-primary, .btn-destaque, .btn-editar-perfil {
+    font-size: 1.25em;
+    padding: 1em 2em;
+    border-radius: 18px;
+    box-shadow: 0 4px 16px #00CFFF22;
+  }
+  .btn-editar-perfil {
+    margin-top: 1.2em;
+  }
+}

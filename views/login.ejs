@@ -1,4 +1,11 @@
 <link rel="stylesheet" href="/css/login.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="/css/aluno.css">
+ 
+
+
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
@@ -230,10 +237,15 @@
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    background: url('/img/tcc.img/tela inicio.png') center center/cover no-repeat;
+    background: url('/img/tcc.img/imagem desktop.png') center center/cover no-repeat;
     opacity: 0.32;
     pointer-events: none;
     transition: opacity 0.4s;
+  }
+  @media (max-width: 899px) {
+    .bg-figma {
+      background: url('/img/tcc.img/tela inicio.png') center center/cover no-repeat;
+    }
   }
   body { position: relative; }
   .creative-login {

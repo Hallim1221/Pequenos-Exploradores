@@ -1,3 +1,26 @@
+@media (min-width: 900px) {
+  .criar-turma-main {
+    align-items: flex-start;
+    padding-top: 6em;
+  }
+  .criar-turma-card {
+    max-width: 900px;
+    padding: 48px 90px 44px 90px;
+  }
+  .criar-turma-form input[type="text"],
+  .criar-turma-form input[type="password"] {
+    max-width: 800px;
+    width: 100%;
+  }
+  .criar-turma-title {
+    font-size: 1.85rem;
+  }
+  .criar-turma-form label,
+  .criar-turma-form input[type="text"],
+  .criar-turma-form input[type="password"] {
+    font-size: 1.18em;
+  }
+}
 body {
   background: #f7fafb;
   font-family: 'Inter', Arial, sans-serif;
