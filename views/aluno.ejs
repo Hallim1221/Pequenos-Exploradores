@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="/css/btn-voltar.css">
   <link rel="stylesheet" href="/css/aluno.css">
     <link rel="stylesheet" href="/css/premium-aluno.css">
+    <link rel="stylesheet" href="/css/aluno-fix.css">
   
   <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
     <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
@@ -78,6 +79,7 @@
   <span style="font-size:1.7rem; position:relative; top:-6px;">🌎</span>
     </a>
   </section>
+  
 <!-- Painel lateral de notificações -->
 <section id="painel-notificacoes" style="display:none; position:fixed; top:0; right:0; width:320px; max-width:90vw; height:100vh; background:#fff; box-shadow:-4px 0 24px #0076CA33; z-index:13000; padding:1.5em 1.2em 1.2em 1.2em; overflow-y:auto; transition:transform 0.3s; border-radius: 16px 0 0 16px;">
   <button onclick="document.getElementById('painel-notificacoes').style.display='none'" style="position:absolute; top:1em; right:1em; background:none; border:none; font-size:2em; color:#0076CA; cursor:pointer;">&times;</button>
@@ -114,7 +116,7 @@
 </script>
     <!-- Removido bloco duplicado de atalhos -->
 
-      <section style="background: #1ec773; border-radius: 32px; box-shadow: 0 2px 12px #1ec77344; padding: 0.7em 0.7em 0.7em 0.7em; margin-bottom: 1.2em; max-width: 340px; margin-left: auto; margin-right: auto; display: flex; flex-direction: row; gap: 1em; align-items: stretch; min-height: 120px;">
+  <section class="card-verde-movel" style="background: #1ec773; border-radius: 32px; box-shadow: 0 2px 12px #1ec77344; padding: 0.7em 0.7em 0.7em 0.7em; margin-bottom: 1.2em; max-width: 340px; margin-left: auto; margin-right: auto; display: flex; flex-direction: row; gap: 1em; align-items: stretch; min-height: 120px;">
       <!-- Informações à esquerda -->
       <section class="aluno-info-col">
         <section class="aluno-dados-azul">
@@ -128,12 +130,12 @@
         </section>
         <section class="aluno-badges">
           <section class="medalhas"></section>
-          
+
           <section class="moedas"> <span id="alunoSaldoValorInline">0</span> <span class="moeda-icone">🪙</span></section>
         </section>
       </section>
       <!-- Avatar à direita -->
-      <section style="flex:1; display: flex; align-items: center; justify-content: center;">
+      <section class="avatar-col-mover" style="flex:1; display: flex; align-items: center; justify-content: center;">
         <section style="display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 0.5em; width: 100%;">
           <section style="background: #fff; border-radius: 18px; box-shadow: 0 2px 12px #0076CA22; padding: 0.5em; display: flex; align-items: flex-start; justify-content: center; min-width: 95px; min-height: 135px; max-width: 150px; max-height: 180px; width: 100%; height: 100%; margin-top: 16px; position:relative;">
             <!-- Coroa (visível somente para usuários premium) -->
@@ -145,6 +147,10 @@
           <button class="btn-editar-perfil" onclick="document.getElementById('avatar-modal').style.display='flex'">Editar</button>
         </section>
       </section>
+    </section>
+    <!-- Imagem de anúncio ao lado direito do card verde, apenas para desktop, fora do card -->
+    
+
       </main>
 
     <!-- Modal de confirmação de logout -->
@@ -186,17 +192,15 @@
       
       <section class="aluno-acoes">
         
-        <section style="margin: 0.7em 0; text-align: center;">
-          <a href="/premium" style="display: inline-block;">
-            <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" style="max-width: 320px; width: 100%; border-radius: 16px; box-shadow: 0 4px 18px #0076CA88; cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'">
-          </a>
-        </section>
-      
-      <section class="aluno-destaque">
-        <p>Continue explorando para desbloquear novos mundos, ganhar prêmios e se tornar um <span class="aluno-explorador">Super Explorador!</span></p>
-        <section style="margin-top:1em; display:flex; flex-direction:column; align-items:center; justify-content:center;">
-                </section>
       </section>
+      <!-- Imagem de anúncio fora do card aluno dados, apenas para desktop -->
+  <section class="anuncio-abaixo-desktop">
+        <a href="/premium" style="display: inline-block;">
+          <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-abaixo-img" />
+        </a>
+      </section>
+      
+      
     </section>
   </main>
   

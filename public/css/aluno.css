@@ -1,3 +1,182 @@
+@media (min-width: 900px) {
+  .aluno-destaque-texto {
+    display: none;
+  }
+}
+@media (min-width: 900px) {
+  .anuncio-abaixo-desktop {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 64%;
+    margin-top: -22em;
+  }
+  .anuncio-abaixo-img {
+    max-width: 470px;
+    width: 120%;
+    border-radius: 28px;
+    box-shadow: 0 4px 18px #0076CA88;
+    transition: transform 0.2s;
+    cursor: pointer;
+    margin-top: -4em;
+  margin-left: -2em;
+  }
+  .anuncio-abaixo-img:hover {
+    transform: scale(1.04);
+  }
+}
+@media (max-width: 899px) {
+  .anuncio-abaixo-desktop {
+    margin-top: 0 !important;
+  }
+    margin-top: -16em;
+    display: none !important;
+  }
+}
+@media (min-width: 900px) {
+  .anuncio-lateral-desktop {
+    display: block;
+    position: absolute;
+    right: -12em;
+    top: 26em;
+    z-index: 10;
+    margin: 0;
+    padding: 0;
+  }
+  .aluno-main {
+    position: relative;
+  }
+  }
+  .anuncio-lateral-img {
+    max-width: 220px;
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px #0076CA88;
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  .anuncio-lateral-img:hover {
+    transform: scale(1.04);
+  }
+  .card-verde-movel {
+    transform: translateX(-9em) !important;
+  }
+  .aluno-atalhos {
+    transform: translateX(-9em) !important;
+  }
+  .aluno-acoes > section > a[href="/premium"] img[alt="Anúncio"] {
+    float: right;
+    margin-right: 2em;
+    margin-top: 1em;
+    max-width: 320px;
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 4px 18px #0076CA88;
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+}
+@media (min-width: 900px) {
+  .aluno-acoes img[alt="Anúncio"] {
+    margin-top: 0.7em !important;
+    display: block;
+  }
+  .aluno-main {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column !important;
+  }
+  .aluno-acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .aluno-acoes img[alt="Anúncio"] {
+    margin-top: 0 !important;
+    margin-left: 0.8em !important;
+    align-self: flex-start;
+    display: block;
+  }
+    .aluno-acoes {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .aluno-atalhos {
+      margin-bottom: 1.5em;
+    }
+    .aluno-acoes img[alt="Anúncio"] {
+      margin-top: 0 !important;
+      margin-left: 0 !important;
+      align-self: center;
+      display: block;
+      max-width: 290px;
+    }
+  .aluno-acoes img[alt="Anúncio"] {
+    display: none !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 1em;
+        margin-bottom: 1.2em;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .card-verde-movel {
+    max-width: 780px !important;
+    width: 100% !important;
+    margin-right: -80px !important;
+  }
+  .aluno-atalhos {
+    margin-left: 5em !important;
+  }
+  .aluno-dados-azul {
+    max-width: 320px !important;
+    width: 100% !important;
+  }
+  .aluno-info-col {
+    max-width: 320px !important;
+    width: 100% !important;
+  }
+  .card-verde-movel > section:last-child {
+    margin-left: 9em !important;
+  }
+  .avatar-col-mover {
+    margin-left: 5em !important;
+  }
+}
+@media (max-width: 899px) {
+  .aluno-atalhos {
+    transform: translateX(-14px) !important;
+  }
+  #btn-notificacoes {
+    transform: translateX(-16px) !important;
+  }
+}
+@media (max-width: 899px) {
+  .aluno-acoes img[alt="Anúncio"] {
+  max-width: 290px !important;
+    width: 100% !important;
+  }
+}
+@media (max-width: 899px) {
+  .card-verde-movel {
+    transform: translateX(-16px) !important;
+  max-width: 520px !important;
+    padding: 0.5em !important;
+  }
+}
+@media (max-width: 899px) {
+  main .aluno-main > section[style*="background: #1ec773"] {
+    margin-left: 64px !important;
+    position: relative !important;
+  left: 0 !important;
+  transform: translateX(80px) !important;
+  }
+}
+
 /* Botão de logout criativo no menu lateral */
 /* Botão de logout criativo, menor e mais diferenciado */
 
@@ -87,7 +266,7 @@
   /* removido do layout principal, mantido para compatibilidade */
 }
 
-.aluno-dados-azul {
+  .aluno-dados-azul {
   background: #0076CA;
   border-radius: 18px;
   box-shadow: 0 1px 8px #0076CA33;
@@ -100,18 +279,11 @@
   margin-top: 20px;
   margin-right: 5px;
   margin-left: 5px;
-}
-/* Estilo para o bloco de informações do aluno dentro do quadrado azul */
-.aluno-dados {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  min-height: 110px;
-  gap: 0.3em;
-  padding: 0.2em 0;
-}
+}/* Desktop: remove o card aluno-dados, mantendo os itens internos visíveis e funcionais */
+
+
+
+
 
 .aluno-info-item {
   color: #fff !important;
@@ -170,18 +342,18 @@ html, body {
 .aluno-main {
   max-width: 100vw;
   width: 100%;
-  margin: 4.5em auto 0 auto;
-  padding: 2.5em 2em 2.5em 2em;
+  margin: 1.2em;
+ 
   
-  border-radius: 18px;
-  position: relative;
-  z-index: 2;
-  display: flex;
+  
+  
+  
+ 
   flex-direction: column;
-  align-items: center;
+  
   animation: fadeInUp 0.7s;
-  box-sizing: border-box;
-  overflow-x: clip;
+  box-sizing: inherit;
+  
 }
 
 @keyframes fadeInUp {
@@ -277,19 +449,17 @@ html, body {
   font-weight: 600;
 }
 
-.aluno-dados {
-  background: #f7fafd;
-  border-radius: 12px;
-  padding: 1em 1.2em;
-  margin-bottom: 1.2em;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
-  width: 100%;
+  .aluno-dados {
+ 
+ 
+  
+  
+ 
+
 }
 
 .aluno-dados p {
-  margin: 0.2em 0;
-  font-size: 1.08em;
-  color: #222;
+ 
 }
 
 .aluno-ranking {
@@ -305,14 +475,13 @@ html, body {
 .aluno-badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.2em;
-  margin-bottom: 1.2em;
+  gap: 2em;
+  margin-bottom: 1em;
   justify-content: center;
 }
 
 .medalhas span {
-  color: #fff;
-  margin-right: 0.2em;
+  
 }
 
 .moedas {
@@ -376,7 +545,7 @@ html, body {
 
 .aluno-missoes {
   background: #f7fafd;
-  border-radius: 12px;
+  border-radius: 22px;
   padding: 1em 1.2em;
   margin-bottom: 1.2em;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
@@ -403,7 +572,7 @@ html, body {
 
 .aluno-destaque {
   background: #fffbe7;
-  border-radius: 12px;
+  border-radius: 22px;
   padding: 1em 1.2em;
   margin-bottom: 0.5em;
   box-shadow: 0 1px 4px rgba(0,0,0,0.04);
@@ -433,9 +602,8 @@ html, body {
 @media (min-width: 900px) {
   .aluno-main {
     max-width: 900px;
-    padding: 4em 3em 3em 3em;
-    border-radius: 32px;
-    box-shadow: 0 8px 32px #00CFFF22;
+    padding: 4em;
+   
   }
   .aluno-main h1 {
     font-size: 2.7em;
@@ -508,5 +676,25 @@ html, body {
   }
   .btn-editar-perfil {
     margin-top: 1.2em;
+  }
+}
+
+/* Mobile-only: diminuir imagem de anúncio para telas menores que 900px */
+@media (max-width: 899px) {
+  /* Center the ad and make it slightly larger than before, aligned with the green card */
+  .anuncio-abaixo-desktop {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin-top: 0.6em !important;
+  }
+  .anuncio-abaixo-img {
+    /* Mobile: aumentar um pouco mais, mantendo centralizado e responsivo */
+    max-width: 420px !important;
+    width: 92% !important;
+    margin: 0.6em auto !important;
+    display: block !important;
   }
 }
