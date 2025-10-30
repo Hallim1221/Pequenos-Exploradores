@@ -12,6 +12,11 @@
 
 </head>
 <body>
+<script>
+  if (localStorage.getItem('premiumAluno') === 'true') {
+    document.body.classList.add('premium-mode');
+  }
+</script>
 <%- include('partials/header') %>
     
   </section>
@@ -33,7 +38,183 @@
     <section>
       <section class="ranking2-icones">
   <section class="ranking2-icone-circulo medal-modal-trigger" tabindex="0" aria-label="Abrir leaderboard" style="cursor:pointer;"><span class="icon">🏅</span></section>
-        <section class="ranking2-icone-circulo"><span class="icon">🏆</span></section>
+  <section class="ranking2-icone-circulo premios-modal-trigger" tabindex="0" aria-label="Abrir prêmios" style="cursor:pointer;"><span class="icon">🏆</span></section>
+  <!-- Premios Modal (top-level) -->
+  <section id="premiosModal" class="premios-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:32000; align-items:center; justify-content:center; padding:1.2em 0;">
+    <section id="premiosModalContent" class="premios-modal-content" onclick="event.stopPropagation()">
+      <button onclick="fecharPremiosModal()" aria-label="Fechar prêmios" class="premios-modal-close">&times;</button>
+      <h3 class="premios-modal-title">Prêmios</h3>
+      <ul class="premios-modal-list">
+        <li class="premios-modal-item">
+          <span class="premios-modal-emoji">🎯</span>
+          <section class="premios-modal-info">
+            <strong class="premios-modal-strong">Acerte 10 perguntas seguidas no Quiz Ambiente</strong>
+            <span class="premios-modal-desc">Receba 200 moedas + medalha exclusiva</span>
+          </section>
+          <section class="premios-modal-badge">200 moedas</section>
+        </li>
+        <li class="premios-modal-item">
+          <span class="premios-modal-emoji">🏆</span>
+          <section class="premios-modal-info">
+            <strong class="premios-modal-strong">Fique no Top 3 do Ranking</strong>
+            <span class="premios-modal-desc">Ganhe troféu e moedas extras</span>
+          </section>
+          <section class="premios-modal-badge">Troféu</section>
+        </li>
+      </ul>
+      <section class="premios-modal-footer">
+        <section onclick="fecharPremiosModal()" class="premios-modal-btn">Fechar</section>
+      </section>
+    </section>
+  </section>
+  <style>
+    .premios-modal-content {
+      background: linear-gradient(180deg,#ffffff 0%,#f3fbff 100%);
+      border-radius: 18px;
+      width: clamp(280px,82vw,440px);
+      max-height: 80vh;
+      overflow: auto;
+      padding: 1.0em 1.0em 1.2em 1.0em;
+      box-shadow: 0 18px 48px rgba(0,0,0,0.28);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .premios-modal-close {
+  position: absolute;
+  top: 0.7em;
+  right: 0.7em;
+  background: none;
+  border: none;
+  font-size: 2em;
+  color: #1a355b;
+  cursor: pointer;
+    }
+    .premios-modal-title {
+  color: #1a355b;
+      font-size: 1.5em;
+      font-weight: 900;
+      margin-bottom: 0.7em;
+    }
+    .premios-modal-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      max-width: 340px;
+    }
+    .premios-modal-item {
+      background: linear-gradient(90deg,#e3e3e3 60%,#f3fbff 100%);
+      border-radius: 18px;
+      box-shadow: 0 2px 10px #e3e3e333;
+      margin-bottom: 0.7em;
+      padding: 0.7em 1em;
+      display: flex;
+      align-items: center;
+      gap: 1em;
+      font-size: 1em;
+      border: 2px solid #e3e3e3;
+      color: #444;
+      font-weight: 700;
+    }
+    .premios-modal-emoji {
+      font-size: 1.4em;
+      line-height: 1;
+    }
+    .premios-modal-info {
+      flex: 1;
+    }
+    .premios-modal-strong {
+      display: block;
+      color: #444;
+      font-weight: 900;
+      margin-bottom: 0.12em;
+    }
+    .premios-modal-desc {
+  color: #1a355b;
+      font-size: 0.95em;
+    }
+    .premios-modal-badge {
+  background: #1a355b;
+  color: #fff;
+      padding: 0.35em 0.7em;
+      border-radius: 12px;
+      font-weight: 900;
+    }
+    .premios-modal-footer {
+      display: flex;
+      justify-content: center;
+      margin-top: 1em;
+    }
+    .premios-modal-btn {
+  background: linear-gradient(90deg,#1a355b 0%,#3b5b8c 100%);
+  color: #fff;
+      padding: 0.7em 1.4em;
+      border-radius: 16px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    /* Premium mode overrides */
+    .premium-mode .premios-modal-content {
+      background: linear-gradient(135deg, #a259e6 0%, #6c2eb7 60%, #3d1466 100%) !important;
+      color: #e6d6fa !important;
+    }
+    .premium-mode .premios-modal-title {
+      color: #e6d6fa !important;
+    }
+    .premium-mode .premios-modal-item {
+      background: linear-gradient(90deg,#a259e6 60%,#6c2eb7 100%) !important;
+      border: 2px solid #a259e6 !important;
+      color: #fff !important;
+      box-shadow: 0 2px 10px #a259e633 !important;
+    }
+    .premium-mode .premios-modal-strong {
+      color: #fff !important;
+    }
+    .premium-mode .premios-modal-desc {
+      color: #e6d6fa !important;
+    }
+    .premium-mode .premios-modal-badge {
+      background: #fff !important;
+      color: #a259e6 !important;
+    }
+    .premium-mode .premios-modal-btn {
+      background: linear-gradient(90deg,#a259e6 0%,#6c2eb7 100%) !important;
+      color: #fff !important;
+    }
+    .premium-mode .premios-modal-close {
+      color: #e6d6fa !important;
+    }
+  </style>
+  <script>
+    function abrirPremiosModal() {
+      var m = document.getElementById('premiosModal');
+      if(!m) { console.warn('premiosModal element not found'); return; }
+      m.style.display = 'flex';
+      m.style.visibility = 'visible';
+      m.style.opacity = '1';
+      m.style.zIndex = '99999';
+      var c = document.getElementById('premiosModalContent');
+      if(c) { c.style.transform = 'translateY(0)'; c.style.opacity = '1'; }
+    }
+    function fecharPremiosModal() {
+      var m = document.getElementById('premiosModal');
+      if(!m) return;
+      m.style.display = 'none';
+    }
+    // Bind click to 🏆
+    document.addEventListener('DOMContentLoaded', function() {
+      var premiosBtn = document.querySelector('.premios-modal-trigger');
+      if(premiosBtn) {
+        premiosBtn.addEventListener('click', abrirPremiosModal);
+        premiosBtn.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') abrirPremiosModal(); });
+      }
+      // Fechar ao clicar fora do modal
+      var premiosModal = document.getElementById('premiosModal');
+      if(premiosModal) premiosModal.addEventListener('click', function(e) { if (e.target === premiosModal) fecharPremiosModal(); });
+    });
+  </script>
       </section>
       <section class="ranking2-medalhas-card">
         <section class="ranking2-medalhas-title">Medalhas</section>

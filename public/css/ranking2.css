@@ -1,3 +1,135 @@
+/* Premium Mode Purple Theme Overrides */
+.premium-mode .leaderboard-modal {
+  background: linear-gradient(135deg, #a259e6 0%, #6c2eb7 60%, #3d1466 100%) !important;
+}
+.premium-mode .leaderboard-title,
+.premium-mode .podium-name,
+.premium-mode .card-name,
+.premium-mode .ranking2-title,
+.premium-mode .ranking2-medalhas-title,
+.premium-mode .ranking2-medalha-legenda {
+  color: #e6d6fa !important;
+}
+.premium-mode .leaderboard-close {
+  color: #e6d6fa !important;
+}
+.premium-mode .leaderboard-close:hover {
+  color: #fff !important;
+  background: #6c2eb7 !important;
+}
+.premium-mode .leaderboard-filter {
+  background: #3d1466 !important;
+  color: #e6d6fa !important;
+}
+.premium-mode .leaderboard-filter.active {
+  background: #a259e6 !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px #a259e644 !important;
+}
+.premium-mode .podium-avatar {
+  background: linear-gradient(135deg, #a259e6 0%, #6c2eb7 100%) !important;
+  box-shadow: 0 4px 16px #a259e633 !important;
+}
+.premium-mode .podium-first .podium-avatar {
+  box-shadow: 0 6px 24px #a259e655 !important;
+}
+.premium-mode .podium-score,
+.premium-mode .card-score {
+  color: #e6d6fa !important;
+}
+.premium-mode .leaderboard-card {
+  background: linear-gradient(90deg, #a259e6 0%, #3d1466 100%) !important;
+  box-shadow: 0 2px 12px #6c2eb733 !important;
+}
+.premium-mode .leaderboard-card:hover {
+  box-shadow: 0 6px 24px #a259e644 !important;
+}
+.premium-mode .card-pos {
+  color: #e6d6fa !important;
+}
+.premium-mode .ranking2-card {
+  background: #3d1466 !important;
+  box-shadow: 0 4px 24px #a259e688 !important;
+}
+.premium-mode .ranking2-bolinha {
+  background: #e6d6fa !important;
+  border: 2px solid #6c2eb7 !important;
+  color: #3d1466 !important;
+  box-shadow: 0 2px 8px #a259e622 !important;
+}
+.premium-mode .ranking2-bolinha:hover {
+  box-shadow: 0 4px 18px #a259e644 !important;
+}
+.premium-mode .ranking2-medalha {
+  background: linear-gradient(120deg,#c59cf6 60%,#a259e6 100%) !important;
+  box-shadow: 0 4px 24px #a259e644 !important;
+}
+.premium-mode .ranking2-medalha-img {
+  background: linear-gradient(120deg,#c59cf6 60%,#a259e6 100%) !important;
+  box-shadow: 0 2px 8px #a259e644 !important;
+}
+.premium-mode .ranking2-medalha-img img {
+  filter: drop-shadow(0 2px 8px #a259e688) !important;
+}
+.premium-mode .ranking2-medalha-img.locked {
+  background: #3d1466 !important;
+  box-shadow: 0 2px 8px #6c2eb788 !important;
+}
+.premium-mode .ranking2-medalha-img.locked .icon-cadeado {
+  color: #e6d6fa !important;
+  filter: drop-shadow(0 2px 8px #a259e688) !important;
+}
+.premium-mode .ranking2-faixa {
+  background: linear-gradient(90deg,#a259e6 60%,#6c2eb7 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 12px #a259e644 !important;
+}
+.premium-mode .ranking2-barra {
+  background: #e6d6fa !important;
+  box-shadow: 0 2px 8px #a259e622 !important;
+}
+.premium-mode .ranking2-barra-progresso {
+  background: linear-gradient(90deg,#a259e6 60%,#6c2eb7 100%) !important;
+}
+.premium-mode .ranking2-barra-texto {
+  color: #6c2eb7 !important;
+  text-shadow: 0 2px 8px #e6d6fa88 !important;
+}
+.premium-mode .ranking2-btn-trofeu {
+  background: linear-gradient(90deg,#a259e6 60%,#6c2eb7 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 12px #a259e633 !important;
+}
+.premium-mode .ranking2-btn-trofeu:hover {
+  background: linear-gradient(90deg,#6c2eb7 60%,#a259e6 100%) !important;
+  color: #e6d6fa !important;
+}
+.premium-mode .ranking2-btn-trofeu .icon-trofeu {
+  color: #e6d6fa !important;
+  filter: drop-shadow(0 2px 8px #a259e688) !important;
+}
+.premium-mode .ranking2-medalhas-card {
+  background: #6c2eb7 !important;
+  box-shadow: 0 4px 24px #a259e688 !important;
+}
+.premium-mode .ranking2-icone-circulo {
+  background: #a259e6 !important;
+  box-shadow: 0 2px 8px #6c2eb744 !important;
+}
+.premium-mode .ranking2-icone-circulo:hover {
+  box-shadow: 0 4px 18px #a259e688 !important;
+}
+.premium-mode .ranking2-icone-circulo .icon {
+  color: #e6d6fa !important;
+}
+.premium-mode .ranking2-anuncio img {
+  box-shadow: 0 4px 18px #a259e688 !important;
+}
+.premium-mode footer {
+  background: #6c2eb7 !important;
+  color: #e6d6fa !important;
+  box-shadow: 0 -2px 12px #a259e644 !important;
+}
 /* Leaderboard Modal Styles */
 .leaderboard-overlay {
   position: fixed;

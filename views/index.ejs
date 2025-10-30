@@ -243,6 +243,29 @@
       </section>
       </section>
       <style>
+      @media (max-width: 899px) {
+        body {
+          background: #fff !important;
+        }
+        .bg-figma {
+          background: #fff !important;
+          opacity: 1 !important;
+        }
+        .features {
+          margin-top: 19.5em !important;
+        }
+        /* Deixar toda a área entre a imagem e a parte verde totalmente branca no mobile */
+        .features {
+          background: #fff !important;
+          box-shadow: none !important;
+        }
+        .features > section > section > h2[style*='Nossa Missão'] {
+          background: #fff !important;
+        }
+        .features > section[style*='max-width: 700px'] {
+          background: #fff !important;
+        }
+      }
       @media (min-width: 900px) {
         .importancia-verde {
           background: #3bb273 !important;

@@ -638,14 +638,14 @@ html, body {
     font-size: 1.18em;
   }
   .aluno-atalhos {
-    gap: 2em;
+    gap: 4em;
     margin-bottom: 2.5em;
   }
   .atalho-circulo {
-    width: 110px;
-    height: 110px;
-    font-size: 2.7em;
-    border-width: 4px;
+    width: 138px;
+    height: 138px;
+    font-size: 3.3em;
+    border-width: 5px;
     margin-bottom: 0.7em;
   }
   .atalho-circulo span {
