@@ -1,3 +1,28 @@
+/* Botão flutuante adicionar turma (turma-fab) - igual turma.css */
+.turma-fab {
+  position: fixed;
+  right: 2.2em;
+  bottom: 2.2em;
+  width: 64px;
+  height: 64px;
+  background: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px #4CAF5044;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.18s;
+  z-index: 10001;
+}
+.turma-fab:hover {
+  background: #388e3c;
+}
+.turma-fab svg {
+  display: block;
+}
 @media (min-width: 900px) {
   .turma-card {
     max-width: 520px !important;
