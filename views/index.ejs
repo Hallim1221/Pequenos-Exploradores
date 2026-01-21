@@ -1,3 +1,38 @@
+<!-- Google Fonts: Luckiest Guy -->
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <style>
+    .hero h1.titulo-exploradores {
+      font-family: 'Luckiest Guy', 'Arial Black', 'Inter Black', Arial, sans-serif;
+      font-weight: 900;
+      font-size: 3.2em;
+      color: #fff !important;
+      text-shadow:
+        0 6px 24px #111,
+        0 2px 4px #222,
+        2px 4px 8px #000b,
+        0 1px 0 #222,
+        0 0 2px #000a !important;
+      text-transform: uppercase;
+      letter-spacing: -0.08em;
+      transform: skew(-7deg, -2deg) rotate(-5deg);
+      margin: 0.2em 0 0.3em 0;
+      line-height: 0.95;
+      display: inline-block;
+      -webkit-text-stroke: 0;
+    }
+    @media (max-width: 600px) {
+      .hero h1.titulo-exploradores {
+        font-size: 2em;
+        -webkit-text-stroke: 0;
+        text-shadow:
+          0 6px 24px #111,
+          0 2px 4px #222,
+          2px 4px 8px #000b,
+          0 1px 0 #222,
+          0 0 2px #000a !important;
+      }
+    }
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
@@ -48,9 +83,12 @@
 <main class="main-home">
   <section class="hero">
   <img class="hero-img hero-img-mobile" src="/img/tcc.img/tela inicio.png" alt="Pequenos Exploradores" loading="lazy">
-  <img class="hero-img hero-img-desktop" src="/img/desktop.png" alt="Pequenos Exploradores Desktop" loading="lazy">
+  <img class="hero-img hero-img-desktop" src="/img/imagem nova.png" alt="Pequenos Exploradores Desktop" loading="lazy">
   <section class="hero-content">
-    <h1 class="welcome-title" style="color: #3bbcff; margin-top: 6em; text-shadow: 2px 2px 0 #0007, -2px 2px 0 #0007, 2px -2px 0 #0007, -2px -2px 0 #0007, 2px 0px 0 #0007, 0px 2px 0 #0007, -2px 0px 0 #0007, 0px -2px 0 #0007;">Bem-vindo ao mundo dos<br>Pequenos Exploradores!</h1>
+  <h1 class="titulo-exploradores" style="color:#ffffff !important; -webkit-text-fill-color: #ffffff !important;">
+  <span style="display:block;color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; text-shadow: 2px 2px 0 #222, 4px 4px 0 #222, 6px 6px 0 #222, 8px 8px 0 #111, 0 6px 18px rgba(0,0,0,0.35);">PEQUENOS</span>
+  <span style="display:block;color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; text-shadow: 2px 2px 0 #222, 4px 4px 0 #222, 6px 6px 0 #222, 8px 8px 0 #111, 0 6px 18px rgba(0,0,0,0.35);">EXPLORADORES</span>
+  </h1>
     <a href="/login" class="btn-explore" style="margin-top: 9.5em; font-size: 1.22em; padding: 0.85em 2.2em; min-width: 0; width: auto;">Explore Já</a>
   </section>
 </section>
@@ -88,7 +126,39 @@
   z-index: 0;
   box-shadow: 0 2px 12px #b2f7ef33;
 }
+.titulo-exploradores {
+  font-family: 'Luckiest Guy', 'Arial Black', 'Inter Black', Arial, sans-serif;
+  font-weight: 900;
+  font-size: 3.2em;
+  color: #fff;
+  text-shadow:
+    0 2px 6px #222b,
+    0 6px 16px #0007,
+    2px 2px 0 #2228;
+  text-transform: uppercase;
+  letter-spacing: -0.08em;
+  transform: skew(-7deg, -2deg) rotate(-5deg);
+  margin: 0.2em 0 0.3em 0;
+  line-height: 0.95;
+  display: inline-block;
+}
 @media (min-width: 900px) {
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .hero-content {
+    margin-top: 22em;
+  }
+  .titulo-exploradores {
+    margin-top: 8em !important;
+  }
+  .btn-explore {
+    margin-top: 13em !important;
+  }
+}
   .main-home {
     max-width: 1200px;
     padding: 0 2em;
@@ -309,4 +379,49 @@
       }
     }
     </style>
+<style>
+  /* Small downward nudge on mobile so the hero title and Explore button
+     don't overlap the "Nossa Missão" section. A tiny, conservative shift. */
+  @media (max-width: 899px) {
+    .hero-content {
+      padding-top: 3.5em !important;
+    }
+    .titulo-exploradores {
+      margin-top: 1.4em !important;
+      margin-bottom: 0.6em !important;
+    }
+  }
+  @media (max-width: 600px) {
+    .hero-content {
+      padding-top: 2.5em !important;
+    }
+    .titulo-exploradores {
+      margin-top: 1.3em !important; /* increased slightly to nudge the title down on small mobile */
+      margin-bottom: 0.5em !important;
+      font-size: 2.0em !important;
+    }
+    .btn-explore {
+      margin-top: 14.5em !important; /* increased to push the button further down on small phones */
+      font-size: 1.05em !important;
+      padding: 0.75em 2em !important;
+    }
+  }
+  /* Slightly lower the 'Nossa Missão' / .features area so it doesn't sit too close
+     to the hero. Conservative increments to avoid layout break. */
+  @media (max-width: 899px) {
+    .features {
+      margin-top: 21.5em !important; /* was ~19.5em */
+    }
+  }
+  @media (max-width: 600px) {
+    .features {
+      margin-top: 20.5em !important; /* slightly less for smaller phones */
+    }
+  }
+  @media (min-width: 900px) {
+    .features {
+      margin-top: 24em !important; /* was 22em inline; nudge down a bit on desktop */
+    }
+  }
+</style>
 <%- include('partials/footer') %>
