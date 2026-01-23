@@ -193,11 +193,63 @@
       <section class="aluno-acoes">
         
       </section>
-      <!-- Imagem de anúncio fora do card aluno dados, apenas para desktop -->
+      <!-- Slider de anúncios, apenas para desktop -->
   <section class="anuncio-abaixo-desktop">
-        <a href="/premium" style="display: inline-block;">
-          <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio" class="anuncio-abaixo-img" />
+    <section class="slider-anuncios">
+      <section class="slide-anuncio">
+        <a href="/premium" style="display: inline-block; width: 100%; height: 100%;">
+          <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio Premium" class="anuncio-abaixo-img" />
         </a>
+      </section>
+      <section class="slide-anuncio">
+        <a href="/loja" style="display: inline-block; width: 100%; height: 100%;">
+          <img src="/img/anuncinho.png" alt="Anúncio Loja" class="anuncio-abaixo-img" />
+        </a>
+      </section>
+    </section>
+    <button class="slider-prev" onclick="mudarSlide(-1)">&#10094;</button>
+    <button class="slider-next" onclick="mudarSlide(1)">&#10095;</button>
+    <section class="slider-dots">
+      <span class="dot" onclick="irParaSlide(0)"></span>
+      <span class="dot" onclick="irParaSlide(1)"></span>
+    </section>
+  </section>
+  
+  <script>
+    let indiceSlideAtual = 0;
+    
+    function mudarSlide(n) {
+      const slides = document.querySelectorAll('.slide-anuncio');
+      indiceSlideAtual += n;
+      if (indiceSlideAtual >= slides.length) indiceSlideAtual = 0;
+      if (indiceSlideAtual < 0) indiceSlideAtual = slides.length - 1;
+      mostrarSlide();
+    }
+    
+    function irParaSlide(n) {
+      indiceSlideAtual = n;
+      mostrarSlide();
+    }
+    
+    function mostrarSlide() {
+      const slides = document.querySelectorAll('.slide-anuncio');
+      const dots = document.querySelectorAll('.dot');
+      
+      slides.forEach(slide => slide.style.display = 'none');
+      dots.forEach(dot => dot.classList.remove('ativo'));
+      
+      slides[indiceSlideAtual].style.display = 'block';
+      dots[indiceSlideAtual].classList.add('ativo');
+    }
+    
+    // Auto-play do slider
+    setInterval(() => {
+      mudarSlide(1);
+    }, 5000);
+    
+    // Inicializar
+    mostrarSlide();
+  </script>
       </section>
       
       
@@ -310,6 +362,37 @@
       else applyPremiumAvatars();
     })();
   </script>
+
+  <!-- Seção de Missões do dia - Apenas Desktop -->
+  <section class="missoes-do-dia-container">
+    <h3 class="missoes-titulo">Missões do dia:</h3>
+    <section class="missoes-cards-wrapper">
+      <section class="missao-card">
+        <section class="missao-icone">🚀</section>
+        <section class="missao-conteudo">
+          <p class="missao-texto">Complete 3 atividades sobre cuidados com o meio ambiente</p>
+          <section class="missao-recompensa">+ 25 <span style="font-size: 0.9em;">⭐</span></section>
+        </section>
+      </section>
+
+      <section class="missao-card">
+        <section class="missao-icone">🛡️</section>
+        <section class="missao-conteudo">
+          <p class="missao-texto">Complete 3 atividades sobre proteção dos animais</p>
+          <section class="missao-recompensa">+ 50 <span style="font-size: 0.9em;">⭐</span></section>
+        </section>
+      </section>
+
+      <section class="missao-card">
+        <section class="missao-icone">🥉</section>
+        <section class="missao-conteudo">
+          <p class="missao-texto">Avance de nível para bronze II</p>
+          <section class="missao-recompensa">+ 500 <span style="font-size: 0.9em;">🪙</span></section>
+        </section>
+      </section>
+    </section>
+  </section>
+
   <%- include('partials/footer') %>
 </body>
 <script>
