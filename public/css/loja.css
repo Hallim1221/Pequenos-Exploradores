@@ -247,7 +247,7 @@ section {
   width: 100vw;
   min-width: 100vw;
   height: 32px;
-  background: #3bb273;
+  background: #34d399 !important;
   display: flex;
   align-items: center;
   justify-content: center;

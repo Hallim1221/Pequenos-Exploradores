@@ -47,11 +47,21 @@ body > section:not(.container):not(.dashboard-container):not(.bg-figma) {
   padding: initial;
 }
 /* Estilos exclusivos da página Professor Turmas */
+@media (min-width: 900px) {
+  body {
+    background-image: none !important;
+  }
+}
 body {
-  background: #f7fafb;
   font-family: 'Inter', Arial, sans-serif;
   margin: 0;
   padding: 0;
+}
+
+@media (min-width: 900px) {
+  body {
+    background: #ffffff;
+  }
 }
 
 .turma-card {

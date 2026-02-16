@@ -95,3 +95,7 @@ section {
 body.premium-aluno .natureza-thumb::after {
   background: transparent !important;
 }
+
+.top-banner {
+  background: #34d399 !important;
+}

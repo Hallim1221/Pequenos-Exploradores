@@ -1,3 +1,10 @@
+<style>
+  @media (min-width: 900px) {
+    body {
+      background-image: none !important;
+    }
+  }
+</style>
 <!-- Google Fonts: Luckiest Guy -->
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
   <style>
@@ -83,7 +90,14 @@
 <main class="main-home">
   <section class="hero">
   <img class="hero-img hero-img-mobile" src="/img/tcc.img/tela inicio.png" alt="Pequenos Exploradores" loading="lazy">
-  <img class="hero-img hero-img-desktop" src="/img/imagem nova.png" alt="Pequenos Exploradores Desktop" loading="lazy">
+  <!-- Imagem desktop padrão, trocada via CSS para desktop -->
+  <img class="hero-img hero-img-desktop" src="/img/imagem nova.png" alt="Pequenos Exploradores Desktop" loading="lazy" id="hero-desktop-img">
+  <script>
+    if (window.matchMedia('(min-width: 900px)').matches) {
+      var img = document.getElementById('hero-desktop-img');
+      if (img) img.src = '/img/imagnova.png';
+    }
+  </script>
   <section class="hero-content">
   <h1 class="titulo-exploradores" style="color:#ffffff !important; -webkit-text-fill-color: #ffffff !important;">
   <span style="display:block;color:#ffffff !important; -webkit-text-fill-color:#ffffff !important; text-shadow: 2px 2px 0 #222, 4px 4px 0 #222, 6px 6px 0 #222, 8px 8px 0 #111, 0 6px 18px rgba(0,0,0,0.35);">PEQUENOS</span>

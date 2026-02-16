@@ -1,4 +1,9 @@
 @media (min-width: 900px) {
+  body {
+    background-image: none !important;
+  }
+}
+@media (min-width: 900px) {
   .criar-turma-main {
     align-items: flex-start;
     padding-top: 6em;
