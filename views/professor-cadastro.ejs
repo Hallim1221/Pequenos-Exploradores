@@ -30,7 +30,7 @@
     </svg>
   </button>
   <section class="top-banner"></section>
-  <nav class="sidebar-menu" id="sidebarMenu">
+  <nav class="sidebar-menu" id="sidebarMenu" style="background: #76e13e !important;">
     <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
       <section style="background:#fff;border-radius:50%;box-shadow:0 4px 24px #0002,0 0 0 4px #fff;display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;">
         <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
@@ -66,6 +66,7 @@
       <input type="email" name="email" placeholder="E-mail do Professor" required autocomplete="email">
       <input type="password" name="password" id="prof-password" placeholder="Crie uma senha" required autocomplete="new-password">
       <input type="password" name="confirmPassword" id="prof-confirm-password" placeholder="Confirme a senha" required autocomplete="new-password">
+      <input type="text" name="instituicao" id="prof-instituicao" placeholder="Instituição de ensino" required autocomplete="organization">
   <section id="prof-senha-erro" style="display:none;color:#b71c1c;background:#ffeaea;border:1px solid #e57373;border-radius:8px;padding:0.5em 1em;margin-bottom:0.7em;font-weight:600;font-size:1em;"></section>
   <section id="prof-senha-min-erro" style="display:none;color:#b71c1c;background:#ffeaea;border:1px solid #e57373;border-radius:8px;padding:0.5em 1em;margin-bottom:0.7em;font-weight:600;font-size:1em;"></section>
       <button type="submit" class="cadastro-professor-btn">Cadastrar</button>
@@ -78,6 +79,18 @@
         var confirma = document.getElementById('prof-confirm-password');
         var erro = document.getElementById('prof-senha-erro');
         var minErro = document.getElementById('prof-senha-min-erro');
+        // Validação da instituição
+        form.addEventListener('submit', function(e) {
+          var instituicao = document.getElementById('prof-instituicao');
+          if (!instituicao.value.trim()) {
+            instituicao.style.border = '2px solid #b71c1c';
+            instituicao.focus();
+            e.preventDefault();
+            return false;
+          } else {
+            instituicao.style.border = '';
+          }
+        });
         if(form && senha && confirma && erro && minErro){
           form.addEventListener('submit', function(e){
             let bloqueia = false;

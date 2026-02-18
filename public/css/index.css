@@ -129,7 +129,7 @@ section {
   left: 0;
   width: 250px;
   height: 100vh;
-  background: #3bb273;
+  background: #76e13e;
   box-shadow: 2px 0 16px rgba(0,0,0,0.10);
   z-index: 12000;
   transform: translateX(-100%);
@@ -204,7 +204,7 @@ section {
   width: 100vw;
   min-width: 100vw;
   height: 32px;
-  background: #34d399 !important;
+  background: #76e13e !important;
   display: flex;
   align-items: center;
   justify-content: center;
