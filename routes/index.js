@@ -1,13 +1,15 @@
-// ...existing code...
-// ...existing code...
-// ...existing code...
-// ...existing code...
-
-
-
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
+
+// Login admin lúdico
+router.get('/login2', (req, res) => {
+  res.render('login2');
+});
+// Dashboard administrativo
+router.get('/dashboard-admin', (req, res) => {
+  res.render('dashboard-admin');
+});
 
 // Página de turmas do professor
 router.get('/professor_turmas', (req, res) => {

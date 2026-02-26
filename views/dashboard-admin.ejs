@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Administrativo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Fredoka', Arial, sans-serif;
+      background: #f4f4f4;
+    }
+    .dashboard-container {
+      display: flex;
+      min-height: 100vh;
+      width: 100vw;
+    }
+    .sidebar-admin {
+      background: #111;
+      color: #fff;
+      width: 240px;
+      min-width: 200px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 2em 1.2em 1.2em 1.2em;
+      box-sizing: border-box;
+      height: 100vh;
+    }
+    .sidebar-admin h2 {
+      font-size: 1.5em;
+      margin-bottom: 2em;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+    .sidebar-admin nav {
+      width: 100%;
+    }
+    .sidebar-admin nav a {
+      color: #fff;
+      text-decoration: none;
+      display: block;
+      padding: 0.8em 0 0.8em 0.5em;
+      border-radius: 8px;
+      margin-bottom: 0.5em;
+      font-size: 1.1em;
+      transition: background 0.18s;
+    }
+    .sidebar-admin nav a:hover {
+      background: #222;
+    }
+    .dashboard-content {
+      flex: 1;
+      background: #fff;
+      padding: 2.5em 2em;
+      min-height: 100vh;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+    }
+    .dashboard-content h1 {
+      font-size: 2em;
+      font-weight: bold;
+      margin-bottom: 1.5em;
+      color: #222;
+    }
+    .produtos-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2em;
+    }
+    .btn-adicionar-produto {
+      background: #2ecc40;
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      padding: 1em 2em;
+      cursor: pointer;
+      transition: background 0.18s;
+      box-shadow: 0 2px 8px rgba(44,204,64,0.08);
+    }
+    .btn-adicionar-produto:hover {
+      background: #27ae38;
+    }
+    .tabela-produtos {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fafafa;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .tabela-produtos th, .tabela-produtos td {
+      padding: 1em 1.2em;
+      text-align: left;
+    }
+    .tabela-produtos th {
+      background: #f0f0f0;
+      font-weight: bold;
+      color: #333;
+    }
+    .tabela-produtos tr:not(:last-child) {
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .btn-acao {
+      padding: 0.5em 1.2em;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-right: 0.5em;
+      font-size: 1em;
+      transition: background 0.18s;
+    }
+    .btn-editar {
+      background: #3498db;
+      color: #fff;
+    }
+    .btn-editar:hover {
+      background: #217dbb;
+    }
+    .btn-excluir {
+      background: #e74c3c;
+      color: #fff;
+    }
+    .btn-excluir:hover {
+      background: #c0392b;
+    }
+  </style>
+</head>
+<body>
+  <section class="dashboard-container">
+    <aside class="sidebar-admin">
+      <h2>Admin</h2>
+      <nav>
+        <a href="#">Visão Geral</a>
+        <a href="#">Usuários</a>
+        <a href="#">Relatórios</a>
+        <a href="#">Configurações</a>
+        <a href="#">Sair</a>
+      </nav>
+    </aside>
+    <main class="dashboard-content">
+      <section class="produtos-header">
+        <h1>Produtos</h1>
+      </section>
+      <form id="form-produto" style="margin-bottom:2em;display:flex;gap:1em;align-items:center;background:#f8f8f8;padding:1em 1.5em;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+        <input type="text" id="novo-nome" placeholder="Nome do produto" required style="padding:0.7em 1em;border-radius:6px;border:1px solid #ccc;">
+        <input type="number" id="novo-preco" placeholder="Preço" step="0.01" min="0" required style="padding:0.7em 1em;border-radius:6px;border:1px solid #ccc;width:120px;">
+        <input type="number" id="novo-estoque" placeholder="Estoque" min="0" required style="padding:0.7em 1em;border-radius:6px;border:1px solid #ccc;width:100px;">
+        <button type="submit" class="btn-adicionar-produto">Adicionar Novo Produto</button>
+      </form>
+      <table class="tabela-produtos">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="produtos-tbody">
+          <!-- Linhas de produtos serão inseridas via JS -->
+        </tbody>
+      </table>
+      <script src="/js/produtos-tabela.js"></script>
+    </main>
+  </section>
+</body>
+</html>
