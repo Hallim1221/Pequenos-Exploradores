@@ -360,7 +360,8 @@
 <main class="quiz-tema">
   <h1 class="quiz-tema-titulo">♻️ Quiz: Meio Ambiente</h1>
   <section class="quiz-tema-desc">Aprenda sobre reciclagem, preservação e sustentabilidade!</section>
-  <form class="quiz-form" id="quizMeioAmbienteForm">
+  <section id="quizMeioAmbienteContainer">
+    <form class="quiz-form" id="quizMeioAmbienteForm">
     <section class="quiz-pergunta-card">
       <fieldset>
         <legend>1. O que podemos fazer para economizar água?</legend>
@@ -401,9 +402,13 @@
         <label><input type="radio" name="q5" value="c"> Caçar animais</label>
       </fieldset>
     </section>
-    <button type="submit" class="btn-destaque">Enviar respostas</button>
-  </form>
+      <button type="submit" class="btn-destaque">Enviar respostas</button>
+    </form>
+  </section>
   <section id="resultadoMeioAmbiente" class="quiz-resultado" style="display:none;"></section>
+  <button id="btnVoltarMeioAmbiente" class="btn-voltar-quiz btn-destaque" style="display:none;margin-top:1.5em;font-size:1.1em;padding:0.7em 2.2em;border-radius:12px;background:linear-gradient(90deg,#3bb273 0%,#FFD600 100%);color:#fff;font-weight:700;box-shadow:0 4px 16px 0 #3bb27344,0 2px 8px 0 #FFD60022;transition:background 0.18s,transform 0.18s,box-shadow 0.18s;" onmouseover="this.style.background='linear-gradient(90deg,#FFD600 0%,#3bb273 100%)'" onmouseout="this.style.background='linear-gradient(90deg,#3bb273 0%,#FFD600 100%)'" onclick="window.location.href='/aluno2'">
+    <span style="vertical-align:middle;"></span> Voltar para Quizzes
+  </button>
 
   <script>
   document.getElementById('quizMeioAmbienteForm').onsubmit = function(e) {
@@ -416,7 +421,7 @@
       q5: 'b'
     };
     let acertos = 0;
-    let resultado = '<h3>Resultado:</h3><ul>';
+    let resultado = '<h3>Resultado:</h3><ul style="list-style:none;padding-left:0;">';
     for (let i = 1; i <= 5; i++) {
       const user = document.querySelector('input[name="q'+i+'"]:checked');
       if (user) {
@@ -434,7 +439,9 @@
     document.getElementById('resultadoMeioAmbiente').innerHTML = resultado;
     document.getElementById('resultadoMeioAmbiente').style.display = 'block';
     document.getElementById('btnVoltarMeioAmbiente').style.display = 'inline-block';
-    document.getElementById('quizMeioAmbienteForm').style.display = 'none';
+    document.getElementById('quizMeioAmbienteContainer').style.display = 'none';
+    document.querySelector('.quiz-tema h1').style.display = 'none';
+    document.querySelector('.quiz-tema-desc').style.display = 'none';
   };
   </script>
   <section class="quiz-tema-aviso">Ajude o planeta e ganhe prêmios verdes! 🌎</section>

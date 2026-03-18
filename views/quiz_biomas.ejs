@@ -358,7 +358,8 @@
       <span style="color: #FFD600; font-size: 1.15em; font-weight: 800; letter-spacing: 0.03em;">Mundo</span>
     </h1>
   <section class="quiz-tema-desc">Teste seus conhecimentos sobre florestas, desertos, oceanos e mais!</section>
-  <form class="quiz-form" id="quizBiomasForm">
+  <section id="quizBiomasContainer">
+    <form class="quiz-form" id="quizBiomasForm">
     <section class="quiz-pergunta-card">
       <fieldset>
         <legend>1. Qual bioma brasileiro é conhecido por sua grande biodiversidade?</legend>
@@ -399,11 +400,13 @@
         <label><input type="radio" name="q5" value="c"> Pantanal</label>
       </fieldset>
     </section>
-    <button type="submit" class="btn-destaque">Enviar respostas</button>
-  </form>
+      <button type="submit" class="btn-destaque">Enviar respostas</button>
+    </form>
+  </section>
   <section id="resultadoBiomas" class="quiz-resultado" style="display:none;"></section>
-
-  <button id="btnVoltarBiomas" class="btn-voltar-quiz" style="display:none;" onclick="window.location.href='/aluno2'">Voltar para Quizzes</button>
+  <button id="btnVoltarBiomas" class="btn-voltar-quiz btn-destaque" style="display:none;margin-top:1.5em;font-size:1.1em;padding:0.7em 2.2em;border-radius:12px;background:linear-gradient(90deg,#FFD600 0%,#00CFFF 100%);color:#fff;font-weight:700;box-shadow:0 4px 16px 0 #FFD60044,0 2px 8px 0 #00CFFF22;transition:background 0.18s,transform 0.18s,box-shadow 0.18s;" onmouseover="this.style.background='linear-gradient(90deg,#00CFFF 0%,#FFD600 100%)'" onmouseout="this.style.background='linear-gradient(90deg,#FFD600 0%,#00CFFF 100%)'" onclick="window.location.href='/aluno2'">
+    <span style="vertical-align:middle;"></span> Voltar para Quizzes
+  </button>
 
   <script>
   document.getElementById('quizBiomasForm').onsubmit = function(e) {
@@ -416,7 +419,7 @@
       q5: 'a'
     };
     let acertos = 0;
-    let resultado = '<h3>Resultado:</h3><ul>';
+    let resultado = '<h3>Resultado:</h3><ul style="list-style:none;padding-left:0;">';
     for (let i = 1; i <= 5; i++) {
       const user = document.querySelector('input[name="q'+i+'"]:checked');
       if (user) {
@@ -434,7 +437,9 @@
     document.getElementById('resultadoBiomas').innerHTML = resultado;
     document.getElementById('resultadoBiomas').style.display = 'block';
     document.getElementById('btnVoltarBiomas').style.display = 'inline-block';
-    document.getElementById('quizBiomasForm').style.display = 'none';
+    document.getElementById('quizBiomasContainer').style.display = 'none';
+    document.querySelector('.quiz-tema h1').style.display = 'none';
+    document.querySelector('.quiz-tema-desc').style.display = 'none';
   };
   </script>
   <section class="quiz-tema-aviso">Explore os biomas e conquiste medalhas de explorador! 🏅</section>
