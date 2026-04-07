@@ -6,7 +6,6 @@ section {
 /* login-aluno.css - Estilo para página de login de aluno */
 
 body {
-  background: linear-gradient(120deg, #e0f7fa 0%, #b2ebf2 100%);
   font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
   min-height: 100vh;
   margin: 0;

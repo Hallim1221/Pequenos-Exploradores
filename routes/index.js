@@ -1,6 +1,12 @@
+
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
+
+// Cadastro 2 do Professor
+router.get('/professor/cadastro2', (req, res) => {
+  res.render('cadastro2');
+});
 
 // Login admin lúdico
 router.get('/login2', (req, res) => {

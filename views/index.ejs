@@ -27,6 +27,12 @@
         style="width:180px;height:180px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
         loading="lazy">
     </section>
+
+    <!-- Quadrado roxo claro decorativo -->
+    <section class="quadrado-roxo-decorativo"></section>
+
+    <!-- Quadrado roxo claro decorativo -->
+    <section class="quadrado-roxo-decorativo"></section>
     <section style="margin-top:0.3em;text-align:center;width:100%;">
      
     </section>
@@ -144,17 +150,26 @@
     </section>
 
  <section style="text-align:center;margin:2.5em 0 2.5em 0;">
-  <img src="/img/parceiras.png" alt="Parceiros" class="parcerias-img" style="width:100%;margin-top:1em;border-radius:18px;">
+  <img src="/img/Parceiras.png" alt="Parceiros" class="parcerias-img" style="width:100%;margin-top:1em;border-radius:18px;">
     </section>
 
     <!-- Introdução e imagens circulares -->
     <section class="intro-beneficios" style="max-width:900px;margin:0 auto 2.5em auto;text-align:center;">
       <section style="font-size:1.25em;font-weight:600;color:#222;margin-bottom:1.2em;">Benefícios para toda a comunidade escolar: promovemos inclusão, engajamento e aprendizagem significativa para alunos, professores e escolas.</section>
       <section style="display:flex;justify-content:center;gap:2.5em;align-items:center;flex-wrap:wrap;">
-        <img src="/img/Ellipse 19.png" alt="Menina de amarelo" style="width:110px;height:110px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px #7c3aed33;">
-        <img src="/img/Ellipse 21.png" alt="Crianças ao meio" style="width:110px;height:110px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px #3bb27333;">
-        <img src="/img/Ellipse 20.png" alt="Duas crianças" style="width:110px;height:110px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px #7c3aed33;">
+        <img src="/img/Ellipse 19.png" alt="Menina de amarelo" class="elipse-img" style="width:110px;height:110px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px #7c3aed33;">
+        <img src="/img/Ellipse 21.png" alt="Crianças ao meio" class="elipse-img" style="width:110px;height:110px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px #3bb27333;">
+        <img src="/img/Ellipse 20.png" alt="Duas crianças" class="elipse-img" style="width:110px;height:110px;border-radius:50%;object-fit:cover;box-shadow:0 2px 12px #7c3aed33;">
       </section>
+      </section>
+      <style>
+      @media (min-width: 900px) {
+        .elipse-img {
+          width: 170px !important;
+          height: 170px !important;
+        }
+      }
+      </style>
     </section>
 
   
@@ -219,18 +234,92 @@
         </section>
       </section>
     </section>
-
+<p></p>
+<p></p>
+<p></p>
     <!-- Chamada final -->
     <section class="chamada-final-section" style="max-width:900px;margin:3em auto 2.5em auto;display:flex;align-items:center;justify-content:center;gap:2em;flex-wrap:wrap;">
-      <span style="font-size:1.5em;font-weight:700;">Vamos transformar o futuro juntos!</span>
+      <p></p>
+      <span style="font-size:1.5em;font-weight:700;">"  Vamos transformar o futuro juntos! "</span>
       <p></p>
       <p></p>
       <p></p>
-      <span class="btn-passaro-wrapper" style="display:inline-block;position:relative;">
-        <img src="/img/image 2392.png" alt="Pássaro azul" class="passaro-azul-img" style="object-fit:contain;">
+      <p></p>
+      <p></p>
+      <span class="btn-passaro-wrapper">
+        <img src="/img/image 2392.png" alt="Pássaro azul" class="passaro-azul-img">
         <button onclick="window.location.href='/contato'" class="btn-seja-parceira" style="background:linear-gradient(90deg,#3bb273 0%,#7c3aed 100%);color:#fff;font-size:1.2em;font-weight:700;padding:1em 2.5em;border:none;border-radius:16px;box-shadow:0 2px 12px #3bb27333;cursor:pointer;transition:background 0.18s,transform 0.18s;margin-left:0;">Seja uma escola parceira</button>
       </span>
     </section>
+    <style>
+    .quadrado-roxo-decorativo {
+      width: 100%;
+      min-height: 220px;
+      height: 28vh;
+      background: #ede7fa;
+      border-radius: 32px;
+      margin: 3.5em auto 3.5em auto;
+      max-width: 900px;
+      box-shadow: 0 2px 18px #7c3aed22;
+      display: block;
+    }
+    @media (max-width: 899px) {
+      .btn-passaro-wrapper {
+        margin-top: 2em !important;
+        display: flex !important;
+        align-items: center;
+        gap: 1em;
+        margin-left: 0 !important;
+      }
+      .chamada-final-section > span:first-child {
+        margin-left: 0 !important;
+        display: inline-block;
+      }
+      .btn-passaro-wrapper .passaro-azul-img {
+        display: none !important;
+      }
+      .btn-passaro-wrapper .btn-seja-parceira {
+        margin-top: 0 !important;
+        font-size: 1.18em !important;
+        padding: 1.15em 2.3em !important;
+        display: block !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .btn-passaro-wrapper {
+        justify-content: center !important;
+      }
+    }
+    @media (min-width: 900px) {
+      .btn-passaro-wrapper {
+        margin-top: 2.5em !important;
+        display: flex !important;
+        align-items: center;
+        gap: 1.5em;
+        margin-left: -110px !important;
+      }
+      .chamada-final-section > span:first-child {
+        margin-left: 140px !important;
+        display: inline-block;
+      }
+      .btn-passaro-wrapper .passaro-azul-img {
+        margin-top: 0 !important;
+        margin-right: 0 !important;
+        position: static !important;
+        width: 190px !important;
+        height: auto !important;
+        max-height: 220px !important;
+        transform: none !important;
+        object-fit: contain !important;
+        aspect-ratio: unset !important;
+      }
+      .btn-passaro-wrapper .btn-seja-parceira {
+        margin-top: 0 !important;
+        font-size: 1.35em !important;
+        padding: 1.2em 3em !important;
+      }
+    }
+    </style>
     <section style="display: flex; justify-content: center; width: 100%;"><h2 style="font-size: 1.6em; font-family: 'Baloo 2', 'Fredoka', 'Quicksand', Arial, sans-serif; font-weight: 800; margin-bottom: 1em; text-align: center; background: rgba(255,255,255,0.85); color: #4be38a; letter-spacing: 0.03em; text-shadow: 0 2px 8px #b2f7ef55; border-radius: 14px; padding: 0.3em 0.7em; display: inline-block; box-shadow: 0 2px 10px #b2f7ef22;"></h2></section>
       <section style="max-width: 700px; margin: 0 auto; text-align: center; font-size: 1em; font-family: 'Quicksand', Arial, sans-serif; color: #111; line-height: 1.6; padding: 0.3em 1em 2em 1em;">
       </section>

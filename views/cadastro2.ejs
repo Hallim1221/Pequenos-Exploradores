@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Cadastro 2</title>
+  <link rel="stylesheet" href="/css/cadastro2.css">
+</head>
+<body class="cadastro2-body">
+  <%- include('partials/header') %>
+  <section class="cadastro2-container">
+    <section class="cadastro2-header">
+      <img src="/img/tcc.img/animal5.png" alt="Mascote Explorador" class="cadastro2-mascote">
+      <h1 class="cadastro2-titulo">Crie sua conta de <span>Professor</span></h1>
+      <span class="cadastro2-sub">Acesse recursos exclusivos para professores!</span>
+    </section>
+    <form class="cadastro2-form" method="POST" action="/professor/cadastro2">
+      <input type="text" name="nome" placeholder="Nome completo" required autocomplete="name">
+      <input type="email" name="email" placeholder="E-mail do Professor" required autocomplete="email">
+      <input type="password" name="password" placeholder="Crie uma senha" required autocomplete="new-password">
+      <input type="password" name="confirmPassword" placeholder="Confirme a senha" required autocomplete="new-password">
+      <button type="submit" class="cadastro2-btn">Cadastrar</button>
+    </form>
+    <footer class="cadastro2-footer">
+      <a href="/professor/login" class="cadastro2-login-link">Já tem uma conta? Faça login</a>
+      <span class="cadastro2-comunidade">Participe da comunidade de educadores!</span>
+    </footer>
+    <section class="cadastro2-imagens">
+      <img src="/img/tcc.img/animal2.png" alt="Professor 2" class="cadastro2-professor">
+      <img src="/img/tcc.img/animal3.png" alt="Professor 3" class="cadastro2-professor">
+    </section>
+  </section>
+  <%- include('partials/footer') %>
+</body>
+</html>

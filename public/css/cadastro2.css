@@ -1,0 +1,143 @@
+body.cadastro2-body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+  background: linear-gradient(rgba(20,30,60,0.65), rgba(20,30,60,0.65)), url('/img/desktop.png') center center/cover no-repeat fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cadastro2-container {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px #001a3a22;
+  padding: 2.2em 2.5em 2em 2.5em;
+  max-width: 370px;
+  width: 100%;
+  margin: 2.5em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cadastro2-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7em;
+  margin-bottom: 1.2em;
+}
+.cadastro2-mascote {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  box-shadow: 0 2px 12px #00CFFF33;
+  background: #fff;
+  border: 3px solid #3bb273;
+  margin-bottom: 0.2em;
+}
+.cadastro2-titulo {
+  margin-bottom: 0;
+  font-size: 1.5em;
+  font-weight: 800;
+  color: #14203c;
+}
+.cadastro2-titulo span {
+  color: #3bb273;
+}
+.cadastro2-sub {
+  color: #FFD600;
+  font-size: 1.1em;
+  font-weight: 700;
+  text-shadow: 0 2px 8px #FFD60055;
+}
+.cadastro2-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  width: 100%;
+}
+.cadastro2-form input {
+  padding: 0.7em 1em;
+  border-radius: 8px;
+  border: 1px solid #cce3f7;
+  font-size: 1em;
+  outline: none;
+  transition: border 0.2s;
+}
+.cadastro2-form input:focus {
+  border: 1.5px solid #00CFFF;
+}
+.cadastro2-btn {
+  background: linear-gradient(90deg, #00CFFF 60%, #3bb273 100%);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.1em;
+  border: none;
+  border-radius: 8px;
+  padding: 0.8em 0;
+  margin-top: 0.5em;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #00CFFF33;
+  transition: background 0.2s;
+}
+.cadastro2-btn:hover {
+  background: linear-gradient(90deg, #3bb273 60%, #00CFFF 100%);
+}
+.cadastro2-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.7em;
+}
+.cadastro2-login-link {
+  color: #00CFFF;
+  font-weight: 700;
+  text-decoration: underline;
+  font-size: 1.08em;
+}
+.cadastro2-comunidade {
+  margin-top: 0.7em;
+  color: #3bb273;
+  font-size: 1em;
+  opacity: 0.85;
+  font-weight: 600;
+}
+.cadastro2-imagens {
+  margin-top: 2.2em;
+  display: flex;
+  justify-content: center;
+  gap: 1.2em;
+}
+.cadastro2-professor {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px #00CFFF22;
+  border: 2px solid #00CFFF;
+}
+.cadastro2-professor:last-child {
+  border: 2px solid #3bb273;
+  box-shadow: 0 2px 8px #3bb27322;
+}
+.btn-voltar {
+  z-index: 11000;
+  position: fixed;
+  top: 0.5em;
+  right: 0.5em;
+  left: auto;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+@media (max-width: 899px) {
+  body.cadastro2-body {
+    background: linear-gradient(rgba(20,30,60,0.65), rgba(20,30,60,0.65)), url('/img/tcc.img/tela inicio.png') center center/cover no-repeat fixed;
+  }
+  .cadastro2-container {
+    max-width: 98vw;
+    padding: 1.2em 0.5em 1em 0.5em;
+  }
+}
