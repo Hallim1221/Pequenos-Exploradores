@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Área do Aluno</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aluno-redesign.css">
+  <style>
+    footer {
+      padding: 1.2em 0 !important;
+      font-size: 0.95em !important;
+    }
+    footer p {
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+  </style>
+  <meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
+  <meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
+  <meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
+  <meta property="og:url" content="https://pequenos-exploradores.onrender.com/" />
+  <meta property="og:type" content="website" />
+</head>
+<body>
+  <script>
+    if (localStorage.getItem('premiumAluno') === 'true') {
+      document.body.classList.add('premium-aluno');
+    }
+  </script>
+
+  <!-- NAVBAR -->
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/WhatsApp Image 2026-04-14 at 14.58.46.jpeg" alt="Logo Pequenos Exploradores">
+    </section>
+    <section class="nav-links-redesign">
+      <a class="nav-link-redesign active" href="/">Início</a>
+      <a class="nav-link-redesign" href="/sobre">Sobre</a>
+      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+    </section>
+    <section class="nav-right-redesign">
+      <button class="bell-btn-redesign" id="btn-notificacoes" aria-label="Notificações">
+        🔔<span class="bell-badge-redesign" id="notificacao-badge-nav">1</span>
+      </button>
+      <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
+    </section>
+  </nav>
+
+  <!-- MAIN -->
+  <section class="main-redesign">
+
+    <!-- GREETING -->
+    <section class="greeting-banner-redesign">
+      <section class="greeting-left-redesign">
+        <h1>👋 Olá, <span class="aluno-nome-destaque">Lorena</span>!</h1>
+        <p>Pronta para sua aventura de hoje? Continue explorando! 🌍</p>
+      </section>
+      <section class="xp-pill-redesign">
+        <span class="xp-star-redesign">⭐</span>
+        <span id="alunoSaldoValorInline">320</span> pontos de XP
+      </section>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="category-row-redesign">
+      <section class="category-pill-redesign active" onclick="window.location.reload();" style="cursor: pointer;"><span>⛺</span> Aluno</section>
+      <section class="category-pill-redesign" onclick="window.location.href='/adicionar-turma';" style="cursor: pointer;"><span>📜</span> Mural</section>
+      <section class="category-pill-redesign" onclick="window.location.href='/ranking3';" style="cursor: pointer;"><span>🏆</span> Ranking</section>
+      <section class="category-pill-redesign" onclick="window.location.href='/recarga';" style="cursor: pointer;"><span>💳</span> Recarga</section>
+      <section class="category-pill-redesign" onclick="window.location.href='/natureza';" style="cursor: pointer;"><span>🌎</span> Explore e Aprenda </section>
+    </section>
+
+    <!-- GRID -->
+    <section class="grid-redesign">
+
+      <!-- PROFILE CARD -->
+      <section class="profile-card-redesign">
+        <section class="avatar-wrapper-redesign" id="avatar-display" onclick="abrirModalAvatar()" style="cursor: pointer; position: relative; overflow: hidden;">
+          <img id="avatar-img" src="/img/tcc.img/animal1.png" alt="Avatar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
+          <span style="position: absolute; bottom: 8px; right: 8px; background: #76e13e; border: 2px solid #fff; border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer;">✎</span>
+        </section>
+        <section class="profile-name-redesign">Lorena Amorim Gomes</section>
+        <section class="profile-school-redesign">
+          <section class="school-label">Escola</section>
+          <section class="school-name">Prof.ª Maria Theodora Pedreira de Freitas</section>
+        </section>
+        <section class="profile-turma-redesign">5° Ano D</section>
+
+        <section class="progress-section-redesign">
+          <section class="progress-label-redesign">
+            <span>Nível 1 — Explorador Iniciante</span>
+            <span>30%</span>
+          </section>
+          <section class="progress-bar-redesign">
+            <section class="progress-fill-redesign"></section>
+          </section>
+        </section>
+
+        <button class="btn-evoluir-redesign">🚀 Evoluir de Nível!</button>
+      </section>
+
+      <!-- RIGHT COLUMN -->
+      <section class="right-col-redesign">
+
+        <!-- MISSIONS -->
+        <section class="activity-card-redesign">
+          <section class="section-title-redesign">🗺️ Minhas Missões</section>
+          <section class="missions-grid-redesign">
+            <section class="mission-card-redesign">
+              <section class="mission-icon-redesign green">⛺</section>
+              <section class="mission-name-redesign">Explorar</section>
+              <span class="mission-badge-redesign badge-done">✓ Concluída</span>
+            </section>
+            <section class="mission-card-redesign">
+              <section class="mission-icon-redesign blue">📜</section>
+              <section class="mission-name-redesign">Aprender</section>
+              <span class="mission-badge-redesign badge-new">🔥 Em andamento</span>
+            </section>
+            <section class="mission-card-redesign">
+              <section class="mission-icon-redesign amber">🌍</section>
+              <section class="mission-name-redesign">Descobrir</section>
+              <span class="mission-badge-redesign badge-new">Novo!</span>
+            </section>
+            <section class="mission-card-redesign">
+              <section class="mission-icon-redesign coral">🏆</section>
+              <section class="mission-name-redesign">Conquistar</section>
+              <span class="mission-badge-redesign badge-locked">🔒 Bloqueada</span>
+              <section class="lock-overlay">🔒</section>
+            </section>
+          </section>
+        </section>
+
+        <!-- STATS -->
+        <section class="activity-card-redesign">
+          <section class="section-title-redesign">📊 Meu Progresso</section>
+          <section class="stats-row-redesign">
+            <section class="stat-card-redesign green">
+              <section class="stat-icon-redesign">✅</section>
+              <section class="stat-num-redesign">3</section>
+              <section class="stat-label-redesign">Missões Concluídas</section>
+            </section>
+            <section class="stat-card-redesign blue">
+              <section class="stat-icon-redesign">⭐</section>
+              <section class="stat-num-redesign">320</section>
+              <section class="stat-label-redesign">Pontos Ganhos</section>
+            </section>
+            <section class="stat-card-redesign amber">
+              <section class="stat-icon-redesign">🔥</section>
+              <section class="stat-num-redesign">5</section>
+              <section class="stat-label-redesign">Dias Seguidos</section>
+            </section>
+          </section>
+        </section>
+
+      </section>
+    </section>
+  </section>
+
+  <!-- MODAL DE SELEÇÃO DE AVATAR -->
+  <section id="modal-avatar-overlay" onclick="fecharModalAvatar(event)" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.65);z-index:120000;align-items:center;justify-content:center;">
+    <section id="modal-avatar" onclick="event.stopPropagation()" style="background:#fff;border-radius:24px;box-shadow:0 8px 32px rgba(0,0,0,0.3);max-width:650px;width:90vw;padding:2em 1.5em;display:flex;flex-direction:column;align-items:center;position:relative;z-index:120001;max-height:80vh;overflow-y:auto;">
+      <button onclick="fecharModalAvatar()" style="position:absolute;top:1em;right:1.5em;font-size:2em;background:none;border:none;color:#76e13e;cursor:pointer;font-weight:700;">&times;</button>
+      
+      <h2 style="color:#76e13e;font-family:'Baloo 2',cursive;font-size:1.5em;font-weight:900;margin:0 0 1.5em 0;text-align:center;">Escolha seu Avatar</h2>
+      
+      <section style="display:grid;grid-template-columns:repeat(auto-fit, minmax(100px, 1fr));gap:1.2em;width:100%;margin-bottom:1.5em;">
+        
+        <section class="avatar-option" onclick="selecionarAvatar(this, '/img/tcc.img/animal2.png')" style="cursor:pointer;border-radius:16px;overflow:hidden;border:3px solid #ddd;transition:all 0.3s;">
+          <img src="/img/tcc.img/animal2.png" alt="Avatar 2" style="width:100%;height:100px;object-fit:cover;">
+        </section>
+        <section class="avatar-option" onclick="selecionarAvatar(this, '/img/tcc.img/animal3.png')" style="cursor:pointer;border-radius:16px;overflow:hidden;border:3px solid #ddd;transition:all 0.3s;">
+          <img src="/img/tcc.img/animal3.png" alt="Avatar 3" style="width:100%;height:100px;object-fit:cover;">
+        </section>
+        <section class="avatar-option" onclick="selecionarAvatar(this, '/img/tcc.img/animal4.png')" style="cursor:pointer;border-radius:16px;overflow:hidden;border:3px solid #ddd;transition:all 0.3s;">
+          <img src="/img/tcc.img/animal4.png" alt="Avatar 4" style="width:100%;height:100px;object-fit:cover;">
+        </section>
+        <section class="avatar-option" onclick="selecionarAvatar(this, '/img/tcc.img/animal5.png')" style="cursor:pointer;border-radius:16px;overflow:hidden;border:3px solid #ddd;transition:all 0.3s;">
+          <img src="/img/tcc.img/animal5.png" alt="Avatar 5" style="width:100%;height:100px;object-fit:cover;">
+        </section>
+        <section class="avatar-option" onclick="selecionarAvatar(this, '/img/tcc.img/animal6.png')" style="cursor:pointer;border-radius:16px;overflow:hidden;border:3px solid #ddd;transition:all 0.3s;">
+          <img src="/img/tcc.img/animal6.png" alt="Avatar 6" style="width:100%;height:100px;object-fit:cover;">
+        </section>
+        <section class="avatar-option" onclick="selecionarAvatar(this, '/img/tcc.img/animal7.png')" style="cursor:pointer;border-radius:16px;overflow:hidden;border:3px solid #ddd;transition:all 0.3s;">
+          <img src="/img/tcc.img/animal7.png" alt="Avatar 7" style="width:100%;height:100px;object-fit:cover;">
+        </section>
+        <section class="avatar-option" onclick="selecionarAvatar(this, '/img/tcc.img/animal8.png')" style="cursor:pointer;border-radius:16px;overflow:hidden;border:3px solid #ddd;transition:all 0.3s;">
+          <img src="/img/tcc.img/animal8.png" alt="Avatar 8" style="width:100%;height:100px;object-fit:cover;">
+        </section>
+      </section>
+      
+      <section style="display:flex;gap:1em;justify-content:center;width:100%;">
+        <button onclick="fecharModalAvatar()" style="background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.8em 2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.1);transition:background 0.2s;">Cancelar</button>
+        <button id="btn-confirmar-avatar" onclick="confirmarAvatar()" style="background:linear-gradient(90deg,#76e13e 0%,#3bb273 100%);color:#fff;border:none;border-radius:13px;padding:0.8em 2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(118,225,62,0.3);transition:all 0.2s;text-transform:uppercase;">Confirmar</button>
+      </section>
+    </section>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="background: #76e13e; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
+  <!-- Modal de confirmação de logout (cópia exata do aluno2.ejs) -->
+  <section id="modal-logout-overlay" onclick="fecharModalLogout(event)" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.45);z-index:120000;align-items:center;justify-content:center;">
+    <section id="modal-logout" onclick="event.stopPropagation()" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px #00CFFF22;max-width:340px;width:90vw;padding:1.5em 1.2em 1.2em 1.2em;display:flex;flex-direction:column;align-items:center;position:relative;z-index:120001;">
+      <button class="modal-logout-close" onclick="fecharModalLogout(event)" style="position:absolute;top:0.7em;right:1em;font-size:2em;background:none;border:none;color:#00CFFF;cursor:pointer;">&times;</button>
+      <section style="font-weight:900;font-size:1.15em;color:#1ec773;margin-top:1.2em;margin-bottom:0.7em;">Deseja realmente sair?</section>
+      <section style="width:100%;display:flex;flex-direction:row;gap:1em;justify-content:center;margin-top:1.2em;">
+        <button onclick="fecharModalLogout(event)" style="background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #00CFFF22;transition:background 0.2s;">Cancelar</button>
+        <form action="/logout" method="POST" style="margin:0;display:inline;">
+          <button type="button" class="logout-creative" style="font-size:1em;padding:0.7em 2.2em;" onclick="logoutAndRedirect(this)">Sair</button>
+        </form>
+      </section>
+    </section>
+  </section>
+    <p>&copy; 2025 Pequenos Exploradores</p>
+  </footer>
+
+  
+  <script>
+    let avatarSelecionado = '/img/tcc.img/animal1.png';
+
+    function abrirModalAvatar() {
+      document.getElementById('modal-avatar-overlay').style.display = 'flex';
+    }
+
+    function fecharModalAvatar(event) {
+      if (event && event.target.id !== 'modal-avatar-overlay') return;
+      document.getElementById('modal-avatar-overlay').style.display = 'none';
+    }
+
+    function selecionarAvatar(element, caminho) {
+      document.querySelectorAll('.avatar-option').forEach(el => {
+        el.style.borderColor = '#ddd';
+        el.style.boxShadow = 'none';
+      });
+      element.style.borderColor = '#76e13e';
+      element.style.boxShadow = '0 0 0 3px rgba(118,225,62,0.3)';
+      avatarSelecionado = caminho;
+    }
+
+    function confirmarAvatar() {
+      document.getElementById('avatar-img').src = avatarSelecionado;
+      localStorage.setItem('avatar_usuario', avatarSelecionado);
+      fecharModalAvatar();
+    }
+
+    window.addEventListener('load', function() {
+      const avatarSalvo = localStorage.getItem('avatar_usuario');
+      if (avatarSalvo) {
+        document.getElementById('avatar-img').src = avatarSalvo;
+        avatarSelecionado = avatarSalvo;
+      }
+    });
+
+    function abrirModalLogout() {
+      var modal = document.getElementById('modal-logout');
+      if(modal) modal.style.display = 'flex';
+    }
+    function fecharModalLogout() {
+      var modal = document.getElementById('modal-logout');
+      if(modal) modal.style.display = 'none';
+    }
+    function confirmarLogout() {
+      fetch('/logout', { method: 'POST' })
+        .then(() => { window.location.href = '/'; })
+        .catch(() => { window.location.href = '/'; });
+    }
+  </script>
+</body>
+</html>

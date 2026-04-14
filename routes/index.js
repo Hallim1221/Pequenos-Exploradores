@@ -103,7 +103,7 @@ router.post('/aluno/cadastro',
     // Aqui normalmente você salvaria o usuário no banco de dados.
     // Para agora, define saldo inicial na sessão e redireciona para a área do aluno.
     req.session.saldo = 700;
-    return res.redirect('/aluno');
+    return res.redirect('/aluno-novo');
   }
 );
 
@@ -186,7 +186,13 @@ router.get('/aluno', (req, res) => {
     return res.redirect('/aluno/login');
   }
   const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
-  res.render('aluno', { saldo });
+  res.render('aluno-novo', { saldo });
+});
+
+// Área do Aluno Versão Nova Redesenhada
+router.get('/aluno-novo', (req, res) => {
+  const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
+  res.render('aluno-novo', { saldo });
 });
 
 
@@ -234,6 +240,11 @@ router.get('/ranking', (req, res) => {
 // Ranking2
 router.get('/ranking2', (req, res) => {
   res.render('ranking2');
+});
+
+// Ranking3
+router.get('/ranking3', (req, res) => {
+  res.render('ranking3');
 });
 
 // Recarga

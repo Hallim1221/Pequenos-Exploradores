@@ -5,11 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pequenos Exploradores – Ranking</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@400;500;600&family=Freeman&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-<meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
-<meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
-<meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
-<meta property="og:url" content="https://pequenos-exploradores.onrender.com/ranking2" />
-<meta property="og:type" content="website" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -491,9 +486,198 @@
   }
   .premium-bird { font-size: 72px; margin-left: auto; }
 
+  /* ─── NIVEIS PAGE ─── */
+  .modal-overlay {
+    background: rgba(0,0,0,0.5);
+    border-radius: 20px;
+    padding: 40px 24px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .modal-card {
+    background: var(--teal-modal);
+    border-radius: 40px;
+    padding: 0 0 28px;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+  .modal-header {
+    background: var(--green-dark);
+    border-radius: 20px 20px 0 0;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .modal-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 34px;
+    color: #fff9f9;
+    text-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  }
+  .modal-close {
+    position: absolute;
+    top: 14px;
+    right: 18px;
+    background: #37a9ef;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    font-family: 'Fredoka One', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: all 0.2s;
+  }
+  .modal-close:hover { transform: scale(1.1); background: #1e88e5; }
+
+  .nivel-card {
+    background: white;
+    border-radius: 20px;
+    margin: 20px 20px 0;
+    padding: 24px 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+  .nivel-progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .nivel-label {
+    font-family: 'Fredoka', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: #333;
+  }
+  .nivel-progress-track {
+    background: #e0e0e0;
+    border-radius: 12px;
+    height: 18px;
+    overflow: visible;
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .nivel-progress-fill {
+    background: linear-gradient(90deg, #ffd700, #ffb300);
+    border-radius: 12px;
+    height: 100%;
+    position: relative;
+  }
+  .nivel-trophy {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  }
+  .nivel-checkpoints {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  .nivel-checkpoint {
+    text-align: center;
+  }
+  .nivel-checkpoint-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #bbb;
+    margin: 0 auto 4px;
+  }
+  .nivel-checkpoint-dot.reached { background: var(--orange); }
+  .nivel-checkpoint-label {
+    font-size: 12px;
+    color: #555;
+    font-weight: 600;
+  }
+
+  /* Levels grid */
+  .levels-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    padding: 20px;
+  }
+  .level-item {
+    background: white;
+    border-radius: 16px;
+    padding: 16px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .level-item:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+  .level-item .lv-icon { font-size: 40px; margin-bottom: 8px; }
+  .level-item .lv-name {
+    font-family: 'Freeman', sans-serif;
+    font-size: 14px;
+    color: #603000;
+    margin-bottom: 4px;
+  }
+  .level-item .lv-pts {
+    font-family: 'Fredoka', sans-serif;
+    font-size: 13px;
+    color: #888;
+  }
+  .level-item.locked { opacity: 0.45; cursor: default; }
+  .level-item.locked:hover { transform: none; }
+
+  /* ─── PRÊMIOS PAGE ─── */
+  .premio-card {
+    background: var(--blue-prize);
+    border-radius: 18px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .premio-card:hover { transform: translateX(6px); box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
+  .premio-icon { font-size: 36px; flex-shrink: 0; }
+  .premio-desc {
+    flex: 1;
+    font-family: 'Jockey One', 'Fredoka One', cursive;
+    font-size: 14px;
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    line-height: 1.3;
+  }
+  .premio-reward {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .premio-amount {
+    font-family: 'Freeman', sans-serif;
+    font-size: 13px;
+    color: white;
+    display: block;
+  }
+  .premio-reward-icon { font-size: 24px; }
+
+  .premios-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px;
+  }
+
   /* ─── RESPONSIVE ─── */
   @media (max-width: 860px) {
     .profile-layout { grid-template-columns: 1fr; }
+    .levels-grid { grid-template-columns: repeat(2, 1fr); }
+    .topbar-nav .nav-btn span.label { display: none; }
   }
 
   /* ─── ANIMATIONS ─── */
@@ -503,13 +687,27 @@
   }
   .page.active .profile-card,
   .page.active .medals-panel,
-  .page.active .podium-panel {
+  .page.active .podium-panel,
+  .page.active .modal-card,
+  .page.active .nivel-card,
+  .page.active .premio-card {
     animation: fadeInUp 0.35s ease both;
   }
   .page.active .lb-row:nth-child(1) { animation-delay: 0.05s; }
   .page.active .lb-row:nth-child(2) { animation-delay: 0.10s; }
   .page.active .lb-row:nth-child(3) { animation-delay: 0.15s; }
   .page.active .lb-row:nth-child(n+4) { animation-delay: 0.20s; }
+
+  .nav-btn { position: relative; }
+
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    color: white;
+    font-size: 26px;
+    text-align: center;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+    margin-bottom: 24px;
+  }
 
   @import url('https://fonts.googleapis.com/css2?family=Jockey+One&display=swap');
 
@@ -586,13 +784,16 @@
   <section class="logo-icon" onclick="showPage('meu-perfil')">
     <span></span><span></span><span></span>
   </section>
-  <span class="topbar-title">🌿 Pequenos Exploradores</span>
+  
   <section class="topbar-nav">
     <button class="nav-btn active" onclick="showPage('meu-perfil')" id="btn-meu-perfil">Meu Perfil</button>
     <button class="nav-btn" onclick="showPage('ranking')" id="btn-ranking">🏆 Ranking</button>
+    <button class="nav-btn" onclick="showPage('niveis')" id="btn-niveis">⭐ Níveis</button>
+    <button class="nav-btn" onclick="showPage('premios')" id="btn-premios">🎁 Prêmios</button>
   </section>
 </nav>
 
+<!-- BTN VOLTAR -->
 <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 2.5em; right: 0.5em; left: auto;">
   <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
     <circle cx="30" cy="30" r="24" fill="#00CFFF"/>
@@ -608,7 +809,7 @@
 
     <!-- LEFT: profile card -->
     <section>
-      <section class="profile-card">
+      <article class="profile-card">
         <h2 class="profile-card-title">Ranking</h2>
         <section class="rank-tabs">
           <button class="rank-tab active">
@@ -640,25 +841,25 @@
           <section class="score-pill">15.000</section>
           <span class="score-icon">🏆</span>
         </section>
-      </section>
+      </article>
     </section>
 
     <!-- RIGHT: medals -->
     <section>
       <!-- Trophy avatars row -->
       <section style="display:flex; gap:20px; justify-content:center; margin-bottom:24px;">
-        <section style="text-align:center;">
+        <article style="text-align:center;">
           <section style="width:80px;height:80px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 4px 12px rgba(0,0,0,.2);margin:0 auto 6px;">🥇</section>
           <span style="font-family:'Freeman',sans-serif;color:white;font-size:13px;text-shadow:0 1px 4px rgba(0,0,0,.3);">Campeão</span>
-        </section>
-        <section style="text-align:center;">
+        </article>
+        <article style="text-align:center;">
           <section style="width:80px;height:80px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 4px 12px rgba(0,0,0,.2);margin:0 auto 6px;">🥈</section>
           <span style="font-family:'Freeman',sans-serif;color:white;font-size:13px;text-shadow:0 1px 4px rgba(0,0,0,.3);">Vice</span>
-        </section>
-        <section style="text-align:center;">
+        </article>
+        <article style="text-align:center;">
           <section style="width:80px;height:80px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 4px 12px rgba(0,0,0,.2);margin:0 auto 6px;">🥉</section>
           <span style="font-family:'Freeman',sans-serif;color:white;font-size:13px;text-shadow:0 1px 4px rgba(0,0,0,.3);">3° Lugar</span>
-        </section>
+        </article>
       </section>
 
       <section class="medals-panel">
@@ -686,6 +887,8 @@
       <!-- Buttons to other pages -->
       <section style="display:flex;gap:12px;margin-top:20px;">
         <button class="nav-btn" style="flex:1;background:var(--teal-modal);border-color:var(--teal-modal);color:white;font-size:15px;padding:12px;" onclick="showPage('ranking')">🏆 Ver Ranking Completo</button>
+        <button class="nav-btn" style="flex:1;background:var(--brown-mid);border-color:var(--brown-mid);color:white;font-size:15px;padding:12px;" onclick="showPage('niveis')">⭐ Ver Níveis</button>
+        <button class="nav-btn" style="flex:1;background:#00a611;border-color:#00a611;color:white;font-size:15px;padding:12px;" onclick="showPage('premios')">🎁 Ver Prêmios</button>
       </section>
     </section>
   </section>
@@ -832,6 +1035,195 @@
   </section>
 </section>
 
+<!-- ═══════════════════════════════════════════
+     PAGE 3 – NÍVEIS
+════════════════════════════════════════════ -->
+<section class="page page-bg" id="page-niveis">
+  <section class="modal-overlay">
+    <article class="modal-card">
+      <header class="modal-header">
+        <span class="modal-title">⭐ Níveis</span>
+      </header>
+      <button class="modal-close" onclick="showPage('meu-perfil')">✕</button>
+
+      <!-- Progress card -->
+      <article class="nivel-card">
+        <p style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;color:#555;margin-bottom:16px;text-align:center;">Seu progresso atual</p>
+        <section class="nivel-progress-track">
+          <section class="nivel-progress-fill" style="width:8%;">
+            <span class="nivel-trophy">🏆</span>
+          </section>
+        </section>
+        <section class="nivel-checkpoints">
+          <article class="nivel-checkpoint">
+            <section class="nivel-checkpoint-dot reached"></section>
+            <span class="nivel-checkpoint-label">Bronze I</span>
+            <span style="font-size:11px;color:#888;display:block;">0 pts</span>
+          </article>
+          <article class="nivel-checkpoint">
+            <section class="nivel-checkpoint-dot"></section>
+            <span class="nivel-checkpoint-label">Bronze III</span>
+            <span style="font-size:11px;color:#888;display:block;">500 pts</span>
+          </article>
+          <article class="nivel-checkpoint">
+            <section class="nivel-checkpoint-dot"></section>
+            <span class="nivel-checkpoint-label">Bronze III</span>
+            <span style="font-size:11px;color:#888;display:block;">800 pts</span>
+          </article>
+          <article class="nivel-checkpoint">
+            <section class="nivel-checkpoint-dot"></section>
+            <span class="nivel-checkpoint-label">Prata I</span>
+            <span style="font-size:11px;color:#888;display:block;">1000 pts</span>
+          </article>
+        </section>
+      </article>
+
+      <!-- Levels grid -->
+      <section class="levels-grid">
+        <article class="level-item" onclick="showPage('ranking')">
+          <section class="lv-icon">🥉</section>
+          <span class="lv-name">Bronze I</span>
+          <span class="lv-pts">0 pontos</span>
+        </article>
+        <article class="level-item locked">
+          <section class="lv-icon">🥉</section>
+          <span class="lv-name">Bronze II</span>
+          <span class="lv-pts">500 pontos</span>
+        </article>
+        <article class="level-item locked">
+          <section class="lv-icon">🥉</section>
+          <span class="lv-name">Bronze III</span>
+          <span class="lv-pts">800 pontos</span>
+        </article>
+        <article class="level-item locked">
+          <section class="lv-icon">🥈</section>
+          <span class="lv-name">Prata I</span>
+          <span class="lv-pts">1.000 pontos</span>
+        </article>
+        <article class="level-item locked">
+          <section class="lv-icon">🥈</section>
+          <span class="lv-name">Prata II</span>
+          <span class="lv-pts">2.000 pontos</span>
+        </article>
+        <article class="level-item locked">
+          <section class="lv-icon">🥇</section>
+          <span class="lv-name">Ouro I</span>
+          <span class="lv-pts">5.000 pontos</span>
+        </article>
+      </section>
+
+      <section style="padding:0 20px;">
+        <button style="width:100%;background:var(--green-dark);color:white;font-family:'Fredoka One',cursive;font-size:16px;border:none;border-radius:16px;padding:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='#067320'" onmouseout="this.style.background='var(--green-dark)'" onclick="showPage('premios')">
+          🎁 Ver Prêmios Disponíveis
+        </button>
+      </section>
+    </article>
+  </section>
+
+  <section class="premium-banner">
+    <section class="premium-text">
+      <h3>Área Premium 💎</h3>
+      <p>Conquiste níveis mais rápido com conteúdos exclusivos!</p>
+      <section class="premium-cta">Tenha Benefícios Exclusivos!</section>
+    </section>
+    <section class="premium-bird">🦜</section>
+  </section>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     PAGE 4 – PRÊMIOS
+════════════════════════════════════════════ -->
+<section class="page page-bg" id="page-premios">
+  <section class="modal-overlay">
+    <article class="modal-card">
+      <header class="modal-header">
+        <span class="modal-title">🎁 Prêmios</span>
+      </header>
+      <button class="modal-close" onclick="showPage('meu-perfil')">✕</button>
+
+      <section class="premios-grid">
+        <article class="premio-card">
+          <section class="premio-icon">✨</section>
+          <span class="premio-desc">Acerte 10 perguntas seguidas no Quiz Ambiental</span>
+          <section class="premio-reward">
+            <span class="premio-amount">$10</span>
+            <span class="premio-reward-icon">🪙</span>
+          </section>
+        </article>
+
+        <article class="premio-card">
+          <section class="premio-icon">🏆</section>
+          <span class="premio-desc">Avance 2 níveis em 1 semana</span>
+          <section class="premio-reward">
+            <span class="premio-amount">300pts</span>
+            <span class="premio-reward-icon">🏆</span>
+          </section>
+        </article>
+
+        <article class="premio-card">
+          <section class="premio-icon">✨</section>
+          <span class="premio-desc">Conclua 1 desafio por dia durante 5 dias</span>
+          <section class="premio-reward">
+            <span class="premio-amount">$100</span>
+            <span class="premio-reward-icon">🪙</span>
+          </section>
+        </article>
+
+        <article class="premio-card">
+          <section class="premio-icon">✨</section>
+          <span class="premio-desc">Acerte 10 perguntas seguidas no Quiz Ambiental</span>
+          <section class="premio-reward">
+            <span class="premio-amount">$180</span>
+            <span class="premio-reward-icon">🪙</span>
+          </section>
+        </article>
+
+        <article class="premio-card">
+          <section class="premio-icon">🏆</section>
+          <span class="premio-desc">Complete todas as atividades do mês</span>
+          <section class="premio-reward">
+            <span class="premio-amount">1.000pts</span>
+            <span class="premio-reward-icon">🏆</span>
+          </section>
+        </article>
+
+        <article class="premio-card">
+          <section class="premio-icon">🏆</section>
+          <span class="premio-desc">Complete a trilha do rio sem errar nenhuma etapa</span>
+          <section class="premio-reward">
+            <span class="premio-amount">1.000pts</span>
+            <span class="premio-reward-icon">🏆</span>
+          </section>
+        </article>
+
+        <article class="premio-card">
+          <section class="premio-icon">✨</section>
+          <span class="premio-desc">Desbloqueie o diário secreto do Kauezinho</span>
+          <section class="premio-reward">
+            <span class="premio-amount">$180</span>
+            <span class="premio-reward-icon">🪙</span>
+          </section>
+        </article>
+      </section>
+
+      <section style="padding:0 20px 4px;">
+        <button style="width:100%;background:var(--green-dark);color:white;font-family:'Fredoka One',cursive;font-size:16px;border:none;border-radius:16px;padding:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='#067320'" onmouseout="this.style.background='var(--green-dark)'" onclick="showPage('niveis')">
+          ⭐ Ver meus Níveis
+        </button>
+      </section>
+    </article>
+  </section>
+
+  <section class="premium-banner">
+    <section class="premium-text">
+      <h3>Área Premium 💎</h3>
+      <p>Desbloqueie prêmios exclusivos e conteúdos especiais!</p>
+      <section class="premium-cta">Tenha Benefícios Exclusivos!</section>
+    </section>
+    <section class="premium-bird">🦜</section>
+  </section>
+</section>
+
 <script>
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -850,395 +1242,6 @@
     el.classList.add('active');
   }
 </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pequenos Exploradores – Ranking</title>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@400;500;600&family=Freeman&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-<meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
-<meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
-<meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
-<meta property="og:url" content="https://pequenos-exploradores.onrender.com/ranking2" />
-<meta property="og:type" content="website" />
-  
-  <link rel="stylesheet" href="/css/ranking2.css">
-  <link rel="stylesheet" href="/css/btn-voltar.css">
-   <link rel="stylesheet" href="/css/premium-aluno.css">
-  <link rel="stylesheet" href="/css/index.css">
-
-</head>
-<body>
-<script>
-  if (localStorage.getItem('premiumAluno') === 'true') {
-    document.body.classList.add('premium-mode');
-  }
-</script>
-<%- include('partials/header') %>
-    
-  </section>
-  <section class="ranking2-container">
-    <section class="ranking2-card">
-      <section class="ranking2-title">RANKING</section>    
-      <section class="ranking2-medalha">
-      <span class="broze">🥉</span>
-      </section>
-      <section class="ranking2-faixa">Bronze I</section>
-      <section class="ranking2-barra">
-        <section class="ranking2-barra-progresso"></section>
-        <section class="ranking2-barra-texto">50/100</section>
-      </section>
-      <button class="ranking2-btn-trofeu">
-        <p></p>50<span class="icon-trofeu">🏆</span>
-      </button>
-    </section>
-    <section>
-      <section class="ranking2-icones">
-  <section class="ranking2-icone-circulo medal-modal-trigger" tabindex="0" aria-label="Abrir leaderboard" style="cursor:pointer;"><span class="icon">🏅</span></section>
-  <section class="ranking2-icone-circulo premios-modal-trigger" tabindex="0" aria-label="Abrir prêmios" style="cursor:pointer;"><span class="icon">🏆</span></section>
-  <!-- Premios Modal (top-level) -->
-  <section id="premiosModal" class="premios-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:32000; align-items:center; justify-content:center; padding:1.2em 0;">
-    <section id="premiosModalContent" class="premios-modal-content" onclick="event.stopPropagation()">
-      <button onclick="fecharPremiosModal()" aria-label="Fechar prêmios" class="premios-modal-close">&times;</button>
-      <h3 class="premios-modal-title">Prêmios</h3>
-      <ul class="premios-modal-list">
-        <li class="premios-modal-item">
-          <span class="premios-modal-emoji">🎯</span>
-          <section class="premios-modal-info">
-            <strong class="premios-modal-strong">Acerte 10 perguntas seguidas no Quiz Ambiente</strong>
-            <span class="premios-modal-desc">Receba 200 moedas + medalha exclusiva</span>
-          </section>
-          <section class="premios-modal-badge">200 moedas</section>
-        </li>
-        <li class="premios-modal-item">
-          <span class="premios-modal-emoji">🏆</span>
-          <section class="premios-modal-info">
-            <strong class="premios-modal-strong">Fique no Top 3 do Ranking</strong>
-            <span class="premios-modal-desc">Ganhe troféu e moedas extras</span>
-          </section>
-          <section class="premios-modal-badge">Troféu</section>
-        </li>
-      </ul>
-      <section class="premios-modal-footer">
-        <section onclick="fecharPremiosModal()" class="premios-modal-btn">Fechar</section>
-      </section>
-    </section>
-  </section>
-  <style>
-    .premios-modal-content {
-      background: linear-gradient(180deg,#ffffff 0%,#f3fbff 100%);
-      border-radius: 18px;
-      width: clamp(280px,82vw,440px);
-      max-height: 80vh;
-      overflow: auto;
-      padding: 1.0em 1.0em 1.2em 1.0em;
-      box-shadow: 0 18px 48px rgba(0,0,0,0.28);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .premios-modal-close {
-  position: absolute;
-  top: 0.7em;
-  right: 0.7em;
-  background: none;
-  border: none;
-  font-size: 2em;
-  color: #1a355b;
-  cursor: pointer;
-    }
-    .premios-modal-title {
-  color: #1a355b;
-      font-size: 1.5em;
-      font-weight: 900;
-      margin-bottom: 0.7em;
-    }
-    .premios-modal-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      max-width: 340px;
-    }
-    .premios-modal-item {
-      background: linear-gradient(90deg,#e3e3e3 60%,#f3fbff 100%);
-      border-radius: 18px;
-      box-shadow: 0 2px 10px #e3e3e333;
-      margin-bottom: 0.7em;
-      padding: 0.7em 1em;
-      display: flex;
-      align-items: center;
-      gap: 1em;
-      font-size: 1em;
-      border: 2px solid #e3e3e3;
-      color: #444;
-      font-weight: 700;
-    }
-    .premios-modal-emoji {
-      font-size: 1.4em;
-      line-height: 1;
-    }
-    .premios-modal-info {
-      flex: 1;
-    }
-    .premios-modal-strong {
-      display: block;
-      color: #444;
-      font-weight: 900;
-      margin-bottom: 0.12em;
-    }
-    .premios-modal-desc {
-  color: #1a355b;
-      font-size: 0.95em;
-    }
-    .premios-modal-badge {
-  background: #1a355b;
-  color: #fff;
-      padding: 0.35em 0.7em;
-      border-radius: 12px;
-      font-weight: 900;
-    }
-    .premios-modal-footer {
-      display: flex;
-      justify-content: center;
-      margin-top: 1em;
-    }
-    .premios-modal-btn {
-  background: linear-gradient(90deg,#1a355b 0%,#3b5b8c 100%);
-  color: #fff;
-      padding: 0.7em 1.4em;
-      border-radius: 16px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-    /* Premium mode overrides */
-    .premium-mode .premios-modal-content {
-      background: linear-gradient(135deg, #a259e6 0%, #6c2eb7 60%, #3d1466 100%) !important;
-      color: #e6d6fa !important;
-    }
-    .premium-mode .premios-modal-title {
-      color: #e6d6fa !important;
-    }
-    .premium-mode .premios-modal-item {
-      background: linear-gradient(90deg,#a259e6 60%,#6c2eb7 100%) !important;
-      border: 2px solid #a259e6 !important;
-      color: #fff !important;
-      box-shadow: 0 2px 10px #a259e633 !important;
-    }
-    .premium-mode .premios-modal-strong {
-      color: #fff !important;
-    }
-    .premium-mode .premios-modal-desc {
-      color: #e6d6fa !important;
-    }
-    .premium-mode .premios-modal-badge {
-      background: #fff !important;
-      color: #a259e6 !important;
-    }
-    .premium-mode .premios-modal-btn {
-      background: linear-gradient(90deg,#a259e6 0%,#6c2eb7 100%) !important;
-      color: #fff !important;
-    }
-    .premium-mode .premios-modal-close {
-      color: #e6d6fa !important;
-    }
-  </style>
-  <script>
-    function abrirPremiosModal() {
-      var m = document.getElementById('premiosModal');
-      if(!m) { console.warn('premiosModal element not found'); return; }
-      m.style.display = 'flex';
-      m.style.visibility = 'visible';
-      m.style.opacity = '1';
-      m.style.zIndex = '99999';
-      var c = document.getElementById('premiosModalContent');
-      if(c) { c.style.transform = 'translateY(0)'; c.style.opacity = '1'; }
-    }
-    function fecharPremiosModal() {
-      var m = document.getElementById('premiosModal');
-      if(!m) return;
-      m.style.display = 'none';
-    }
-    // Bind click to 🏆
-    document.addEventListener('DOMContentLoaded', function() {
-      var premiosBtn = document.querySelector('.premios-modal-trigger');
-      if(premiosBtn) {
-        premiosBtn.addEventListener('click', abrirPremiosModal);
-        premiosBtn.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') abrirPremiosModal(); });
-      }
-      // Fechar ao clicar fora do modal
-      var premiosModal = document.getElementById('premiosModal');
-      if(premiosModal) premiosModal.addEventListener('click', function(e) { if (e.target === premiosModal) fecharPremiosModal(); });
-    });
-  </script>
-      </section>
-      <section class="ranking2-medalhas-card">
-        <section class="ranking2-medalhas-title">Medalhas</section>
-        <section class="ranking2-medalhas-list">
-          <section class="ranking2-medalha-item">
-            <section class="ranking2-medalha-img"><span class="broze1">🥉</span></section>
-            <section class="ranking2-medalha-legenda">Bronze<p>I</p></section>
-          </section>
-          <section class="ranking2-medalha-item">
-            <section class="ranking2-medalha-img locked"><span class="icon-cadeado">🔒</span></section>
-            <section class="ranking2-medalha-legenda">Bronze<p>II</p></section>
-          </section>
-          <section class="ranking2-medalha-item">
-            <section class="ranking2-medalha-img locked"><span class="icon-cadeado">🔒</span></section>
-            <section class="ranking2-medalha-legenda">Bronze<p>III</p></section>
-          </section>
-          <section class="ranking2-medalha-item" style="margin-bottom: 0;">
-            <section class="ranking2-medalha-img locked"><span class="icon-cadeado">🔒</span></section>
-            <section class="ranking2-medalha-legenda">Prata<p>I</p></section>
-          </section>
-        </section>
-      </section>
-    </section>
-  </section>
-  <section class="ranking2-anuncio">
-    <img src="/img/tcc.img/perfil/anuncio.png" alt="Anúncio Ranking">
-  </section>
-  <!-- Modal Leaderboard -->
-  <section id="leaderboard-overlay" class="leaderboard-overlay" style="display:none;">
-    <section class="leaderboard-modal" role="dialog" aria-modal="true" tabindex="-1">
-      <section class="leaderboard-header">
-        <span class="leaderboard-title">RANKING</span>
-        
-      </section>
-      <section class="leaderboard-filters">
-       
-       
-        
-      </section>
-      <section class="leaderboard-podium">
-        <section class="podium-second">
-          <section class="podium-avatar"><img src="/img/animal1.png" alt="Animal 1"/></section>
-          <section class="podium-name">Lucas</section>
-          <section class="podium-score">8450</section>
-        </section>
-        <section class="podium-first">
-          <section class="podium-avatar"><img src="/img/animais premium/imagem (10).png" alt="Animal 2"/></section>
-          <section class="podium-name">Neymar <img src="/img/coroa.png" alt="Coroa" class="coroa-mini"></section>
-          <section class="podium-score">9765</section>
-        </section>
-        <section class="podium-third">
-          <section class="podium-avatar"><img src="/img/animais premium/imagem (11).png" alt="Animal 3"/></section>
-          <section class="podium-name">Agnaldo</section>
-          <section class="podium-score">7990</section>
-        </section>
-      </section>
-      <section class="leaderboard-list">
-        <section class="leaderboard-card">
-          <section class="card-pos">4º</section>
-          <section class="card-avatar"><img src="/img/animais premium/imagem (5).png" alt="Animal 4"/></section>
-          <section class="card-name">Gabriella</section>
-          <section class="card-score">5743 pts</section>
-        </section>
-        <section class="leaderboard-card">
-          <section class="card-pos">5º</section>
-          <section class="card-avatar"><img src="/img/animais premium/imagem (6).png" alt="Animal 5"/></section>
-          <section class="card-name">Antonieta</section>
-          <section class="card-score">5320 pts</section>
-        </section>
-        <section class="leaderboard-card">
-          <section class="card-pos">6º</section>
-          <section class="card-avatar"><img src="/img/animais premium/imagem (7).png" alt="Animal 6"/></section>
-          <section class="card-name">João</section>
-            <section class="card-score">4980 pts</section>
-            <style>
-              .coroa-mini {
-                width: 18px;
-                height: 18px;
-                vertical-align: middle;
-                margin-left: 4px;
-                position: relative;
-                top: -3px;
-              }
-            </style>
-            <script>
-              // Adiciona coroa ao lado do nome João
-              document.addEventListener('DOMContentLoaded', function() {
-                var joaoName = document.querySelectorAll('.card-name');
-                joaoName.forEach(function(el) {
-                  if (el.textContent.trim() === 'João') {
-                    var img = document.createElement('img');
-                    img.src = '/img/coroa.png';
-                    img.alt = 'Coroa';
-                    img.className = 'coroa-mini';
-                    el.appendChild(img);
-                  }
-                });
-              });
-            </script>
-        </section>
-      </section>
-    </section>
-  </section>
-  <script>
-    // Modal open/close logic
-    const medalTrigger = document.querySelector('.medal-modal-trigger');
-    const overlay = document.getElementById('leaderboard-overlay');
-    const modal = overlay && overlay.querySelector('.leaderboard-modal');
-    const closeBtn = overlay && overlay.querySelector('.leaderboard-close');
-    function openModal() {
-      overlay.style.display = 'flex';
-      setTimeout(() => overlay.classList.add('show'), 10);
-      document.body.style.overflow = 'hidden';
-      modal.focus();
-    }
-    function closeModal() {
-      overlay.classList.remove('show');
-      setTimeout(() => {
-        overlay.style.display = 'none';
-        document.body.style.overflow = '';
-      }, 250);
-    }
-    if (medalTrigger) {
-      medalTrigger.addEventListener('click', openModal);
-      medalTrigger.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') openModal(); });
-    }
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
-    // Accessibility: ESC to close
-    document.addEventListener('keydown', function(e) { if (overlay.style.display === 'flex' && e.key === 'Escape') closeModal(); });
-  </script>
-  <!-- Rodapé reutilizável -->
-<footer style="background: #76e13e; color: #fff; width: 100%; text-align: center; padding: 0.7em 0; font-size: 1em; border-top-left-radius: 18px; border-top-right-radius: 18px; box-shadow: 0 -2px 12px #76e13e44;">
-  &copy; 2025 Pequenos Exploradores
-</footer>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const medalTrigger = document.querySelector('.medal-modal-trigger');
-      const overlay = document.getElementById('leaderboard-overlay');
-      const modal = overlay && overlay.querySelector('.leaderboard-modal');
-      const closeBtn = overlay && overlay.querySelector('.leaderboard-close');
-      function openModal() {
-        overlay.style.display = 'flex';
-        setTimeout(() => overlay.classList.add('show'), 10);
-        document.body.style.overflow = 'hidden';
-        modal.focus();
-      }
-      function closeModal() {
-        overlay.classList.remove('show');
-        setTimeout(() => {
-          overlay.style.display = 'none';
-          document.body.style.overflow = '';
-        }, 250);
-      }
-      if (medalTrigger) {
-        medalTrigger.addEventListener('click', openModal);
-        medalTrigger.addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') openModal(); });
-      }
-      if (closeBtn) closeBtn.addEventListener('click', closeModal);
-      if (overlay) overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
-      document.addEventListener('keydown', function(e) { if (overlay.style.display === 'flex' && e.key === 'Escape') closeModal(); });
-    });
-  </script>
 
 <!-- FOOTER -->
 <footer class="footer-redesign">
