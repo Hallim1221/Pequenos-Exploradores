@@ -289,4 +289,17 @@ router.get('/professor_area', (req, res) => {
   res.render('professor_area');
 });
 
+// LOGOUT
+router.get('/logout', (req, res) => {
+  console.log('Logout acionado');
+  req.session.destroy((err) => {
+    if (err) {
+      console.log('Erro ao fazer logout:', err);
+      return res.redirect('/');
+    }
+    console.log('Sessão destruída. Redirecionando...');
+    res.redirect('/');
+  });
+});
+
 module.exports = router;

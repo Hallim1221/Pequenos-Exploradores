@@ -115,7 +115,7 @@
 
   /* Profile card */
   .profile-card {
-    background: var(--orange);
+    background: var(--brown-dark);
     border: 2px solid rgba(0,0,0,0.3);
     border-radius: 20px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.2);
@@ -127,7 +127,7 @@
     font-family: 'Fredoka', sans-serif;
     font-weight: 600;
     font-size: 16px;
-    color: #020202;
+    color: #ffffff;
     text-align: center;
     text-shadow: 0 2px 4px rgba(0,0,0,0.15);
     margin-bottom: 14px;
@@ -828,7 +828,7 @@
 
         <section class="rank-badge"><span>Bronze I</span></section>
 
-        <section class="animal-avatar">🦉</section>
+        <section class="animal-avatar" id="user-avatar-ranking">🦉</section>
 
         <section class="xp-bar-wrap">
           <section class="xp-bar-bg">
@@ -913,15 +913,8 @@
   <section class="podium-panel" style="max-width:1100px;margin:0 auto 28px;">
     <h1 class="podium-title">🏆 Ranking</h1>
 
-    <!-- Filter tabs -->
-    <section class="filter-tabs">
-      <button class="filter-tab active" onclick="setTab(this,'ranking')">Geral</button>
-      <button class="filter-tab" onclick="setTab(this,'ranking')">Escola</button>
-      <button class="filter-tab" onclick="setTab(this,'ranking')">Sala</button>
-    </section>
-
-    <!-- Podium -->
-    <section class="podium-row">
+    <!-- PODIUM GERAL -->
+    <section class="podium-row" data-type="geral" style="display: flex;">
       <article class="podium-item second">
         <section class="podium-avatar">
           🐙
@@ -947,11 +940,75 @@
         <section class="stand-3 podium-stand"></section>
       </article>
     </section>
+
+    <!-- PODIUM ESCOLA -->
+    <section class="podium-row" data-type="escola" style="display: none;">
+      <article class="podium-item second">
+        <section class="podium-avatar">
+          🦊
+          <span class="podium-pos">2</span>
+        </section>
+        <span class="podium-name">Gabriel Fernandes</span>
+        <section class="stand-2 podium-stand"></section>
+      </article>
+      <article class="podium-item first">
+        <section class="podium-avatar" style="width:110px;height:110px;font-size:60px;">
+          🦜
+          <span class="podium-pos" style="font-size:17px;width:34px;height:34px;">1</span>
+        </section>
+        <span class="podium-name">Lara Monteiro</span>
+        <section class="stand-1 podium-stand"></section>
+      </article>
+      <article class="podium-item third">
+        <section class="podium-avatar">
+          🐸
+          <span class="podium-pos">3</span>
+        </section>
+        <span class="podium-name">Matheus Oliveira</span>
+        <section class="stand-3 podium-stand"></section>
+      </article>
+    </section>
+
+    <!-- PODIUM SALA -->
+    <section class="podium-row" data-type="sala" style="display: none;">
+      <article class="podium-item second">
+        <section class="podium-avatar">
+          🦜
+          <span class="podium-pos">2</span>
+        </section>
+        <span class="podium-name">Lara Monteiro</span>
+        <section class="stand-2 podium-stand"></section>
+      </article>
+      <article class="podium-item first">
+        <section class="podium-avatar" style="width:110px;height:110px;font-size:60px;">
+          🐸
+          <span class="podium-pos" style="font-size:17px;width:34px;height:34px;">1</span>
+        </section>
+        <span class="podium-name">Matheus Oliveira</span>
+        <section class="stand-1 podium-stand"></section>
+      </article>
+      <article class="podium-item third">
+        <section class="podium-avatar">
+          🦋
+          <span class="podium-pos">3</span>
+        </section>
+        <span class="podium-name">João Victor Martins</span>
+        <section class="stand-3 podium-stand"></section>
+      </article>
+    </section>
+
+    <!-- Filter tabs -->
+    <section class="filter-tabs">
+      <button class="filter-tab active" onclick="setTab(this,'ranking')">Geral</button>
+      <button class="filter-tab" onclick="setTab(this,'ranking')">Escola</button>
+      <button class="filter-tab" onclick="setTab(this,'ranking')">Sala</button>
+    </section>
   </section>
 
   <!-- Leaderboard -->
   <section style="max-width:1100px;margin:0 auto;">
-    <section class="leaderboard">
+    <!-- GERAL -->
+    <section class="leaderboard" data-type="geral" style="display: block;">
       <article class="lb-row gold">
         <span class="lb-pos">1°</span>
         <section class="lb-avatar">🦜</section>
@@ -1020,6 +1077,126 @@
         <section class="lb-avatar">🐠</section>
         <span class="lb-name">Pedro Henrique Souza</span>
         <span class="lb-score">18.000</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+    </section>
+
+    <!-- ESCOLA -->
+    <section class="leaderboard" data-type="escola" style="display: none;">
+      <article class="lb-row gold">
+        <span class="lb-pos">1°</span>
+        <section class="lb-avatar">🦜</section>
+        <span class="lb-name">Lara Monteiro Silva</span>
+        <span class="lb-score">300.000</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row silver">
+        <span class="lb-pos">2°</span>
+        <section class="lb-avatar">🐸</section>
+        <span class="lb-name">Matheus Oliveira Ramos</span>
+        <span class="lb-score">250.000</span>
+        <span class="lb-trophy">🥈</span>
+      </article>
+      <article class="lb-row bronze">
+        <span class="lb-pos">3°</span>
+        <section class="lb-avatar">🦊</section>
+        <span class="lb-name">Gabriel Fernandes Lima</span>
+        <span class="lb-score">210.000</span>
+        <span class="lb-trophy">🥉</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">4°</span>
+        <section class="lb-avatar">🦎</section>
+        <span class="lb-name">Lucas Andrade Rocha</span>
+        <span class="lb-score">180.000</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">5°</span>
+        <section class="lb-avatar">🐙</section>
+        <span class="lb-name">Mariana Costa Ribeiro</span>
+        <span class="lb-score">160.000</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">6°</span>
+        <section class="lb-avatar">🐺</section>
+        <span class="lb-name">Beatriz Almeida Nunes</span>
+        <span class="lb-score">145.000</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">7°</span>
+        <section class="lb-avatar">🦋</section>
+        <span class="lb-name">João Victor Martins</span>
+        <span class="lb-score">128.000</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">8°</span>
+        <section class="lb-avatar">🐦</section>
+        <span class="lb-name">Camila Duarte Freitas</span>
+        <span class="lb-score">110.000</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+    </section>
+
+    <!-- SALA -->
+    <section class="leaderboard" data-type="sala" style="display: none;">
+      <article class="lb-row gold">
+        <span class="lb-pos">1°</span>
+        <section class="lb-avatar">🐸</section>
+        <span class="lb-name">Matheus Oliveira Ramos</span>
+        <span class="lb-score">185.500</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row silver">
+        <span class="lb-pos">2°</span>
+        <section class="lb-avatar">🦜</section>
+        <span class="lb-name">Lara Monteiro Silva</span>
+        <span class="lb-score">156.200</span>
+        <span class="lb-trophy">🥈</span>
+      </article>
+      <article class="lb-row bronze">
+        <span class="lb-pos">3°</span>
+        <section class="lb-avatar">🦋</section>
+        <span class="lb-name">João Victor Martins</span>
+        <span class="lb-score">142.800</span>
+        <span class="lb-trophy">🥉</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">4°</span>
+        <section class="lb-avatar">🐦</section>
+        <span class="lb-name">Camila Duarte Freitas</span>
+        <span class="lb-score">128.600</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">5°</span>
+        <section class="lb-avatar">🦊</section>
+        <span class="lb-name">Gabriel Fernandes Lima</span>
+        <span class="lb-score">115.400</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">6°</span>
+        <section class="lb-avatar">🦎</section>
+        <span class="lb-name">Lucas Andrade Rocha</span>
+        <span class="lb-score">98.200</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">7°</span>
+        <section class="lb-avatar">🐙</section>
+        <span class="lb-name">Mariana Costa Ribeiro</span>
+        <span class="lb-score">87.500</span>
+        <span class="lb-trophy">🏆</span>
+      </article>
+      <article class="lb-row normal">
+        <span class="lb-pos">8°</span>
+        <section class="lb-avatar">🐺</section>
+        <span class="lb-name">Beatriz Almeida Nunes</span>
+        <span class="lb-score">72.300</span>
         <span class="lb-trophy">🏆</span>
       </article>
     </section>
@@ -1225,6 +1402,33 @@
 </section>
 
 <script>
+  console.log('✓ Script carregado');
+  console.log('Avatar no localStorage:', localStorage.getItem('avatar_usuario'));
+  
+  // Função para testar localStorage (use no console)
+  window.testarAvatar = function() {
+    console.log('=== TESTE DE AVATAR ===');
+    const avatar = localStorage.getItem('avatar_usuario');
+    console.log('Avatar salvo:', avatar);
+    
+    if (!avatar) {
+      console.log('❌ Nenhum avatar salvo! Vá em aluno-novo, selecione um animal e clique CONFIRMAR');
+    } else {
+      console.log('✓ Avatar encontrado! Recarregue a página para ver a mudança');
+      console.log('Caminho:', avatar);
+    }
+    
+    // Testa se a imagem existe
+    const img = new Image();
+    img.onload = function() {
+      console.log('✓ Imagem carrega corretamente');
+    };
+    img.onerror = function() {
+      console.log('❌ Erro ao carregar imagem:', avatar);
+    };
+    img.src = avatar;
+  };
+  
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1237,10 +1441,211 @@
   }
 
   function setTab(el, page) {
+    console.log('setTab called with:', el.textContent);
+    
     const container = el.closest('.filter-tabs') || el.parentElement;
     container.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
     el.classList.add('active');
+
+    // Get the selected filter (map common names to data-type values)
+    let filterType = el.textContent.trim().toLowerCase();
+    
+    // Handle common variations
+    if (filterType === 'geral') filterType = 'geral';
+    else if (filterType === 'escola') filterType = 'escola';
+    else if (filterType === 'sala') filterType = 'sala';
+
+    console.log('Filter type:', filterType);
+
+    // Hide all leaderboards and podiums
+    document.querySelectorAll('.leaderboard').forEach(lb => {
+      lb.style.display = 'none';
+    });
+    document.querySelectorAll('.podium-row').forEach(p => {
+      p.style.display = 'none';
+    });
+
+    // Show the selected leaderboard and podium
+    const selectedLb = document.querySelector(`.leaderboard[data-type="${filterType}"]`);
+    const selectedPodium = document.querySelector(`.podium-row[data-type="${filterType}"]`);
+    
+    console.log('Selected leaderboard:', selectedLb);
+    console.log('Selected podium:', selectedPodium);
+    
+    if (selectedLb) {
+      selectedLb.style.display = 'block';
+    }
+    if (selectedPodium) {
+      selectedPodium.style.display = 'flex';
+    }
+
+    // Re-render avatars for the visible podium and leaderboard
+    setTimeout(() => {
+      updateVisibleAvatars();
+    }, 0);
   }
+
+  // Update only visible podium and leaderboard avatars
+  function updateVisibleAvatars() {
+    // Find visible podium
+    const visiblePodium = document.querySelector('.podium-row[style*="flex"]') || document.querySelector('.podium-row:not([style*="none"])');
+    if (visiblePodium) {
+      visiblePodium.querySelectorAll('.podium-avatar').forEach(avatar => {
+        if (avatar.textContent.trim() && !avatar.querySelector('img')) {
+          const posSpan = avatar.querySelector('.podium-pos');
+          const img = document.createElement('img');
+          img.src = getRandomAvatar();
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'contain';
+          img.style.borderRadius = '50%';
+          avatar.textContent = '';
+          avatar.appendChild(img);
+          if (posSpan) avatar.appendChild(posSpan);
+        }
+      });
+    }
+
+    // Find visible leaderboard
+    const visibleLeaderboard = document.querySelector('.leaderboard[style*="block"]') || document.querySelector('.leaderboard:not([style*="none"])');
+    if (visibleLeaderboard) {
+      visibleLeaderboard.querySelectorAll('.lb-avatar').forEach(avatar => {
+        if (avatar.textContent.trim() && !avatar.querySelector('img')) {
+          const img = document.createElement('img');
+          img.src = getRandomAvatar();
+          img.style.width = '100%';
+          img.style.height = '100%';
+          img.style.objectFit = 'contain';
+          img.style.borderRadius = '50%';
+          avatar.textContent = '';
+          avatar.appendChild(img);
+        }
+      });
+    }
+  }
+
+  // Load and sync user avatar from localStorage
+  function loadUserAvatar() {
+    const avatarContainer = document.getElementById('user-avatar-ranking');
+    console.log('loadUserAvatar called, container:', avatarContainer);
+    
+    if (!avatarContainer) {
+      console.log('ERROR: Avatar container not found!');
+      return;
+    }
+
+    const savedAvatar = localStorage.getItem('avatar_usuario');
+    console.log('Saved avatar from localStorage:', savedAvatar);
+    
+    if (savedAvatar) {
+      // Remove old image if exists
+      const oldImg = avatarContainer.querySelector('img');
+      if (oldImg) oldImg.remove();
+      
+      // Create new image element
+      const img = document.createElement('img');
+      img.src = savedAvatar;
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'cover';
+      img.style.borderRadius = '50%';
+      img.onload = function() {
+        console.log('Avatar image loaded successfully:', savedAvatar);
+      };
+      img.onerror = function() {
+        console.log('ERROR loading avatar image:', savedAvatar);
+      };
+      
+      avatarContainer.textContent = '';
+      avatarContainer.appendChild(img);
+      console.log('Avatar updated to:', savedAvatar);
+    } else {
+      console.log('No avatar found in localStorage');
+    }
+  }
+
+  // Load avatar on page load
+  window.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded event fired');
+    loadUserAvatar();
+  });
+
+  // Listen for storage changes (when avatar changes in aluno-novo.ejs)
+  window.addEventListener('storage', function(e) {
+    console.log('Storage event fired:', e);
+    if (e.key === 'avatar_usuario') {
+      console.log('Avatar changed in storage:', e.newValue);
+      loadUserAvatar();
+    }
+  });
+
+  // Also check periodically in case storage event doesn't fire
+  setInterval(function() {
+    const currentAvatar = localStorage.getItem('avatar_usuario');
+    const avatarContainer = document.getElementById('user-avatar-ranking');
+    if (currentAvatar) {
+      const existingImg = avatarContainer ? avatarContainer.querySelector('img') : null;
+      if (!existingImg || (existingImg && existingImg.src !== currentAvatar)) {
+        console.log('Interval check: updating avatar to', currentAvatar);
+        loadUserAvatar();
+      }
+    }
+  }, 1000);
+
+  // Random avatar images array
+  const avatarImages = [
+    '/img/tcc.img/animal2.png',
+    '/img/tcc.img/animal3.png',
+    '/img/tcc.img/animal4.png',
+    '/img/tcc.img/animal5.png',
+    '/img/tcc.img/animal6.png',
+    '/img/tcc.img/animal7.png',
+    '/img/tcc.img/animal8.png'
+  ];
+
+  function getRandomAvatar() {
+    return avatarImages[Math.floor(Math.random() * avatarImages.length)];
+  }
+
+  // Replace emojis with random avatar images on load
+  window.addEventListener('DOMContentLoaded', function() {
+    console.log('=== DOMContentLoaded INICIADO ===');
+    
+    // PRIMEIRO: Carregar avatar do usuário
+    console.log('Carregando avatar do usuário...');
+    loadUserAvatar();
+    
+    // DEPOIS: Carregar avatares aleatórios dos pódios e leaderboard
+    console.log('Carregando avatares aleatórios...');
+    
+    // Podium avatars
+    document.querySelectorAll('.podium-avatar').forEach(avatar => {
+      const posSpan = avatar.querySelector('.podium-pos');
+      const img = document.createElement('img');
+      img.src = getRandomAvatar();
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'contain';
+      img.style.borderRadius = '50%';
+      avatar.textContent = '';
+      avatar.appendChild(img);
+      if (posSpan) avatar.appendChild(posSpan);
+    });
+
+    // Leaderboard avatars
+    document.querySelectorAll('.lb-avatar').forEach(avatar => {
+      const img = document.createElement('img');
+      img.src = getRandomAvatar();
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'contain';
+      img.style.borderRadius = '50%';
+      avatar.textContent = '';
+      avatar.appendChild(img);
+    });
+    
+    console.log('=== DOMContentLoaded TERMINADO ===');
+  });
 </script>
 
 <!-- FOOTER -->

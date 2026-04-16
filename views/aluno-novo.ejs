@@ -35,7 +35,7 @@
   <!-- NAVBAR -->
   <nav class="navbar-redesign">
     <section class="logo-redesign">
-      <img src="/img/WhatsApp Image 2026-04-14 at 14.58.46.jpeg" alt="Logo Pequenos Exploradores">
+      <img src="/img/lojo.jpeg" alt="Logo Pequenos Exploradores">
     </section>
     <section class="nav-links-redesign">
       <a class="nav-link-redesign active" href="/">Início</a>
@@ -70,7 +70,6 @@
       <section class="category-pill-redesign active" onclick="window.location.reload();" style="cursor: pointer;"><span>⛺</span> Aluno</section>
       <section class="category-pill-redesign" onclick="window.location.href='/adicionar-turma';" style="cursor: pointer;"><span>📜</span> Mural</section>
       <section class="category-pill-redesign" onclick="window.location.href='/ranking3';" style="cursor: pointer;"><span>🏆</span> Ranking</section>
-      <section class="category-pill-redesign" onclick="window.location.href='/recarga';" style="cursor: pointer;"><span>💳</span> Recarga</section>
       <section class="category-pill-redesign" onclick="window.location.href='/natureza';" style="cursor: pointer;"><span>🌎</span> Explore e Aprenda </section>
     </section>
 
@@ -207,10 +206,8 @@
       <button class="modal-logout-close" onclick="fecharModalLogout(event)" style="position:absolute;top:0.7em;right:1em;font-size:2em;background:none;border:none;color:#00CFFF;cursor:pointer;">&times;</button>
       <section style="font-weight:900;font-size:1.15em;color:#1ec773;margin-top:1.2em;margin-bottom:0.7em;">Deseja realmente sair?</section>
       <section style="width:100%;display:flex;flex-direction:row;gap:1em;justify-content:center;margin-top:1.2em;">
-        <button onclick="fecharModalLogout(event)" style="background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #00CFFF22;transition:background 0.2s;">Cancelar</button>
-        <form action="/logout" method="POST" style="margin:0;display:inline;">
-          <button type="button" class="logout-creative" style="font-size:1em;padding:0.7em 2.2em;" onclick="logoutAndRedirect(this)">Sair</button>
-        </form>
+        <button onclick="fecharModalLogout(event)" style="flex:1;background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #00CFFF22;transition:background 0.2s;">Cancelar</button>
+        <button type="button" class="logout-creative" style="flex:1;background:linear-gradient(90deg,#76e13e 0%,#3bb273 100%);color:#fff;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(118,225,62,0.3);transition:all 0.2s;" onclick="logoutAndRedirect(this)">Sair</button>
       </section>
     </section>
   </section>
@@ -242,7 +239,9 @@
 
     function confirmarAvatar() {
       document.getElementById('avatar-img').src = avatarSelecionado;
+      console.log('Avatar confirmado:', avatarSelecionado);
       localStorage.setItem('avatar_usuario', avatarSelecionado);
+      console.log('Avatar salvo em localStorage:', localStorage.getItem('avatar_usuario'));
       fecharModalAvatar();
     }
 
@@ -255,17 +254,49 @@
     });
 
     function abrirModalLogout() {
+      console.log('abrirModalLogout() chamada');
       var modal = document.getElementById('modal-logout');
-      if(modal) modal.style.display = 'flex';
+      var overlay = document.getElementById('modal-logout-overlay');
+      console.log('Modal:', modal);
+      console.log('Overlay:', overlay);
+      if(modal) {
+        modal.style.display = 'flex';
+        console.log('Modal aberto');
+      }
+      if(overlay) {
+        overlay.style.display = 'flex';
+        console.log('Overlay aberto');
+      }
     }
-    function fecharModalLogout() {
+    function fecharModalLogout(event) {
+      console.log('fecharModalLogout() chamada');
       var modal = document.getElementById('modal-logout');
-      if(modal) modal.style.display = 'none';
+      var overlay = document.getElementById('modal-logout-overlay');
+      if(modal) {
+        modal.style.display = 'none';
+        console.log('Modal fechado');
+      }
+      if(overlay) {
+        overlay.style.display = 'none';
+        console.log('Overlay fechado');
+      }
     }
     function confirmarLogout() {
+      console.log('confirmarLogout() chamada');
       fetch('/logout', { method: 'POST' })
-        .then(() => { window.location.href = '/'; })
-        .catch(() => { window.location.href = '/'; });
+        .then(() => { 
+          console.log('Logout bem-sucedido');
+          window.location.href = '/'; 
+        })
+        .catch((e) => { 
+          console.log('Erro ao fazer logout:', e);
+          window.location.href = '/'; 
+        });
+    }
+    function logoutAndRedirect(btn) {
+      console.log('logoutAndRedirect() chamada');
+      console.log('Redirecionando para /');
+      window.location.href = '/';
     }
   </script>
 </body>
