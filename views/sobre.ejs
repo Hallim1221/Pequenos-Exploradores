@@ -1,104 +1,365 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre - Pequenos Exploradores</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/aluno.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
-<meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
-<meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
-<meta property="og:url" content="https://pequenos-exploradores.onrender.com/sobre" />
-<meta property="og:type" content="website" />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/btn-voltar.css">
-  <link rel="stylesheet" href="/css/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&family=Righteous&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aluno-redesign.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Fredoka', 'Baloo 2', sans-serif; background: #f0f8f4; min-height: 100vh; }
+    
+    /* Reset navbar links para posição original */
+    .nav-links-redesign { margin-left: 0 !important; }
+    
+    .sobre-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      margin-top: 100px;
+    }
+
+    /* TOP SECTION WITH PARROT */
+    .top-section {
+      position: relative;
+      margin-bottom: 40px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .parrot-left {
+      position: absolute;
+      left: -80px;
+      top: 30px;
+      z-index: 10;
+      width: 160px;
+      height: 160px;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    }
+
+    .welcome-card {
+      background: linear-gradient(135deg, #0076CA 0%, #0089FF 100%);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,118,202,0.25);
+    }
+
+    .welcome-card h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.3;
+    }
+
+    .welcome-card-images {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .welcome-img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    /* MAIN CONTENT */
+    .content-box {
+      background: #fff;
+      border: 2px solid #ddd;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .content-box h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 16px;
+      color: #1a3a10;
+      margin-bottom: 12px;
+      font-weight: 800;
+    }
+
+    .content-box p {
+      color: #1a3a10;
+      font-size: 13px;
+      line-height: 1.7;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    /* WHAT YOU FIND SECTION */
+    .what-find-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 25px;
+      align-items: start;
+      margin-bottom: 40px;
+    }
+
+    .what-find-card {
+      background: linear-gradient(135deg, #0076CA 0%, #0089FF 100%);
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 32px rgba(0,118,202,0.25);
+    }
+
+    .what-find-card h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 16px;
+      font-weight: 800;
+      text-align: center;
+    }
+
+    .features-list {
+      background: #3bb273;
+      border-radius: 16px;
+      padding: 20px;
+      list-style: none;
+    }
+
+    .features-list li {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.5;
+    }
+
+    .features-list li:before {
+      content: "• ";
+      color: #fff;
+      font-weight: 900;
+      margin-right: 8px;
+    }
+
+    .features-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    /* RIGHT SIDE IMAGES AND MASCOT */
+    .right-side {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 15px;
+    }
+
+    .side-image {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      border: 4px solid #fff;
+    }
+
+    .mascot {
+      width: 130px;
+      height: 130px;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    }
+
+    /* TAGLINE SECTION */
+    .tagline-card {
+      background: linear-gradient(135deg, #0076CA 0%, #0089FF 100%);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      margin-bottom: 40px;
+      box-shadow: 0 8px 32px rgba(0,118,202,0.25);
+    }
+
+    .tagline-card h2 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 18px;
+      color: #fff;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .mascot-zuzu {
+      width: 180px;
+      height: auto;
+      margin-top: 50px;
+      filter: drop-shadow(0 6px 16px rgba(0,0,0,0.2));
+    }
+
+    /* FOOTER */
+   
+
+    .footer-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 25px;
+      text-align: left;
+    }
+
+    .footer-section h3 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .footer-section p {
+      font-size: 12px;
+      line-height: 1.7;
+      opacity: 0.95;
+    }
+
+    .footer-center {
+      text-align: center;
+    }
+
+    .footer-right {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .instagram-btn {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 2px solid #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .instagram-btn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: scale(1.05);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .top-section {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .parrot-left {
+        display: none;
+      }
+
+      .welcome-card-images {
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .what-find-wrapper {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+
+      .footer-section, .footer-center, .footer-right {
+        text-align: center;
+      }
+    }
+  </style>
 </head>
-<body style="font-family: 'Fredoka', 'Baloo 2', cursive;">
-  <button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-    <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
-      <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
-      <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
-    </svg>
-  </button>
-  <section class="top-banner"></section>
-  <nav class="sidebar-menu" id="sidebarMenu">
-    <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
-      <section style="display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;background:none;box-shadow:none;border-radius:0;">
-        <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
-          style="width:180px;height:180px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
-          loading="lazy">
-      </section>
-      <section style="margin-top:0.3em;text-align:center;width:100%;">
-      </section>
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/lojo.jpeg" alt="Logo Pequenos Exploradores">
     </section>
-    <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
-    <ul>
-      <li><a href="/">Início</a></li>
-      <li><a href="/sobre">Sobre</a></li>
-      <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
-      <li><a href="/loja">Futuro</a></li>
-    </ul>
+    <section class="nav-links-redesign">
+      <a class="nav-link-redesign" href="/">Início</a>
+      <a class="nav-link-redesign active" href="/sobre">Sobre</a>
+      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+    </section>
+    <section class="nav-right-redesign">
+      <button class="btn-sair-redesign" onclick="window.location.href='/'">Sair</button>
+    </section>
   </nav>
-  <button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
-    <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
-  </button>
-  <link rel="stylesheet" href="/css/btn-voltar.css">
-  <link rel="stylesheet" href="/css/index.css">
-<main>
-  <section class="sobre-topo-flex">
-  <section style="display:flex;align-items:flex-end;gap:1.2em;justify-content:center;margin-bottom:2em;margin-top:6em;">
-      <section style="position:relative;display:flex;align-items:flex-end;">
-        <img src="/img/zuzu.png" alt="Zuzu" style="height:120px;width:auto;max-width:30vw;min-width:80px;object-fit:contain;z-index:2;">
-        <section style="position:absolute;left:90px;bottom:60px;min-width:180px;max-width:320px;background:#fff;border-radius:18px;padding:1.1em 1.5em;box-shadow:0 2px 12px #0076CA22;z-index:3;border:2px solid #00CFFF;font-family:'Baloo 2',cursive;font-size:1.1em;color:#0076CA;">
-          <span style="font-weight:800;">Bem vindo ao mundo dos pequenos exploradores</span>
-        </section>
+
+  <!-- MAIN CONTENT -->
+  <section class="sobre-container">
+    <!-- TOP SECTION WITH WELCOME -->
+    <section class="top-section">
+      <img src="/img/image 2392.png" alt="Pássaro Azul" class="parrot-left" onerror="this.style.display='none'">
+      
+      <section class="welcome-card">
+        <h1>BEM-VINDO AO PEQUENOS EXPLORADORES!</h1>
+      </section>
+
+      <section class="welcome-card-images">
+        <img src="/img/tcc.img/character1.png" alt="Criança 1" class="welcome-img" onerror="this.style.display='none'">
+        <img src="/img/tcc.img/character2.png" alt="Criança 2" class="welcome-img" onerror="this.style.display='none'">
+        <img src="/img/tcc.img/character3.png" alt="Criança 3" class="welcome-img" onerror="this.style.display='none'">
       </section>
     </section>
-  
+
+    <!-- CONTENT BOX -->
+    <section class="content-box">
+      <h2>Aqui, aprender é uma grande aventura!</h2>
+      <p>Neste espaço, você vai descobrir os segredos da natureza de um jeito divertido, com jogos, desafios, vídeos e muitas descobertas incríveis.</p>
+      <p>Ao longo da jornada, você vai explorar o mundo ao lado de Clarinha e Kauzinho, conhecendo os animais, as florestas, a água e a experiência de cuidar do nosso planeta.</p>
+      <p>A cada atividade concluída, novas conquistas são desbloqueadas, tornando a experiência ainda mais divertida e cheia de surpresas!</p>
+      <p>O Pequenos Exploradores é um lugar onde a curiosidade cresce, o aprendizado acontece brincando e cada pequeno passo ajuda a construir um mundo melhor.</p>
     </section>
+
+    <!-- WHAT YOU FIND SECTION -->
+    <section class="what-find-wrapper">
+      <section class="what-find-card">
+        <h3>O que você vai encontrar aqui?</h3>
+        <ul class="features-list">
+          <li>Vídeos educativos que ensinam de forma leve e envolvente</li>
+          <li>Atividades interativas que estimulam o aprendizado na prática</li>
+          <li>Desafios e quizzes que reforçam o conhecimento adquirido</li>
+          <li>Sistema de recompensas que incentiva o progresso</li>
+          <li>Conteúdos sobre animais e natureza, promovendo a conexão com o meio ambiente</li>
+        </ul>
+      </section>
+
+      <section class="right-side">
+        <img src="/img/tcc.img/character1.png" alt="Personagem 1" class="side-image" onerror="this.style.display='none'">
+        <img src="/img/tcc.img/character2.png" alt="Personagem 2" class="side-image" onerror="this.style.display='none'">
+        <img src="/img/zuzu.png" alt="Zuzu" class="mascot-zuzu" onerror="this.style.display='none'">
+      </section>
+    </section>
+
+    <!-- TAGLINE SECTION -->
+    <section class="tagline-card">
+      <h2>Explorar, aprender e cuidar: juntos por um planeta melhor.</h2>
+    </section>
+
+    <!-- BOTTOM MASCOT -->
+    
+
   </section>
-  <section class="sobre-quadrado-verde">
-    <p>
-      Nosso site é um espaço dedicado a inspirar crianças, pais e educadores a descobrir a importância do meio ambiente de forma divertida e educativa.<br><br>
-      Oferecemos recursos variados, desde artigos informativos até atividades interativas, tudo para promover a curiosidade e o cuidado com a natureza.<br><br>
-      Acreditamos que o conhecimento é a chave para um futuro sustentável e queremos ajudar a formar jovens conscientes e responsáveis.<br><br>
-      Junte-se a nós nessa jornada verde e ajude a criar um amanhã mais sustentável!
-    </p>
-  </section>
-</main>
-<%- include('partials/footer') %>
+
+  <!-- FOOTER -->
+  <footer>
+   
+  </footer>
 </body>
 </html>
-
-   <link rel="stylesheet" href="/css/sobre.css">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-
-
-
-<body class="sobre-body">
-<button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
-    <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
-    <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
-  </svg>
-</button>
-<section class="top-banner"></section>
-
-
-
-
-  </ul>
-</nav>
-<button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
-  <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
-</button>
-<link rel="stylesheet" href="/css/btn-voltar.css">
-<link rel="stylesheet" href="/css/index.css">
-<main>
- >
-     
-  
 

@@ -115,7 +115,7 @@ router.get('/comprar-avatares', (req, res) => {
 
 // Página inicial
 router.get('/', (req, res) => {
-  res.render('index', { title: 'Pequenos Exploradores' });
+  res.render('home', { title: 'Pequenos Exploradores' });
 });
 
 // Sobre

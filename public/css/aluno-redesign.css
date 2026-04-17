@@ -50,6 +50,7 @@ body {
   display: flex;
   gap: 8px;
   align-items: center;
+  margin-left: 130px;
 }
 
 .nav-link-redesign {

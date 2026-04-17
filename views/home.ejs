@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
+<meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
+<meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
+<meta property="og:url" content="https://pequenos-exploradores.onrender.com/" />
+<meta property="og:type" content="website" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&family=Quicksand:wght@700;800&family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/aluno-redesign.css">
+<title>Pequenos Exploradores - Plataforma Educacional</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Fredoka', 'Baloo 2', sans-serif; background: #87CEEB; min-height: 100vh; overflow-x: hidden; }
+
+  /* SKY BACKGROUND */
+  html::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(180deg,
+      #87CEEB 0%,
+      #B0E0FF 50%,
+      #E0F6FF 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Clouds */
+  .cloud {
+    position: fixed;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.9;
+    animation: drift linear infinite;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+  }
+  .cloud-1 { width: 100px; height: 40px; top: 15%; left: -120px; animation-duration: 30s; animation-delay: 0s; }
+  .cloud-1::before { width: 60px; height: 60px; top: -30px; left: 10px; }
+  .cloud-1::after { width: 45px; height: 45px; top: -20px; left: 40px; }
+  .cloud-2 { width: 140px; height: 50px; top: 25%; left: -160px; animation-duration: 45s; animation-delay: -15s; }
+  .cloud-2::before { width: 70px; height: 70px; top: -40px; left: 20px; }
+  .cloud-2::after { width: 55px; height: 55px; top: -28px; left: 60px; }
+  .cloud-3 { width: 80px; height: 35px; top: 12%; left: -100px; animation-duration: 35s; animation-delay: -8s; }
+  .cloud-3::before { width: 50px; height: 50px; top: -28px; left: 8px; }
+  .cloud-3::after { width: 40px; height: 40px; top: -18px; left: 35px; }
+  .cloud-4 { width: 110px; height: 45px; top: 32%; left: -130px; animation-duration: 40s; animation-delay: -5s; }
+  .cloud-4::before { width: 65px; height: 65px; top: -35px; left: 15px; }
+  .cloud-4::after { width: 50px; height: 50px; top: -22px; left: 45px; }
+  .cloud-5 { width: 90px; height: 38px; top: 20%; left: -110px; animation-duration: 32s; animation-delay: -20s; }
+  .cloud-5::before { width: 55px; height: 55px; top: -30px; left: 12px; }
+  .cloud-5::after { width: 42px; height: 42px; top: -20px; left: 38px; }
+  .cloud-6 { width: 130px; height: 48px; top: 38%; left: -150px; animation-duration: 50s; animation-delay: -25s; }
+  .cloud-6::before { width: 72px; height: 72px; top: -38px; left: 25px; }
+  .cloud-6::after { width: 58px; height: 58px; top: -30px; left: 65px; }
+  .cloud-7 { width: 85px; height: 36px; top: 45%; left: -105px; animation-duration: 38s; animation-delay: -10s; display: none; }
+  .cloud-7::before { width: 52px; height: 52px; top: -28px; left: 10px; }
+  .cloud-7::after { width: 40px; height: 40px; top: -18px; left: 32px; }
+  .cloud-8 { width: 115px; height: 42px; top: 55%; left: -140px; animation-duration: 42s; animation-delay: -18s; display: none; }
+  .cloud-8::before { width: 65px; height: 65px; top: -32px; left: 15px; }
+  .cloud-8::after { width: 48px; height: 48px; top: -20px; left: 42px; }
+  .cloud-9 { width: 95px; height: 38px; top: 50%; left: -115px; animation-duration: 36s; animation-delay: -12s; display: none; }
+  .cloud-9::before { width: 58px; height: 58px; top: -30px; left: 12px; }
+  .cloud-9::after { width: 44px; height: 44px; top: -20px; left: 36px; }
+  .cloud-10 { width: 120px; height: 45px; top: 62%; left: -145px; animation-duration: 44s; animation-delay: -22s; display: none; }
+  .cloud-10::before { width: 68px; height: 68px; top: -35px; left: 18px; }
+  .cloud-10::after { width: 52px; height: 52px; top: -22px; left: 46px; }
+  .cloud-11 { width: 80px; height: 32px; top: 48%; left: -100px; animation-duration: 34s; animation-delay: -6s; display: none; }
+  .cloud-11::before { width: 50px; height: 50px; top: -26px; left: 8px; }
+  .cloud-11::after { width: 38px; height: 38px; top: -16px; left: 30px; }
+  .cloud-12 { width: 125px; height: 47px; top: 58%; left: -150px; animation-duration: 48s; animation-delay: -20s; display: none; }
+  .cloud-12::before { width: 70px; height: 70px; top: -37px; left: 22px; }
+  .cloud-12::after { width: 55px; height: 55px; top: -28px; left: 60px; }
+
+  @keyframes drift {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(110vw); }
+  }
+
+  .page { display: none; min-height: 100vh; flex-direction: column; position: relative; overflow: hidden; margin-top: 120px; }
+  .page.active { display: flex; }
+
+  /* HERO */
+  .hero {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center;
+    padding: 60px 24px 80px;
+    flex: 1;
+  }
+  .hero-badge {
+    background: rgba(240,192,64,0.2); border: 1px solid rgba(240,192,64,0.4);
+    color: #f0c040; font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+    padding: 5px 14px; border-radius: 20px; margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Righteous', cursive;
+    font-size: clamp(36px, 7vw, 72px);
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff; line-height: 1.2; margin-bottom: 16px;
+    text-shadow: 0 6px 24px rgba(0,0,0,0.5), 0 2px 4px rgba(0,0,0,0.3);
+  }
+  .hero h1 .accent { color: #6ee86e; }
+  .hero p {
+    font-size: 16px; color: rgba(20,20,20,0.85); max-width: 480px;
+    line-height: 1.7; margin-bottom: 32px; font-weight: 500;
+  }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .btn-primary {
+    background: #f0c040; color: #1a3a10; font-weight: 800; font-family: 'Nunito', sans-serif;
+    padding: 14px 32px; border-radius: 32px; font-size: 16px;
+    cursor: pointer; border: none; transition: all 0.25s;
+    box-shadow: 0 6px 24px rgba(240,192,64,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(240,192,64,0.45); }
+  .btn-secondary {
+    background: ; color: #000000; font-weight: 700; font-family: 'Nunito', sans-serif;
+    color: rgb(0, 0, 0);
+    padding: 14px 32px; border-radius: 32px; font-size: 16px;
+    cursor: pointer; border: 2px solid rgba(255, 255, 255, 0).248); transition: all 0.25s;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.08); }
+
+  /* CHARACTERS */
+  .characters {
+    position: relative; z-index: 2;
+    display: flex; justify-content: center; gap: 20px;
+    padding: 0 24px 40px;
+    flex-wrap: wrap;
+  }
+  .char-card {
+    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px; padding: 16px 20px; text-align: center;
+    backdrop-filter: blur(8px); min-width: 100px; transition: all 0.25s;
+    cursor: pointer;
+  }
+  .char-card:hover { background: rgba(255,255,255,0.14); transform: translateY(-4px); }
+  .char-icon { font-size: 36px; margin-bottom: 6px; }
+  .char-name { color: #1a3a10; font-size: 12px; font-weight: 700; }
+  .char-role { color: #2a5a2a; font-size: 10px; font-weight: 600; }
+
+  /* FEATURES */
+  .features {
+    position: relative; z-index: 2;
+    background: rgba(0, 0, 0, 0); backdrop-filter: blur(8px);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 48px 24px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;
+    max-width: 900px; margin: 80px auto 0; width: 100%;
+  }
+  .feature-item { text-align: center; padding: 20px; background: rgba(255,255,255,0.15); border-radius: 16px; backdrop-filter: blur(8px); }
+  .feature-icon {
+    width: 52px; height: 52px; border-radius: 16px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px; margin: 0 auto 12px;
+    background: rgb(110, 232, 110); border: 1px solid rgba(110,232,110,0.25);
+  }
+  .feature-item h3 { color: #1a3a10; font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+  .feature-item p { color: #1a3a10; font-size: 13px; line-height: 1.6; font-weight: 600; }
+
+  /* PLANS SECTION */
+  .plans-section {
+    position: relative; z-index: 2;
+    padding: 48px 24px;
+    max-width: 800px; margin: 0 auto; width: 100%;
+  }
+  .section-title {
+    font-family: 'Fredoka One', cursive;
+    color: #1a3a10; font-size: 32px; text-align: center; margin-bottom: 8px; font-weight: 900;
+  }
+  .section-sub { color: #2a5a2a; text-align: center; margin-bottom: 32px; font-size: 14px; font-weight: 600; }
+  .plans-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .plan-card {
+    background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px; padding: 28px 24px; transition: all 0.25s;
+    position: relative; overflow: hidden; backdrop-filter: blur(10px);
+  }
+  .plan-card:hover { background: rgba(255,255,255,0.11); transform: translateY(-3px); }
+  .plan-card.featured { border-color: #f0c040; background: rgba(240,192,64,0.08); }
+  .plan-badge {
+    position: absolute; top: 16px; right: 16px;
+    background: #f0c040; color: #1a3a10; font-size: 10px; font-weight: 800;
+    padding: 3px 10px; border-radius: 12px; text-transform: uppercase;
+  }
+  .plan-name { color: #1a3a10; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+  .plan-price { font-family: 'Fredoka One', cursive; color: #1a3a10; font-size: 36px; margin-bottom: 4px; font-weight: 900; }
+  .plan-price span { font-size: 14px; font-family: 'Nunito', sans-serif; color: #2a5a2a; }
+  .plan-desc { color: #2a5a2a; font-size: 12px; margin-bottom: 20px; font-weight: 600; }
+  .plan-features { list-style: none; }
+  .plan-features li { color: #1a3a10; font-size: 13px; padding: 5px 0; display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .plan-features li::before { content: '✓'; color: #6ee86e; font-weight: 800; font-size: 14px; }
+  .plan-cta {
+    width: 100%; margin-top: 20px; padding: 11px; border-radius: 24px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 14px;
+    cursor: pointer; transition: all 0.2s; border: 2px solid rgba(255,255,255,0.2);
+    background: transparent; color: #fff;
+  }
+  .plan-cta:hover { background: rgba(255,255,255,0.1); }
+  .plan-cta.featured-cta { background: #f0c040; color: #1a3a10; border-color: #f0c040; }
+  .plan-cta.featured-cta:hover { background: #f5d060; }
+
+  /* WHY SECTION */
+  .why-section {
+    position: relative; z-index: 2;
+    padding: 48px 24px;
+    max-width: 900px; margin: 0 auto; width: 100%;
+  }
+  .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; }
+  .why-item {
+    background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 18px; padding: 24px 20px; transition: all 0.25s; backdrop-filter: blur(8px);
+  }
+  .why-item:hover { background: rgba(255,255,255,0.09); transform: translateY(-2px); }
+  .why-icon { font-size: 32px; margin-bottom: 10px; }
+  .why-item h4 { color: #1a3a10; font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+  .why-item p { color: #2a5a2a; font-size: 12px; line-height: 1.6; font-weight: 600; }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    position: relative; z-index: 2;
+    padding: 48px 24px;
+    max-width: 900px; margin: 0 auto; width: 100%;
+  }
+  .test-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .test-card {
+    background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 20px; padding: 24px; backdrop-filter: blur(10px);
+  }
+  .test-stars { color: #f0c040; font-size: 14px; margin-bottom: 10px; }
+  .test-text { color: #1a3a10; font-size: 13px; line-height: 1.7; margin-bottom: 14px; font-style: italic; font-weight: 600; }
+  .test-author { display: flex; align-items: center; gap: 10px; }
+  .test-avatar { width: 36px; height: 36px; border-radius: 50%; font-size: 18px; display: flex; align-items: center; justify-content: center; background: rgba(110,232,110,0.15); }
+  .test-name { color: #1a3a10; font-size: 13px; font-weight: 700; }
+  .test-role { color: #2a5a2a; font-size: 11px; font-weight: 600; }
+
+  /* PARTNERS */
+  .partners {
+    position: relative; z-index: 2;
+    padding: 24px 32px;
+    display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .partners p { color: #1a3a10; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+  .partner-logo { color: #1a3a10; font-weight: 800; font-size: 14px; letter-spacing: 0.05em; }
+
+  /* FOOTER */
+  .footer {
+    position: relative; z-index: 2;
+    padding: 24px 32px;
+    background: rgba(0,0,0,0.4);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer p { color: rgba(255,255,255,0.35); font-size: 12px; }
+  .footer-links { display: flex; gap: 16px; }
+  .footer-links a { color: rgba(255,255,255,0.4); font-size: 12px; text-decoration: none; transition: color 0.2s; }
+  .footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+  /* BIRD ANIMATION */
+  .bird { position: absolute; z-index: 3; pointer-events: none; animation: fly linear infinite; }
+  @keyframes fly {
+    from { transform: translateX(-60px) translateY(0px); }
+    25% { transform: translateX(25vw) translateY(-20px); }
+    50% { transform: translateX(50vw) translateY(10px); }
+    75% { transform: translateX(75vw) translateY(-15px); }
+    to { transform: translateX(110vw) translateY(5px); }
+  }
+
+  @media (max-width: 768px) {
+    .navbar-redesign { padding: 0 12px; height: 64px; }
+    .logo-redesign { gap: 16px; font-size: 18px; }
+    .logo-redesign img { width: 70px; height: 45px; }
+    .nav-links-redesign { gap: 4px; display: none; }
+    .nav-link-redesign { font-size: 13px; padding: 6px 12px; }
+    .btn-sair-redesign { font-size: 13px; padding: 6px 16px; }
+    .bell-btn-redesign { width: 38px; height: 38px; font-size: 18px; }
+    .bell-badge-redesign { width: 20px; height: 20px; font-size: 10px; }
+    .nav { padding: 12px 16px; }
+    .nav-links { gap: 4px; display: none; }
+    .hero { padding: 40px 16px 60px; margin-top: 125px; }
+    .hero h1 { font-size: clamp(24px, 5vw, 36px); }
+    .hero p { font-size: 14px; max-width: 100%; }
+    .hero-btns { gap: 8px; }
+    .btn-primary, .btn-secondary { padding: 12px 24px; font-size: 14px; }
+    .characters { gap: 12px; padding: 0 16px 30px; margin-top: 50px; }
+    .char-card { min-width: 80px; padding: 12px 16px; }
+    .char-icon { font-size: 32px; }
+    .char-name { font-size: 11px; }
+    .char-role { font-size: 9px; }
+    .features { padding: 32px 16px; margin: 300px auto 0; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+    .feature-item { padding: 16px 12px; }
+    .feature-icon { width: 44px; height: 44px; font-size: 20px; }
+    .feature-item h3 { font-size: 13px; }
+    .feature-item p { font-size: 12px; }
+    .plans-section { padding: 32px 16px; margin-top: 120px; }
+    .section-title { font-size: 22px; margin-bottom: 6px; }
+    .section-sub { font-size: 13px; margin-bottom: 24px; }
+    .plans-grid { grid-template-columns: 1fr; gap: 12px; }
+    .plan-card { padding: 20px 16px; }
+    .plan-name { font-size: 11px; margin-bottom: 6px; }
+    .plan-price { font-size: 28px; }
+    .plan-price span { font-size: 12px; }
+    .plan-desc { font-size: 11px; margin-bottom: 16px; }
+    .plan-features li { font-size: 12px; padding: 4px 0; }
+    .plan-cta { font-size: 13px; padding: 10px; margin-top: 16px; }
+    .why-section { padding: 32px 16px; margin-top: 120px; }
+    .why-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+    .why-item { padding: 16px 12px; }
+    .why-icon { font-size: 28px; margin-bottom: 8px; }
+    .why-item h4 { font-size: 13px; }
+    .why-item p { font-size: 11px; }
+    .testimonials { padding: 32px 16px; margin-top: 120px; }
+    .test-grid { grid-template-columns: 1fr; gap: 12px; }
+    .test-card { padding: 16px; }
+    .test-stars { font-size: 12px; }
+    .test-text { font-size: 12px; margin-bottom: 10px; }
+    .test-name { font-size: 12px; }
+    .test-role { font-size: 10px; }
+    .partners { padding: 16px 20px; gap: 16px; margin-top: 120px; }
+    .partners p { font-size: 10px; }
+    .partner-logo { font-size: 12px; }
+    .cloud-1 { width: 70px; height: 28px; top: 15%; left: -90px; }
+    .cloud-1::before { width: 45px; height: 45px; top: -22px; left: 8px; }
+    .cloud-1::after { width: 35px; height: 35px; top: -15px; left: 30px; }
+    .cloud-2 { width: 100px; height: 36px; top: 25%; left: -120px; }
+    .cloud-2::before { width: 52px; height: 52px; top: -30px; left: 15px; }
+    .cloud-2::after { width: 40px; height: 40px; top: -22px; left: 45px; }
+    .cloud-3 { width: 60px; height: 25px; top: 12%; left: -80px; }
+    .cloud-3::before { width: 38px; height: 38px; top: -20px; left: 5px; }
+    .cloud-3::after { width: 30px; height: 30px; top: -14px; left: 28px; }
+    .cloud-4 { width: 80px; height: 32px; top: 32%; left: -100px; }
+    .cloud-4::before { width: 48px; height: 48px; top: -26px; left: 12px; }
+    .cloud-4::after { width: 37px; height: 37px; top: -16px; left: 34px; }
+    .cloud-5 { width: 65px; height: 28px; top: 20%; left: -85px; }
+    .cloud-5::before { width: 40px; height: 40px; top: -22px; left: 8px; }
+    .cloud-5::after { width: 31px; height: 31px; top: -15px; left: 28px; }
+    .cloud-6 { width: 95px; height: 35px; top: 38%; left: -115px; }
+    .cloud-6::before { width: 52px; height: 52px; top: -28px; left: 18px; }
+    .cloud-6::after { width: 42px; height: 42px; top: -22px; left: 48px; }
+    .cloud-7 { width: 65px; height: 26px; top: 45%; left: -80px; display: block; }
+    .cloud-7::before { width: 38px; height: 38px; top: -20px; left: 7px; }
+    .cloud-7::after { width: 30px; height: 30px; top: -13px; left: 23px; }
+    .cloud-8 { width: 85px; height: 30px; top: 55%; left: -105px; display: block; }
+    .cloud-8::before { width: 48px; height: 48px; top: -24px; left: 11px; }
+    .cloud-8::after { width: 36px; height: 36px; top: -15px; left: 31px; }
+    .cloud-9 { width: 70px; height: 28px; top: 50%; left: -85px; display: block; }
+    .cloud-9::before { width: 42px; height: 42px; top: -22px; left: 9px; }
+    .cloud-9::after { width: 33px; height: 33px; top: -15px; left: 27px; }
+    .cloud-10 { width: 88px; height: 32px; top: 62%; left: -110px; display: block; }
+    .cloud-10::before { width: 50px; height: 50px; top: -26px; left: 13px; }
+    .cloud-10::after { width: 38px; height: 38px; top: -16px; left: 34px; }
+    .cloud-11 { width: 60px; height: 24px; top: 48%; left: -75px; display: block; }
+    .cloud-11::before { width: 36px; height: 36px; top: -19px; left: 6px; }
+    .cloud-11::after { width: 28px; height: 28px; top: -12px; left: 22px; }
+    .cloud-12 { width: 92px; height: 34px; top: 58%; left: -110px; display: block; }
+    .cloud-12::before { width: 52px; height: 52px; top: -27px; left: 16px; }
+    .cloud-12::after { width: 40px; height: 40px; top: -20px; left: 44px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="page active">
+  <!-- Nuvens flutuantes -->
+  <section class="cloud cloud-1"></section>
+  <section class="cloud cloud-2"></section>
+  <section class="cloud cloud-3"></section>
+  <section class="cloud cloud-4"></section>
+  <section class="cloud cloud-5"></section>
+  <section class="cloud cloud-6"></section>
+  <section class="cloud cloud-7"></section>
+  <section class="cloud cloud-8"></section>
+  <section class="cloud cloud-9"></section>
+  <section class="cloud cloud-10"></section>
+  <section class="cloud cloud-11"></section>
+  <section class="cloud cloud-12"></section>
+  
+  <section class="bird" style="top: 120px; animation-duration: 18s; animation-delay: 2s;">
+    <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+      <path d="M12 8 Q6 2 0 4 Q6 8 12 8 Q18 8 24 4 Q18 2 12 8Z" fill="rgba(110,232,110,0.6)"/>
+    </svg>
+  </section>
+  <section class="bird" style="top: 200px; animation-duration: 25s; animation-delay: 8s;">
+    <svg width="18" height="12" viewBox="0 0 24 16" fill="none">
+      <path d="M12 8 Q6 2 0 4 Q6 8 12 8 Q18 8 24 4 Q18 2 12 8Z" fill="rgba(240,192,64,0.5)"/>
+    </svg>
+  </section>
+
+  <!-- NAVBAR -->
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/lojo.jpeg" alt="Logo Pequenos Exploradores">
+    </section>
+    <section class="nav-links-redesign">
+      <a class="nav-link-redesign active" href="/">Início</a>
+      <a class="nav-link-redesign" href="/sobre">Sobre</a>
+      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+    </section>
+    <section class="nav-right-redesign">
+      <a href="/aluno-login" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+    </section>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <section class="hero-badge">🌟 Plataforma educacional para crianças</section>
+    <h1>Aprenda com os<br><span class="accent">Pequenos Exploradores</span></h1>
+    <p></p>
+    <section class="hero-btns">
+      <button class="btn-primary" onclick="window.location.href='/aluno-cadastro'">Começar grátis 🚀</button>
+      <button class="btn-secondary" onclick="window.location.href='/aluno-login'">Já tenho conta</button>
+    </section>
+  </section>
+
+  <!-- CHARACTERS SECTION -->
+  
+
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+  <!-- FEATURES SECTION -->
+  <section class="features">
+    <section class="feature-item">
+        <p></p>
+        <p></p>
+      <section class="feature-icon">🎮</section>
+      <h3>Jogos educativos</h3>
+      <p>Aprendaciências de forma divertida</p>
+    </section>
+    <section class="feature-item">
+      <section class="feature-icon">🎥</section>
+      <h3>Vídeos animados</h3>
+      <p>Conteúdo em animação com personagens cativantes</p>
+    </section>
+    <section class="feature-item">
+      <section class="feature-icon">📊</section>
+      <h3>Progresso em tempo real</h3>
+      <p>Pais acompanham o desenvolvimento dos filhos</p>
+    </section>
+    <section class="feature-item">
+      <section class="feature-icon">🏆</section>
+      <h3>Conquistas e troféus</h3>
+      <p>Sistema de recompensas que motiva a criança</p>
+    </section>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section class="why-section">
+    <h2 class="section-title">Por que o Pequeno Exploradores?</h2>
+    <p class="section-sub">Desenvolvido com especialistas em educação infantil</p>
+    <section class="why-grid">
+      <section class="why-item">
+        <section class="why-icon">🧠</section>
+        <h4>Baseado em ciência</h4>
+        <p>Metodologia validada por pedagogos e psicólogos infantis</p>
+      </section>
+      <section class="why-item">
+        <section class="why-icon">🛡️</section>
+        <h4>100% seguro</h4>
+        <p>Ambiente protegido, sem anúncios e sem conteúdo inapropriado</p>
+      </section>
+      <section class="why-item">
+        <section class="why-icon">📱</section>
+        <h4>Em qualquer device</h4>
+        <p>Funciona em tablet, celular ou computador</p>
+      </section>
+      <section class="why-item">
+        <section class="why-icon">🌍</section>
+        <h4>BNCC alinhado</h4>
+        <p>Conteúdo alinhado à Base Nacional Curricular Comum</p>
+      </section>
+    </section>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <h2 class="section-title">O que dizem as famílias</h2>
+    <p class="section-sub">Mais de 50.000 crianças já exploram com a gente</p>
+    <section class="test-grid">
+      <section class="test-card">
+        <section class="test-stars">★★★★★</section>
+        <p class="test-text">"Minha filha de 6 anos ama! Ela aprende enquanto acha que está só brincando. Recomendo muito!"</p>
+        <section class="test-author">
+          <section class="test-avatar">👩</section>
+          <section>
+            <section class="test-name">Ana Paula</section>
+            <section class="test-role">Mãe de Luíza, 6 anos</section>
+          </section>
+        </section>
+      </section>
+      <section class="test-card">
+        <section class="test-stars">★★★★★</section>
+        <p class="test-text">"Meu filho melhorou muito na leitura. O conteúdo é incrível e os personagens são adoráveis!"</p>
+        <section class="test-author">
+          <section class="test-avatar">👨</section>
+          <section>
+            <section class="test-name">Carlos Eduardo</section>
+            <section class="test-role">Pai de Pedro, 8 anos</section>
+          </section>
+        </section>
+      </section>
+      <section class="test-card">
+        <section class="test-stars">★★★★★</section>
+        <p class="test-text">"Como professora, indico para todos os meus alunos. A metodologia é excelente!"</p>
+        <section class="test-author">
+          <section class="test-avatar">👩‍🏫</section>
+          <section>
+            <section class="test-name">Prof. Mariana</section>
+            <section class="test-role">Professora do 2º ano</section>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
+
+  <!-- PLANS SECTION -->
+  <section class="plans-section" id="planos">
+    <h2 class="section-title">Escolha seu plano 🌟</h2>
+    <p class="section-sub">Comece grátis. Cancele quando quiser.</p>
+    <section class="plans-grid">
+      <section class="plan-card">
+        <section class="plan-name">Explorador</section>
+        <section class="plan-price">Grátis <span>/ sempre</span></section>
+        <section class="plan-desc">Perfeito para começar a aventura</section>
+        <ul class="plan-features">
+          <li>5 atividades por dia</li>
+          <li>Acesso a 2 personagens</li>
+          <li>Jogos básicos</li>
+          <li>Progresso simples</li>
+        </ul>
+        <button class="plan-cta" onclick="window.location.href='/aluno-cadastro'">Começar grátis</button>
+      </section>
+      <section class="plan-card featured">
+        <section class="plan-badge">Popular</section>
+        <section class="plan-name">Aventureiro</section>
+        <section class="plan-price">R$29 <span>/ mês</span></section>
+        <section class="plan-desc">Tudo que sua criança precisa</section>
+        <ul class="plan-features">
+          <li>Atividades ilimitadas</li>
+          <li>Todos os personagens</li>
+          <li>Todos os jogos e vídeos</li>
+          <li>Relatórios para pais</li>
+          <li>Sem anúncios</li>
+          <li>Download offline</li>
+        </ul>
+        <button class="plan-cta featured-cta" onclick="window.location.href='/aluno-cadastro'">Assinar agora</button>
+      </section>
+      <section class="plan-card">
+        <section class="plan-name">Professor</section>
+        <section class="plan-price">R$79 <span>/ mês</span></section>
+        <section class="plan-desc">Para escolas e educadores</section>
+        <ul class="plan-features">
+          <li>Até 30 alunos</li>
+          <li>Painel de turma</li>
+          <li>Relatórios detalhados</li>
+          <li>Atividades personalizadas</li>
+          <li>Suporte prioritário</li>
+        </ul>
+        <button class="plan-cta" onclick="window.location.href='/professor-login'">Assinar agora</button>
+      </section>
+    </section>
+  </section>
+
+  <!-- PARTNERS -->
+  <section class="partners">
+    <p>Parceiros:</p>
+    <span class="partner-logo">FIED</span>
+    <span class="partner-logo">MEC</span>
+    <span class="partner-logo">ABRALE</span>
+    <span class="partner-logo">SABER+</span>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="footer">
+    <p>© 2025 Pequenos Exploradores · Todos os direitos reservados</p>
+    <section class="footer-links">
+      <a href="#privacidade">Privacidade</a>
+      <a href="#termos">Termos</a>
+      <a href="#suporte">Suporte</a>
+    </section>
+  </section>
+</section>
+
+</body>
+</html>
