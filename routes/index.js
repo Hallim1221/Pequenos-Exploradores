@@ -128,6 +128,11 @@ router.get('/contato', (req, res) => {
   res.render('contato');
 });
 
+// Instituições
+router.get('/instituicoes', (req, res) => {
+  res.render('instituicoes');
+});
+
 router.post('/contato',
   [
     body('nome').notEmpty().withMessage('Nome é obrigatório'),

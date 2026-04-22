@@ -1,539 +1,741 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pequenos Exploradores — Entrar</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/aluno-redesign.css">
 <style>
-  @media (min-width: 900px) {
-    body {
-      background-image: none !important;
-    }
+  :root {
+    --green: #3aaa50;
+    --green-dark: #1f7a34;
+    --green-light: #a8f0c0;
+    --blue: #1a7fc4;
+    --blue-dark: #0d5a8e;
+    --blue-light: #7dd3f8;
+    --cyan: #00c8d7;
+    --yellow: #f5c518;
+    --yellow-dark: #c99500;
+    --purple: #7c3aed;
+    --purple-light: #c4b5fd;
+    --navy: #0f2044;
+    --navy-mid: #1a3560;
   }
-</style>
-<link rel="stylesheet" href="/css/login.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-   <link rel="stylesheet" href="/css/aluno.css">
- 
 
- 
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
-<meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
-<meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
-<meta property="og:url" content="https://pequenos-exploradores.onrender.com/login" />
-<meta property="og:type" content="website" />
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700;800&display=swap" rel="stylesheet">
-<button class="btn-voltar" onclick="window.history.back()" aria-label="Voltar" style="z-index: 11000; position: fixed; top: 0.5em; right: 0.5em; left: auto;">
-  <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="filter: drop-shadow(0 2px 10px #00CFFF88);">
-    <circle cx="30" cy="30" r="27" fill="#00CFFF"/>
-    <path d="M38 30c0 1.2-1 2.2-2.2 2.2H26.5l3.2 3.2c0.8 0.8 0.8 2.2 0 3-0.8 0.8-2.2 0.8-3 0l-7-7c-0.8-0.8-0.8-2.2 0-3l7-7c0.8-0.8 2.2-0.8 3 0 0.8 0.8 0.8 2.2 0 3l-3.2 3.2h9.3c1.2 0 2.2 1 2.2 2.2z" fill="#00518C"/>
-  </svg>
-</button>
-<section class="top-banner"></section>
-
-
-<nav class="sidebar-menu" id="sidebarMenu">
-  <section style="width:100%;display:flex;flex-direction:column;align-items:center;padding:0.7em 0 0.2em 0;">
-    <section style="display:flex;align-items:center;justify-content:center;width:142px;height:142px;position:relative;background:none;box-shadow:none;border-radius:0;">
-      <img src="/img/shared image.png" alt="Logo Pequenos Exploradores" 
-        style="width:180px;height:180px;object-fit:contain;display:block;background:none;filter:drop-shadow(0 2px 12px #0001);"
-        loading="lazy">
-    </section>
-    <section style="margin-top:0.3em;text-align:center;width:100%;"></section>
-  </section>
-  <button class="sidebar-close" onclick="document.getElementById('sidebarMenu').classList.remove('open')">&times;</button>
-  <ul>
-    <li><a href="/">Início</a></li>
-    <li><a href="/sobre">Sobre</a></li>
-    <li><a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a></li>
-    <li><a href="/loja">Futuro</a></li>
-
-  </ul>
-</nav>
-<button class="sidebar-toggle" onclick="document.getElementById('sidebarMenu').classList.add('open')" aria-label="Abrir menu lateral" style="background: transparent; border: none; box-shadow: none; position: fixed; top: 0; left: 0.7em; z-index: 11500;">
-  <svg width="28" height="28" viewBox="0 0 28 28"><rect y="4" width="28" height="4" rx="2" fill="#fff"/><rect y="12" width="28" height="4" rx="2" fill="#fff"/><rect y="20" width="28" height="4" rx="2" fill="#fff"/></svg>
-</button>
-<link rel="stylesheet" href="/css/btn-voltar.css">
-<style>
-  
-  .sidebar-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100vh;
-    background: #76e13e;
-    box-shadow: 2px 0 16px rgba(0,0,0,0.10);
-    z-index: 12000;
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(.4,1.3,.5,1);
-    padding-top: 2.5em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
-  .sidebar-menu.open {
-    transform: translateX(0);
-  }
-  .sidebar-menu ul {
-    list-style: none;
-    padding: 0 1.2em;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2em;
-  }
-  .sidebar-menu li a {
-    color: #fff;
-    font-size: 1.18em;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 0.4em 0.2em;
-    border-radius: 8px;
-    transition: background 0.18s;
-    display: block;
-  }
-  .sidebar-menu li a:hover {
-    background: rgba(255,255,255,0.13);
-  }
-  .sidebar-close {
-    position: absolute;
-    top: 0.7em;
-    right: 1em;
-    background: none;
-    border: none;
-    font-size: 2em;
-    color: #fff;
-    cursor: pointer;
-    z-index: 1;
-    line-height: 1;
-    transition: color 0.18s;
-  }
-  .sidebar-close:hover {
-    color: #FFD600;
-  }
-  .sidebar-toggle {
-    position: fixed;
-    top: 0.7em;
-    left: 0.7em;
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    padding: 0.3em 0.4em;
-    z-index: 11500;
-    cursor: pointer;
-    box-shadow: none;
-    transition: background 0.18s, border 0.18s;
-  }
-  .sidebar-toggle:hover {
-    background: rgba(255,255,255,0.12);
-    border: none;
-  }
-  @media (max-width: 600px) {
-    .sidebar-menu { width: 80vw; min-width: 0; }
-  }
-</style>
-<style>
-  .top-banner {
-    width: 100vw;
-    min-width: 100vw;
-    height: 32px;
-    background: #76e13e;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    border-radius: 0;
-    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    font-size: 1.15em;
-    color: #fff;
-    overflow: hidden;
-    animation: bannerFadeIn 0.7s;
-    pointer-events: none;
-  }
-  .btn-voltar {
-    pointer-events: auto;
-  }
-  @keyframes bannerFadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  html, body {
-    max-width: 100vw;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    min-height: 100vh;
-  }
   body {
-    margin: 0;
-    padding: 0;
+    font-family: 'Fredoka', sans-serif;
     min-height: 100vh;
-    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
+    overflow: hidden;
     position: relative;
+    background: #87CEEB;
+    margin-top: 72px;
   }
-</style>
-<section class="bg-figma"></section>
-<section style="height: 32px;"></section>
-<main class="login">
-  <section class="bg-figma"></section>
-  <section class="bg-darken"></section>
-  <section class="pagina-central creative-login">
-    <h1 class="login-title" style="color: #3bbcff; margin-top: 1.7em; text-shadow: 2px 2px 0 #000, -2px 2px 0 #000, 2px -2px 0 #000, -2px -2px 0 #000, 2px 0px 0 #000, 0px 2px 0 #000, -2px 0px 0 #000, 0px -2px 0 #000;">
-      <span class="login-icon"></span> Bem-vindo ao mundo dos<br>Pequenos Exploradores!
-    </h1>
-    <section class="login-role-select creative-role-select role-select-box">
-      <button type="button" class="role-btn selected" data-role="aluno" id="btn-aluno">
-        <span class="role-emoji">🎓</span>
-        <span class="role-label">Aluno</span>
-      </button>
-      <button type="button" class="role-btn" data-role="professor" id="btn-professor">
-        <span class="role-emoji">📚</span>
-        <span class="role-label">Professor</span>
-      
-      </button>
-    </section>
-    <script>
-      // Detecta login salvo via cookie/session
-      function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-      }
-      document.getElementById('btn-aluno').onclick = function() {
-        fetch('/aluno', { method: 'GET', credentials: 'include' })
-          .then(resp => {
-            if (resp.url.includes('/aluno/login')) {
-              window.location.href = '/aluno/login';
-            } else {
-              window.location.href = '/aluno';
-            }
-          });
-      };
-      document.getElementById('btn-professor').onclick = function() {
-        fetch('/professor/dashboard', { method: 'GET', credentials: 'include' })
-          .then(resp => {
-            if (resp.url.includes('/professor/login')) {
-              window.location.href = '/professor/login';
-            } else {
-              window.location.href = '/professor/dashboard';
-            }
-          });
-      };
-    </script>
 
-</main>
-<style>
-  .bg-darken {
+  /* SKY BACKGROUND */
+  html::before {
+    content: '';
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     z-index: 0;
-    background: rgba(0,0,0,0.45);
+    background: linear-gradient(180deg,
+      #87CEEB 0%,
+      #B0E0FF 50%,
+      #E0F6FF 100%
+    );
     pointer-events: none;
   }
-  .pagina-central, .creative-login {
-    background: none !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-  }
-  .bg-figma {
+
+  /* Clouds */
+  .cloud {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-  background: url('/img/desktop.png') center center/cover no-repeat;
-    opacity: 0.32;
-    pointer-events: none;
-    transition: opacity 0.4s;
-  }
-  @media (max-width: 899px) {
-    .bg-figma {
-      background: url('/img/tcc.img/tela inicio.png') center center/cover no-repeat;
-    }
-  }
-  body { position: relative; }
-  .creative-login {
-    animation: fadeInUp 0.7s cubic-bezier(.23,1.01,.32,1) both;
-    background: none;
-    border-radius: 0;
-    box-shadow: none;
-    padding: 2.2em 1.5em 2.5em 1.5em;
-    margin-top: 2.5em;
-    max-width: 410px;
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.9;
+    animation: drift linear infinite;
     z-index: 1;
-    backdrop-filter: none;
+    pointer-events: none;
   }
-  @keyframes fadeInUp {
-    0% { opacity: 0; transform: translateY(40px); }
-    100% { opacity: 1; transform: translateY(0); }
+  .cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: white;
+    border-radius: 50%;
   }
-  .login-title {
-    font-size: 2em;
-    font-weight: 800;
-    /* color: #3bb273;  Removido para usar inline no h1 */
-    text-align: center;
-    margin-bottom: 1.1em;
-    letter-spacing: 0.01em;
+  .cloud-1 { width: 100px; height: 40px; top: 15%; left: -120px; animation-duration: 30s; animation-delay: 0s; }
+  .cloud-1::before { width: 60px; height: 60px; top: -30px; left: 10px; }
+  .cloud-1::after { width: 45px; height: 45px; top: -20px; left: 40px; }
+  .cloud-2 { width: 140px; height: 50px; top: 25%; left: -160px; animation-duration: 45s; animation-delay: -15s; }
+  .cloud-2::before { width: 70px; height: 70px; top: -40px; left: 20px; }
+  .cloud-2::after { width: 55px; height: 55px; top: -28px; left: 60px; }
+  .cloud-3 { width: 80px; height: 35px; top: 12%; left: -100px; animation-duration: 35s; animation-delay: -8s; }
+  .cloud-3::before { width: 50px; height: 50px; top: -28px; left: 8px; }
+  .cloud-3::after { width: 40px; height: 40px; top: -18px; left: 35px; }
+  .cloud-4 { width: 110px; height: 45px; top: 32%; left: -130px; animation-duration: 40s; animation-delay: -5s; }
+  .cloud-4::before { width: 65px; height: 65px; top: -35px; left: 15px; }
+  .cloud-4::after { width: 50px; height: 50px; top: -22px; left: 45px; }
+  .cloud-5 { width: 90px; height: 38px; top: 20%; left: -110px; animation-duration: 32s; animation-delay: -20s; }
+  .cloud-5::before { width: 55px; height: 55px; top: -30px; left: 12px; }
+  .cloud-5::after { width: 42px; height: 42px; top: -20px; left: 38px; }
+  .cloud-6 { width: 130px; height: 48px; top: 38%; left: -150px; animation-duration: 50s; animation-delay: -25s; }
+  .cloud-6::before { width: 72px; height: 72px; top: -38px; left: 25px; }
+  .cloud-6::after { width: 58px; height: 58px; top: -30px; left: 65px; }
+
+  @keyframes drift {
+    from { transform: translateX(-200px); }
+    to { transform: translateX(110vw); }
+  }
+
+  /* ============ SCREENS ============ */
+  .screen {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.5em;
+    padding: 54px 0 40px;
+    transition: opacity 0.45s ease, transform 0.45s ease;
   }
+
+  .screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.96);
+  }
+
+  .screen.slide-out-left {
+    transform: translateX(-60px) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* ===== SCREEN 1: HOME ===== */
+  #screen-home .welcome-title {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: clamp(28px, 4vw, 48px);
+    color: white;
+    text-align: center;
+    text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 4px 10px rgba(0,0,0,0.8), 0 -1px 2px rgba(0,0,0,0.7);
+    margin-bottom: 10px;
+    animation: popIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    line-height: 1.2;
+  }
+
+  #screen-home .welcome-sub {
+    font-size: 17px;
+    color: white;
+    text-align: center;
+    margin-bottom: 44px;
+    animation: popIn 0.6s 0.1s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    text-shadow: 0 0 12px rgba(0,0,0,0.85), 0 3px 8px rgba(0,0,0,0.7);
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.9); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .role-cards {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: popIn 0.6s 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  }
+
+  .role-card {
+    cursor: pointer;
+    width: 180px;
+    background: rgba(255,255,255,0.08);
+    border: 2px solid rgba(255,255,255,0.2);
+    border-radius: 28px;
+    padding: 32px 20px 28px;
+    text-align: center;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s, border-color 0.25s, box-shadow 0.25s;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(8px);
+  }
+
+  .role-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--card-color);
+    opacity: 0;
+    transition: opacity 0.25s;
+    border-radius: 26px;
+  }
+
+  .role-card:hover::before { opacity: 0.15; }
+
+  .role-card:hover {
+    transform: translateY(-10px) scale(1.04);
+    border-color: var(--card-color);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--card-color);
+  }
+
+  .role-card:active { transform: translateY(-4px) scale(0.98); }
+
+  .role-card .card-emoji {
+    font-size: 52px;
+    display: block;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .role-card:hover .card-emoji { transform: scale(1.2) rotate(-5deg); }
+
+  .role-card .card-label {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 22px;
+    color: white;
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 10px rgba(0,0,0,0.9), 0 3px 8px rgba(0,0,0,0.8);
+  }
+
+  .role-card .card-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.95);
+    margin-top: 6px;
+    position: relative;
+    z-index: 1;
+    font-weight: 400;
+    line-height: 1.4;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
+  }
+
+  .role-card .card-badge {
+    position: absolute;
+    top: -6px; right: -6px;
+    background: var(--card-color);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 50px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    animation: bounceBadge 2s ease-in-out infinite;
+    animation-delay: var(--badge-delay, 0s);
+    text-shadow: 0 0 6px rgba(0,0,0,0.8), 0 2px 4px rgba(0,0,0,0.7);
+  }
+
+  @keyframes bounceBadge {
+    0%, 100% { transform: rotate(-3deg) scale(1); }
+    50%       { transform: rotate(3deg) scale(1.1); }
+  }
+
+  .card-aluno    { --card-color: #00c8d7; }
+  .card-professor { --card-color: #f5c518; }
+  .card-gestao   { --card-color: #a855f7; }
+
+  /* Floating particles on cards */
+  .card-particle {
+    position: absolute;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--card-color);
+    opacity: 0;
+    pointer-events: none;
+    animation: particleFloat 3s ease-in-out infinite;
+    animation-delay: var(--pd);
+  }
+
+  @keyframes particleFloat {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    20%  { opacity: 0.8; transform: translateY(-10px) scale(1); }
+    100% { opacity: 0; transform: translateY(-60px) scale(0.5); }
+  }
+
+  /* ===== SCREEN 2: LOGIN FORM ===== */
+  .login-card {
+    background: rgba(15, 32, 68, 0.88);
+    border: 2px solid var(--accent-color, #00c8d7);
+    border-radius: 32px;
+    padding: 40px 44px;
+    width: min(420px, 90vw);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.1);
+    animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    position: relative;
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.92); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  .login-card::before {
+    content: '';
+    position: absolute;
+    top: -1px; left: 20px; right: 20px;
+    height: 3px;
+    background: var(--accent-color, #00c8d7);
+    border-radius: 0 0 4px 4px;
+    filter: blur(6px);
+    opacity: 0.6;
+  }
+
   .login-icon {
-    font-size: 1.5em;
-    filter: drop-shadow(0 2px 6px #00cfff33);
+    font-size: 52px;
+    text-align: center;
+    display: block;
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+    animation: iconWiggle 3s ease-in-out infinite;
   }
-  .creative-role-select {
-    display: flex;
-    gap: 1.2em;
-    justify-content: center;
-    margin-bottom: 1.7em;
+
+  @keyframes iconWiggle {
+    0%, 100% { transform: rotate(-3deg) scale(1); }
+    50%       { transform: rotate(3deg) scale(1.05); }
   }
-  .role-btn {
-    background: linear-gradient(120deg, #e6f7ee 60%, #f8e6ff 100%);
-    color: #3bb273;
-    border: 2.5px solid #e0e0e0;
-    border-radius: 16px;
-    padding: 1.1em 1.5em 1.1em 1.5em;
-    font-size: 1.1em;
-    font-weight: 700;
-    cursor: pointer;
-    box-shadow: 0 2px 12px 0 rgba(0,207,255,0.07);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 120px;
-    transition: background 0.22s, border 0.22s, box-shadow 0.22s, color 0.22s;
-    outline: none;
+
+  .login-title {
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 34px;
+    color: var(--accent-color, #00c8d7);
+    text-align: center;
+    margin-bottom: 4px;
+    text-shadow: 0 0 15px rgba(0,0,0,0.9), 0 4px 10px rgba(0,0,0,0.8);
+  }
+
+  .login-subtitle {
+    font-size: 14px;
+    color: white;
+    text-align: center;
+    margin-bottom: 28px;
+    font-weight: 400;
+    text-shadow: 0 0 12px rgba(0,0,0,0.85), 0 3px 8px rgba(0,0,0,0.7);
+  }
+
+  .input-group {
+    margin-bottom: 14px;
     position: relative;
   }
-  .role-btn .role-emoji {
-    font-size: 2.1em;
-    margin-bottom: 0.1em;
-    filter: drop-shadow(0 2px 6px #00cfff33);
+
+  .input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.95);
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
   }
-  .role-btn .role-label {
-    font-size: 1.08em;
-    font-weight: 800;
-    margin-bottom: 0.1em;
-  }
-  .role-btn .role-desc {
-    font-size: 0.93em;
-    color: #7b2ff2;
-    font-weight: 500;
-    margin-top: 0.1em;
-    opacity: 0.8;
-  }
-  .role-btn.selected, .role-btn:focus {
-    background: linear-gradient(120deg, #00CFFF 0%, #3bb273 100%);
-    color: #fff;
-    border: 2.5px solid #3bb273;
-    box-shadow: 0 4px 18px 0 rgba(0,207,255,0.13);
-    transform: scale(1.04);
-    z-index: 1;
-  }
-  .role-btn.selected .role-desc, .role-btn:focus .role-desc {
-    color: #fff;
-    opacity: 1;
-  }
-  .creative-form {
+
+  .input-group input {
     width: 100%;
-    max-width: 320px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 1.1em;
-    align-items: center;
-    background: transparent;
+    padding: 14px 18px;
+    background: rgba(255,255,255,0.08);
+    border: 1.5px solid rgba(255,255,255,0.12);
     border-radius: 14px;
-    box-shadow: none;
-    padding: 1.2em 1.2em 1.5em 1.2em;
+    color: white;
+    font-family: 'Fredoka', sans-serif;
+    font-size: 17px;
+    font-weight: 400;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+    text-shadow: 0 0 6px rgba(0,0,0,0.7), 0 2px 4px rgba(0,0,0,0.6);
   }
-  .creative-form label {
-    font-weight: 700;
-    color: #3bb273;
-    align-self: flex-start;
-    margin-bottom: 0.2em;
-    margin-top: 0.2em;
-    font-size: 1em;
+
+  .input-group input::placeholder { color: rgba(255,255,255,0.5); text-shadow: 0 0 6px rgba(0,0,0,0.6); }
+
+  .input-group input:focus {
+    border-color: var(--accent-color, #00c8d7);
+    background: rgba(255,255,255,0.12);
+    box-shadow: 0 0 0 3px rgba(0,200,215,0.15);
   }
-  .creative-form input[type="email"],
-  .creative-form input[type="password"] {
+
+  .btn-entrar {
     width: 100%;
-    padding: 0.7em 1em;
-    border-radius: 8px;
-    border: 1.5px solid #e0e0e0;
-    font-size: 1.05em;
-    margin-bottom: 0.2em;
-    background: #f7fafd;
-    transition: border 0.18s, box-shadow 0.18s;
-    box-shadow: 0 1px 4px 0 rgba(0,207,255,0.04);
-  }
-  .creative-form input[type="email"]:focus,
-  .creative-form input[type="password"]:focus {
-    border: 1.5px solid #3bb273;
-    outline: none;
-    box-shadow: 0 2px 8px 0 rgba(0,207,255,0.10);
-  }
-  .creative-btn {
-    font-size: 1.1em;
-    font-weight: 700;
-    background: linear-gradient(90deg, #00CFFF 0%, #3bb273 100%);
+    padding: 16px;
     border: none;
-    border-radius: 8px;
-    padding: 0.6em 1.5em;
-    color: #fff;
-    box-shadow: 0 2px 8px 0 rgba(0,207,255,0.10);
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent-color, #00c8d7), var(--accent-dark, #009aaa));
+    color: white;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 20px;
     cursor: pointer;
-    margin-top: 0.2em;
-    transition: background 0.18s, box-shadow 0.18s;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+    box-shadow: 0 6px 20px rgba(0,200,215,0.35);
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    text-shadow: 0 0 8px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.5);
   }
-  .creative-btn:hover {
-    background: linear-gradient(90deg, #3bb273 0%, #00CFFF 100%);
-    box-shadow: 0 4px 16px 0 rgba(0,207,255,0.13);
+
+  .btn-entrar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.12);
+    opacity: 0;
+    transition: opacity 0.2s;
   }
-  .creative-back {
-    margin-top: 0.7em;
-    display: inline-block;
-    font-size: 1.08em;
-    font-weight: 800;
-    background: linear-gradient(90deg, #FFD600 0%, #00CFFF 100%);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 0.55em 1.5em;
-    box-shadow: 0 2px 8px 0 rgba(0,207,255,0.10);
-    cursor: pointer;
-    text-decoration: none;
-    letter-spacing: 0.01em;
-    transition: background 0.18s, box-shadow 0.18s, color 0.18s, transform 0.18s;
-    outline: none;
+
+  .btn-entrar:hover::after { opacity: 1; }
+  .btn-entrar:hover  { transform: translateY(-3px) scale(1.02); box-shadow: 0 10px 28px rgba(0,200,215,0.45); }
+  .btn-entrar:active { transform: scale(0.97); }
+
+  /* Confetti burst */
+  .confetti-burst {
+    position: absolute;
+    pointer-events: none;
+    font-size: 20px;
+    animation: burstOut 0.8s ease-out forwards;
   }
-  .creative-back:hover {
-    background: linear-gradient(90deg, #00CFFF 0%, #FFD600 100%);
-    color: #fffbe7;
-    box-shadow: 0 4px 16px 0 rgba(0,207,255,0.18);
-    transform: scale(1.04);
-    text-decoration: none;
+
+  @keyframes burstOut {
+    from { opacity: 1; transform: scale(0); }
+    to   { opacity: 0; transform: scale(2) translateY(-30px); }
   }
-  .creative-cta {
-    margin-top: 1.5em;
-    color: #3bb273;
-    font-weight: 700;
-    font-size: 1.08em;
+
+  /* Register box */
+  .register-box {
+    margin-top: 18px;
+    background: rgba(255,255,255,0.05);
+    border: 1.5px dashed rgba(255,255,255,0.15);
+    border-radius: 18px;
+    padding: 16px 18px;
     text-align: center;
-    letter-spacing: 0.01em;
-    background: rgba(230,247,238,0.45);
-    border-radius: 10px;
-    padding: 0.7em 1em;
-    box-shadow: 0 1.5px 8px 0 rgba(0,207,255,0.04);
   }
-  .cta-emoji {
-    font-size: 1.3em;
-    margin-right: 0.2em;
+
+  .register-box p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.9);
+    margin-bottom: 10px;
+    font-weight: 400;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
   }
-</style>
-<style>
-  .role-select-box {
-    background: linear-gradient(120deg, #0076CA 70%, #00CFFF 100%);
-    border-radius: 22px;
-    padding: 1.5em 1.2em 1.2em 1.2em;
-    box-shadow: 0 2px 16px #0076CA33;
-    margin-top: 7em;
-    margin-bottom: 2em;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 1.2em;
-    max-width: 370px;
-    margin-left: auto;
-    margin-right: auto;
+
+  .btn-cadastrar {
+    padding: 10px 24px;
+    border: none;
+    border-radius: 50px;
+    background: var(--accent-color, #00c8d7);
+    color: white;
+    font-family: 'Fredoka One', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(0,200,215,0.3);
+    text-shadow: 0 0 8px rgba(0,0,0,0.6), 0 2px 6px rgba(0,0,0,0.5);
   }
-  /* Removido o flex-direction: column para manter os botões lado a lado em qualquer tamanho de tela */
-  .role-select-box .role-btn {
-    background: linear-gradient(120deg, #0076CA 70%, #00CFFF 100%);
-    color: #fff;
-    border: 2.5px solid #00CFFF;
-    box-shadow: 0 2px 12px 0 rgba(0,207,255,0.13);
-    transition: background 0.22s, border 0.22s, box-shadow 0.22s, color 0.22s;
+
+  .btn-cadastrar:hover  { transform: scale(1.06); box-shadow: 0 6px 20px rgba(0,200,215,0.45); }
+  .btn-cadastrar:active { transform: scale(0.97); }
+
+  .register-tagline {
+    display: block;
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    margin-top: 8px;
+    font-weight: 400;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
   }
-  .role-select-box .role-btn.selected, .role-select-box .role-btn:focus {
-    background: linear-gradient(120deg, #0076CA 70%, #00CFFF 100%);
-    color: #fff;
-    border: 2.5px solid #00CFFF;
-    box-shadow: 0 4px 18px 0 rgba(0,207,255,0.13);
-    transform: scale(1.04);
+
+  .btn-voltar {
+    display: block;
+    text-align: center;
+    margin-top: 16px;
+    color: rgba(255,255,255,0.85);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    background: none;
+    border: none;
+    font-family: 'Fredoka', sans-serif;
+    transition: color 0.2s;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
+  }
+
+  .btn-voltar:hover { color: rgba(255,255,255,0.8); }
+
+  .auto-save {
+    text-align: center;
+    font-size: 13px;
+    color: var(--accent-color, #00c8d7);
+    margin-top: 10px;
+    font-weight: 400;
+    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
+  }
+
+  /* ACCENT COLORS PER ROLE */
+  .accent-aluno {
+    --accent-color: #00c8d7;
+    --accent-dark: #009aaa;
+  }
+
+  .accent-professor {
+    --accent-color: #f5c518;
+    --accent-dark: #c99500;
+  }
+
+  .accent-gestao {
+    --accent-color: #a855f7;
+    --accent-dark: #7c3aed;
+  }
+
+  /* Stars & floating elements */
+  .floating-emoji {
+    position: fixed;
+    font-size: var(--size, 24px);
+    animation: floatRound var(--dur, 6s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+    pointer-events: none;
+    opacity: 0.25;
     z-index: 1;
   }
-  .role-select-box .role-btn .role-desc {
-    color: #0076CA;
-    opacity: 0.8;
+
+  @keyframes floatRound {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33%       { transform: translateY(-20px) rotate(10deg); }
+    66%       { transform: translateY(10px) rotate(-8deg); }
   }
-  .role-select-box .role-btn.selected .role-desc, .role-select-box .role-btn:focus .role-desc {
-    color: #fff;
-    opacity: 1;
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    body { margin-top: 64px; }
+    .role-cards { gap: 14px; }
+    .role-card { width: 140px; padding: 24px 14px 20px; }
+    .role-card .card-emoji { font-size: 38px; }
+    .role-card .card-label { font-size: 18px; }
+    .login-card { padding: 30px 24px; }
   }
 </style>
+</head>
+<body>
+
+<!-- CLOUDS -->
+<section class="cloud cloud-1"></section>
+<section class="cloud cloud-2"></section>
+<section class="cloud cloud-3"></section>
+<section class="cloud cloud-4"></section>
+<section class="cloud cloud-5"></section>
+<section class="cloud cloud-6"></section>
+
+<!-- NAVBAR -->
+<nav class="navbar-redesign">
+  <section class="logo-redesign">
+    <img src="/img/log.png" alt="Logo Pequenos Exploradores">
+  </section>
+  <section class="nav-links-redesign">
+    <a class="nav-link-redesign" href="/">Início</a>
+    <a class="nav-link-redesign" href="/sobre">Sobre</a>
+    <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+  </section>
+  <section class="nav-right-redesign">
+    <a href="/aluno-login" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+  </section>
+</nav>
+
+<!-- ===== BACKGROUND SCENE ===== -->
+<section class="bg-scene">
+  <section class="sky-gradient"></section>
+</section>
+
+<!-- ===== SCREEN 1: ESCOLHA O PERFIL ===== -->
+<section class="screen" id="screen-home">
+  <h1 class="welcome-title">Bem-vindo ao mundo dos<br>Pequenos Exploradores! 🌎</h1>
+  <p class="welcome-sub">Escolha como você quer entrar na aventura:</p>
+
+  <section class="role-cards">
+    <!-- ALUNO -->
+    <section class="role-card card-aluno" onclick="goToLogin('aluno')" style="--card-color: #00c8d7;">
+      <span class="card-badge" style="background:#00c8d7;--badge-delay:0s;">Novo!</span>
+      <section class="card-particle" style="top:80%;left:20%;--pd:0s;"></section>
+      <section class="card-particle" style="top:70%;left:70%;--pd:1s;"></section>
+      <section class="card-particle" style="top:85%;left:50%;--pd:2s;"></section>
+      <span class="card-emoji">🎒</span>
+      <article class="card-label">Aluno</article>
+      <article class="card-desc">Explore, jogue e ganhe recompensas!</article>
+    </section>
+
+    <!-- PROFESSOR -->
+    <section class="role-card card-professor" onclick="goToLogin('professor')" style="--card-color: #f5c518;">
+      <span class="card-emoji">🧑‍🏫</span>
+      <article class="card-label">Professor</article>
+      <article class="card-desc">Gerencie turmas e acompanhe alunos!</article>
+    </section>
+
+    <!-- GESTÃO -->
+    <section class="role-card card-gestao" onclick="goToLogin('gestao')" style="--card-color: #a855f7;">
+      <span class="card-badge" style="background:#a855f7;--badge-delay:0.4s;">Escola</span>
+      <section class="card-particle" style="top:80%;left:30%;--pd:0.5s;"></section>
+      <section class="card-particle" style="top:75%;left:65%;--pd:1.5s;"></section>
+      <span class="card-emoji">🏫</span>
+      <article class="card-label">Gestão</article>
+      <article class="card-desc">Painel completo da escola cadastrada!</article>
+    </section>
+  </section>
+</section>
+
+<!-- ===== SCREEN 2: LOGIN ALUNO ===== -->
+<section class="screen hidden" id="screen-aluno">
+  <section class="login-card accent-aluno">
+    <span class="login-icon">🎒</span>
+    <h2 class="login-title">Área do Aluno</h2>
+    <p class="login-subtitle">Entre e comece sua aventura! 🌿</p>
+
+    <section class="input-group">
+      <label>E-mail</label>
+      <input type="email" placeholder="seu@email.com" id="aluno-email">
+    </section>
+    <section class="input-group">
+      <label>Senha</label>
+      <input type="password" placeholder="••••••••" id="aluno-senha">
+    </section>
+
+    <button class="btn-entrar" onclick="handleLogin('aluno', this)">Entrar na Aventura! 🚀</button>
+
+    <section class="register-box">
+      <p>Ainda não tem uma conta?</p>
+      <button class="btn-cadastrar">Quero me cadastrar!</button>
+      <span class="register-tagline">🎮 Ganhe acesso a jogos, ranking, avatares e muito mais!</span>
+    </section>
+
+    <button class="btn-voltar" onclick="goBack()">← Voltar para o início</button>
+    <p class="auto-save">☀️ Seu progresso é salvo automaticamente!</p>
+  </section>
+</section>
+
+<!-- ===== SCREEN 3: LOGIN PROFESSOR ===== -->
+<section class="screen hidden" id="screen-professor">
+  <section class="login-card accent-professor">
+    <span class="login-icon">🧑‍🏫</span>
+    <h2 class="login-title" style="color:#f5c518;text-shadow:0 2px 16px rgba(245,197,24,0.4);">Área do Professor</h2>
+    <p class="login-subtitle">Bem-vindo de volta, educador! 📚</p>
+
+    <section class="input-group">
+      <label>E-mail institucional</label>
+      <input type="email" placeholder="professor@escola.com.br" id="prof-email">
+    </section>
+    <section class="input-group">
+      <label>Senha</label>
+      <input type="password" placeholder="••••••••" id="prof-senha">
+    </section>
+
+    <button class="btn-entrar" style="background:linear-gradient(135deg,#f5c518,#c99500);box-shadow:0 6px 20px rgba(245,197,24,0.35);" onclick="handleLogin('professor', this)">Entrar 🎓</button>
+
+    <section class="register-box" style="border-color:rgba(245,197,24,0.25);">
+      <p>Ainda não tem uma conta?</p>
+      <button class="btn-cadastrar" style="background:#f5c518;color:#1a3c2a;">Quero me cadastrar!</button>
+      <span class="register-tagline">📊 Acesse recursos exclusivos para professores!</span>
+    </section>
+
+    <button class="btn-voltar" onclick="goBack()">← Voltar para o início</button>
+    <p class="auto-save" style="color:#f5c518;">☀️ Seu progresso é salvo automaticamente!</p>
+  </section>
+</section>
+
+<!-- ===== SCREEN 4: LOGIN GESTÃO ===== -->
+<section class="screen hidden" id="screen-gestao">
+  <section class="login-card accent-gestao">
+    <span class="login-icon">🏫</span>
+    <h2 class="login-title" style="color:#c084fc;text-shadow:0 2px 16px rgba(168,85,247,0.4);">Área da Gestão</h2>
+    <p class="login-subtitle">Painel da escola cadastrada! 🏆</p>
+
+    <section class="input-group">
+      <label>E-mail da escola</label>
+      <input type="email" placeholder="gestao@minhaescola.com.br" id="gest-email">
+    </section>
+    <section class="input-group">
+      <label>Senha</label>
+      <input type="password" placeholder="••••••••" id="gest-senha">
+    </section>
+
+    <button class="btn-entrar" style="background:linear-gradient(135deg,#a855f7,#7c3aed);box-shadow:0 6px 20px rgba(168,85,247,0.35);" onclick="handleLogin('gestao', this)">Acessar Painel 🏫</button>
+
+    <section class="register-box" style="border-color:rgba(168,85,247,0.25);">
+      <p>Escola ainda não cadastrada?</p>
+      <button class="btn-cadastrar" style="background:#a855f7;">Cadastrar minha escola!</button>
+      <span class="register-tagline">🌱 Ofereça educação ambiental de qualidade para seus alunos!</span>
+    </section>
+
+    <button class="btn-voltar" onclick="goBack()">← Voltar para o início</button>
+    <p class="auto-save" style="color:#c084fc;">🔒 Acesso seguro e criptografado!</p>
+  </section>
+</section>
+
+<!-- ===== BOTTOM BAR ===== -->
+<footer style="position:fixed;bottom:0;left:0;right:0;z-index:50;height:40px;background:#3aaa50;display:flex;align-items:center;justify-content:center;font-size:13px;color:rgba(255,255,255,0.9);font-weight:500;text-shadow:0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);">
+  © 2025 Pequenos Exploradores
+</footer>
+
 <script>
-  
-  document.addEventListener('DOMContentLoaded', function() {
-    const roleBtns = document.querySelectorAll('.role-btn');
-    const roleInput = document.getElementById('roleInput');
-    const loginForm = document.getElementById('mainLoginForm');
-    roleBtns.forEach(btn => {
-      btn.addEventListener('click', function() {
-        if (btn.getAttribute('data-role') === 'professor') {
-          window.location.href = '/professor/login';
-          return;
-        }
-        if (btn.getAttribute('data-role') === 'aluno') {
-          window.location.href = '/aluno/login';
-          return;
-        }
-        roleBtns.forEach(b => b.classList.remove('selected'));
-        btn.classList.add('selected');
-        roleInput.value = btn.getAttribute('data-role');
-      });
-      btn.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          btn.click();
-        }
-      });
+  // ======= NAVIGATION =======
+  let currentScreen = 'home';
+
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => {
+      s.classList.add('hidden');
+      s.classList.remove('slide-out-left');
     });
-    loginForm.addEventListener('submit', function(e) {
-   
-      const selectedBtn = document.querySelector('.role-btn.selected');
-      if (selectedBtn) {
-        roleInput.value = selectedBtn.getAttribute('data-role');
-      }
-    });
+    const target = document.getElementById('screen-' + id);
+    if (target) {
+      target.classList.remove('hidden');
+    }
+    currentScreen = id;
+  }
+
+  function goToLogin(role) {
+    const home = document.getElementById('screen-home');
+    home.classList.add('slide-out-left');
+    setTimeout(() => {
+      home.classList.add('hidden');
+      home.classList.remove('slide-out-left');
+      showScreen(role);
+    }, 300);
+  }
+
+  function goBack() {
+    showScreen('home');
+  }
+
+  // ======= LOGIN =======
+  function handleLogin(role, btn) {
+    const originalText = btn.textContent;
+    btn.textContent = '⏳ Entrando...';
+    btn.style.opacity = '0.8';
+    btn.disabled = true;
+
+    for (let i = 0; i < 6; i++) {
+      const c = document.createElement('span');
+      c.className = 'confetti-burst';
+      
+      c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+      c.style.left = (40 + Math.random()*80) + 'px';
+      c.style.top = (40 + Math.random()*40) + 'px';
+      btn.parentElement.style.position = 'relative';
+      btn.parentElement.appendChild(c);
+      setTimeout(() => c.remove(), 900);
+    }
+
+    setTimeout(() => {
+      btn.textContent = '✅ Bem-vindo!';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.opacity = '';
+        btn.disabled = false;
+      }, 2000);
+    }, 1200);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') goBack();
   });
 </script>
-  <footer style="background: #76e13e; color: #fff; position: fixed; left: 0; bottom: 0; width: 100vw; text-align: center; z-index: 9999;">
-  <!-- Modal de confirmação de logout (cópia exata do aluno2.ejs) -->
-  <section id="modal-logout-overlay" onclick="fecharModalLogout(event)" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.45);z-index:120000;align-items:center;justify-content:center;">
-    <section id="modal-logout" onclick="event.stopPropagation()" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px #00CFFF22;max-width:340px;width:90vw;padding:1.5em 1.2em 1.2em 1.2em;display:flex;flex-direction:column;align-items:center;position:relative;z-index:120001;">
-      <button class="modal-logout-close" onclick="fecharModalLogout(event)" style="position:absolute;top:0.7em;right:1em;font-size:2em;background:none;border:none;color:#00CFFF;cursor:pointer;">&times;</button>
-      <section style="font-weight:900;font-size:1.15em;color:#1ec773;margin-top:1.2em;margin-bottom:0.7em;">Deseja realmente sair?</section>
-      <section style="width:100%;display:flex;flex-direction:row;gap:1em;justify-content:center;margin-top:1.2em;">
-        <button onclick="fecharModalLogout(event)" style="background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #00CFFF22;transition:background 0.2s;">Cancelar</button>
-        <form action="/logout" method="POST" style="margin:0;display:inline;">
-          <button type="button" class="logout-creative" style="font-size:1em;padding:0.7em 2.2em;" onclick="logoutAndRedirect(this)">Sair</button>
-        </form>
-      </section>
-    </section>
-  </section>
-    <p>&copy; 2025 Pequenos Exploradores</p>
-  </footer>
+</body>
+</html>
