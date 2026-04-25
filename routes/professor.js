@@ -30,6 +30,12 @@ router.get('/login', (req, res) => {
   res.render('professor_login', { erro: null });
 });
 
+// Login do professor (POST)
+router.post('/login', (req, res) => {
+  const email = req.body?.email || '';
+  req.session.user = { tipo: 'professor', email: email };
+  return res.status(200).json({ success: true });
+});
 
 // Dashboard do professor: seleção de série
 router.post('/dashboard', (req, res) => {

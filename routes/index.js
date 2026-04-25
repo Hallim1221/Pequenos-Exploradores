@@ -178,9 +178,17 @@ router.get('/aluno/login', (req, res) => {
 router.post('/aluno/login', (req, res) => {
   // Aqui você pode validar o e-mail e senha se desejar
   // Salva login do aluno na sessão
+  const email = req.body?.email || '';
   req.session.saldo = 700;
-  req.session.user = { tipo: 'aluno', email: req.body.email };
-  res.redirect('/aluno');
+  req.session.user = { tipo: 'aluno', email: email };
+  return res.status(200).json({ success: true });
+});
+
+// Login de gestão
+router.post('/gestao/login', (req, res) => {
+  const email = req.body?.email || '';
+  req.session.user = { tipo: 'gestao', email: email };
+  return res.status(200).json({ success: true });
 });
 
 // Área do Aluno

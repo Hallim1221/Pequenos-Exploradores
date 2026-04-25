@@ -505,6 +505,28 @@
     66%       { transform: translateY(10px) rotate(-8deg); }
   }
 
+  /* ROLE ICON IMAGES */
+  .role-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)) brightness(1.1) contrast(1.1);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .login-icon-img {
+    width: 52px;
+    height: 52px;
+    display: block;
+    margin: 0 auto 8px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)) brightness(1.1) contrast(1.1);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
   /* RESPONSIVE */
   @media (max-width: 600px) {
     body { margin-top: 64px; }
@@ -554,28 +576,28 @@
   <section class="role-cards">
     <!-- ALUNO -->
     <section class="role-card card-aluno" onclick="goToLogin('aluno')" style="--card-color: #00c8d7;">
-      <span class="card-badge" style="background:#00c8d7;--badge-delay:0s;">Novo!</span>
+      
       <section class="card-particle" style="top:80%;left:20%;--pd:0s;"></section>
       <section class="card-particle" style="top:70%;left:70%;--pd:1s;"></section>
       <section class="card-particle" style="top:85%;left:50%;--pd:2s;"></section>
-      <span class="card-emoji">🎒</span>
+      <img src="/img/moch.png" alt="Aluno" class="role-icon">
       <article class="card-label">Aluno</article>
       <article class="card-desc">Explore, jogue e ganhe recompensas!</article>
     </section>
 
     <!-- PROFESSOR -->
     <section class="role-card card-professor" onclick="goToLogin('professor')" style="--card-color: #f5c518;">
-      <span class="card-emoji">🧑‍🏫</span>
+      <img src="/img/prof.png" alt="Professor" class="role-icon">
       <article class="card-label">Professor</article>
       <article class="card-desc">Gerencie turmas e acompanhe alunos!</article>
     </section>
 
     <!-- GESTÃO -->
     <section class="role-card card-gestao" onclick="goToLogin('gestao')" style="--card-color: #a855f7;">
-      <span class="card-badge" style="background:#a855f7;--badge-delay:0.4s;">Escola</span>
+      
       <section class="card-particle" style="top:80%;left:30%;--pd:0.5s;"></section>
       <section class="card-particle" style="top:75%;left:65%;--pd:1.5s;"></section>
-      <span class="card-emoji">🏫</span>
+      <img src="/img/gest.png" alt="Gestão" class="role-icon">
       <article class="card-label">Gestão</article>
       <article class="card-desc">Painel completo da escola cadastrada!</article>
     </section>
@@ -585,7 +607,7 @@
 <!-- ===== SCREEN 2: LOGIN ALUNO ===== -->
 <section class="screen hidden" id="screen-aluno">
   <section class="login-card accent-aluno">
-    <span class="login-icon">🎒</span>
+    <img src="/img/moch.png" alt="Aluno" class="login-icon-img">
     <h2 class="login-title">Área do Aluno</h2>
     <p class="login-subtitle">Entre e comece sua aventura! 🌿</p>
 
@@ -606,7 +628,7 @@
       <span class="register-tagline">🎮 Ganhe acesso a jogos, ranking, avatares e muito mais!</span>
     </section>
 
-    <button class="btn-voltar" onclick="goBack()">← Voltar para o início</button>
+    <button class="btn-voltar" onclick="goBack()"> Voltar</button>
     <p class="auto-save">☀️ Seu progresso é salvo automaticamente!</p>
   </section>
 </section>
@@ -614,7 +636,7 @@
 <!-- ===== SCREEN 3: LOGIN PROFESSOR ===== -->
 <section class="screen hidden" id="screen-professor">
   <section class="login-card accent-professor">
-    <span class="login-icon">🧑‍🏫</span>
+    <img src="/img/prof.png" alt="Professor" class="login-icon-img">
     <h2 class="login-title" style="color:#f5c518;text-shadow:0 2px 16px rgba(245,197,24,0.4);">Área do Professor</h2>
     <p class="login-subtitle">Bem-vindo de volta, educador! 📚</p>
 
@@ -635,7 +657,7 @@
       <span class="register-tagline">📊 Acesse recursos exclusivos para professores!</span>
     </section>
 
-    <button class="btn-voltar" onclick="goBack()">← Voltar para o início</button>
+    <button class="btn-voltar" onclick="goBack()">Voltar</button>
     <p class="auto-save" style="color:#f5c518;">☀️ Seu progresso é salvo automaticamente!</p>
   </section>
 </section>
@@ -643,7 +665,7 @@
 <!-- ===== SCREEN 4: LOGIN GESTÃO ===== -->
 <section class="screen hidden" id="screen-gestao">
   <section class="login-card accent-gestao">
-    <span class="login-icon">🏫</span>
+    <img src="/img/gest.png" alt="Gestão" class="login-icon-img">
     <h2 class="login-title" style="color:#c084fc;text-shadow:0 2px 16px rgba(168,85,247,0.4);">Área da Gestão</h2>
     <p class="login-subtitle">Painel da escola cadastrada! 🏆</p>
 
@@ -664,7 +686,7 @@
       <span class="register-tagline">🌱 Ofereça educação ambiental de qualidade para seus alunos!</span>
     </section>
 
-    <button class="btn-voltar" onclick="goBack()">← Voltar para o início</button>
+    <button class="btn-voltar" onclick="goBack()">Voltar</button>
     <p class="auto-save" style="color:#c084fc;">🔒 Acesso seguro e criptografado!</p>
   </section>
 </section>
@@ -706,31 +728,96 @@
 
   // ======= LOGIN =======
   function handleLogin(role, btn) {
-    const originalText = btn.textContent;
-    btn.textContent = '⏳ Entrando...';
-    btn.style.opacity = '0.8';
-    btn.disabled = true;
-
-    for (let i = 0; i < 6; i++) {
-      const c = document.createElement('span');
-      c.className = 'confetti-burst';
+    if (role === 'aluno') {
+      // Validar campos
+      const email = document.getElementById('aluno-email').value.trim();
+      const senha = document.getElementById('aluno-senha').value.trim();
       
-      c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-      c.style.left = (40 + Math.random()*80) + 'px';
-      c.style.top = (40 + Math.random()*40) + 'px';
-      btn.parentElement.style.position = 'relative';
-      btn.parentElement.appendChild(c);
-      setTimeout(() => c.remove(), 900);
+      if (!email || !senha) {
+        alert('Por favor, preencha e-mail e senha!');
+        return;
+      }
+
+      // Fazer POST para validar e criar sessão
+      fetch('/aluno/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, senha })
+      })
+      .then(res => {
+        if (res.ok) {
+          window.location.href = '/aluno';
+        } else {
+          alert('E-mail ou senha incorretos!');
+        }
+      })
+      .catch(err => {
+        console.error('Erro:', err);
+        alert('Erro ao fazer login. Tente novamente.');
+      });
+      return;
     }
 
-    setTimeout(() => {
-      btn.textContent = '✅ Bem-vindo!';
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.opacity = '';
-        btn.disabled = false;
-      }, 2000);
-    }, 1200);
+    if (role === 'professor') {
+      // Validar campos
+      const email = document.getElementById('prof-email').value.trim();
+      const senha = document.getElementById('prof-senha').value.trim();
+      
+      if (!email || !senha) {
+        alert('Por favor, preencha e-mail e senha!');
+        return;
+      }
+
+      // Fazer POST para validar e criar sessão
+      fetch('/professor/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, senha })
+      })
+      .then(res => {
+        if (res.ok) {
+          window.location.href = '/professor_area';
+        } else {
+          alert('E-mail ou senha incorretos!');
+        }
+      })
+      .catch(err => {
+        console.error('Erro:', err);
+        alert('Erro ao fazer login. Tente novamente.');
+      });
+      return;
+    }
+
+    // Para gestão
+    if (role === 'gestao') {
+      // Validar campos
+      const email = document.getElementById('gest-email').value.trim();
+      const senha = document.getElementById('gest-senha').value.trim();
+      
+      if (!email || !senha) {
+        alert('Por favor, preencha e-mail e senha!');
+        return;
+      }
+
+      // Fazer POST para validar e criar sessão
+      fetch('/gestao/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, senha })
+      })
+      .then(res => {
+        if (res.ok) {
+          window.location.href = '/instituicoes';
+        } else {
+          alert('E-mail ou senha incorretos!');
+        }
+      })
+      .catch(err => {
+        console.error('Erro:', err);
+        alert('Erro ao fazer login. Tente novamente.');
+      });
+      return;
+    }
   }
 
   document.addEventListener('keydown', e => {

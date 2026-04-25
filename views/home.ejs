@@ -119,10 +119,10 @@
     font-size: 16px; color: rgba(20,20,20,0.85); max-width: 480px;
     line-height: 1.7; margin-bottom: 32px; font-weight: 500;
   }
-  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 60px; }
   .btn-primary {
     background: #f0c040; color: #1a3a10; font-weight: 800; font-family: 'Nunito', sans-serif;
-    padding: 14px 32px; border-radius: 32px; font-size: 16px;
+    padding: 14px 60px; border-radius: 32px; font-size: 16px;
     cursor: pointer; border: none; transition: all 0.25s;
     box-shadow: 0 6px 24px rgba(240,192,64,0.35);
   }
@@ -370,6 +370,11 @@
     .cloud-12 { width: 92px; height: 34px; top: 58%; left: -110px; display: block; }
     .cloud-12::before { width: 52px; height: 52px; top: -27px; left: 16px; }
     .cloud-12::after { width: 40px; height: 40px; top: -20px; left: 44px; }
+  }
+  
+  @media (min-width: 769px) {
+    .characters { margin-top: 300px; }
+    .features { margin-top: 250px; }
   }
 </style>
 </head>
