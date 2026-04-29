@@ -3,6 +3,12 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
+// Importar modelos
+const Aluno = require('../models/Aluno');
+const Professor = require('../models/Professor');
+const Turma = require('../models/Turma');
+const Quiz = require('../models/Quiz');
+
 // Cadastro 2 do Professor
 router.get('/professor/cadastro2', (req, res) => {
   res.render('cadastro2');
@@ -93,17 +99,39 @@ router.post('/aluno/cadastro',
       return true;
     })
   ],
-  (req, res) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // Re-render a página de cadastro com os erros (poderíamos também enviar mensagens flash)
       return res.status(400).render('aluno-cadastro', { errors: errors.array(), old: req.body });
     }
 
-    // Aqui normalmente você salvaria o usuário no banco de dados.
-    // Para agora, define saldo inicial na sessão e redireciona para a área do aluno.
-    req.session.saldo = 700;
-    return res.redirect('/aluno-novo');
+    try {
+      const { nome, email, password } = req.body;
+      
+      // Verificar se email já existe
+      const alunoExistente = await Aluno.buscarPorEmail(email);
+      if (alunoExistente) {
+        return res.status(400).render('aluno-cadastro', { 
+          errors: [{ msg: 'Email já cadastrado' }], 
+          old: req.body 
+        });
+      }
+
+      // Criar novo aluno no BD
+      const novoAluno = await Aluno.criar(nome, email, password);
+      
+      // Fazer login automático
+      req.session.user = { tipo: 'aluno', email: email };
+      req.session.saldo = 700;
+      
+      return res.redirect('/aluno');
+    } catch (erro) {
+      console.error('Erro ao cadastrar aluno:', erro);
+      return res.status(500).render('aluno-cadastro', { 
+        errors: [{ msg: 'Erro ao cadastrar. Tente novamente.' }], 
+        old: req.body 
+      });
+    }
   }
 );
 
@@ -175,20 +203,50 @@ router.get('/aluno/login', (req, res) => {
 });
 
 
-router.post('/aluno/login', (req, res) => {
-  // Aqui você pode validar o e-mail e senha se desejar
-  // Salva login do aluno na sessão
-  const email = req.body?.email || '';
-  req.session.saldo = 700;
-  req.session.user = { tipo: 'aluno', email: email };
-  return res.status(200).json({ success: true });
+router.post('/aluno/login', async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+      return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
+    }
+
+    // Buscar aluno no BD
+    const aluno = await Aluno.buscarPorEmail(email);
+
+    if (!aluno || aluno.senha !== senha) {
+      return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
+    }
+
+    // Fazer login
+    req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
+    req.session.saldo = aluno.saldo;
+
+    return res.status(200).json({ success: true });
+  } catch (erro) {
+    console.error('Erro ao fazer login:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+  }
 });
 
 // Login de gestão
-router.post('/gestao/login', (req, res) => {
-  const email = req.body?.email || '';
-  req.session.user = { tipo: 'gestao', email: email };
-  return res.status(200).json({ success: true });
+router.post('/gestao/login', async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+      return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
+    }
+
+    // Validação básica (você pode integrar com um modelo de Gestao se quiser)
+    // Por enquanto, aceita qualquer gestão
+    req.session.user = { tipo: 'gestao', email: email };
+
+    return res.status(200).json({ success: true });
+  } catch (erro) {
+    console.error('Erro ao fazer login de gestão:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+  }
 });
 
 // Área do Aluno

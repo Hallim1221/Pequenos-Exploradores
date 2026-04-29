@@ -1,5 +1,9 @@
 const express = require('express');
 const router = express.Router();
+
+// Importar modelos
+const Professor = require('../models/Professor');
+const Turma = require('../models/Turma');
 // Permite acessar seleção de série via GET também
 router.get('/dashboard', (req, res) => {
   // Protege rota: exige login
@@ -31,10 +35,29 @@ router.get('/login', (req, res) => {
 });
 
 // Login do professor (POST)
-router.post('/login', (req, res) => {
-  const email = req.body?.email || '';
-  req.session.user = { tipo: 'professor', email: email };
-  return res.status(200).json({ success: true });
+router.post('/login', async (req, res) => {
+  try {
+    const { email, senha } = req.body;
+
+    if (!email || !senha) {
+      return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
+    }
+
+    // Buscar professor no BD
+    const professor = await Professor.buscarPorEmail(email);
+
+    if (!professor || professor.senha !== senha) {
+      return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
+    }
+
+    // Fazer login
+    req.session.user = { tipo: 'professor', email: email, id: professor.id };
+
+    return res.status(200).json({ success: true });
+  } catch (erro) {
+    console.error('Erro ao fazer login do professor:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+  }
 });
 
 // Dashboard do professor: seleção de série

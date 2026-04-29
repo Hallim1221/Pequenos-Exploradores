@@ -11,10 +11,11 @@
   "license": "ISC",
   "description": "é pequenos exploradores",
   "dependencies": {
+    "dotenv": "^16.6.1",
     "ejs": "^3.1.10",
     "express": "^5.1.0",
     "express-session": "^1.18.2",
-    "express-validator": "^7.2.1"
-  },
-  "devDependencies": {}
+    "express-validator": "^7.2.1",
+    "mysql2": "^3.6.5"
+  }
 }

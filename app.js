@@ -1,3 +1,6 @@
+// Carregar variáveis de ambiente
+require('dotenv').config();
+
 // Arquivo principal do servidor Express
 const express = require('express');
 const path = require('path');

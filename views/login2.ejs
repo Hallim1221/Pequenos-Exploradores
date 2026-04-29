@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Admin - Pequenos Exploradores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #b3e5fc 0%, #a8e6cf 100%);
+      font-family: 'Fredoka', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-container {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(44,204,64,0.12);
+      padding: 2.5em 2em;
+      width: 350px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .login-container h2 {
+      color: #2ecc40;
+      font-size: 2em;
+      margin-bottom: 1em;
+      font-weight: bold;
+    }
+    .login-container label {
+      color: #3498db;
+      font-size: 1.1em;
+      margin-bottom: 0.3em;
+      font-weight: 500;
+      display: block;
+    }
+    .login-container input {
+      width: 100%;
+      padding: 0.8em 1em;
+      border-radius: 8px;
+      border: 1px solid #b3e5fc;
+      margin-bottom: 1em;
+      font-size: 1em;
+      background: #f8f8f8;
+      transition: border 0.18s;
+    }
+    .login-container input:focus {
+      border-color: #2ecc40;
+      outline: none;
+    }
+    .login-container button {
+      width: 100%;
+      background: #3498db;
+      color: #fff;
+      font-size: 1.1em;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      padding: 1em 0;
+      cursor: pointer;
+      margin-top: 0.5em;
+      transition: background 0.18s;
+    }
+    .login-container button:hover {
+      background: #217dbb;
+    }
+    .login-container .erro {
+      color: #e74c3c;
+      margin-bottom: 1em;
+      font-size: 1em;
+      display: none;
+    }
+    .login-container .logo {
+      width: 80px;
+      margin-bottom: 1em;
+    }
+  </style>
+</head>
+<body>
+  <section class="login-container">
+    <img src="/public/img/logo.png" alt="Pequenos Exploradores" class="logo">
+    <h2>Área Administrativa</h2>
+    <span class="erro" id="erro-login">Usuário ou senha incorretos!</span>
+    <form id="form-login">
+      <label for="usuario">Usuário</label>
+      <input type="text" id="usuario" required placeholder="Digite o usuário">
+      <label for="senha">Senha</label>
+      <input type="password" id="senha" required placeholder="Digite a senha">
+      <button type="submit">Entrar</button>
+    </form>
+  </section>
+  <script>
+    document.getElementById('form-login').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const usuario = document.getElementById('usuario').value.trim();
+      const senha = document.getElementById('senha').value;
+      const erro = document.getElementById('erro-login');
+      if (usuario === 'admin' && senha === 'exploradores123') {
+        localStorage.setItem('adminAuth', 'true');
+        window.location.href = 'admin/index.html';
+      } else {
+        erro.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,506 +1,1133 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
-<meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
-<meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
-<meta property="og:url" content="https://pequenos-exploradores.onrender.com/natureza" />
-<meta property="og:type" content="website" />
-  <title>Natureza - Pequenos Exploradores</title>
-  <link rel="stylesheet" href="/css/aluno.css">
-  <link rel="stylesheet" href="/css/natureza.css">
-  <link rel="stylesheet" href="/css/premium-aluno.css">
-<!-- View natureza -->
-<script>
-  (function(){
-    function applyPremiumNatureza(){
-      if (localStorage.getItem('premiumAluno') === 'true') {
-        document.body.classList.add('premium-aluno');
-        // Force inline styles so browsers show premium immediately (overrides any caching/priority issues)
-  var selector = '.natureza, .natureza-videos-grid, .natureza-video-card, .natureza-play, .btn-destaque, .top-banner';
-        var els = document.querySelectorAll(selector);
-        els.forEach(function(el){
-          try{
-            el.style.setProperty('background', 'linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%)', 'important');
-            el.style.setProperty('color', '#fff', 'important');
-            el.style.setProperty('box-shadow', '0 4px 32px 0 #a78bfa33', 'important');
-          }catch(e){/* ignore */}
-        });
-        // ensure main container also updated
-        var main = document.querySelector('.natureza');
-        if(main){ main.style.setProperty('background', 'linear-gradient(120deg, #a78bfa 0%, #7c3aed 100%)', 'important'); }
-      }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pequenos Exploradores — Níveis de Aprendizado</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aluno-redesign.css">
+  <style>
+    :root {
+      --green-dark: #1b5e20;
+      --green-main: #43a047;
+      --green-light: #66bb6a;
+      --green-pale: #e8f5e9;
+      --teal: #00897b;
+      --teal-light: #e0f2f1;
+      --sky: #039be5;
+      --sky-light: #e1f5fe;
+      --amber: #f9a825;
+      --amber-light: #fff8e1;
+      --bronze: #bf6f26;
+      --bronze-bg: #fff3e0;
+      --silver: #78909c;
+      --silver-bg: #eceff1;
+      --gold: #f9a825;
+      --gold-bg: #fffde7;
+      --bg: #e8f5e9;
+      --white: #ffffff;
+      --text: #1a2e1a;
+      --text-muted: #4a6741;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --shadow: 0 6px 24px rgba(0,0,0,0.10);
+      --shadow-hover: 0 12px 36px rgba(0,0,0,0.16);
     }
-    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', applyPremiumNatureza);
-    else applyPremiumNatureza();
-  })();
-</script>
-  <%- include('partials/header') %>
-<link rel="stylesheet" href="/css/btn-voltar.css">
-<style>
-  /* Sidebar Menu Styles */
-  .sidebar-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 250px;
-    height: 100vh;
-    background: #3bb273;
-    box-shadow: 2px 0 16px rgba(0,0,0,0.10);
-    z-index: 12000;
-    transform: translateX(-100%);
-    transition: transform 0.3s cubic-bezier(.4,1.3,.5,1);
-    padding-top: 2.5em;
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-  }
-  .sidebar-menu.open {
-    transform: translateX(0);
-  }
-  .sidebar-menu ul {
-    list-style: none;
-    padding: 0 1.2em;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 1.2em;
-  }
-  .sidebar-menu li a {
-    color: #fff;
-    font-size: 1.18em;
-    font-weight: 700;
-    text-decoration: none;
-    padding: 0.4em 0.2em;
-    border-radius: 8px;
-    transition: background 0.18s;
-    display: block;
-  }
-  .sidebar-menu li a:hover {
-    background: rgba(255,255,255,0.13);
-  }
-  .sidebar-close {
-    position: absolute;
-    top: 0.7em;
-    right: 1em;
-    background: none;
-    border: none;
-    font-size: 2em;
-    color: #fff;
-    cursor: pointer;
-    z-index: 1;
-    line-height: 1;
-    transition: color 0.18s;
-  }
-  .sidebar-close:hover {
-    color: #FFD600;
-  }
-  .sidebar-toggle {
-    position: fixed;
-    top: 0.7em;
-    left: 0.7em;
-    background: transparent;
-    border: none;
-    border-radius: 8px;
-    padding: 0.3em 0.4em;
-    z-index: 11500;
-    cursor: pointer;
-    box-shadow: none;
-    transition: background 0.18s, border 0.18s;
-  }
-  .sidebar-toggle:hover {
-    background: rgba(255,255,255,0.12);
-    border: none;
-  }
-  @media (max-width: 600px) {
-    .sidebar-menu { width: 80vw; min-width: 0; }
-  }
-</style>
-<style>
-  .top-banner {
-    width: 100vw;
-    min-width: 100vw;
-    height: 32px;
-    background: #76e13e !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    position: fixed;
-    top: 0;
-    z-index: 10000;
-    border-radius: 0;
-    font-family: 'Fredoka', 'Quicksand', Arial, sans-serif;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    font-size: 1.15em;
-    color: #fff;
-    overflow: hidden;
-    animation: bannerFadeIn 0.7s;
-    pointer-events: none;
-  }
-  .btn-voltar {
-    pointer-events: auto;
-  }
-  @keyframes bannerFadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  html, body {
-    max-width: 100vw;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    min-height: 100vh;
-  }
-  body {
-    background: linear-gradient(120deg, #3bb273 0%, #00CFFF 100%);
-    background-attachment: fixed;
-    min-height: 100vh;
-    font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-    position: relative;
-  }
-  .bg-figma {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 0;
-    background: url('/img/tcc.img/tela inicio.png') center center/cover no-repeat;
-    opacity: 0.10;
-    pointer-events: none;
-    transition: opacity 0.4s;
-  }
-  .natureza {
-    max-width: 900px;
-    margin: 4.5em auto 0 auto;
-    padding: 2.5em 2em 2.5em 2em;
-    background: rgba(255,255,255,0.93);
-    border-radius: 18px;
-    box-shadow: 0 4px 32px 0 rgba(60, 180, 115, 0.10), 0 1.5px 8px 0 rgba(0,0,0,0.04);
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    animation: fadeInUp 0.7s;
-    padding-bottom: 3.5em;
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(40px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .natureza h1 {
-    text-align: center;
-    font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
-    font-size: 2.1em;
-    color: #3bb273;
-    font-weight: 800;
-    margin-bottom: 0.7em;
-    margin-top: 0.5em;
-    letter-spacing: 0.01em;
-  }
-  .natureza-desc {
-    font-size: 1.18em;
-    color: #00CFFF;
-    font-family: 'Fredoka', Arial, sans-serif;
-    line-height: 1.7;
-    margin-bottom: 1.5em;
-    text-align: center;
-    font-weight: 600;
-  }
-  .natureza-videos-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2em;
-    justify-content: center;
-    margin-bottom: 2.2em;
-    width: 100%;
-    max-width: 900px;
-  }
 
-  .natureza-video-card {
-    /* ...existing code... */
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  @media (max-width: 900px) {
-    .natureza-videos-grid {
-      grid-template-columns: 1fr;
-      gap: 1.2em;
-      max-width: 98vw;
+    body { font-family: 'Fredoka', sans-serif; background: var(--bg); color: var(--text); margin-top: 72px; }
+
+    section.page { display: none; min-height: 100vh; }
+    section.page.active { display: block; }
+
+    .topnav {
+      background: var(--green-main);
+      padding: 0 40px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
-  }
-  .natureza-video-card {
-    background: linear-gradient(120deg, #fffbe7 60%, #3bb273 100%);
-    border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-    padding: 1.2em 1em 1em 1em;
-    min-width: 210px;
-    min-height: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 1.13em;
-    font-weight: 700;
-    color: #00CFFF;
-    border: 1.5px solid #3bb273;
-    position: relative;
-    transition: box-shadow 0.18s, transform 0.18s;
-    animation: fadeInUp 0.7s;
-    cursor: pointer;
-  }
-  .natureza-video-card:hover {
-    box-shadow: 0 6px 24px 0 #3bb27333, 0 2px 8px 0 #00CFFF22;
-    transform: scale(1.05);
-    background: linear-gradient(120deg, #3bb273 60%, #fffbe7 100%);
-    color: #fff;
-  }
-  .natureza-thumb {
-    width: 340px;
-    height: 192px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    margin-bottom: 0.7em;
-    position: relative;
-    box-shadow: 0 2px 8px #00CFFF22;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .natureza-play {
-    font-size: 2.2em;
-    color: #FFD600;
-    background: rgba(255,255,255,0.85);
-    border-radius: 50%;
-    padding: 0.1em 0.3em 0.1em 0.4em;
-    box-shadow: 0 1px 4px #FFD60011;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%,-50%);
-    transition: background 0.18s;
-  }
-  .natureza-video-card:hover .natureza-play {
-    background: #FFD600;
-    color: #fff;
-  }
-  .natureza-cta {
-    margin-top: 0.2em;
-    text-align: center;
-  }
-  .btn-destaque {
-    display: inline-block;
-    background: linear-gradient(90deg, #3bb273 0%, #FFD600 100%);
-    color: #fff;
-    font-size: 1.1em;
-    font-weight: 700;
-    border: none;
-    border-radius: 10px;
-    padding: 0.7em 1.7em;
-    cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
-    transition: background 0.18s, transform 0.18s, box-shadow 0.18s;
-    margin-top: 0.5em;
-    outline: none;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    position: relative;
-    overflow: hidden;
-    appearance: button;
-    font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
-  }
-  .btn-destaque:after {
-    content: '';
-    position: absolute;
-    left: 0; top: 0; right: 0; bottom: 0;
-    border-radius: 10px;
-    box-shadow: 0 0 0 0 #FFD600;
-    transition: box-shadow 0.18s;
-    pointer-events: none;
-  }
-  .btn-destaque:focus {
-    outline: 2px solid #FFD600;
-    outline-offset: 2px;
-  }
-  .btn-destaque:hover {
-    background: linear-gradient(90deg, #FFD600 0%, #3bb273 100%);
-    transform: scale(1.07);
-    box-shadow: 0 6px 24px 0 rgba(60, 180, 115, 0.18), 0 2px 8px 0 rgba(0,0,0,0.13);
-    text-decoration: none;
-  }
-  .btn-destaque:active {
-    filter: brightness(0.97);
-    transform: scale(0.98);
-  }
-  @media (max-width: 900px) {
-    .natureza {
-      max-width: 98vw;
-      padding: 1.2em 0.5em 1.5em 0.5em;
+
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a {
+      color: white; font-size: 15px; font-weight: 500;
+      cursor: pointer; text-decoration: none; opacity: 0.9;
+      transition: opacity 0.15s;
+    }
+    .nav-links a:hover { opacity: 1; text-decoration: underline; }
+
+    .nav-logout {
+      color: #ffcdd2 !important;
+      display: flex; align-items: center; gap: 5px;
+    }
+
+    .back-btn {
+      width: 40px; height: 40px;
+      background: white;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      color: var(--green-main);
+      box-shadow: var(--shadow);
+      transition: all 0.18s;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { transform: scale(1.1); }
+
+    .hero {
+      background: linear-gradient(160deg, #1b5e20 0%, #2e7d32 40%, #43a047 100%);
+      padding: 48px 40px 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0; right: 0;
+      height: 48px;
+      background: var(--bg);
+      clip-path: ellipse(55% 100% at 50% 100%);
+    }
+
+    .hero-deco {
+      position: absolute;
+      font-size: 100px;
+      opacity: 0.07;
+      pointer-events: none;
+    }
+
+    .hero-content { position: relative; z-index: 1; text-align: center; }
+
+    .hero-greeting {
+      font-size: 13px; font-weight: 500;
+      color: #a5d6a7;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .hero-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 34px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 28px;
+    }
+
+    .xp-bar-wrap {
+      max-width: 520px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.12);
+      border-radius: 50px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .xp-level-badge {
+      width: 44px; height: 44px;
+      background: var(--amber);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; font-weight: 700;
+      color: #3e2000;
+      flex-shrink: 0;
+      border: 3px solid rgba(255,255,255,0.5);
+    }
+
+    .xp-track {
+      flex: 1;
+      height: 12px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .xp-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #66bb6a, #ffeb3b);
+      border-radius: 6px;
+      width: 35%;
+      animation: xpGrow 1s ease 0.5s both;
+    }
+
+    @keyframes xpGrow {
+      from { width: 0; }
+      to { width: 35%; }
+    }
+
+    .xp-text { color: white; font-size: 14px; font-weight: 500; white-space: nowrap; }
+
+    main { padding: 36px 40px 60px; max-width: 1100px; margin: 0 auto; }
+
+    .tier-section { margin-bottom: 44px; }
+
+    .tier-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px dashed rgba(0,0,0,0.08);
+    }
+
+    .tier-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    .tier-bronze { background: var(--bronze-bg); color: var(--bronze); border: 2px solid #e8a87c; }
+    .tier-silver { background: var(--silver-bg); color: var(--silver); border: 2px solid #b0bec5; }
+    .tier-gold { background: var(--gold-bg); color: #b8860b; border: 2px solid #f9d835; }
+
+    .tier-desc { font-size: 14px; color: var(--text-muted); }
+
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    article.level-card {
+      border-radius: var(--radius);
+      padding: 22px 20px;
+      cursor: pointer;
+      transition: all 0.22s;
+      position: relative;
+      overflow: hidden;
+      border: 2.5px solid transparent;
+    }
+
+    article.level-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    article.level-card.locked {
+      opacity: 0.55;
+      cursor: not-allowed;
+      filter: grayscale(0.4);
+    }
+
+    article.level-card.locked:hover { transform: none; box-shadow: none; }
+
+    article.level-card.completed { border-color: var(--green-light); }
+
+    .card-bronze-1 { background: linear-gradient(135deg, #fff8f0, #ffe5c8); }
+    .card-bronze-2 { background: linear-gradient(135deg, #fff3e0, #ffd9a0); }
+    .card-bronze-3 { background: linear-gradient(135deg, #fef3e2, #ffcc80); }
+
+    .card-silver-1 { background: linear-gradient(135deg, #f0f4f8, #d9e6ee); }
+    .card-silver-2 { background: linear-gradient(135deg, #eceff4, #cfd8e3); }
+    .card-silver-3 { background: linear-gradient(135deg, #eef1f5, #c8d6e2); }
+
+    .card-gold-1 { background: linear-gradient(135deg, #fffde7, #fff59d); }
+    .card-gold-2 { background: linear-gradient(135deg, #fffbdb, #ffe57f); }
+    .card-gold-3 { background: linear-gradient(135deg, #fff9c4, #ffd740); }
+    .card-gold-4 { background: linear-gradient(135deg, #fff3cd, #ffca28); }
+
+    .level-number {
+      position: absolute;
+      top: 14px; right: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      opacity: 0.45;
+      text-transform: uppercase;
+    }
+
+    .level-emoji { font-size: 42px; margin-bottom: 10px; display: block; }
+
+    .level-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 5px;
+      line-height: 1.2;
+    }
+
+    .level-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .level-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 14px;
+    }
+
+    .topic-chip {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 9px;
+      border-radius: 50px;
+      background: rgba(255,255,255,0.65);
+      color: var(--text-muted);
+      border: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .level-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .level-status {
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-done { color: var(--green-main); }
+    .status-current { color: var(--sky); }
+    .status-locked { color: #999; }
+
+    .level-pts {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--amber);
+      background: rgba(255,255,255,0.6);
+      padding: 3px 9px;
+      border-radius: 50px;
+    }
+
+    .lock-overlay {
+      position: absolute;
+      top: 12px; left: 12px;
+      font-size: 18px;
+      opacity: 0.5;
+    }
+
+    footer.site-footer {
+      background: var(--green-main);
+      padding: 36px 40px;
+      color: white;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 32px;
+      max-width: 900px;
+      margin: 0 auto;
+      align-items: start;
+    }
+
+    .footer-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .footer-text { font-size: 13px; opacity: 0.8; line-height: 1.6; }
+    .footer-link { color: #c8e6c9; font-size: 13px; }
+
+    .footer-ig {
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .footer-ig:hover { background: rgba(255,255,255,0.35); }
+
+    .detail-hero {
+      padding: 40px 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-hero-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .detail-big-emoji {
+      font-size: 80px;
+      flex-shrink: 0;
+      animation: floatEmoji 3s ease-in-out infinite;
+    }
+
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .detail-level-num {
+      font-size: 12px; letter-spacing: 0.12em;
+      font-weight: 600; text-transform: uppercase;
+      opacity: 0.7; margin-bottom: 4px;
+    }
+
+    .detail-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 30px; font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .detail-desc {
+      font-size: 15px;
+      opacity: 0.85;
+      line-height: 1.5;
+      margin-bottom: 16px;
+      max-width: 500px;
+    }
+
+    .detail-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .detail-chip {
+      font-size: 13px; font-weight: 600;
+      padding: 5px 14px; border-radius: 50px;
+      background: rgba(255,255,255,0.25);
+    }
+
+    .detail-content { padding: 32px 40px 60px; max-width: 860px; margin: 0 auto; }
+
+    .topics-section-title {
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--text-muted); margin-bottom: 16px;
+    }
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .topic-card {
+      background: white;
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border: 1.5px solid #e8f5e9;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .topic-card:hover {
+      border-color: var(--green-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    }
+
+    .topic-icon {
+      width: 40px; height: 40px;
       border-radius: 10px;
+      background: var(--green-pale);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
     }
-    .natureza h1 {
-      font-size: 1.25em;
+
+    .topic-name { font-size: 14px; font-weight: 600; color: var(--text); }
+
+    button.start-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 18px; font-weight: 600;
+      padding: 14px 40px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      background: var(--green-main);
+      color: white;
+      box-shadow: 0 6px 20px rgba(67,160,71,0.35);
+      transition: all 0.18s;
+      display: block;
+      margin: 0 auto;
     }
-    .natureza-videos-grid {
-      gap: 0.7em;
+    button.start-btn:hover { background: var(--green-dark); transform: translateY(-2px); }
+
+    .curio-hero {
+      background: linear-gradient(135deg, #00695c, #00897b, #26a69a);
+      padding: 40px;
+      text-align: center;
+      color: white;
+      position: relative;
+      overflow: hidden;
     }
-    .natureza-video-card {
-      min-width: 120px;
-      font-size: 0.98em;
-      padding: 1em 0.7em 0.7em 0.7em;
+
+    .curio-title {
+      font-family: 'Nunito', sans-serif;
+      font-size: 30px; font-weight: 800;
+      margin-bottom: 6px;
     }
-    .natureza-thumb {
-      width: 260px;
-      height: 146px;
+
+    .curio-title span { color: #ffeb3b; }
+
+    .curio-sub {
+      font-size: 16px; opacity: 0.85;
     }
-  }
+
+    .curio-content { padding: 32px 40px 60px; max-width: 900px; margin: 0 auto; }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    article.video-card {
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      border: 2.5px solid transparent;
+      transition: all 0.22s;
+    }
+    article.video-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .video-thumb-inner {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #00897b, #4db6ac);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 48px;
+      position: relative;
+    }
+
+    .play-btn {
+      position: absolute;
+      width: 52px; height: 52px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .video-body { padding: 14px 16px 16px; }
+
+    .video-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--teal-light);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .video-title {
+      font-size: 14px; font-weight: 600;
+      color: var(--teal);
+      margin-top: 8px;
+      line-height: 1.3;
+    }
+
+    button.back-area-btn {
+      font-family: 'Fredoka', sans-serif;
+      font-size: 15px; font-weight: 600;
+      padding: 12px 32px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      background: var(--teal);
+      color: white;
+      box-shadow: 0 4px 14px rgba(0,137,123,0.3);
+      display: block; margin: 32px auto 0;
+      transition: all 0.18s;
+    }
+    button.back-area-btn:hover { background: #00695c; transform: translateY(-2px); }
+
+    section.page.active { animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    article.level-card { animation: cardIn 0.35s ease both; }
+    article.level-card:nth-child(1) { animation-delay: 0.05s; }
+    article.level-card:nth-child(2) { animation-delay: 0.10s; }
+    article.level-card:nth-child(3) { animation-delay: 0.15s; }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .progress-dots {
+      display: flex; justify-content: center; gap: 6px; margin-top: 20px;
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+    .dot.done { background: #a5d6a7; }
+    .dot.current { background: white; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
+
+    @media (max-width: 900px) {
+      .levels-grid { grid-template-columns: repeat(2, 1fr); }
+      .videos-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-<section class="bg-figma"></section>
-<!-- Modal de confirmação de logout -->
-<section id="modal-logout" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
-  <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
-    <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
-    <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
-    <section style="display:flex; gap:1.2em; justify-content:center;">
-      <button onclick="confirmarLogout()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Sim</button>
-      <button onclick="fecharModalLogout()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">Não</button>
+
+<!-- PAGE: HOME DO ALUNO -->
+<section class="page active" id="page-home">
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
     </section>
-    <button onclick="fecharModalLogout()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
-  </section>
-</section>
-<script>
-  function abrirModalLogout() {
-    var modal = document.getElementById('modal-logout');
-    if(modal) modal.style.display = 'flex';
-  }
-  function fecharModalLogout() {
-    var modal = document.getElementById('modal-logout');
-    if(modal) modal.style.display = 'none';
-  }
-  function confirmarLogout() {
-    fetch('/logout', { method: 'POST' })
-      .then(() => { window.location.href = '/'; })
-      .catch(() => { window.location.href = '/'; });
-  }
-</script>
-<section style="height: 32px;"></section>
-<main class="natureza">
-    <h1 style="font-size: 2em; font-weight: 800; color: #3bb273; margin:0; letter-spacing:0.01em;">Curiosidades da <span style='color:#FFD600;'>Natureza</span></h1>
-    <p style="font-size:1.1em; color:#00CFFF; font-weight:600; margin:0.2em 0 0 0;">Descubra, assista e explore o mundo natural!</p>
-    <p></p>
-    <p></p>
+    <section class="nav-links-redesign">
+      <a class="nav-link-redesign active" href="/">Início</a>
+      <a class="nav-link-redesign" href="/sobre">Sobre</a>
+      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+    </section>
+    <section class="nav-right-redesign">
+      <button class="btn-sair-redesign" onclick="window.location.href='/'">Sair</button>
+    </section>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <span class="hero-deco" style="top:-20px;left:-10px">🌿</span>
+    <span class="hero-deco" style="bottom:20px;right:-10px">🍃</span>
+    <article class="hero-content">
+      <p class="hero-greeting">Bem-vindo de volta!</p>
+      <h1 class="hero-title">Olá, pequeno explorador! 🌱</h1>
+      <p class="hero-sub">Continue sua jornada de descobertas pelo mundo natural</p>
+
+      <!-- XP BAR -->
+      <article class="xp-bar-wrap">
+        <span class="xp-level-badge">3</span>
+        <article>
+          <p style="font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:4px">Nível 3 — Conexões da Natureza</p>
+          <article class="xp-track"><span class="xp-fill"></span></article>
+        </article>
+        <p class="xp-text">350 / 1000 xp</p>
+      </article>
+
+      <!-- Progress dots -->
+      <nav class="progress-dots">
+        <span class="dot done"></span>
+        <span class="dot done"></span>
+        <span class="dot current"></span>
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        <span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+      </nav>
+    </article>
   </header>
 
-  <section class="natureza-videos-grid">
-    <!-- Vídeos infantis brasileiros sobre biomas e natureza (links testados e disponíveis) -->
-        <!-- Smile and Learn Natureza - vídeos enviados pelo usuário -->
-        <section class="natureza-video-card" data-video="v-07DAXCdhI">
-          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/v-07DAXCdhI/hqdefault.jpg')" onclick="abrirVideo('v-07DAXCdhI')">
-            <span class="natureza-play">▶</span>
-          </section>
-          <span>O que é a biodiversidade? (Smile and Learn)</span>
-        </section>
-        <section class="natureza-video-card" data-video="imC5WjBa1II">
-          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/imC5WjBa1II/hqdefault.jpg')" onclick="abrirVideo('imC5WjBa1II')">
-            <span class="natureza-play">▶</span>
-          </section>
-          <span>O que é o meio ambiente? (Smile and Learn)</span>
-        </section>
-        <section class="natureza-video-card" data-video="FSC2zH0khuw">
-          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/FSC2zH0khuw/hqdefault.jpg')" onclick="abrirVideo('FSC2zH0khuw')">
-            <span class="natureza-play">▶</span>
-          </section>
-          <span>O que é reciclagem? (Smile and Learn)</span>
-        </section>
-        <section class="natureza-video-card" data-video="yVX9zgNW7fk">
-          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/yVX9zgNW7fk/hqdefault.jpg')" onclick="abrirVideo('yVX9zgNW7fk')">
-            <span class="natureza-play">▶</span>
-          </section>
-          <span>O que é sustentabilidade? (Smile and Learn)</span>
-        </section>
-        <section class="natureza-video-card" data-video="MhpRedd8HkY">
-          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/MhpRedd8HkY/hqdefault.jpg')" onclick="abrirVideo('MhpRedd8HkY')">
-            <span class="natureza-play">▶</span>
-          </section>
-          <span>O que é poluição? (Smile and Learn)</span>
-        </section>
-        <section class="natureza-video-card" data-video="CdBiEfAqBrY">
-          <section class="natureza-thumb" style="background-image:url('https://img.youtube.com/vi/CdBiEfAqBrY/hqdefault.jpg')" onclick="abrirVideo('CdBiEfAqBrY')">
-            <span class="natureza-play">▶</span>
-          </section>
-          <span>O que é aquecimento global? (Smile and Learn)</span>
-        </section>
-  </section>
-  <section class="natureza-cta">
-  <a href="/aluno" class="btn-destaque" style="margin-top: 2.2em; position:relative; top:-2.2em;">Voltar para Área do Aluno</a>
-  </section>
- 
-</main>
-<%- include('partials/footer') %>
-<section id="modal-video-natureza" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.65); z-index:30000; align-items:center; justify-content:center;">
-  <section style="background:#fff; border-radius:18px; box-shadow:0 8px 32px #0076CA44; padding:1.2em 1em 1em 1em; max-width:95vw; max-height:90vh; display:flex; flex-direction:column; align-items:center; position:relative;">
-    <button onclick="fecharVideoNatureza()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
-    <iframe id="iframe-natureza" width="560" height="315" style="max-width:90vw; max-height:70vh; border-radius:12px; border:none; box-shadow:0 2px 12px #00CFFF33;" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-    <!-- CTA para ir ao quiz relacionado ao vídeo (usando apenas section) -->
-    <section id="modal-video-cta" style="margin-top:-0.4em; width:100%; display:flex; justify-content:center; transition:transform 0.12s ease; transform:translateY(-6px);">
-      <section id="modal-video-cta-btn" role="button" tabindex="0" aria-label="Ir para o quiz" class="btn-destaque" style="cursor:pointer;">
-        Ir para o Quiz
+  <!-- CONTENT -->
+  <main>
+
+    <!-- BRONZE -->
+    <section class="tier-section">
+      <header class="tier-header">
+        <span class="tier-badge tier-bronze">🥉 Bronze — Níveis 1 a 3</span>
+        <p class="tier-desc">Os primeiros passos na natureza</p>
+      </header>
+      <section class="levels-grid">
+
+        <article class="level-card card-bronze-1 completed" onclick="showLevel(1)">
+          <span class="level-number">Nível 1</span>
+          <span class="level-emoji">🌍</span>
+          <h3 class="level-title">Descobrindo o Meio Ambiente</h3>
+          <p class="level-subtitle">O que nos rodeia no planeta</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Meio Ambiente</span>
+            <span class="topic-chip">Água</span>
+            <span class="topic-chip">Solo</span>
+            <span class="topic-chip">Animais</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-done">✅ Concluído</span>
+            <span class="level-pts">⭐ 100 pts</span>
+          </footer>
+        </article>
+
+        <article class="level-card card-bronze-2 completed" onclick="showLevel(2)">
+          <span class="level-number">Nível 2</span>
+          <span class="level-emoji">💧</span>
+          <h3 class="level-title">Elementos da Natureza</h3>
+          <p class="level-subtitle">Água, plantas, animais e clima</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Tipos de água</span>
+            <span class="topic-chip">Plantas</span>
+            <span class="topic-chip">Clima</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-done">✅ Concluído</span>
+            <span class="level-pts">⭐ 150 pts</span>
+          </footer>
+        </article>
+
+        <article class="level-card card-bronze-3" onclick="showLevel(3)">
+          <span class="level-number">Nível 3</span>
+          <span class="level-emoji">🌿</span>
+          <h3 class="level-title">Conexões da Natureza</h3>
+          <p class="level-subtitle">Como tudo se conecta na vida</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Cadeia alimentar</span>
+            <span class="topic-chip">Poluição</span>
+            <span class="topic-chip">Árvores</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-current">▶ Em andamento</span>
+            <span class="level-pts">⭐ 200 pts</span>
+          </footer>
+        </article>
+
       </section>
     </section>
-  </section>
+
+    <!-- PRATA -->
+    <section class="tier-section">
+      <header class="tier-header">
+        <span class="tier-badge tier-silver">🥈 Prata — Níveis 4 a 6</span>
+        <p class="tier-desc">Cuide e preserve o planeta</p>
+      </header>
+      <section class="levels-grid">
+
+        <article class="level-card card-silver-1 locked" onclick="showLocked()">
+          <span class="lock-overlay">🔒</span>
+          <span class="level-number">Nível 4</span>
+          <span class="level-emoji">♻️</span>
+          <h3 class="level-title">Cuidando do Planeta</h3>
+          <p class="level-subtitle">Reciclagem e consciência</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Reciclagem</span>
+            <span class="topic-chip">Coleta seletiva</span>
+            <span class="topic-chip">Preservação</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-locked">🔒 Bloqueado</span>
+            <span class="level-pts">⭐ 250 pts</span>
+          </footer>
+        </article>
+
+        <article class="level-card card-silver-2 locked" onclick="showLocked()">
+          <span class="lock-overlay">🔒</span>
+          <span class="level-number">Nível 5</span>
+          <span class="level-emoji">🏭</span>
+          <h3 class="level-title">Problemas Ambientais</h3>
+          <p class="level-subtitle">Poluição, desmatamento e extinção</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Poluição</span>
+            <span class="topic-chip">Desmatamento</span>
+            <span class="topic-chip">Extinção</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-locked">🔒 Bloqueado</span>
+            <span class="level-pts">⭐ 300 pts</span>
+          </footer>
+        </article>
+
+        <article class="level-card card-silver-3 locked" onclick="showLocked()">
+          <span class="lock-overlay">🔒</span>
+          <span class="level-number">Nível 6</span>
+          <span class="level-emoji">🌱</span>
+          <h3 class="level-title">Sustentabilidade</h3>
+          <p class="level-subtitle">Consumo consciente e energia limpa</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Sustentabilidade</span>
+            <span class="topic-chip">Energia solar</span>
+            <span class="topic-chip">Reutilização</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-locked">🔒 Bloqueado</span>
+            <span class="level-pts">⭐ 350 pts</span>
+          </footer>
+        </article>
+
+      </section>
+    </section>
+
+    <!-- OURO -->
+    <section class="tier-section">
+      <header class="tier-header">
+        <span class="tier-badge tier-gold">🥇 Ouro — Níveis 7 a 10</span>
+        <p class="tier-desc">Os guardiões do planeta</p>
+      </header>
+      <section class="levels-grid" style="grid-template-columns: repeat(4,1fr)">
+
+        <article class="level-card card-gold-1 locked" onclick="showLocked()">
+          <span class="lock-overlay">🔒</span>
+          <span class="level-number">Nível 7</span>
+          <span class="level-emoji">🦋</span>
+          <h3 class="level-title">Biodiversidade</h3>
+          <p class="level-subtitle">Fauna, flora e ecossistemas</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Ecossistemas</span>
+            <span class="topic-chip">Florestas</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-locked">🔒</span>
+            <span class="level-pts">⭐ 400 pts</span>
+          </footer>
+        </article>
+
+        <article class="level-card card-gold-2 locked" onclick="showLocked()">
+          <span class="lock-overlay">🔒</span>
+          <span class="level-number">Nível 8</span>
+          <span class="level-emoji">🌡️</span>
+          <h3 class="level-title">Mudanças no Planeta</h3>
+          <p class="level-subtitle">Clima, impactos e desastres</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Aquecimento</span>
+            <span class="topic-chip">Desastres</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-locked">🔒</span>
+            <span class="level-pts">⭐ 450 pts</span>
+          </footer>
+        </article>
+
+        <article class="level-card card-gold-3 locked" onclick="showLocked()">
+          <span class="lock-overlay">🔒</span>
+          <span class="level-number">Nível 9</span>
+          <span class="level-emoji">🤝</span>
+          <h3 class="level-title">Ações Sustentáveis</h3>
+          <p class="level-subtitle">Projetos e comunidade ecológica</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Projetos</span>
+            <span class="topic-chip">Comunidade</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-locked">🔒</span>
+            <span class="level-pts">⭐ 500 pts</span>
+          </footer>
+        </article>
+
+        <article class="level-card card-gold-4 locked" onclick="showLocked()">
+          <span class="lock-overlay">🔒</span>
+          <span class="level-number">Nível 10</span>
+          <span class="level-emoji">🏆</span>
+          <h3 class="level-title">Guardiões do Planeta</h3>
+          <p class="level-subtitle">Liderança e missões finais</p>
+          <nav class="level-topics">
+            <span class="topic-chip">Liderança</span>
+            <span class="topic-chip">Missões</span>
+          </nav>
+          <footer class="level-footer">
+            <span class="level-status status-locked">🔒</span>
+            <span class="level-pts">⭐ 600 pts</span>
+          </footer>
+        </article>
+
+      </section>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <section class="footer-grid">
+      <article>
+        <h4 class="footer-title">🌿 Pequenos Exploradores</h4>
+        <p class="footer-text">Nosso objetivo é ensinar as crianças a cuidar do planeta! Com especialistas em educação ambiental, oferecemos recursos que promovem a consciência ecológica.</p>
+      </article>
+      <article>
+        <h4 class="footer-title">Contato</h4>
+        <a class="footer-link">pequenosexploradores@gmail.com</a>
+      </article>
+      <article style="display:flex;justify-content:flex-end;align-items:flex-start">
+        <button class="footer-ig">📷</button>
+      </article>
+    </section>
+  </footer>
 </section>
+
+<!-- PAGE: DETALHE DO NÍVEL -->
+<section class="page" id="page-level">
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
+    </section>
+    <section class="nav-links-redesign">
+      <a class="nav-link-redesign active" href="/">Início</a>
+      <a class="nav-link-redesign" href="/sobre">Sobre</a>
+      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+    </section>
+    <section class="nav-right-redesign">
+      <button class="btn-sair-redesign" onclick="window.location.href='/'">Sair</button>
+    </section>
+  </nav>
+
+  <section class="detail-hero" id="detail-hero-bg">
+    <article style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:16px;margin-bottom:24px">
+      <button class="back-btn" onclick="showPage('page-home')">←</button>
+      <p style="font-size:14px;color:rgba(255,255,255,0.7)" id="detail-breadcrumb">Níveis / Nível 3</p>
+    </article>
+    <article class="detail-hero-inner">
+      <span class="detail-big-emoji" id="detail-emoji">🌿</span>
+      <article style="color:white">
+        <p class="detail-level-num" id="detail-lvlnum">Nível 3 · Bronze</p>
+        <h1 class="detail-title" id="detail-title">Conexões da Natureza</h1>
+        <p class="detail-desc" id="detail-desc">Descubra como todos os seres vivos estão conectados e o que podemos fazer para proteger essa rede incrível!</p>
+        <nav class="detail-chips">
+          <span class="detail-chip" id="detail-topics-count">5 tópicos</span>
+          <span class="detail-chip" id="detail-pts-chip">⭐ 200 pts</span>
+          <span class="detail-chip" id="detail-tier-chip">🥉 Bronze</span>
+        </nav>
+      </article>
+    </article>
+  </section>
+
+  <article class="detail-content">
+    <h3 class="topics-section-title">Tópicos deste nível</h3>
+    <section class="topics-grid" id="topics-grid"></section>
+
+    <p style="text-align:center;padding-top:8px">
+      <button class="start-btn" onclick="showPage('page-curiosidades')">🔍 Explorar conteúdos</button>
+    </p>
+  </article>
+
+  <footer class="site-footer">
+    <section class="footer-grid">
+      <article>
+        <h4 class="footer-title">🌿 Pequenos Exploradores</h4>
+        <p class="footer-text">Nosso objetivo é ensinar as crianças a cuidar do planeta!</p>
+      </article>
+      <article>
+        <h4 class="footer-title">Contato</h4>
+        <a class="footer-link">pequenosexploradores@gmail.com</a>
+      </article>
+      <article style="display:flex;justify-content:flex-end">
+        <button class="footer-ig">📷</button>
+      </article>
+    </section>
+  </footer>
+</section>
+
+<!-- PAGE: CURIOSIDADES -->
+<section class="page" id="page-curiosidades">
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
+    </section>
+    <section class="nav-links-redesign">
+      <a class="nav-link-redesign active" href="/">Início</a>
+      <a class="nav-link-redesign" href="/sobre">Sobre</a>
+      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+    </section>
+    <section class="nav-right-redesign">
+      <button class="btn-sair-redesign" onclick="window.location.href='/'">Sair</button>
+    </section>
+  </nav>
+
+  <header class="curio-hero">
+    <article style="max-width:860px;margin:0 auto 20px;text-align:left">
+      <button class="back-btn" onclick="showPage('page-level')" style="background:rgba(255,255,255,0.2);color:white;border:none">←</button>
+    </article>
+    <h1 class="curio-title">Curiosidades da <span>Natureza</span></h1>
+    <p class="curio-sub">Descubra, assista e explore o mundo natural!</p>
+  </header>
+
+  <article class="curio-content">
+    <section class="videos-grid">
+
+      <article class="video-card">
+        <figure class="video-thumb-inner" style="background:linear-gradient(135deg,#2e7d32,#66bb6a)">
+          <span style="font-size:64px">🌿</span>
+          <button class="play-btn">▶</button>
+        </figure>
+        <article class="video-body">
+          <span class="video-avatar">🐧</span>
+          <p class="video-title">O que é a biodiversidade? (Smile and Learn)</p>
+        </article>
+      </article>
+
+      <article class="video-card">
+        <figure class="video-thumb-inner" style="background:linear-gradient(135deg,#0277bd,#4fc3f7)">
+          <span style="font-size:64px">💧</span>
+          <button class="play-btn">▶</button>
+        </figure>
+        <article class="video-body">
+          <span class="video-avatar">🐧</span>
+          <p class="video-title">O que é o meio ambiente? (Smile and Learn)</p>
+        </article>
+      </article>
+
+      <article class="video-card">
+        <figure class="video-thumb-inner" style="background:linear-gradient(135deg,#5d4037,#a1887f)">
+          <span style="font-size:64px">🪱</span>
+          <button class="play-btn">▶</button>
+        </figure>
+        <article class="video-body">
+          <span class="video-avatar">🐧</span>
+          <p class="video-title">O que é reciclagem? (Smile and Learn)</p>
+        </article>
+      </article>
+
+      <article class="video-card">
+        <figure class="video-thumb-inner" style="background:linear-gradient(135deg,#c62828,#ef9a9a)">
+          <span style="font-size:64px">🚫</span>
+          <button class="play-btn">▶</button>
+        </figure>
+        <article class="video-body">
+          <span class="video-avatar">🐧</span>
+          <p class="video-title">O que é sustentabilidade? (Smile and Learn)</p>
+        </article>
+      </article>
+
+      <article class="video-card">
+        <figure class="video-thumb-inner" style="background:linear-gradient(135deg,#1565c0,#42a5f5)">
+          <span style="font-size:64px">🌐</span>
+          <button class="play-btn">▶</button>
+        </figure>
+        <article class="video-body">
+          <span class="video-avatar">🐧</span>
+          <p class="video-title">O que é poluição? (Smile and Learn)</p>
+        </article>
+      </article>
+
+      <article class="video-card">
+        <figure class="video-thumb-inner" style="background:linear-gradient(135deg,#e65100,#ffb74d)">
+          <span style="font-size:64px">🦓</span>
+          <button class="play-btn">▶</button>
+        </figure>
+        <article class="video-body">
+          <span class="video-avatar">🐧</span>
+          <p class="video-title">O que é aquecimento global? (Smile and Learn)</p>
+        </article>
+      </article>
+
+    </section>
+
+    <button class="back-area-btn" onclick="showPage('page-home')">← Voltar para Área do Aluno</button>
+  </article>
+
+  <footer class="site-footer">
+    <section class="footer-grid">
+      <article>
+        <h4 class="footer-title">🌿 Pequenos Exploradores</h4>
+        <p class="footer-text">Nosso objetivo é ensinar as crianças a cuidar do planeta!</p>
+      </article>
+      <article>
+        <h4 class="footer-title">Contato</h4>
+        <a class="footer-link">pequenosexploradores@gmail.com</a>
+      </article>
+      <article style="display:flex;justify-content:flex-end">
+        <button class="footer-ig">📷</button>
+      </article>
+    </section>
+  </footer>
+</section>
+
 <script>
-  function abrirVideo(id) {
-    var modal = document.getElementById('modal-video-natureza');
-    var iframe = document.getElementById('iframe-natureza');
-    var ctaBtn = document.getElementById('modal-video-cta-btn');
-    // mapa de vídeos para rotas de quiz
-    var videoQuizMap = {
-      'v-07DAXCdhI': '/quiz/biomas',
-      'imC5WjBa1II': '/quiz/meioambiente',
-      'FSC2zH0khuw': '/quiz/meioambiente',
-      'yVX9zgNW7fk': '/quiz/meioambiente',
-      'MhpRedd8HkY': '/quiz/natureza',
-      'CdBiEfAqBrY': '/quiz/animais'
-    };
-    if(modal && iframe) {
-      iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
-      modal.style.display = 'flex';
-      // configurar CTA de quiz correspondente
-      if(ctaBtn) {
-  var target = videoQuizMap[id] || '/quiz';
-        ctaBtn.textContent = 'Ir para o Quiz';
-        // adicionar label mais descritivo quando possível
-        if(target === '/quiz_biomas') ctaBtn.textContent = 'Ir para Quiz: Biomas do Mundo';
-        if(target === '/quiz_meioambiente') ctaBtn.textContent = 'Ir para Quiz: Meio Ambiente';
-        if(target === '/quiz_natureza') ctaBtn.textContent = 'Ir para Quiz: Curiosidades da Natureza';
-        if(target === '/quiz_animais') ctaBtn.textContent = 'Ir para Quiz: Animais';
-        // vincular ação (remoção de handlers anteriores)
-        ctaBtn.onclick = function(){ window.location.href = target; };
-        ctaBtn.onkeydown = function(e){ if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = target; } };
-      }
-    }
+const LEVELS = {
+  1: {
+    emoji: '🌍',
+    title: 'Descobrindo o Meio Ambiente',
+    desc: 'Dê os primeiros passos no mundo natural! Aprenda o que é o meio ambiente e conheça a água, a terra, os animais e as florestas.',
+    tier: '🥉 Bronze',
+    pts: '⭐ 100 pts',
+    heroColors: ['#4e342e', '#a1887f'],
+    topics: [
+      { icon: '🌍', name: 'O que é o Meio Ambiente' },
+      { icon: '💧', name: 'Água' },
+      { icon: '🪨', name: 'Terra (solo)' },
+      { icon: '🐾', name: 'Animais' },
+      { icon: '🌳', name: 'Florestas' },
+    ]
+  },
+  2: {
+    emoji: '💧',
+    title: 'Elementos da Natureza',
+    desc: 'Explore os elementos que formam a natureza: tipos de água, as partes das plantas, os habitats dos animais e muito mais!',
+    tier: '🥉 Bronze',
+    pts: '⭐ 150 pts',
+    heroColors: ['#0d47a1', '#29b6f6'],
+    topics: [
+      { icon: '🌊', name: 'Tipos de água (doce e salgada)' },
+      { icon: '🌱', name: 'Plantas (partes e funções)' },
+      { icon: '🦒', name: 'Animais e seus habitats' },
+      { icon: '🌤️', name: 'Clima (sol, chuva, vento)' },
+      { icon: '🔄', name: 'Ciclo da água (básico)' },
+    ]
+  },
+  3: {
+    emoji: '🌿',
+    title: 'Conexões da Natureza',
+    desc: 'Descubra como todos os seres vivos estão conectados e o que podemos fazer para proteger essa rede incrível!',
+    tier: '🥉 Bronze',
+    pts: '⭐ 200 pts',
+    heroColors: ['#1b5e20', '#43a047'],
+    topics: [
+      { icon: '🦁', name: 'Cadeia alimentar' },
+      { icon: '🤝', name: 'Relação entre seres vivos' },
+      { icon: '🌳', name: 'Importância das árvores' },
+      { icon: '🏭', name: 'Poluição (introdução)' },
+      { icon: '💚', name: 'Cuidados com o meio ambiente' },
+    ]
   }
-  function fecharVideoNatureza() {
-    var modal = document.getElementById('modal-video-natureza');
-    var iframe = document.getElementById('iframe-natureza');
-    if(modal && iframe) {
-      iframe.src = '';
-      modal.style.display = 'none';
-    }
-  }
+};
+
+function showPage(id) {
+  document.querySelectorAll('section.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function showLevel(num) {
+  const data = LEVELS[num];
+  if (!data) return;
+
+  document.getElementById('detail-emoji').textContent = data.emoji;
+  document.getElementById('detail-lvlnum').textContent = 'Nível ' + num + ' · ' + data.tier.replace(/[^\w\s·]/g,'').trim();
+  document.getElementById('detail-title').textContent = data.title;
+  document.getElementById('detail-desc').textContent = data.desc;
+  document.getElementById('detail-topics-count').textContent = data.topics.length + ' tópicos';
+  document.getElementById('detail-pts-chip').textContent = data.pts;
+  document.getElementById('detail-tier-chip').textContent = data.tier;
+  document.getElementById('detail-breadcrumb').textContent = 'Níveis / Nível ' + num;
+
+  const hero = document.getElementById('detail-hero-bg');
+  hero.style.background = 'linear-gradient(135deg, ' + data.heroColors[0] + ', ' + data.heroColors[1] + ')';
+
+  const grid = document.getElementById('topics-grid');
+  grid.innerHTML = '';
+  data.topics.forEach(t => {
+    const card = document.createElement('article');
+    card.className = 'topic-card';
+    card.innerHTML = '<span class="topic-icon">' + t.icon + '</span><p class="topic-name">' + t.name + '</p>';
+    card.onclick = () => showPage('page-curiosidades');
+    grid.appendChild(card);
+  });
+
+  showPage('page-level');
+}
+
+function showLocked() {
+  alert('🔒 Este nível ainda está bloqueado! Continue avançando para desbloqueá-lo.');
+}
 </script>
-<script src="/js/natureza.js"></script>
 
 </body>
 </html>
