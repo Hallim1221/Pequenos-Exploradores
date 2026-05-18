@@ -1,180 +1,1300 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta property="og:title" content="Pequenos Exploradores - Grandes descobertas começam aqui!" />
-<meta property="og:description" content="Ensine crianças a proteger o meio ambiente com desafios e aventuras educativas divertidas." />
-<meta property="og:image" content="https://pequenos-exploradores.onrender.com/img/capas.jpg" />
-<meta property="og:url" content="https://pequenos-exploradores.onrender.com/dashboard-admin" />
-<meta property="og:type" content="website" />
-  <title>Dashboard Administrativo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Fredoka', Arial, sans-serif;
-      background: #f4f4f4;
-    }
-    .dashboard-container {
-      display: flex;
-      min-height: 100vh;
-      width: 100vw;
-    }
-    .sidebar-admin {
-      background: #111;
-      color: #fff;
-      width: 240px;
-      min-width: 200px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      padding: 2em 1.2em 1.2em 1.2em;
-      box-sizing: border-box;
-      height: 100vh;
-    }
-    .sidebar-admin h2 {
-      font-size: 1.5em;
-      margin-bottom: 2em;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
-    .sidebar-admin nav {
-      width: 100%;
-    }
-    .sidebar-admin nav a {
-      color: #fff;
-      text-decoration: none;
-      display: block;
-      padding: 0.8em 0 0.8em 0.5em;
-      border-radius: 8px;
-      margin-bottom: 0.5em;
-      font-size: 1.1em;
-      transition: background 0.18s;
-    }
-    .sidebar-admin nav a:hover {
-      background: #222;
-    }
-    .dashboard-content {
-      flex: 1;
-      background: #fff;
-      padding: 2.5em 2em;
-      min-height: 100vh;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-    }
-    .dashboard-content h1 {
-      font-size: 2em;
-      font-weight: bold;
-      margin-bottom: 1.5em;
-      color: #222;
-    }
-    .produtos-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2em;
-    }
-    .btn-adicionar-produto {
-      background: #2ecc40;
-      color: #fff;
-      font-size: 1.1em;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      padding: 1em 2em;
-      cursor: pointer;
-      transition: background 0.18s;
-      box-shadow: 0 2px 8px rgba(44,204,64,0.08);
-    }
-    .btn-adicionar-produto:hover {
-      background: #27ae38;
-    }
-    .tabela-produtos {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fafafa;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-    }
-    .tabela-produtos th, .tabela-produtos td {
-      padding: 1em 1.2em;
-      text-align: left;
-    }
-    .tabela-produtos th {
-      background: #f0f0f0;
-      font-weight: bold;
-      color: #333;
-    }
-    .tabela-produtos tr:not(:last-child) {
-      border-bottom: 1px solid #e0e0e0;
-    }
-    .btn-acao {
-      padding: 0.5em 1.2em;
-      border: none;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-right: 0.5em;
-      font-size: 1em;
-      transition: background 0.18s;
-    }
-    .btn-editar {
-      background: #3498db;
-      color: #fff;
-    }
-    .btn-editar:hover {
-      background: #217dbb;
-    }
-    .btn-excluir {
-      background: #e74c3c;
-      color: #fff;
-    }
-    .btn-excluir:hover {
-      background: #c0392b;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pequenos Exploradores — Painel Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --g900: #1A3506;
+    --g800: #27500A;
+    --g700: #2E6010;
+    --g600: #3B7213;
+    --g500: #4E8F1C;
+    --g400: #6BB030;
+    --g300: #91C95A;
+    --g200: #C2E09A;
+    --g100: #E8F5D6;
+    --g50:  #F4FAEd;
+
+    --slate900: #0F1A0B;
+    --slate800: #1C2A16;
+    --slate700: #2A3D20;
+    --slate600: #3C5430;
+    --slate500: #536B45;
+    --slate400: #7A9368;
+    --slate300: #A8BF98;
+    --slate200: #D0DFC6;
+    --slate100: #EBF2E5;
+    --slate50:  #F7FAF4;
+
+    --amber:      #C07A10;
+    --amber-bg:   #FEF3DC;
+    --amber-mid:  #E8980A;
+
+    --red:        #B83232;
+    --red-bg:     #FDEAEA;
+    --red-mid:    #D94444;
+
+    --blue:       #1B5FA0;
+    --blue-bg:    #E5F0FB;
+    --blue-mid:   #2876C0;
+
+    --teal:       #0E7B6C;
+    --teal-bg:    #E0F5F2;
+
+    --gold:       #9A7200;
+    --gold-bg:    #FDF5DC;
+
+    --sidebar-w: 240px;
+    --topbar-h: 58px;
+
+    --bg:        #F2F5EF;
+    --bg-card:   #FFFFFF;
+    --border:    #D8E3D1;
+    --border-sm: #E4EDE0;
+    --text:      #1C2A16;
+    --text-sub:  #536B45;
+    --text-mute: #8AAB7A;
+
+    --shadow-sm: 0 1px 3px rgba(39,80,10,0.08), 0 1px 2px rgba(39,80,10,0.05);
+    --shadow-md: 0 4px 16px rgba(39,80,10,0.10), 0 2px 6px rgba(39,80,10,0.06);
+    --shadow-lg: 0 8px 32px rgba(39,80,10,0.12), 0 4px 12px rgba(39,80,10,0.08);
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* ── LAYOUT ── */
+  main.layout { display: flex; height: 100vh; overflow: hidden; }
+
+  /* ── SIDEBAR ── */
+  aside.sidebar {
+    width: var(--sidebar-w);
+    background: var(--g800);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  aside.sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, rgba(255,255,255,0.04) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .sidebar-logo {
+    padding: 18px 16px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--g400), var(--g300));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    flex-shrink: 0;
+  }
+  .logo-text { line-height: 1.3; }
+  .logo-text strong { display: block; font-size: 13px; font-weight: 600; color: #fff; }
+  .logo-text span { font-size: 10px; color: rgba(255,255,255,0.45); letter-spacing: 0.04em; text-transform: uppercase; font-weight: 500; }
+
+  nav.sidebar-nav { flex: 1; padding: 10px 10px; overflow-y: auto; }
+  .nav-section {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.3); padding: 14px 8px 5px; font-weight: 600;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px; border-radius: 8px; cursor: pointer;
+    font-size: 13.5px; color: rgba(255,255,255,0.65);
+    transition: all 0.15s; margin-bottom: 1px; font-weight: 500;
+    position: relative;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9); }
+  .nav-item.active {
+    background: rgba(255,255,255,0.13);
+    color: #fff;
+  }
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 50%; transform: translateY(-50%);
+    width: 3px; height: 60%; background: var(--g300);
+    border-radius: 0 3px 3px 0;
+  }
+  .nav-icon { font-size: 16px; width: 20px; text-align: center; flex-shrink: 0; }
+  .nav-badge {
+    margin-left: auto; background: var(--amber-mid); color: #fff;
+    font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 10px; min-width: 18px; text-align: center;
+  }
+  footer.sidebar-footer {
+    padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .footer-avatar {
+    width: 30px; height: 30px; border-radius: 8px;
+    background: linear-gradient(135deg, var(--g500), var(--g400));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 11px; font-weight: 700; flex-shrink: 0;
+  }
+  .footer-info { flex: 1; overflow: hidden; }
+  .footer-name { font-size: 12px; color: rgba(255,255,255,0.8); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .footer-role { font-size: 10px; color: rgba(255,255,255,0.35); }
+
+  /* ── MAIN ── */
+  section.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+  /* ── TOPBAR ── */
+  header.topbar {
+    height: var(--topbar-h);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+    box-shadow: var(--shadow-sm);
+    z-index: 10;
+  }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .breadcrumb { font-size: 12px; color: var(--text-mute); display: flex; align-items: center; gap: 4px; }
+  .breadcrumb-sep { color: var(--border); }
+  .topbar-title { font-size: 17px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .topbar-btn {
+    width: 34px; height: 34px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--bg-card);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text-sub); font-size: 16px;
+    transition: all 0.15s; position: relative;
+  }
+  .topbar-btn:hover { background: var(--g50); border-color: var(--g300); color: var(--g700); }
+  .notif-dot {
+    position: absolute; top: 6px; right: 6px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--red-mid); border: 1.5px solid #fff;
+  }
+  .admin-chip {
+    display: flex; align-items: center; gap: 6px;
+    padding: 5px 10px 5px 6px; border-radius: 8px;
+    border: 1px solid var(--border); background: var(--g50);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .admin-chip:hover { border-color: var(--g300); }
+  .admin-chip-avatar {
+    width: 26px; height: 26px; border-radius: 6px;
+    background: linear-gradient(135deg, var(--g600), var(--g400));
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font-size: 10px; font-weight: 700;
+  }
+  .admin-chip-text { font-size: 12.5px; font-weight: 600; color: var(--text); }
+  .admin-chip-role { font-size: 10px; color: var(--text-mute); line-height: 1; }
+
+  /* ── CONTENT ── */
+  section.content { flex: 1; overflow-y: auto; padding: 24px; }
+  article.page { display: none; }
+  article.page.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── PAGE HEADER ── */
+  header.page-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    margin-bottom: 20px; gap: 12px;
+  }
+  .page-title { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -0.4px; }
+  .page-subtitle { font-size: 13px; color: var(--text-sub); margin-top: 2px; }
+  .page-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+  /* ── STAT CARDS ── */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px; margin-bottom: 24px;
+  }
+  article.stat-card {
+    background: var(--bg-card); border-radius: 12px; padding: 16px 18px;
+    border: 1px solid var(--border-sm); box-shadow: var(--shadow-sm);
+    position: relative; overflow: hidden; cursor: default;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  article.stat-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  article.stat-card::after {
+    content: attr(data-icon);
+    position: absolute; right: 14px; top: 14px;
+    font-size: 28px; opacity: 0.12;
+    line-height: 1;
+  }
+  .stat-label { font-size: 11.5px; color: var(--text-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .stat-value { font-size: 30px; font-weight: 700; color: var(--text); letter-spacing: -1px; line-height: 1; }
+  .stat-sub { font-size: 12px; margin-top: 6px; display: flex; align-items: center; gap: 4px; }
+  .stat-sub.up { color: var(--g600); }
+  .stat-sub.warn { color: var(--amber); }
+  .stat-sub.down { color: var(--red); }
+  .stat-trend {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 11px; font-weight: 600; padding: 2px 6px; border-radius: 5px;
+  }
+  .trend-up { background: var(--g100); color: var(--g700); }
+  .trend-warn { background: var(--amber-bg); color: var(--amber); }
+  .trend-down { background: var(--red-bg); color: var(--red); }
+
+  /* ── CARDS ── */
+  article.card {
+    background: var(--bg-card); border: 1px solid var(--border-sm);
+    border-radius: 12px; padding: 18px; margin-bottom: 16px;
+    box-shadow: var(--shadow-sm);
+  }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+  .card-title { font-size: 13.5px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
+  .card-action { font-size: 12px; color: var(--g600); cursor: pointer; font-weight: 600; transition: color 0.15s; }
+  .card-action:hover { color: var(--g400); }
+
+  /* ── TWO COL ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    text-align: left; padding: 10px 14px;
+    font-weight: 600; color: var(--text-sub); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.07em;
+    border-bottom: 1.5px solid var(--border); background: var(--g50);
+  }
+  th:first-child { border-radius: 8px 0 0 0; }
+  th:last-child { border-radius: 0 8px 0 0; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--border-sm); color: var(--text); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--g50); }
+  .cell-main { font-weight: 600; color: var(--text); }
+  .cell-sub { font-size: 11.5px; color: var(--text-sub); margin-top: 2px; }
+
+  /* ── BADGES ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; padding: 3px 8px; border-radius: 6px; font-weight: 600;
+  }
+  .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .badge-green { background: var(--g100); color: var(--g700); }
+  .badge-green::before { background: var(--g500); }
+  .badge-amber { background: var(--amber-bg); color: var(--amber); }
+  .badge-amber::before { background: var(--amber-mid); }
+  .badge-red { background: var(--red-bg); color: var(--red); }
+  .badge-red::before { background: var(--red-mid); }
+  .badge-blue { background: var(--blue-bg); color: var(--blue); }
+  .badge-blue::before { background: var(--blue-mid); }
+  .badge-teal { background: var(--teal-bg); color: var(--teal); }
+  .badge-teal::before { background: var(--teal); }
+  .badge-gray { background: var(--slate100); color: var(--slate600); }
+  .badge-gray::before { background: var(--slate400); }
+  .badge-gold { background: var(--gold-bg); color: var(--gold); }
+  .badge-gold::before { background: var(--gold); }
+
+  .plan-premium {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: linear-gradient(135deg, #FFF0B3, #FFE066);
+    color: #7A5800; font-size: 11px; font-weight: 700;
+    padding: 3px 8px; border-radius: 6px;
+    border: 1px solid rgba(186,145,0,0.2);
+  }
+  .plan-comum {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: var(--slate100); color: var(--slate600);
+    font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px;
+  }
+
+  /* ── BUTTONS ── */
+  button {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 8px;
+    font-size: 13px; cursor: pointer; font-weight: 600;
+    border: 1px solid var(--border);
+    background: var(--bg-card); color: var(--text);
+    transition: all 0.15s; white-space: nowrap;
+    font-family: 'DM Sans', sans-serif;
+  }
+  button:hover { background: var(--g50); border-color: var(--g300); color: var(--g700); }
+  .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
+  .btn-primary {
+    background: var(--g600); color: #fff; border-color: var(--g600);
+    box-shadow: 0 1px 3px rgba(58,114,19,0.3);
+  }
+  .btn-primary:hover { background: var(--g700); border-color: var(--g700); box-shadow: 0 2px 6px rgba(58,114,19,0.35); }
+  .btn-danger { background: var(--red-bg); color: var(--red); border-color: transparent; }
+  .btn-danger:hover { background: #f5c0c0; border-color: transparent; }
+  .btn-warn { background: var(--amber-bg); color: var(--amber); border-color: transparent; }
+  .btn-warn:hover { background: #f5dfa0; }
+  .btn-block { background: var(--red-bg); color: var(--red); border: 1px solid rgba(184,50,50,0.2); }
+  .btn-block:hover { background: #f5c0c0; }
+  .btn-unblock { background: var(--g100); color: var(--g700); border: 1px solid rgba(78,143,28,0.2); }
+  .btn-unblock:hover { background: var(--g200); }
+  .row-actions { display: flex; gap: 4px; }
+
+  /* ── SEARCH ── */
+  .search-row { display: flex; gap: 10px; margin-bottom: 14px; align-items: center; }
+  .search-input-wrap { position: relative; flex: 1; }
+  .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-mute); font-size: 14px; pointer-events: none; }
+  input, select { font-family: 'DM Sans', sans-serif; }
+  .search-input {
+    width: 100%; padding: 8px 12px 8px 32px;
+    border-radius: 8px; font-size: 13px;
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text); font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .search-input:focus { outline: none; border-color: var(--g400); box-shadow: 0 0 0 3px rgba(107,176,48,0.12); }
+  .filter-select {
+    padding: 8px 12px; border-radius: 8px; font-size: 13px;
+    border: 1px solid var(--border); background: var(--bg-card);
+    color: var(--text); transition: border-color 0.15s;
+  }
+  .filter-select:focus { outline: none; border-color: var(--g400); }
+
+  /* ── PROGRESS ── */
+  .progress-bar { height: 7px; background: var(--slate100); border-radius: 10px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 10px; background: var(--g400); transition: width 0.5s ease; }
+
+  /* ── ACTIVITY FEED ── */
+  .activity-item { display: flex; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--border-sm); }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-dot-wrap { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+  .dot-green { background: var(--g100); }
+  .dot-amber { background: var(--amber-bg); }
+  .dot-blue { background: var(--blue-bg); }
+  .dot-red { background: var(--red-bg); }
+  .activity-body { flex: 1; }
+  .activity-text { font-size: 13px; color: var(--text); line-height: 1.4; }
+  .activity-time { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+
+  /* ── NIVEL BADGES ── */
+  .nivel-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; }
+  .nivel-bronze { background: #FEF0DC; color: #7A4500; }
+  .nivel-prata { background: #EBEBEB; color: #4A4A4A; }
+  .nivel-ouro { background: #FFF6D9; color: #7A5800; }
+
+  /* ── MODAIS ── */
+  dialog.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 999; align-items: center; justify-content: center; }
+  dialog.modal-overlay.open { display: flex; }
+  dialog.modal-overlay::backdrop { background: rgba(0,0,0,0.3); }
+  article.modal { background: var(--bg-card); border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; box-shadow: var(--shadow-lg); animation: modalIn 0.2s ease; }
+  .modal-sm { width: 380px; }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.97) translateY(6px); } to { opacity: 1; transform: none; } }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .modal-title { font-size: 16px; font-weight: 700; color: var(--text); }
+  .modal-close { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-sub); font-size: 16px; transition: all 0.15s; }
+  .modal-close:hover { background: var(--red-bg); color: var(--red); }
+  footer.modal-footer { display: flex; justify-content: flex-end; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-sm); }
+
+  /* ── FORM ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 500px) { .form-grid { grid-template-columns: 1fr; } }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
+  .form-label { font-size: 12px; color: var(--text-sub); font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+  .form-input, .form-select, .form-textarea { padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--g400); box-shadow: 0 0 0 3px rgba(107,176,48,0.12); }
+  .form-textarea { resize: vertical; min-height: 90px; }
+  .form-span-2 { grid-column: 1 / -1; }
+
+  /* ── DIVIDER ── */
+  hr { height: 1px; background: var(--border-sm); margin: 16px 0; border: none; }
+
+  /* ── CHAT ── */
+  .chat-layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; height: calc(100vh - var(--topbar-h) - 110px); }
+  .chat-list { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-sm); overflow: hidden; display: flex; flex-direction: column; }
+  .chat-list-header { padding: 14px; border-bottom: 1px solid var(--border-sm); }
+  .chat-list-title { font-size: 14px; font-weight: 700; color: var(--text); }
+  .chat-list-items { flex: 1; overflow-y: auto; }
+  .chat-item { padding: 10px 12px; cursor: pointer; transition: background 0.15s; border-left: 3px solid transparent; }
+  .chat-item:hover { background: var(--g50); }
+  .chat-item.active { background: var(--g100); border-left: 3px solid var(--g500); }
+  .chat-avatar { width: 36px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, var(--g200), var(--g400)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+  .chat-item-info { flex: 1; min-width: 0; }
+  .chat-item-name { font-size: 13px; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chat-item-preview { font-size: 11.5px; color: var(--text-mute); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+  .chat-item-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+  .chat-item-time { font-size: 10.5px; color: var(--text-mute); }
+  .chat-unread { width: 18px; height: 18px; border-radius: 50%; background: var(--g500); color: #fff; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+
+  .chat-window { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-sm); display: flex; flex-direction: column; overflow: hidden; }
+  .chat-win-header { padding: 14px 18px; border-bottom: 1px solid var(--border-sm); display: flex; align-items: center; gap: 10px; }
+  .chat-win-avatar { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--g300), var(--g500)); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .chat-win-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .chat-win-status { font-size: 11.5px; color: var(--text-mute); }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; background: var(--bg); }
+  .msg { display: flex; gap: 8px; max-width: 75%; }
+  .msg-in { align-self: flex-start; }
+  .msg-out { align-self: flex-end; flex-direction: row-reverse; }
+  .msg-avatar { width: 28px; height: 28px; border-radius: 8px; background: var(--g200); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: var(--g700); flex-shrink: 0; }
+  .msg-bubble { padding: 8px 10px; border-radius: 4px; font-size: 13px; line-height: 1.4; }
+  .msg-in .msg-bubble { background: var(--bg-card); color: var(--text); border: 1px solid var(--border-sm); border-radius: 4px 10px 10px 10px; }
+  .msg-out .msg-bubble { background: var(--g600); color: #fff; border-radius: 10px 4px 10px 10px; }
+  .msg-time { font-size: 10px; color: var(--text-mute); margin-top: 3px; text-align: right; }
+  .msg-out .msg-time { color: rgba(255,255,255,0.6); }
+  .chat-input-row { padding: 14px; border-top: 1px solid var(--border-sm); display: flex; gap: 8px; align-items: flex-end; }
+  .chat-input { flex: 1; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px; resize: none; min-height: 36px; }
+  .chat-input:focus { outline: none; border-color: var(--g400); background: #fff; }
+  .chat-send { width: 38px; height: 38px; border-radius: 10px; background: var(--g600); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; flex-shrink: 0; transition: background 0.15s; }
+  .chat-send:hover { background: var(--g700); }
+
+  /* ── PUBLICAÇÕES ── */
+  article.pub-card { background: var(--bg-card); border: 1px solid var(--border-sm); border-radius: 12px; padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow-sm); transition: box-shadow 0.15s; }
+  article.pub-card:hover { box-shadow: var(--shadow-md); }
+  .pub-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .pub-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .pub-icon-green { background: var(--g100); }
+  .pub-icon-amber { background: var(--amber-bg); }
+  .pub-icon-blue { background: var(--blue-bg); }
+  .pub-meta { flex: 1; }
+  .pub-type { font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-mute); margin-bottom: 3px; }
+  .pub-title { font-size: 15px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .pub-date { font-size: 11.5px; color: var(--text-mute); margin-top: 2px; }
+  .pub-body { font-size: 13.5px; color: var(--text-sub); line-height: 1.6; margin-bottom: 14px; }
+  .pub-footer { display: flex; align-items: center; justify-content: space-between; }
+  .pub-target { font-size: 12px; color: var(--text-mute); display: flex; align-items: center; gap: 4px; }
+
+  /* ── NOTIF TOAST ── */
+  .toast { position: fixed; bottom: 20px; right: 20px; background: #000; color: #fff; padding: 12px 16px; border-radius: 8px; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); z-index: 1000; transform: translateY(120%); transition: transform 0.3s ease; }
+  .toast.show { transform: translateY(0); }
+
+  /* ── BLOCK MODAL ── */
+  .block-warning { background: var(--red-bg); border: 1px solid rgba(184,50,50,0.2); border-radius: 10px; padding: 14px; margin: 14px 0; }
+  .block-warning-title { font-size: 13px; font-weight: 700; color: var(--red); margin-bottom: 4px; }
+  .block-warning-text { font-size: 12.5px; color: var(--red); opacity: 0.8; }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--slate200); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--slate300); }
+
+  /* ── INST CARD VIEW ── */
+  .inst-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  article.inst-card { background: var(--bg-card); border: 1px solid var(--border-sm); border-radius: 12px; padding: 16px; box-shadow: var(--shadow-sm); transition: box-shadow 0.15s, transform 0.15s; }
+  article.inst-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+  .inst-card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+  .inst-card-avatar { width: 42px; height: 42px; border-radius: 10px; background: linear-gradient(135deg, var(--g200), var(--g300)); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+  .inst-card-name { font-size: 14px; font-weight: 700; color: var(--text); letter-spacing: -0.2px; }
+  .inst-card-location { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+  .inst-card-badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .inst-card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .inst-stat { background: var(--g50); border-radius: 8px; padding: 8px 10px; }
+  .inst-stat-val { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.5px; }
+  .inst-stat-label { font-size: 10.5px; color: var(--text-mute); font-weight: 500; }
+  .inst-card-actions { display: flex; gap: 6px; }
+  .inst-blocked { opacity: 0.55; border: 1.5px solid var(--red); }
+  .inst-blocked-banner { background: var(--red-bg); color: var(--red); font-size: 11px; font-weight: 700; text-align: center; padding: 5px; border-radius: 6px; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 4px; }
+</style>
 </head>
 <body>
-  <section class="dashboard-container">
-    <aside class="sidebar-admin">
-      <h2>Admin</h2>
-      <nav>
-        <a href="#">Visão Geral</a>
-        <a href="#">Usuários</a>
-        <a href="#">Relatórios</a>
-        <a href="#">Configurações</a>
-        <a href="#">Sair</a>
-      </nav>
-    </aside>
-    <main class="dashboard-content">
-      <section class="produtos-header">
-        <h1>Produtos</h1>
-      </section>
-      <form id="form-produto" style="margin-bottom:2em;display:flex;gap:1em;align-items:center;background:#f8f8f8;padding:1em 1.5em;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
-        <input type="text" id="novo-nome" placeholder="Nome do produto" required style="padding:0.7em 1em;border-radius:6px;border:1px solid #ccc;">
-        <input type="number" id="novo-preco" placeholder="Preço" step="0.01" min="0" required style="padding:0.7em 1em;border-radius:6px;border:1px solid #ccc;width:120px;">
-        <input type="number" id="novo-estoque" placeholder="Estoque" min="0" required style="padding:0.7em 1em;border-radius:6px;border:1px solid #ccc;width:100px;">
-        <button type="submit" class="btn-adicionar-produto">Adicionar Novo Produto</button>
-      </form>
-      <table class="tabela-produtos">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Preço</th>
-            <th>Estoque</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody id="produtos-tbody">
-          <!-- Linhas de produtos serão inseridas via JS -->
-        </tbody>
-      </table>
-      <script src="/js/produtos-tabela.js"></script>
-    </main>
+
+<main class="layout">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <article class="sidebar-logo">
+      <img src="/img/log.png" alt="Logo Pequenos Exploradores" style="width:56px;height:56px;object-fit:contain;">
+      <article class="logo-text">
+        <strong>Admin</strong>
+        <span>Pequenos Exploradores</span>
+      </article>
+    </article>
+
+    <nav class="sidebar-nav">
+      <section class="nav-section">Gerenciar</section>
+      <article class="nav-item active" onclick="navigate('dashboard', this)">
+        <span class="nav-icon"></span> Dashboard
+      </article>
+      <article class="nav-item" onclick="navigate('instituicoes', this)">
+        <span class="nav-icon"></span> Instituições
+      </article>
+      <article class="nav-item" onclick="navigate('usuarios', this)">
+        <span class="nav-icon"></span> Usuários
+      </article>
+
+      <section class="nav-section">Comunidade</section>
+      <article class="nav-item" onclick="navigate('chat', this)">
+        <span class="nav-icon"></span> Mensagens
+        <span class="nav-badge">3</span>
+      </article>
+      <article class="nav-item" onclick="navigate('atividades', this)">
+        <span class="nav-icon"></span> Atividades
+      </article>
+      <article class="nav-item" onclick="navigate('publicacoes', this)">
+        <span class="nav-icon"></span> Publicações
+      </article>
+
+      <section class="nav-section">Insights</section>
+      <article class="nav-item" onclick="navigate('relatorios', this)">
+        <span class="nav-icon"></span> Relatórios
+      </article>
+    </nav>
+
+    <footer class="sidebar-footer">
+      <article style="display: flex; align-items: center; gap: 8px; width: 100%;">
+        <span class="footer-avatar">AD</span>
+        <article class="footer-info">
+          <p class="footer-name">Admin Root</p>
+          <p class="footer-role">Administrador</p>
+        </article>
+      </article>
+    </footer>
+  </aside>
+
+  <!-- MAIN -->
+  <section class="main">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <article class="topbar-left">
+        <nav class="breadcrumb">
+          <span>Admin</span>
+          <span class="breadcrumb-sep">/</span>
+          <span id="topbar-breadcrumb">Dashboard</span>
+        </nav>
+        <h1 class="topbar-title" id="topbar-title">📊 Dashboard</h1>
+      </article>
+      <article class="topbar-right">
+        <button class="topbar-btn" title="Notificações">
+          🔔
+          <span class="notif-dot"></span>
+        </button>
+        <button class="topbar-btn" title="Configurações">⚙️</button>
+        <article class="admin-chip">
+          <span class="admin-chip-avatar">AD</span>
+          <article>
+            <p class="admin-chip-text">Admin</p>
+            <p class="admin-chip-role">Root</p>
+          </article>
+        </article>
+      </article>
+    </header>
+
+    <!-- CONTENT -->
+    <section class="content">
+      <!-- DASHBOARD PAGE -->
+      <article class="page active" id="page-dashboard">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Dashboard</h2>
+            <p class="page-subtitle">Visão geral da plataforma Pequenos Exploradores</p>
+          </section>
+          <article class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-inst')">＋ Nova Instituição</button>
+          </article>
+        </header>
+
+        <section class="stats-grid">
+          <article class="stat-card" data-icon="">
+            <p class="stat-label">Instituições</p>
+            <p class="stat-value">24</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 3 este mês</span></p>
+          </article>
+          <article class="stat-card" data-icon="">
+            <p class="stat-label">Usuários</p>
+            <p class="stat-value">1.240</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 125 este mês</span></p>
+          </article>
+          <article class="stat-card" data-icon="">
+            <p class="stat-label">Alunos</p>
+            <p class="stat-value">8.521</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 340 este mês</span></p>
+          </article>
+          <article class="stat-card" data-icon="">
+            <p class="stat-label">Receita (PRO)</p>
+            <p class="stat-value">R$ 45k</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 12% this mês</span></p>
+          </article>
+        </section>
+
+        <section class="two-col">
+          <article class="card">
+            <header class="card-header">
+              <h3 class="card-title">📈 Crescimento de Usuários</h3>
+              <p class="card-action">Ver detalhes →</p>
+            </header>
+            <p style="font-size:13px;color:var(--text-sub);margin-bottom:12px">Últimos 30 dias</p>
+            <progress class="progress-bar" value="65" max="100"><span class="progress-fill" style="width:65%"></span></progress>
+          </article>
+
+          <article class="card">
+            <header class="card-header">
+              <h3 class="card-title">🎯 Taxa de Ativação</h3>
+              <p class="card-action">Ver detalhes →</p>
+            </header>
+            <p style="font-size:13px;color:var(--text-sub);margin-bottom:12px">Conversão de trial para pago</p>
+            <progress class="progress-bar" value="72" max="100"><span class="progress-fill" style="width:72%"></span></progress>
+          </article>
+        </section>
+
+        <article class="card">
+          <header class="card-header">
+            <h3 class="card-title">📰 Atividades Recentes</h3>
+          </header>
+          <section class="activity-item">
+            <section class="activity-dot-wrap dot-green">📝</section>
+            <article class="activity-body">
+              <p class="activity-text"><strong>Nova instituição registrada</strong> — E.M. Floresta Verde</p>
+              <p class="activity-time">Há 2 horas</p>
+            </article>
+          </section>
+          <section class="activity-item">
+            <section class="activity-dot-wrap dot-amber">⏰</section>
+            <article class="activity-body">
+              <p class="activity-text"><strong>Atividade pendente de publicação</strong> — Quiz: Biomas do Brasil</p>
+              <p class="activity-time">Há 4 horas</p>
+            </article>
+          </section>
+          <section class="activity-item">
+            <section class="activity-dot-wrap dot-blue">👤</section>
+            <article class="activity-body">
+              <p class="activity-text"><strong>Novo usuário aprovado</strong> — Professora Maria Silva</p>
+              <p class="activity-time">Há 1 dia</p>
+            </article>
+          </section>
+        </article>
+      </article>
+
+      <!-- INSTITUIÇÕES PAGE -->
+      <article class="page" id="page-instituicoes">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Instituições</h2>
+            <p class="page-subtitle">Gerencie todas as escolas registradas</p>
+          </section>
+          <article class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-inst')">＋ Nova Instituição</button>
+          </article>
+        </header>
+
+        <section class="search-row">
+          <article class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Buscar instituição..." onkeyup="filterTable(this, 'tbl-inst')">
+          </article>
+          <select class="filter-select" onchange="filterByPlan(this)">
+            <option value="">Todos os planos</option>
+            <option value="premium">Premium</option>
+            <option value="comum">Comum</option>
+          </select>
+        </section>
+
+        <article class="card">
+          <article class="table-wrap">
+            <table id="tbl-inst">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Plano</th>
+                  <th>Alunos</th>
+                  <th>Professor</th>
+                  <th>Status</th>
+                  <th style="text-align:right">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><p class="cell-main">E.M. Floresta Verde</p><p class="cell-sub">São Paulo, SP</p></td>
+                  <td><span class="plan-premium">Premium ⭐</span></td>
+                  <td><p class="cell-main">324</p></td>
+                  <td><p class="cell-main">Prof. Ana</p></td>
+                  <td><span class="badge badge-green">Ativo</span></td>
+                  <td style="text-align:right"><article class="row-actions"><button class="btn btn-sm" onclick="editInst()">✏️</button><button class="btn btn-sm btn-danger" onclick="openBlockModal('E.M. Floresta Verde', false)">🚫</button></article></td>
+                </tr>
+                <tr>
+                  <td><p class="cell-main">Instituto Semente</p><p class="cell-sub">Rio de Janeiro, RJ</p></td>
+                  <td><span class="plan-comum">Comum</span></td>
+                  <td><p class="cell-main">156</p></td>
+                  <td><p class="cell-main">Prof. Carlos</p></td>
+                  <td><span class="badge badge-green">Ativo</span></td>
+                  <td style="text-align:right"><article class="row-actions"><button class="btn btn-sm" onclick="editInst()">✏️</button><button class="btn btn-sm btn-danger" onclick="openBlockModal('Instituto Semente', false)">🚫</button></article></td>
+                </tr>
+                <tr>
+                  <td><p class="cell-main">EMEI Borboletas</p><p class="cell-sub">Belo Horizonte, MG</p></td>
+                  <td><span class="plan-premium">Premium ⭐</span></td>
+                  <td><p class="cell-main">89</p></td>
+                  <td><p class="cell-main">Prof. Lucia</p></td>
+                  <td><span class="badge badge-amber">Suspenso</span></td>
+                  <td style="text-align:right"><article class="row-actions"><button class="btn btn-sm btn-unblock" onclick="openBlockModal('EMEI Borboletas', true)">🔓</button></article></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </article>
+      </article>
+
+      <!-- USUÁRIOS PAGE -->
+      <article class="page" id="page-usuarios">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Usuários</h2>
+            <p class="page-subtitle">Aprove ou rejeite professores novos</p>
+          </section>
+          <article class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-user')">＋ Novo Usuário</button>
+          </article>
+        </header>
+
+        <section class="search-row">
+          <article class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Buscar usuário..." onkeyup="filterTable(this, 'tbl-users')">
+          </article>
+        </section>
+
+        <article class="card">
+          <article class="table-wrap">
+            <table id="tbl-users">
+              <thead>
+                <tr>
+                  <th>Nome</th>
+                  <th>Email</th>
+                  <th>Instituição</th>
+                  <th>Status</th>
+                  <th style="text-align:right">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><p class="cell-main">Maria Silva</p></td>
+                  <td>maria@email.com</td>
+                  <td>E.M. Floresta Verde</td>
+                  <td><span class="badge badge-amber">Pendente</span></td>
+                  <td style="text-align:right"><button class="btn btn-sm btn-primary" onclick="approveUser(this)">✓ Aprovar</button></td>
+                </tr>
+                <tr>
+                  <td><p class="cell-main">Carlos Costa</p></td>
+                  <td>carlos@email.com</td>
+                  <td>Instituto Semente</td>
+                  <td><span class="badge badge-green">Ativo</span></td>
+                  <td style="text-align:right"><button class="btn btn-sm" onclick="editUser()">✏️</button></td>
+                </tr>
+                <tr>
+                  <td><p class="cell-main">Lucia Santos</p></td>
+                  <td>lucia@email.com</td>
+                  <td>EMEI Borboletas</td>
+                  <td><span class="badge badge-amber">Pendente</span></td>
+                  <td style="text-align:right"><button class="btn btn-sm btn-primary" onclick="approveUser(this)">✓ Aprovar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </article>
+      </article>
+
+      <!-- CHAT PAGE -->
+      <article class="page" id="page-chat">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Mensagens</h2>
+            <p class="page-subtitle">Suporte com instituições</p>
+          </section>
+        </header>
+
+        <section class="chat-layout">
+          <section class="chat-list">
+            <header class="chat-list-header">
+              <h3 class="chat-list-title">Conversas</h3>
+            </header>
+            <article class="chat-list-items">
+              <section class="chat-item active" onclick="selectChat('E.M. Floresta Verde', 'FV', this)">
+                <span class="chat-avatar">🌿</span>
+                <article class="chat-item-info">
+                  <p class="chat-item-name">E.M. Floresta Verde</p>
+                  <p class="chat-item-preview">Como adicionar uma nova turma?</p>
+                </article>
+                <article class="chat-item-meta">
+                  <p class="chat-item-time">09:30</p>
+                </article>
+              </section>
+              <section class="chat-item" onclick="selectChat('Instituto Semente', 'IS', this)">
+                <span class="chat-avatar">🌱</span>
+                <article class="chat-item-info">
+                  <p class="chat-item-name">Instituto Semente</p>
+                  <p class="chat-item-preview">Qual é o valor do plano anual?</p>
+                </article>
+                <article class="chat-item-meta">
+                  <p class="chat-item-time">Ontem</p>
+                  <span class="chat-unread">1</span>
+                </article>
+              </section>
+              <section class="chat-item" onclick="selectChat('EMEI Borboletas', 'EB', this)">
+                <span class="chat-avatar">🦋</span>
+                <article class="chat-item-info">
+                  <p class="chat-item-name">EMEI Borboletas</p>
+                  <p class="chat-item-preview">Problema ao fazer login</p>
+                </article>
+                <article class="chat-item-meta">
+                  <p class="chat-item-time">Ontem</p>
+                  <span class="chat-unread">2</span>
+                </article>
+              </section>
+            </article>
+          </section>
+
+          <section class="chat-window">
+            <header class="chat-win-header">
+              <span class="chat-win-avatar" id="chat-win-avatar">FV</span>
+              <article>
+                <p class="chat-win-name" id="chat-win-name">E.M. Floresta Verde</p>
+                <p class="chat-win-status">Online agora</p>
+              </article>
+            </header>
+            <section class="chat-messages" id="chat-messages">
+              <section class="msg msg-in">
+                <span class="msg-avatar">🌿</span>
+                <article>
+                  <article class="msg-bubble">Olá! Gostaria de saber como criar uma nova turma?</article>
+                  <p class="msg-time">09:15</p>
+                </article>
+              </section>
+              <section class="msg msg-out">
+                <span class="msg-avatar">AD</span>
+                <article>
+                  <article class="msg-bubble">Olá! Para criar uma turma, acesse o menu "Minhas Turmas" e clique em "Nova Turma". Precisar de ajuda?</article>
+                  <p class="msg-time">09:20 ✓✓</p>
+                </article>
+              </section>
+              <section class="msg msg-in">
+                <span class="msg-avatar">🌿</span>
+                <article>
+                  <article class="msg-bubble">Perfeito, obrigado!</article>
+                  <p class="msg-time">09:14</p>
+                </article>
+              </section>
+            </section>
+            <footer class="chat-input-row">
+              <input type="text" class="chat-input" id="chat-input-field" placeholder="Digitar mensagem..." onkeypress="sendOnEnter(event)">
+              <button class="chat-send" onclick="sendMessage()">📨</button>
+            </footer>
+          </section>
+        </section>
+      </article>
+
+      <!-- ATIVIDADES PAGE -->
+      <article class="page" id="page-atividades">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Atividades</h2>
+            <p class="page-subtitle">Publique novas atividades e quizzes</p>
+          </section>
+          <article class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-ativ')">＋ Nova Atividade</button>
+          </article>
+        </header>
+
+        <article class="card">
+          <article class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Título</th>
+                  <th>Tipo</th>
+                  <th>Criador</th>
+                  <th>Status</th>
+                  <th style="text-align:right">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><p class="cell-main">Quiz: Biomas do Brasil</p><p class="cell-sub">10 questões</p></td>
+                  <td><span class="badge badge-blue">Quiz</span></td>
+                  <td>Prof. Ana Silva</td>
+                  <td><span class="badge badge-amber">Rascunho</span></td>
+                  <td style="text-align:right"><button class="btn btn-sm btn-primary" onclick="publishActivity(this)">📤 Publicar</button></td>
+                </tr>
+                <tr>
+                  <td><p class="cell-main">Jogo: Ciclo da Água</p><p class="cell-sub">5 cenários</p></td>
+                  <td><span class="badge badge-teal">Jogo</span></td>
+                  <td>Prof. Carlos Costa</td>
+                  <td><span class="badge badge-green">Publicada</span></td>
+                  <td style="text-align:right"><button class="btn btn-sm" onclick="editAtiv()">✏️</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </article>
+        </article>
+      </article>
+
+      <!-- PUBLICAÇÕES PAGE -->
+      <article class="page" id="page-publicacoes">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Publicações</h2>
+            <p class="page-subtitle">Crie e publique conteúdo no feed</p>
+          </section>
+          <article class="page-actions">
+            <button class="btn btn-primary btn-sm" onclick="openModal('modal-pub')">＋ Nova Publicação</button>
+          </article>
+        </header>
+
+        <article class="pub-card">
+          <header class="pub-header">
+            <span class="pub-icon pub-icon-green">📝</span>
+            <article class="pub-meta">
+              <p class="pub-type">Blog Post</p>
+              <h3 class="pub-title">Como usar a plataforma ao máximo</h3>
+              <p class="pub-date">15 de Maio, 2024</p>
+            </article>
+          </header>
+          <p class="pub-body">Neste artigo, vamos abordar as melhores práticas para usar a plataforma Pequenos Exploradores e maximize o aprendizado dos seus alunos.</p>
+          <footer class="pub-footer">
+            <article class="pub-target">👥 Todos os usuários</article>
+            <button class="btn btn-sm btn-primary" onclick="publishPub(this)">📤 Publicar</button>
+          </footer>
+        </article>
+      </article>
+
+      <!-- RELATÓRIOS PAGE -->
+      <article class="page" id="page-relatorios">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Relatórios</h2>
+            <p class="page-subtitle">Dados e insights da plataforma</p>
+          </section>
+        </header>
+
+        <section class="stats-grid">
+          <article class="stat-card" data-icon="📈">
+            <p class="stat-label">Crescimento Mensal</p>
+            <p class="stat-value">+18%</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">↑ Acelerado</span></p>
+          </article>
+          <article class="stat-card" data-icon="⏱️">
+            <p class="stat-label">Tempo Médio</p>
+            <p class="stat-value">2h 15m</p>
+            <p class="stat-sub">por sessão</p>
+          </article>
+          <article class="stat-card" data-icon="⭐">
+            <p class="stat-label">Satisfação</p>
+            <p class="stat-value">4.8</p>
+            <p class="stat-sub">de 5.0</p>
+          </article>
+          <article class="stat-card" data-icon="📊">
+            <p class="stat-label">Retenção</p>
+            <p class="stat-value">87%</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 5% ao mês</span></p>
+          </article>
+        </section>
+      </article>
+    </section>
   </section>
+</main>
+
+<!-- MODALS -->
+
+<!-- Modal: Nova Instituição -->
+<dialog class="modal-overlay" id="modal-inst">
+  <article class="modal">
+    <header class="modal-header">
+      <h2 class="modal-title">🏫 Nova Instituição</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-inst')">✕</button>
+    </header>
+    <section class="form-grid">
+      <section class="form-group">
+        <label class="form-label">Nome da Instituição</label>
+        <input type="text" class="form-input" placeholder="Ex: E.M. Floresta Verde">
+      </section>
+      <section class="form-group">
+        <label class="form-label">Localização</label>
+        <input type="text" class="form-input" placeholder="Cidade, Estado">
+      </section>
+    </section>
+    <section class="form-group form-span-2">
+      <label class="form-label">Plano</label>
+      <select class="form-select">
+        <option>Comum</option>
+        <option selected>Premium</option>
+      </select>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-inst')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAndClose('modal-inst')">Criar Instituição</button>
+    </footer>
+  </article>
+</dialog>
+
+<!-- Modal: Novo Usuário -->
+<dialog class="modal-overlay" id="modal-user">
+  <article class="modal">
+    <header class="modal-header">
+      <h2 class="modal-title">👤 Novo Usuário</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-user')">✕</button>
+    </header>
+    <section class="form-grid">
+      <section class="form-group">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-input" placeholder="Nome completo">
+      </section>
+      <section class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" placeholder="email@exemplo.com">
+      </section>
+    </section>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-user')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAndClose('modal-user')">Criar Usuário</button>
+    </footer>
+  </article>
+</dialog>
+
+<!-- Modal: Nova Atividade -->
+<dialog class="modal-overlay" id="modal-ativ">
+  <article class="modal">
+    <header class="modal-header">
+      <h2 class="modal-title">📋 Nova Atividade</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-ativ')">✕</button>
+    </header>
+    <section class="form-group">
+      <label class="form-label">Título</label>
+      <input type="text" class="form-input" placeholder="Título da atividade">
+    </section>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-ativ')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAndClose('modal-ativ')">Criar Atividade</button>
+    </footer>
+  </article>
+</dialog>
+
+<!-- Modal: Nova Publicação -->
+<dialog class="modal-overlay" id="modal-pub">
+  <article class="modal">
+    <header class="modal-header">
+      <h2 class="modal-title">📰 Nova Publicação</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-pub')">✕</button>
+    </header>
+    <section class="form-group">
+      <label class="form-label">Título</label>
+      <input type="text" class="form-input" placeholder="Título da publicação">
+    </section>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-pub')">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveAndClose('modal-pub')">Publicar</button>
+    </footer>
+  </article>
+</dialog>
+
+<!-- Modal: Bloquear/Desbloquear -->
+<dialog class="modal-overlay" id="modal-block">
+  <article class="modal modal-sm">
+    <header class="modal-header">
+      <h2 class="modal-title" id="block-title">🚫 Bloquear Instituição</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-block')">✕</button>
+    </header>
+    <p id="block-msg" style="font-size:13px;color:var(--text-sub);margin-bottom:14px">Tem certeza que deseja bloquear o acesso da instituição <strong id="block-inst-name"></strong>?</p>
+    <article class="block-warning" id="block-warning" style="display:none">
+      <p class="block-warning-title">⚠️ Aviso Important</p>
+      <p class="block-warning-text">Desbloquear não restaura dados deletados.</p>
+    </article>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-block')">Cancelar</button>
+      <button class="btn btn-danger" id="block-confirm-btn" onclick="confirmBlock()">🚫 Bloquear</button>
+    </footer>
+  </article>
+</dialog>
+
+<!-- Toast -->
+<section class="toast" id="toast">✅ <span id="toast-msg">Ação realizada com sucesso</span></section>
+
+<script>
+const pageNames = {
+  dashboard: 'Dashboard',
+  instituicoes: 'Instituições',
+  usuarios: 'Usuários',
+  chat: 'Mensagens',
+  atividades: 'Atividades',
+  publicacoes: 'Publicações',
+  relatorios: 'Relatórios'
+};
+
+function navigate(id, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  document.getElementById('topbar-title').textContent = pageNames[id];
+  document.getElementById('topbar-breadcrumb').textContent = pageNames[id];
+  if (el) el.classList.add('active');
+}
+
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function saveAndClose(id) {
+  closeModal(id);
+  showToast('Salvo com sucesso!');
+}
+
+function showToast(msg, duration = 2800) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), duration);
+}
+
+function confirmDelete(type) {
+  document.getElementById('delete-msg').textContent = `Tem certeza que deseja excluir este(a) ${type}? Esta ação não pode ser desfeita.`;
+}
+
+let blockingInst = '';
+let isUnblocking = false;
+
+function openBlockModal(instName, unblock) {
+  blockingInst = instName;
+  isUnblocking = unblock;
+  document.getElementById('block-inst-name').textContent = instName;
+
+  if (unblock) {
+    document.getElementById('block-title').textContent = '🔓 Desbloquear Instituição';
+    document.getElementById('block-msg').innerHTML = `Tem certeza que deseja desbloquear o acesso da instituição <strong>${instName}</strong>?`;
+    document.getElementById('block-warning').style.display = 'block';
+    document.getElementById('block-confirm-btn').textContent = '🔓 Confirmar desbloqueio';
+  } else {
+    document.getElementById('block-title').textContent = '🚫 Bloquear Instituição';
+    document.getElementById('block-msg').innerHTML = `Tem certeza que deseja bloquear o acesso da instituição <strong>${instName}</strong>?`;
+    document.getElementById('block-warning').style.display = 'none';
+    document.getElementById('block-confirm-btn').textContent = '🚫 Bloquear';
+  }
+  openModal('modal-block');
+}
+
+function confirmBlock() {
+  closeModal('modal-block');
+  const msg = isUnblocking ? `Acesso de "${blockingInst}" foi desbloqueado!` : `Acesso de "${blockingInst}" foi bloqueado!`;
+  showToast(msg);
+}
+
+function filterTable(input, tableId) {
+  const q = input.value.toLowerCase();
+  document.querySelectorAll('#' + tableId + ' tbody tr').forEach(row => {
+    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+
+function filterByPlan(select) {
+  const val = select.value.toLowerCase();
+  document.querySelectorAll('#tbl-inst tbody tr').forEach(row => {
+    row.style.display = !val || row.textContent.toLowerCase().includes(val) ? '' : 'none';
+  });
+}
+
+let instViewMode = 'table';
+function toggleInstView() {
+  const tv = document.getElementById('inst-table-view');
+  const cv = document.getElementById('inst-cards-view');
+  const btn = document.getElementById('view-toggle');
+  if (instViewMode === 'table') {
+    tv.style.display = 'none';
+    cv.style.display = 'grid';
+    btn.textContent = '☰ Tabela'; instViewMode = 'cards';
+  } else {
+    tv.style.display = 'block';
+    cv.style.display = 'none';
+    btn.textContent = '🎴 Cards'; instViewMode = 'table';
+  }
+}
+
+function approveUser(btn) {
+  const row = btn.closest('tr');
+  row.querySelector('.badge-amber').className = 'badge badge-green';
+  row.querySelector('.badge-green').textContent = 'Ativo';
+  btn.className = 'btn btn-sm'; btn.textContent = '✏️';
+  btn.setAttribute('onclick', 'editUser()');
+  showToast('Usuário aprovado com sucesso!');
+}
+
+function publishActivity(btn) {
+  const row = btn.closest('tr');
+  const statusBadge = row.querySelector('.badge-amber');
+  if (statusBadge) { statusBadge.className = 'badge badge-green'; statusBadge.textContent = 'Publicada'; }
+  btn.remove();
+  showToast('Atividade publicada!');
+}
+
+function publishPub(btn) {
+  const card = btn.closest('.pub-card');
+  const draftBadge = card.querySelector('.badge-amber');
+  if (draftBadge) { draftBadge.className = 'badge badge-green'; draftBadge.textContent = 'Publicado'; }
+  card.style.border = '1px solid var(--border-sm)';
+  card.style.background = 'var(--bg-card)';
+  btn.remove();
+  showToast('Publicação publicada!');
+}
+
+function editInst() { openModal('modal-inst'); }
+function editUser() { openModal('modal-user'); }
+function editAtiv() { openModal('modal-ativ'); }
+
+// Chat
+function selectChat(name, initials, el) {
+  document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('chat-win-name').textContent = name;
+  document.getElementById('chat-win-avatar').textContent = initials;
+  const unread = el.querySelector('.chat-unread');
+  if (unread) unread.remove();
+  loadMockMessages(name, initials);
+}
+
+const mockConvos = {
+  'E.M. Floresta Verde': [
+    { out: false, text: 'Olá! Gostaria de saber como criar uma nova turma?', time: '09:15', init: 'FV' },
+    { out: true, text: 'Olá! Para criar uma turma, acesse o menu "Minhas Turmas" e clique em "Nova Turma". Precisar de ajuda?', time: '09:20', init: 'AD' },
+    { out: false, text: 'Perfeito, obrigado!', time: '09:14', init: 'FV' }
+  ],
+  'Instituto Semente': [
+    { out: false, text: 'Qual é o valor do plano anual?', time: '14:30', init: 'IS' },
+    { out: true, text: 'O plano Premium anual custa R$ 2.400. Deseja mais informações?', time: '14:45', init: 'AD' },
+    { out: false, text: 'Obrigado pelo suporte! Resolvemos o problema.', time: 'Ontem 14:50', init: 'IS' }
+  ],
+  'EMEI Borboletas': [
+    { out: false, text: 'Estou com problema ao fazer login', time: 'Ontem 10:20', init: 'EB' }
+  ]
+};
+
+function loadMockMessages(name, initials) {
+  const container = document.getElementById('chat-messages');
+  const convos = mockConvos[name];
+  if (!convos) return;
+  container.innerHTML = '';
+  convos.forEach(m => {
+    const div = document.createElement('section');
+    div.className = 'msg ' + (m.out ? 'msg-out' : 'msg-in');
+    div.innerHTML = `<span class="msg-avatar">${m.init}</span><article><article class="msg-bubble">${m.text}</article><p class="msg-time">${m.time}${m.out ? ' ✓✓' : ''}</p></article>`;
+    container.appendChild(div);
+  });
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendMessage() {
+  const input = document.getElementById('chat-input-field');
+  const text = input.value.trim();
+  if (!text) return;
+  const container = document.getElementById('chat-messages');
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+  const section = document.createElement('section');
+  section.className = 'msg msg-out';
+  section.innerHTML = `<span class="msg-avatar">AD</span><article><article class="msg-bubble">${text}</article><p class="msg-time">${time} ✓✓</p></article>`;
+  container.appendChild(section);
+  input.value = '';
+  container.scrollTop = container.scrollHeight;
+}
+
+function sendOnEnter(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+document.querySelectorAll('dialog.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+});
+</script>
 </body>
 </html>

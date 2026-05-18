@@ -31,7 +31,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 .welcome-card h2{font-family:'Fredoka One',cursive;font-size:18px;margin-bottom:4px;}
 .welcome-card p{font-size:13px;opacity:0.85;}
 .quick-menu{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;}
-.qm-btn{background:rgba(255,255,255,0.18);border:2px solid rgba(255,255,255,0.3);border-radius:14px;padding:12px 10px;color:white;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.qm-btn{background:rgba(166, 234, 160, 0.744);border:2px solid rgba(255,255,255,0.3);border-radius:14px;padding:12px 10px;color:white;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;cursor:pointer;text-align:center;transition:all 0.2s;display:flex;flex-direction:column;align-items:center;gap:6px;}
 .qm-btn:hover{background:rgba(255,255,255,0.32);transform:translateY(-2px);}
 .qm-icon{font-size:22px;}
 .banner-card{border-radius:20px;overflow:hidden;background:linear-gradient(135deg,#1a5c36,#2d8a4e);display:flex;align-items:center;justify-content:center;min-height:180px;position:relative;}
@@ -235,10 +235,10 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         <h2>👋 Olá, Everton Lopes da Silva</h2>
         <p>rm922394@coordenador.gmail.com</p>
         <section class="quick-menu">
-          <button class="qm-btn" onclick="goTo('cadastrar')"><span class="qm-icon">📋</span>Cadastrar Turmas</button>
-          <button class="qm-btn" onclick="goTo('painel')"><span class="qm-icon">🏫</span>Painel da Escola</button>
-          <button class="qm-btn" onclick="goTo('equipe')"><span class="qm-icon">👩‍🏫</span>Equipe Escolar</button>
-          <button class="qm-btn" onclick="goTo('ajuda')"><span class="qm-icon">💬</span>Ajude-nos a Melhorar</button>
+          <button class="qm-btn" onclick="goTo('cadastrar')"><img src="/img/pss.png" alt="Cadastrar" style="width:32px;height:32px;object-fit:contain;">Cadastrar Turmas</button>
+          <button class="qm-btn" onclick="goTo('painel')"><img src="/img/esl.png" alt="Painel" style="width:32px;height:32px;object-fit:contain;">Painel da Escola</button>
+          <button class="qm-btn" onclick="goTo('equipe')"><img src="/img/eqp.png" alt="Equipe" style="width:32px;height:32px;object-fit:contain;">Equipe Escolar</button>
+          <button class="qm-btn" onclick="goTo('ajuda')"><img src="/img/bal.png" alt="Ajuda" style="width:32px;height:32px;object-fit:contain;">Ajude-nos a Melhorar</button>
         </section>
       </section>
       <section class="banner-card">
@@ -248,10 +248,10 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
     <section class="mid-row">
       <section class="card access-card">
-        <section class="section-title">🔑 Acessos</section>
+        <section class="section-title"> Acessos</section>
         <section class="access-grid">
           <section class="access-item" onclick="goTo('equipe')" style="cursor:pointer">
-            <section class="access-icon">👩‍🏫</section>
+            <section class="access-icon"><img src="/img/eqp.png" alt="Professores" style="width:40px;height:40px;object-fit:contain;"></section>
             <section class="access-label">Professores</section>
             <section class="access-pct">85%</section>
           </section>
@@ -263,7 +263,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         </section>
       </section>
       <section class="card desempenho-card">
-        <section class="section-title">📊 Desempenho das Turmas</section>
+        <section class="section-title"> Desempenho das Turmas</section>
         <section class="tab-row">
           <button class="tab active">Desempenho</button>
           <button class="tab" onclick="goTo('cadastrar')">Ver Turmas</button>
@@ -315,7 +315,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
   <section class="main">
     <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
     <section class="page-header">
-      <section><h1>📋 Cadastrar Turma</h1><p>Prof.ª Maria Theodora Pedreira de Freitas</p></section>
+      <section><h1><img src="/img/pss.jpeg" alt="Cadastrar" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Cadastrar Turma</h1><p>Prof.ª Maria Theodora Pedreira de Freitas</p></section>
       <button class="btn-primary" onclick="openModal()">Cadastrar turma ➕</button>
     </section>
     <section class="card" style="margin-bottom:20px;">
@@ -323,7 +323,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         <section class="select-wrap"><select><option>Ano letivo</option><option>2025</option><option>2026</option></select></section>
         <section class="select-wrap"><select><option>Ano / Série</option><option>1° Ano</option><option>2° Ano</option><option>3° Ano</option><option>4° Ano</option><option>5° Ano</option></select></section>
       </section>
-      <section class="turmas-section-title">🏫 Ensino Fundamental — Anos Iniciais</section>
+      <section class="turmas-section-title"><img src="/img/esl.jpeg" alt="Ensino" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Ensino Fundamental — Anos Iniciais</section>
       <section class="turmas-list">
         <section class="turma-item">
           <section class="turma-item-left">
@@ -377,11 +377,11 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
   </nav>
   <section class="main">
     <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
-    <section class="section-title" style="font-size:24px;margin-bottom:20px;">🏫 Painel da Escola</section>
+    <section class="section-title" style="font-size:24px;margin-bottom:20px;"><img src="/img/esl.jpeg" alt="Painel" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Painel da Escola</section>
     <section class="stats-grid">
       <section class="stat-box"><section class="s-icon">🧒</section><section class="s-num">87</section><section class="s-label">Alunos Ativos</section></section>
-      <section class="stat-box"><section class="s-icon">👩‍🏫</section><section class="s-num">12</section><section class="s-label">Professores</section></section>
-      <section class="stat-box"><section class="s-icon">📋</section><section class="s-num">3</section><section class="s-label">Turmas Cadastradas</section></section>
+      <section class="stat-box"><section class="s-icon"><img src="/img/eqp.png" alt="Professores" style="width:40px;height:40px;object-fit:contain;"></section><section class="s-num">12</section><section class="s-label">Professores</section></section>
+      <section class="stat-box"><section class="s-icon"><img src="/img/pss.jpeg" alt="Turmas" style="width:40px;height:40px;object-fit:contain;"></section><section class="s-num">3</section><section class="s-label">Turmas Cadastradas</section></section>
       <section class="stat-box"><section class="s-icon">⭐</section><section class="s-num">83%</section><section class="s-label">Desempenho Geral</section></section>
     </section>
     <section class="school-info-grid">
@@ -425,7 +425,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
   <section class="main">
     <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
     <section style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <section class="section-title" style="font-size:24px;margin-bottom:0;">👩‍🏫 Equipe Escolar</section>
+      <section class="section-title" style="font-size:24px;margin-bottom:0;"><img src="/img/eqp.png" alt="Equipe" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Equipe Escolar</section>
       <button class="btn-primary" onclick="openMembro()">Adicionar membro ➕</button>
     </section>
     <section class="team-grid">
@@ -436,20 +436,17 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         <span class="team-badge badge-coord">Coordenador</span>
       </section>
       <section class="team-card">
-        <section class="team-avatar">👩‍🏫</section>
-        <section class="team-name">Maria Theodora Pedreira</section>
+        <section class="team-avatar"><img src="/img/eqp.png" alt="Membro" style="width:56px;height:56px;object-fit:contain;"></section>
         <section class="team-role">5° Ano D · 4° Ano B</section>
         <span class="team-badge badge-prof">Professora</span>
       </section>
       <section class="team-card">
-        <section class="team-avatar">👩‍🏫</section>
-        <section class="team-name">Ana Lima</section>
+        <section class="team-avatar"><img src="/img/eqp.png" alt="Membro" style="width:56px;height:56px;object-fit:contain;"></section>
         <section class="team-role">1ª Série B · 2ª Série A</section>
         <span class="team-badge badge-prof">Professora</span>
       </section>
       <section class="team-card">
-        <section class="team-avatar">👩‍🏫</section>
-        <section class="team-name">Carla Souza</section>
+        <section class="team-avatar"><img src="/img/eqp.png" alt="Membro" style="width:56px;height:56px;object-fit:contain;"></section>
         <section class="team-role">4ª Série B · 3ª Série C</section>
         <span class="team-badge badge-prof">Professora</span>
       </section>
@@ -486,7 +483,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
     <section class="card feedback-card">
       <section id="feedbackForm">
-        <section class="section-title" style="font-size:24px;">💬 Ajude-nos a Melhorar</section>
+        <section class="section-title" style="font-size:24px;"><img src="/img/bal.png" alt="Ajuda" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Ajude-nos a Melhorar</section>
         <p style="color:#5a9a72;font-size:15px;margin-bottom:4px;">Sua opinião é muito importante para nós! Como você avalia a plataforma?</p>
         <section class="rating-row">
           <button class="rating-btn" onclick="selectRating(this)"><span class="rating-emoji">😞</span>Ruim</button>
