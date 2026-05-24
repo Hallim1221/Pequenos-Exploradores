@@ -1,0 +1,257 @@
+{
+    "sucesso":  true,
+    "dados":  {
+                  "1":  {
+                            "parceria":  {
+                                             "id":  1,
+                                             "nome_contato":  "HALLIM ALVES TAVARES",
+                                             "email":  "alveshallim@gmail.com",
+                                             "telefone":  "11950099331",
+                                             "cidade":  "6402000",
+                                             "nome_escola":  "EMEF Margarida Maria Maciel",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "P?blica municipal",
+                                             "codigo_mec":  "06434210",
+                                             "data_solicitacao":  "2026-05-22T10:15:34.190Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "2":  {
+                            "parceria":  {
+                                             "id":  2,
+                                             "nome_contato":  "Escola Teste 2024",
+                                             "email":  "teste2024@escola.com.br",
+                                             "telefone":  "(11) 3456-7890",
+                                             "cidade":  "Campinas",
+                                             "nome_escola":  "Escola Municipal Teste",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "P?blica municipal",
+                                             "codigo_mec":  null,
+                                             "data_solicitacao":  "2026-05-22T11:56:33.613Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "3":  {
+                            "parceria":  {
+                                             "id":  3,
+                                             "nome_contato":  "HALLIM ALVES TAVARES",
+                                             "email":  "praynara901@gmail.com",
+                                             "telefone":  "11987824617",
+                                             "cidade":  "6402000",
+                                             "nome_escola":  "EMEF FIORAVANTE BARLETTA",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "P?blica municipal",
+                                             "codigo_mec":  "06434211",
+                                             "data_solicitacao":  "2026-05-22T12:01:19.276Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "4":  {
+                            "parceria":  {
+                                             "id":  4,
+                                             "nome_contato":  "Escola Teste Municipal",
+                                             "email":  "municipal@teste.com.br",
+                                             "telefone":  "(11) 4567-8901",
+                                             "cidade":  "S?o Paulo",
+                                             "nome_escola":  "Escola P?blica Municipal de Teste",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "P?blica municipal",
+                                             "codigo_mec":  null,
+                                             "data_solicitacao":  "2026-05-22T12:04:41.860Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "5":  {
+                            "parceria":  {
+                                             "id":  5,
+                                             "nome_contato":  "Raynara ",
+                                             "email":  "raynarap899@gmail.com",
+                                             "telefone":  "1140028922",
+                                             "cidade":  "6402007",
+                                             "nome_escola":  "EMEF Professora Dalva Fogassi",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "P?blica municipal",
+                                             "codigo_mec":  "06434211",
+                                             "data_solicitacao":  "2026-05-22T12:54:00.954Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "6":  {
+                            "parceria":  {
+                                             "id":  6,
+                                             "nome_contato":  "Escola ABC",
+                                             "email":  "abc@teste.com",
+                                             "telefone":  "(11) 9 9999-9999",
+                                             "cidade":  "Curitiba",
+                                             "nome_escola":  "Escola ABC Teste",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "P?blica municipal",
+                                             "codigo_mec":  null,
+                                             "data_solicitacao":  "2026-05-22T12:57:38.029Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "7":  {
+                            "parceria":  {
+                                             "id":  7,
+                                             "nome_contato":  "Prof. Jo?o Silva",
+                                             "email":  "joao@escola.com.br",
+                                             "telefone":  "(11) 91234-5678",
+                                             "cidade":  "Rio de Janeiro",
+                                             "nome_escola":  "Escola Municipal Rio de Janeiro",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "P?blica municipal",
+                                             "codigo_mec":  null,
+                                             "data_solicitacao":  "2026-05-22T23:56:30.055Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "8":  {
+                            "parceria":  {
+                                             "id":  8,
+                                             "nome_contato":  "Test School",
+                                             "email":  "test@school.br",
+                                             "telefone":  "11999999999",
+                                             "cidade":  "Test City",
+                                             "nome_escola":  "Test School Name",
+                                             "cargo":  "Diretor(a)",
+                                             "tipo_escola":  "Privada",
+                                             "codigo_mec":  null,
+                                             "data_solicitacao":  "2026-05-22T23:57:13.403Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "9":  {
+                            "parceria":  {
+                                             "id":  9,
+                                             "nome_contato":  "Maria Santos",
+                                             "email":  "maria@escola.com.br",
+                                             "telefone":  "(11) 98765-4321",
+                                             "cidade":  "Salvador",
+                                             "nome_escola":  "Escola Integral Salvador",
+                                             "cargo":  "Coordenador(a) pedag?gico(a)",
+                                             "tipo_escola":  "Privada",
+                                             "codigo_mec":  null,
+                                             "data_solicitacao":  "2026-05-22T23:57:41.770Z",
+                                             "status":  "pendente",
+                                             "data_resposta":  null,
+                                             "especialista_id":  null,
+                                             "notas":  null
+                                         },
+                            "mensagens":  [
+
+                                          ]
+                        },
+                  "10":  {
+                             "parceria":  {
+                                              "id":  10,
+                                              "nome_contato":  "Teste Final",
+                                              "email":  "teste.final@escola.com.br",
+                                              "telefone":  "(11) 98888-7777",
+                                              "cidade":  "Bras?lia",
+                                              "nome_escola":  "Escola Teste Final",
+                                              "cargo":  "Professor(a)",
+                                              "tipo_escola":  "P?blica estadual",
+                                              "codigo_mec":  null,
+                                              "data_solicitacao":  "2026-05-23T00:04:07.260Z",
+                                              "status":  "pendente",
+                                              "data_resposta":  null,
+                                              "especialista_id":  null,
+                                              "notas":  null
+                                          },
+                             "mensagens":  [
+
+                                           ]
+                         },
+                  "11":  {
+                             "parceria":  {
+                                              "id":  11,
+                                              "nome_contato":  "Debug Test",
+                                              "email":  "debug@test.br",
+                                              "telefone":  "(11) 91234-5678",
+                                              "cidade":  "Manaus",
+                                              "nome_escola":  "Escola Debug",
+                                              "cargo":  "Diretor(a)",
+                                              "tipo_escola":  "Privada",
+                                              "codigo_mec":  null,
+                                              "data_solicitacao":  "2026-05-23T00:05:49.273Z",
+                                              "status":  "pendente",
+                                              "data_resposta":  null,
+                                              "especialista_id":  null,
+                                              "notas":  null
+                                          },
+                             "mensagens":  [
+
+                                           ]
+                         },
+                  "12":  {
+                             "parceria":  {
+                                              "id":  12,
+                                              "nome_contato":  "Final Test",
+                                              "email":  "final@test.br",
+                                              "telefone":  "(11) 92222-3333",
+                                              "cidade":  "Recife",
+                                              "nome_escola":  "Escola Final",
+                                              "cargo":  "Diretor(a)",
+                                              "tipo_escola":  "Privada",
+                                              "codigo_mec":  null,
+                                              "data_solicitacao":  "2026-05-23T00:14:26.591Z",
+                                              "status":  "pendente",
+                                              "data_resposta":  null,
+                                              "especialista_id":  null,
+                                              "notas":  null
+                                          },
+                             "mensagens":  [
+
+                                           ]
+                         }
+              }
+}

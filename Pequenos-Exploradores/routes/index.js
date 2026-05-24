@@ -163,4 +163,9 @@ router.get('/natureza', (req, res) => {
   res.render('natureza');
 });
 
+// Parcerias com Escolas
+router.get('/parcerias-escolas', (req, res) => {
+  res.render('parcerias-escolas');
+});
+
 module.exports = router;

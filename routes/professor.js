@@ -4,29 +4,25 @@ const router = express.Router();
 // Importar modelos
 const Professor = require('../models/Professor');
 const Turma = require('../models/Turma');
+const Aluno = require('../models/Aluno');
+const Ranking = require('../models/Ranking');
+
 // Permite acessar seleção de série via GET também
-router.get('/dashboard', (req, res) => {
+router.get('/dashboard', async (req, res) => {
   // Protege rota: exige login
   if (!req.session.user || req.session.user.tipo !== 'professor') {
     return res.redirect('/professor/login');
   }
-  res.render('professor_dashboard', { series });
-});
-
-// Simulação de dados dos alunos por série, turma e pontuação
-const series = ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'];
-const turmas = ['A', 'B', 'C', 'D', 'E'];
-// Gera alunos fictícios para cada turma de cada série
-const alunosPorSerieTurma = {};
-series.forEach(serie => {
-  alunosPorSerieTurma[serie] = {};
-  turmas.forEach((turma, idx) => {
-    const qtd = 28 + ((idx + series.indexOf(serie)) % 3); // 28, 29 ou 30
-    alunosPorSerieTurma[serie][turma] = Array.from({length: qtd}, (_, i) => ({
-      nome: `Aluno ${turma}${(i+1).toString().padStart(2, '0')}`,
-      pontuacao: Math.floor(Math.random()*1000+100) // pontuação fictícia
-    }));
-  });
+  
+  try {
+    // Buscar turmas do professor no banco
+    const turmas = await Turma.listarPorProfessor(req.session.user.id);
+    const series = [...new Set(turmas.map(t => t.ano_escolar))].sort();
+    res.render('professor_dashboard', { series: series.length > 0 ? series : ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'] });
+  } catch (erro) {
+    console.error('Erro ao carregar dashboard:', erro);
+    res.render('professor_dashboard', { series: ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'] });
+  }
 });
 
 // Página de login do professor
@@ -61,37 +57,114 @@ router.post('/login', async (req, res) => {
 });
 
 // Dashboard do professor: seleção de série
-router.post('/dashboard', (req, res) => {
-  res.render('professor_dashboard', { series });
+router.post('/dashboard', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.redirect('/professor/login');
+  }
+  
+  try {
+    const turmas = await Turma.listarPorProfessor(req.session.user.id);
+    const series = [...new Set(turmas.map(t => t.ano_escolar))].sort();
+    res.render('professor_dashboard', { series: series.length > 0 ? series : ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'] });
+  } catch (erro) {
+    res.render('professor_dashboard', { series: ['1º Ano', '2º Ano', '3º Ano', '4º Ano', '5º Ano'] });
+  }
 });
 
 // Seleção de turma após escolher série
-router.get('/serie/:serie', (req, res) => {
+router.get('/serie/:serie', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.redirect('/professor/login');
+  }
+  
   const serie = req.params.serie;
-  if (!series.includes(serie)) return res.redirect('/professor/dashboard');
-  res.render('professor_turmas', { serie, turmas });
+  try {
+    // Buscar turmas do professor para esta série
+    const turmas = await Turma.listarPorProfessor(req.session.user.id);
+    const turmasFiltered = turmas.filter(t => t.ano_escolar === serie);
+    
+    res.render('professor_turmas', { 
+      serie, 
+      turmas: turmasFiltered,
+      turmasCount: turmasFiltered.length 
+    });
+  } catch (erro) {
+    console.error('Erro ao listar turmas:', erro);
+    res.render('professor_turmas', { serie, turmas: [], turmasCount: 0 });
+  }
 });
 
 // Exibe alunos e pontuação da turma
-router.get('/serie/:serie/turma/:turma', (req, res) => {
-  const { serie, turma } = req.params;
-  if (!series.includes(serie) || !turmas.includes(turma)) return res.redirect('/professor/dashboard');
-  const alunos = alunosPorSerieTurma[serie][turma] || [];
-  res.render('professor_alunos', { serie, turma, alunos });
+router.get('/serie/:serie/turma/:turmaId', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.redirect('/professor/login');
+  }
+  
+  const { serie, turmaId } = req.params;
+  try {
+    // Buscar turma
+    const turma = await Turma.buscarPorId(turmaId);
+    if (!turma) {
+      return res.status(404).render('error', { message: 'Turma não encontrada' });
+    }
+    
+    // Listar alunos da turma
+    const alunos = await Turma.listarAlunosDaTurma(turmaId);
+    
+    // Buscar ranking da turma
+    const ranking = await Ranking.rankingTurma(turmaId);
+    
+    res.render('professor_alunos', { 
+      serie, 
+      turma,
+      alunos: ranking.length > 0 ? ranking : alunos
+    });
+  } catch (erro) {
+    console.error('Erro ao carregar turma:', erro);
+    res.status(500).render('error', { message: 'Erro ao carregar dados da turma' });
+  }
 });
 
 // Rota GET para /turmas (série padrão: 1º Ano)
-router.get('/turmas', (req, res) => {
-  const serie = '1º Ano';
-  const turmas = ['A', 'B', 'C', 'D', 'E'];
-  res.render('professor_turmas', { serie, turmas });
+router.get('/turmas', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.redirect('/professor/login');
+  }
+  
+  try {
+    const serie = '1º Ano';
+    const turmas = await Turma.listarPorProfessor(req.session.user.id);
+    const turmasFiltered = turmas.filter(t => t.ano_escolar === serie);
+    
+    res.render('professor_turmas', { 
+      serie, 
+      turmas: turmasFiltered,
+      turmasCount: turmasFiltered.length
+    });
+  } catch (erro) {
+    res.render('professor_turmas', { serie: '1º Ano', turmas: [], turmasCount: 0 });
+  }
 });
 
 // Criação de turma do professor (POST)
-router.post('/turmas/criar', (req, res) => {
-  // Aqui você pode validar e salvar os dados da turma, se desejar
-  // Para agora, apenas redireciona para a página de turmas do professor
-  res.redirect('/professor/turmas');
+router.post('/turmas/criar', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.status(401).json({ success: false, message: 'Não autorizado' });
+  }
+  
+  const { nome, ano_escolar } = req.body;
+  
+  if (!nome || !ano_escolar) {
+    return res.status(400).json({ success: false, message: 'Nome e série são obrigatórios' });
+  }
+  
+  try {
+    const turma = await Turma.criar(nome, req.session.user.id, ano_escolar);
+    return res.json({ success: true, turma });
+  } catch (erro) {
+    console.error('Erro ao criar turma:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao criar turma' });
+  }
 });
 
 module.exports = router;

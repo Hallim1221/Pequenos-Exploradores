@@ -1,0 +1,56 @@
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"escola","conteudo":"oi","data_mensagem":"2026-05-23T01:02:53.471Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":3,"parceria_id":1,"remetente":"admin","conteudo":"oi","data_mensagem":"2026-05-23T01:03:21.745Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":4,"parceria_id":1,"remetente":"escola","conteudo":"kkkkk","data_mensagem":"2026-05-23T01:04:53.532Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":5,"parceria_id":1,"remetente":"admin","conteudo":"taa","data_mensagem":"2026-05-23T01:05:05.691Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":1,"parceria_id":1,"remetente":"escola","conteudo":"oi","data_mensagem":"2026-05-23T01:16:56.644Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"admin","conteudo":"oi","data_mensagem":"2026-05-23T01:17:17.195Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"admin","conteudo":"Olá! Bem-vindo à plataforma Pequenos Exploradores! 🎓","data_mensagem":"2026-05-23T01:24:33.740Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"escola","conteudo":"ola boa noite","data_mensagem":"2026-05-23T22:11:23.199Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"admin","conteudo":"Obrigado por entrar em contato! Estamos muito interessados em parceria.","data_mensagem":"2026-05-23T22:29:32.326Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":3,"parceria_id":1,"remetente":"admin","conteudo":"salve salve quer com prar o bagulho ou nao","data_mensagem":"2026-05-23T22:30:15.976Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":4,"parceria_id":1,"remetente":"escola","conteudo":"logico fio","data_mensagem":"2026-05-23T22:30:29.861Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":5,"parceria_id":1,"remetente":"admin","conteudo":"pdp entao krai é nois na fita","data_mensagem":"2026-05-23T22:31:07.636Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":6,"parceria_id":1,"remetente":"escola","conteudo":"vou querer o plano normao mano slk esse premium ai é só pra bigodi","data_mensagem":"2026-05-23T22:32:34.395Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":7,"parceria_id":1,"remetente":"admin","conteudo":"ei","data_mensagem":"2026-05-23T22:45:27.928Z"}

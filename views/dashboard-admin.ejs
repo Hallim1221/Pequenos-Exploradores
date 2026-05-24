@@ -388,7 +388,12 @@
   dialog.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 999; align-items: center; justify-content: center; }
   dialog.modal-overlay.open { display: flex; }
   dialog.modal-overlay::backdrop { background: rgba(0,0,0,0.3); }
-  article.modal { background: var(--bg-card); border-radius: 12px; padding: 24px; max-width: 500px; width: 90%; box-shadow: var(--shadow-lg); animation: modalIn 0.2s ease; }
+  article.modal { background: var(--bg-card); border-radius: 12px; padding: 0; max-width: 500px; width: 90%; box-shadow: var(--shadow-lg); animation: modalIn 0.2s ease; }
+  #modal-chat-parceria article.modal { padding: 0; width: 600px; max-width: 90vw; }
+  #modal-chat-parceria article.modal header { padding: 16px; }
+  #modal-chat-parceria article.modal section { min-height: 0; }
+  #modal-chat-parceria article.modal form { padding: 12px 16px; }
+  #chat-messages { flex: 1 1 auto !important; min-height: 100px !important; display: flex !important; flex-direction: column !important; }
   .modal-sm { width: 380px; }
   @keyframes modalIn { from { opacity: 0; transform: scale(0.97) translateY(6px); } to { opacity: 1; transform: none; } }
   .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
@@ -517,6 +522,9 @@
       </article>
       <article class="nav-item" onclick="navigate('instituicoes', this)">
         <span class="nav-icon"></span> Instituições
+      </article>
+      <article class="nav-item" onclick="navigate('parcerias', this)">
+        <span class="nav-icon"></span> Parcerias
       </article>
       <article class="nav-item" onclick="navigate('usuarios', this)">
         <span class="nav-icon"></span> Usuários
@@ -732,6 +740,83 @@
         </article>
       </article>
 
+      <!-- PARCERIAS PAGE -->
+      <article class="page" id="page-parcerias">
+        <header class="page-header">
+          <section>
+            <h2 class="page-title">Parcerias com Escolas</h2>
+            <p class="page-subtitle">Gerencie solicitações de parceria de escolas</p>
+          </section>
+        </header>
+
+        <section class="search-row">
+          <article class="search-input-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" placeholder="Buscar por escola, email ou contato..." onkeyup="filterTable(this, 'tbl-parcerias')">
+          </article>
+          <select class="filter-select" id="filtro-status" onchange="filterByStatus(this)">
+            <option value="">Todos os status</option>
+            <option value="pendente">Pendente</option>
+            <option value="em_andamento">Em Andamento</option>
+            <option value="concluido">Concluído</option>
+            <option value="rejeitado">Rejeitado</option>
+          </select>
+        </section>
+
+        <article class="card">
+          <article class="table-wrap">
+            <table id="tbl-parcerias">
+              <thead>
+                <tr>
+                  <th>Escola</th>
+                  <th>Contato</th>
+                  <th>Email</th>
+                  <th>Tipo</th>
+                  <th>Status</th>
+                  <th>Data</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (parcerias && parcerias.length > 0) { %>
+                  <% parcerias.forEach(parceria => { %>
+                    <tr>
+                      <td><strong><%= parceria.nome_escola %></strong></td>
+                      <td><%= parceria.nome_contato %></td>
+                      <td><a href="mailto:<%= parceria.email %>" style="color:#0066cc;text-decoration:none;"><%= parceria.email %></a></td>
+                      <td><span style="font-size:12px;color:#666;"><%= parceria.tipo_escola %></span></td>
+                      <td>
+                        <% if (parceria.status === 'pendente') { %>
+                          <span style="background:#FEF3DC;color:#C07A10;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">⏳ Pendente</span>
+                        <% } else if (parceria.status === 'em_andamento') { %>
+                          <span style="background:#E5F0FB;color:#1B5FA0;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">🔵 Em Andamento</span>
+                        <% } else if (parceria.status === 'concluido') { %>
+                          <span style="background:#E8F5D6;color:#2E6010;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">✅ Concluído</span>
+                        <% } else { %>
+                          <span style="background:#FDEAEA;color:#B83232;padding:4px 8px;border-radius:4px;font-size:12px;font-weight:600;">❌ Rejeitado</span>
+                        <% } %>
+                      </td>
+                      <td style="font-size:12px;color:#666;"><%= new Date(parceria.data_solicitacao).toLocaleDateString('pt-BR') %></td>
+                      <td style="text-align:right;">
+                        <article class="row-actions">
+                          <button class="btn btn-sm" onclick="viewParceria(<%= parceria.id %>)" title="Visualizar">👁️</button>
+                          <button class="btn btn-sm" onclick="editParceria(<%= parceria.id %>)" title="Editar">✏️</button>
+                          <button class="btn btn-sm" onclick="abrirChatParceria(<%= parceria.id %>, '<%= parceria.nome_escola %>')" title="Chat">💬</button>
+                        </article>
+                      </td>
+                    </tr>
+                  <% }); %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="7" style="text-align:center;padding:24px;color:#666;">Nenhuma solicitação de parceria encontrada</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </article>
+        </article>
+      </article>
+
       <!-- USUÁRIOS PAGE -->
       <article class="page" id="page-usuarios">
         <header class="page-header">
@@ -849,7 +934,7 @@
                 <p class="chat-win-status">Online agora</p>
               </article>
             </header>
-            <section class="chat-messages" id="chat-messages">
+            <section class="chat-messages" id="chat-messages-usuarios">
               <section class="msg msg-in">
                 <span class="msg-avatar">🌿</span>
                 <article>
@@ -1102,6 +1187,28 @@
   </article>
 </dialog>
 
+<!-- Modal: Chat de Parceria -->
+<dialog class="modal-overlay" id="modal-chat-parceria">
+  <article class="modal" style="display:flex;flex-direction:column;height:600px;width:600px;">
+    <header class="modal-header" style="padding: 12px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0; position: relative;">
+      <section style="display: flex;">
+        <div>
+          <h2 class="modal-title" id="chat-title" style="margin: 0; font-size: 16px;">💬 Chat - Escola</h2>
+          <p id="chat-subtitle" style="font-size:12px;color:var(--text-mute);margin-top:4px;margin-bottom:0;"></p>
+        </div>
+      </section>
+      <button class="modal-close" type="button" onclick="fecharChatParceria()" style="position: absolute; top: 12px; right: 16px; border: none; background: none; font-size: 24px; cursor: pointer; padding: 0; color: var(--text-mute);">✕</button>
+    </header>
+    <section id="chat-messages" style="flex:1;overflow-y:auto;padding:16px;background:#f9faf7;display:flex;flex-direction:column;gap:8px;height:400px;">
+      <!-- Mensagens carregadas aqui -->
+    </section>
+    <form class="modal-footer" style="border-top:1px solid var(--border);padding:12px 16px;background:white;display:flex;gap:8px;flex-shrink:0;" onsubmit="enviarMensagemAdmin(event)">
+      <input type="text" id="chat-input" class="form-input" placeholder="Digite sua resposta..." style="flex:1;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;">
+      <button type="submit" class="btn btn-primary" style="padding:8px 16px;background:var(--g500);color:white;border:none;border-radius:8px;cursor:pointer;">Enviar</button>
+    </form>
+  </article>
+</dialog>
+
 <!-- Toast -->
 <section class="toast" id="toast">✅ <span id="toast-msg">Ação realizada com sucesso</span></section>
 
@@ -1290,6 +1397,260 @@ function sendMessage() {
 
 function sendOnEnter(e) {
   if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+// FUNÇÕES DE PARCERIAS
+function viewParceria(id) {
+  alert('Visualizando parceria ID: ' + id + '\n\nFuncionalidade em desenvolvimento.');
+}
+
+function editParceria(id) {
+  const novoStatus = prompt('Novo status:\n1 = Pendente\n2 = Em Andamento\n3 = Concluído\n4 = Rejeitado\n\nDigite o número:');
+  if (!novoStatus) return;
+  
+  const statusMap = { '1': 'pendente', '2': 'em_andamento', '3': 'concluido', '4': 'rejeitado' };
+  const status = statusMap[novoStatus];
+  
+  if (!status) {
+    alert('Status inválido!');
+    return;
+  }
+  
+  fetch(`/api/parcerias/${id}/status`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status: status })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.sucesso) {
+      alert('Status atualizado com sucesso!');
+      location.reload();
+    } else {
+      alert('Erro ao atualizar: ' + data.mensagem);
+    }
+  })
+  .catch(err => alert('Erro: ' + err.message));
+}
+
+// CHAT DE PARCERIA
+let parceriaIdAtual = null;
+let intervalRefreshChat = null;
+let ultimaContagemMensagens = 0;
+
+async function abrirChatParceria(id, nomeEscola) {
+  parceriaIdAtual = id;
+  document.getElementById('chat-title').textContent = '💬 Chat - ' + nomeEscola;
+  document.getElementById('chat-subtitle').textContent = 'ID Parceria: ' + id;
+  
+  const modal = document.getElementById('modal-chat-parceria');
+  modal.classList.add('open');
+  
+  // Carregar mensagens inicial
+  await carregarMensagensParceria(id);
+  
+  // Iniciar auto-refresh a cada 3 segundos
+  if (intervalRefreshChat) clearInterval(intervalRefreshChat);
+  intervalRefreshChat = setInterval(() => {
+    carregarMensagensParceria(id);
+  }, 3000);
+}
+
+function fecharChatParceria() {
+  const modal = document.getElementById('modal-chat-parceria');
+  modal.classList.remove('open');
+  parceriaIdAtual = null;
+  
+  // Parar auto-refresh ao fechar o chat
+  if (intervalRefreshChat) {
+    clearInterval(intervalRefreshChat);
+    intervalRefreshChat = null;
+  }
+  ultimaContagemMensagens = 0;
+}
+
+async function carregarMensagensParceria(id) {
+  try {
+    const resposta = await fetch(`/api/parcerias/mensagens/todas`);
+    const dados = await resposta.json();
+    
+    if (dados.sucesso) {
+      const parceriaData = dados.dados[id] || {};
+      const mensagens = parceriaData.mensagens || [];
+      const nomeParceria = parceriaData.parceria?.nome_escola || 'Escola';
+      const container = document.getElementById('chat-messages');
+      
+      // Debug
+      console.log('📨 Carregando mensagens da parceria', id, '- Total:', mensagens.length);
+      
+      container.innerHTML = '';
+      
+      // Verificar se há novas mensagens (notificação)
+      const contagemAtual = mensagens.length;
+      if (contagemAtual > ultimaContagemMensagens && ultimaContagemMensagens > 0) {
+        mostrarNotificacao(`💬 Nova mensagem de ${nomeParceria}!`);
+      }
+      ultimaContagemMensagens = contagemAtual;
+      
+      // Se não há mensagens, mostrar mensagem vazia
+      if (mensagens.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.style.cssText = 'text-align:center;color:var(--text-mute);padding:32px 16px;';
+        emptyDiv.innerHTML = '<p style="font-size:13px;">Nenhuma mensagem ainda. Envie uma mensagem para iniciar a conversa.</p>';
+        container.appendChild(emptyDiv);
+        return;
+      }
+      
+      // Renderizar cada mensagem
+      mensagens.forEach(msg => {
+        const msgDiv = document.createElement('div');
+        msgDiv.style.cssText = `
+          display: flex;
+          margin-bottom: 12px;
+          ${msg.remetente === 'admin' ? 'justify-content: flex-end;' : 'justify-content: flex-start;'}
+        `;
+        
+        const bubble = document.createElement('div');
+        bubble.style.cssText = `
+          max-width: 70%;
+          padding: 10px 14px;
+          border-radius: 12px;
+          word-wrap: break-word;
+          font-size: 14px;
+          line-height: 1.5;
+          ${msg.remetente === 'admin' ? 
+            'background: var(--g500); color: white; border-radius: 12px 3px 12px 12px;' : 
+            'background: white; color: var(--text); border: 1px solid var(--border); border-radius: 3px 12px 12px 12px;'
+          }
+        `;
+        bubble.textContent = msg.conteudo;
+        
+        msgDiv.appendChild(bubble);
+        container.appendChild(msgDiv);
+        
+        // Adicionar timestamp abaixo
+        const timeDiv = document.createElement('div');
+        timeDiv.style.cssText = `
+          display: flex;
+          margin-bottom: 8px;
+          margin-top: -8px;
+          ${msg.remetente === 'admin' ? 'justify-content: flex-end; padding-right: 4px;' : 'justify-content: flex-start; padding-left: 4px;'}
+        `;
+        const timeSpan = document.createElement('span');
+        timeSpan.style.cssText = 'font-size: 11px; color: var(--text-mute);';
+        const horaMsg = new Date(msg.data_mensagem);
+        timeSpan.textContent = horaMsg.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        timeDiv.appendChild(timeSpan);
+        container.appendChild(timeDiv);
+      });
+      
+      // Scroll para o final
+      container.scrollTop = container.scrollHeight;
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar mensagens:', erro);
+    mostrarNotificacao('❌ Erro ao carregar mensagens');
+  }
+}
+
+function mostrarNotificacao(mensagem) {
+  // Criar notificação com toast
+  const toast = document.createElement('div');
+  toast.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-size: 14px;
+    font-weight: 500;
+    z-index: 10000;
+    animation: slideIn 0.3s ease-out;
+  `;
+  toast.textContent = mensagem;
+  
+  // Adicionar animação CSS
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  `;
+  if (!document.querySelector('style[data-toast]')) {
+    style.setAttribute('data-toast', 'true');
+    document.head.appendChild(style);
+  }
+  
+  document.body.appendChild(toast);
+  
+  // Remover após 4 segundos
+  setTimeout(() => {
+    toast.style.animation = 'slideIn 0.3s ease-out reverse';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+  
+  // Tentar notificação nativa do navegador se permitido
+  if ('Notification' in window && Notification.permission === 'granted') {
+    new Notification('Pequenos Exploradores', { body: mensagem, icon: '/img/logo.png' });
+  }
+}
+
+async function enviarMensagemAdmin(e) {
+  e.preventDefault();
+  
+  if (!parceriaIdAtual) return;
+  
+  const input = document.getElementById('chat-input');
+  const texto = input.value.trim();
+  
+  if (!texto) return;
+  
+  try {
+    const resposta = await fetch(`/api/parcerias/${parceriaIdAtual}/mensagens`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        conteudo: texto,
+        remetente: 'admin'
+      })
+    });
+    
+    const resultado = await resposta.json();
+    
+    if (resposta.ok && resultado.sucesso) {
+      input.value = '';
+      await carregarMensagensParceria(parceriaIdAtual);
+      showToast('Mensagem enviada!');
+    } else {
+      alert('Erro ao enviar: ' + resultado.mensagem);
+    }
+  } catch (erro) {
+    console.error('Erro:', erro);
+    alert('Erro ao enviar mensagem: ' + erro.message);
+  }
+}
+
+function filterByStatus(select) {
+  const status = select.value;
+  const rows = document.querySelectorAll('#tbl-parcerias tbody tr');
+  rows.forEach(row => {
+    if (!status) {
+      row.style.display = '';
+    } else {
+      const statusCell = row.cells[4]?.innerText.toLowerCase() || '';
+      row.style.display = statusCell.includes(status) ? '' : 'none';
+    }
+  });
 }
 
 document.querySelectorAll('dialog.modal-overlay').forEach(overlay => {

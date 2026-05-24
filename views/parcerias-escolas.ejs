@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parcerias com Escolas - Pequenos Exploradores</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/aluno-redesign.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: #e8f6ff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      margin-top: 72px;
+    }
+
+    /* NAV */
+    nav.navbar-redesign {
+      background: #61b231;
+      padding: 0 40px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 16px rgba(97,178,49,0.28);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      z-index: 9000;
+    }
+    
+    section.logo-redesign {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-left: -32px;
+      font-family: 'Baloo 2', cursive;
+      font-size: 30px;
+      color: white;
+      text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.15);
+    }
+    
+    section.logo-redesign img {
+      width: 145px;
+      height: 94px;
+      object-fit: contain;
+    }
+    
+    section.nav-links-redesign {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-left: 130px;
+    }
+    
+    a.nav-link-redesign {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 8px 18px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      font-family: 'Fredoka', 'Baloo 2', Arial, sans-serif;
+    }
+    
+    a.nav-link-redesign:hover,
+    a.nav-link-redesign.active {
+      background: rgba(255, 255, 255, 0.25);
+      color: white;
+    }
+    
+    section.nav-right-redesign {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    /* HERO SECTION */
+    section.pe-hero {
+      background: linear-gradient(180deg, #87ceeb 0%, #b8e4f7 60%, #d4f0a0 100%);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      margin-top: 0;
+    }
+
+    .cloud {
+      position: absolute;
+      background: white;
+      border-radius: 50px;
+      opacity: 0.85;
+    }
+    .cloud::before, .cloud::after {
+      content: '';
+      position: absolute;
+      background: white;
+      border-radius: 50%;
+    }
+    .cloud-1 { width: 120px; height: 40px; top: 15%; left: 5%; animation: float1 6s ease-in-out infinite; }
+    .cloud-1::before { width: 50px; height: 50px; top: -25px; left: 15px; }
+    .cloud-1::after { width: 35px; height: 35px; top: -18px; left: 55px; }
+
+    .cloud-2 { width: 90px; height: 30px; top: 10%; right: 8%; animation: float2 8s ease-in-out infinite; }
+    .cloud-2::before { width: 40px; height: 40px; top: -20px; left: 10px; }
+    .cloud-2::after { width: 28px; height: 28px; top: -14px; left: 42px; }
+
+    .cloud-3 { width: 100px; height: 35px; top: 40%; left: 2%; animation: float1 7s ease-in-out infinite reverse; }
+    .cloud-3::before { width: 45px; height: 45px; top: -22px; left: 12px; }
+    .cloud-3::after { width: 32px; height: 32px; top: -16px; left: 50px; }
+
+    @keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+    @keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+
+    .pe-badge {
+      display: inline-block;
+      background: rgba(255,200,50,0.9);
+      color: #7a4a00;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 6px 18px;
+      border-radius: 20px;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+    }
+
+    section.pe-hero h1 {
+      font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+      font-size: 2.4rem;
+      color: white;
+      text-shadow: 2px 3px 0px rgba(0,0,0,0.15);
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+    }
+    section.pe-hero h1 span {
+      color: #4caf1e;
+      text-shadow: 2px 3px 0px rgba(0,0,0,0.2);
+      display: block;
+    }
+    section.pe-hero p {
+      color: white;
+      font-size: 1.05rem;
+      font-weight: 600;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    /* MAIN CONTENT */
+    main.pe-main {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* FORMULÁRIO */
+    article.pe-form-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 8px 30px rgba(76,175,30,0.15), 0 2px 8px rgba(0,0,0,0.06);
+      border: 2px solid rgba(76,175,30,0.15);
+      margin-top: -1rem;
+      position: relative;
+    }
+
+    .pe-form-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .pe-form-header h2 {
+      font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+      font-size: 1.7rem;
+      color: #2d6e0a;
+      margin-bottom: 0.4rem;
+    }
+    .pe-form-header p {
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .pe-form-header .accent {
+      color: #4caf1e;
+      font-weight: 800;
+    }
+
+    form.pe-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    form.pe-form-grid fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+    form.pe-form-grid fieldset.full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #4caf1e;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 2px solid #e0f0d0;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      color: #333;
+      background: #f8fff4;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+    }
+    input:focus, select:focus {
+      border-color: #4caf1e;
+      box-shadow: 0 0 0 3px rgba(76,175,30,0.15);
+      background: white;
+    }
+    input::placeholder { color: #bbb; }
+
+    button.pe-btn-submit {
+      grid-column: 1 / -1;
+      width: fit-content;
+      padding: 14px 48px;
+      margin-top: 1.5rem;
+      background: #f5a623;
+      border: none;
+      border-radius: 50px;
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.15rem;
+      color: white;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 4px 15px rgba(245,166,35,0.4);
+      letter-spacing: 0.02em;
+      justify-self: center;
+    }
+    button.pe-btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(245,166,35,0.5); }
+    button.pe-btn-submit:active { transform: translateY(0); }
+
+    /* INFO CARDS */
+    section.pe-info-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    article.pe-info-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.2rem 1rem;
+      text-align: center;
+      border: 2px solid #e8f5e0;
+      box-shadow: 0 3px 10px rgba(76,175,30,0.08);
+    }
+    .pe-info-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    article.pe-info-card h3 {
+      font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+      font-size: 1rem;
+      color: #2d6e0a;
+      margin-bottom: 0.3rem;
+    }
+    article.pe-info-card p { font-size: 0.82rem; color: #777; line-height: 1.4; }
+
+    /* SUCCESS STATE */
+    .pe-success {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    .pe-success-icon {
+      width: 80px; height: 80px;
+      background: #e8f9df;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+      margin: 0 auto 1rem;
+      border: 3px solid #4caf1e;
+    }
+    .pe-success h2 {
+      font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+      font-size: 1.6rem;
+      color: #2d6e0a;
+      margin-bottom: 0.5rem;
+    }
+    .pe-success p { color: #666; font-size: 0.95rem; line-height: 1.6; }
+
+    /* CHAT DIALOG */
+    dialog.chat-overlay {
+      border: none;
+      border-radius: 24px 24px 16px 16px;
+      width: 100%;
+      max-width: 480px;
+      height: 520px;
+      padding: 0;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 -8px 40px rgba(0,0,0,0.2);
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 200;
+    }
+    dialog.chat-overlay[open] {
+      display: flex;
+    }
+    dialog.chat-overlay::backdrop {
+      background: rgba(30,80,10,0.5);
+    }
+
+    header.chat-header {
+      background: #4caf1e;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: white;
+    }
+    .chat-avatar {
+      width: 40px; height: 40px;
+      background: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .chat-header-info h3 {
+      font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+      font-size: 1.05rem;
+      line-height: 1;
+    }
+    .chat-header-info span {
+      font-size: 0.78rem;
+      opacity: 0.85;
+    }
+    button.chat-close {
+      margin-left: auto;
+      background: none; border: none;
+      color: white; font-size: 1.3rem; cursor: pointer;
+      opacity: 0.8; padding: 4px;
+    }
+    button.chat-close:hover { opacity: 1; }
+
+    section.chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      background: #f6fef0;
+    }
+
+    .msg {
+      max-width: 78%;
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .msg-bot {
+      background: white;
+      color: #333;
+      border: 1.5px solid #d8f0c0;
+      border-bottom-left-radius: 4px;
+      align-self: flex-start;
+    }
+    .msg-user {
+      background: #4caf1e;
+      color: white;
+      border-bottom-right-radius: 4px;
+      align-self: flex-end;
+    }
+    .msg-time {
+      font-size: 0.72rem;
+      color: #aaa;
+      align-self: flex-start;
+      padding-left: 4px;
+      margin-top: -4px;
+    }
+    .msg-time.right { align-self: flex-end; padding-right: 4px; }
+
+    .typing-dots {
+      display: flex; gap: 4px; align-items: center; padding: 4px 0;
+    }
+    .typing-dots span {
+      width: 7px; height: 7px;
+      background: #4caf1e;
+      border-radius: 50%;
+      animation: blink 1.2s infinite;
+    }
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+
+    .chat-options {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px;
+    }
+    button.chat-opt-btn {
+      background: #f0fae6;
+      border: 1.5px solid #a8dba4;
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #2d6e0a;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    button.chat-opt-btn:hover { background: #d8f0c0; }
+
+    .chat-input-area {
+      padding: 0.75rem 1rem;
+      border-top: 1.5px solid #e8f5e0;
+      display: flex; gap: 8px; align-items: center;
+      background: white;
+    }
+    .chat-input-area input {
+      flex: 1;
+      padding: 9px 14px;
+      border: 1.5px solid #d4ebb0;
+      border-radius: 50px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.88rem;
+      outline: none;
+      background: #f8fff4;
+    }
+    .chat-input-area input:focus { border-color: #4caf1e; }
+    button.chat-send-btn {
+      width: 38px; height: 38px;
+      background: #4caf1e;
+      border: none; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    button.chat-send-btn:hover { background: #3d9919; }
+    button.chat-send-btn svg { width: 16px; height: 16px; fill: white; }
+
+    /* NOTIFICATION TOAST */
+    output.toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: white;
+      border: 2px solid #4caf1e;
+      border-radius: 16px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      max-width: 320px;
+      z-index: 300;
+      transform: translateX(120%);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    output.toast.show { transform: translateX(0); }
+    .toast-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      background: #e8f9df;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .toast-text h4 {
+      font-family: 'Baloo 2', 'Fredoka', Arial, sans-serif;
+      font-size: 0.95rem;
+      color: #2d6e0a;
+      margin-bottom: 2px;
+    }
+    .toast-text p { font-size: 0.8rem; color: #666; line-height: 1.4; }
+    button.toast-action {
+      margin-top: 6px;
+      background: none; border: none;
+      color: #4caf1e;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
+    </section>
+    <section class="nav-links-redesign">
+      <a class="nav-link-redesign" href="/">Início</a>
+      <a class="nav-link-redesign" href="/sobre">Sobre</a>
+      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
+    </section>
+    <section class="nav-right-redesign">
+      <a href="#formCard" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+    </section>
+  </nav>
+
+  <section class="pe-hero">
+    <span class="cloud cloud-1"></span>
+    <span class="cloud cloud-2"></span>
+    <span class="cloud cloud-3"></span>
+    <span class="pe-badge">🌟 Plataforma educacional para crianças</span>
+    <h1>
+      Como podemos ajudar<br>
+      <span>sua escola?</span>
+    </h1>
+    <p>Converse com um especialista e descubra o plano ideal para sua instituição!</p>
+  </section>
+
+  <main class="pe-main">
+
+    <article class="pe-form-card" id="formCard">
+      <header class="pe-form-header">
+        <h2>Preencha o formulário</h2>
+        <p>Envie suas informações e em poucos minutos um especialista entrará em contato com você pelo <span class="accent">chat da plataforma</span>.</p>
+      </header>
+
+      <form class="pe-form-grid" id="peForm" method="POST" action="/parcerias-escolas">
+        <fieldset>
+          <label>Nome completo *</label>
+          <input type="text" name="nome_contato" placeholder="Seu nome" required />
+        </fieldset>
+        <fieldset>
+          <label>E-mail *</label>
+          <input type="email" name="email" id="emailInput" placeholder="email@escola.com.br" required />
+        </fieldset>
+        <fieldset>
+          <label>Telefone / WhatsApp *</label>
+          <input type="tel" name="telefone" placeholder="(11) 99999-9999" required />
+        </fieldset>
+        <fieldset>
+          <label>Cidade *</label>
+          <input type="text" name="cidade" placeholder="Sua cidade" required />
+        </fieldset>
+        <fieldset class="full">
+          <label>Nome da escola *</label>
+          <input type="text" name="nome_escola" placeholder="Nome completo da instituição" required />
+        </fieldset>
+        <fieldset>
+          <label>Cargo na escola *</label>
+          <select name="cargo" required>
+            <option value="">Selecione</option>
+            <option value="Diretor(a)">Diretor(a)</option>
+            <option value="Coordenador(a) pedagógico(a)">Coordenador(a) pedagógico(a)</option>
+            <option value="Secretário(a)">Secretário(a)</option>
+            <option value="Professor(a)">Professor(a)</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </fieldset>
+        <fieldset>
+          <label>Tipo de escola *</label>
+          <select name="tipo_escola" required>
+            <option value="">Selecione</option>
+            <option value="Pública municipal">Pública municipal</option>
+            <option value="Pública estadual">Pública estadual</option>
+            <option value="Privada">Privada</option>
+            <option value="Filantrópica / ONG">Filantrópica / ONG</option>
+          </select>
+        </fieldset>
+        <fieldset class="full">
+          <label>Código MEC / INEP da escola</label>
+          <input type="text" name="codigo_mec" placeholder="Opcional — ex: 12345678" />
+        </fieldset>
+        <button type="submit" class="pe-btn-submit">Solicitar uma conversa 🚀</button>
+      </form>
+
+      <section class="pe-success" id="successMsg">
+        <span class="pe-success-icon">✅</span>
+        <h2>Solicitação enviada!</h2>
+        <p>Ótimo! Você receberá um <strong>e-mail de confirmação</strong> em breve.<br>
+        Quando nosso especialista estiver disponível, uma notificação aparecerá para você iniciar a conversa pelo chat!</p>
+      </section>
+    </article>
+
+    <section class="pe-info-row">
+      <article class="pe-info-card">
+        <span class="pe-info-icon">⚡</span>
+        <h3>Resposta rápida</h3>
+        <p>Nossa equipe retorna em até 30 minutos no horário comercial</p>
+      </article>
+      <article class="pe-info-card">
+        <span class="pe-info-icon">💬</span>
+        <h3>Chat ao vivo</h3>
+        <p>Converse diretamente com nossos especialistas pela plataforma</p>
+      </article>
+      <article class="pe-info-card">
+        <span class="pe-info-icon">🎒</span>
+        <h3>Plano ideal</h3>
+        <p>Encontramos juntos o plano perfeito para a realidade da sua escola</p>
+      </article>
+    </section>
+
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <!-- TOAST NOTIFICATION -->
+  <output class="toast" id="toast">
+    <span class="toast-icon">💬</span>
+    <span class="toast-text">
+      <h4>Especialista disponível!</h4>
+      <p>Ana está pronta para conversar sobre sua escola.</p>
+      <button class="toast-action" onclick="openChat()">Abrir chat agora →</button>
+    </span>
+  </output>
+
+  <!-- CHAT DIALOG -->
+  <dialog class="chat-overlay" id="chatOverlay">
+    <header class="chat-header">
+      <span class="chat-avatar">👩‍💼</span>
+      <span class="chat-header-info">
+        <h3>Ana — Especialista PE</h3>
+        <span>🟢 Online agora</span>
+      </span>
+      <button class="chat-close" onclick="closeChat()">✕</button>
+    </header>
+    <section class="chat-messages" id="chatMessages">
+      <p class="msg msg-bot">Olá! 👋 Sou a <strong>Ana</strong>, especialista da equipe Pequenos Exploradores. Fico feliz que sua escola se interessou pela nossa plataforma!</p>
+      <span class="msg-time">Agora</span>
+      <p class="msg msg-bot">Vamos conversar sobre as opções que temos para vocês. O que você gostaria de saber primeiro?</p>
+      <span class="chat-options" id="chatOptions">
+        <button class="chat-opt-btn" onclick="sendOption('Quero saber sobre os planos disponíveis')">Ver planos 📋</button>
+        <button class="chat-opt-btn" onclick="sendOption('Quanto custa para minha escola?')">Valores 💰</button>
+        <button class="chat-opt-btn" onclick="sendOption('Como funciona a plataforma?')">Como funciona 🎒</button>
+      </span>
+    </section>
+    <form class="chat-input-area" onsubmit="sendMsg(event)">
+      <input type="text" id="chatInput" placeholder="Escreva sua mensagem..." />
+      <button type="submit" class="chat-send-btn">
+        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
+      </button>
+    </form>
+  </dialog>
+
+  <script>
+    const form = document.getElementById('peForm');
+    const formCard = document.getElementById('formCard');
+    const successMsg = document.getElementById('successMsg');
+    const toast = document.getElementById('toast');
+    window.parceriaId = null; // Guardar ID da parceria NO WINDOW
+    window.escolaEmail = null; // Guardar email da escola
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      // Coletar dados do formulário
+      const formData = new FormData(form);
+      const dados = Object.fromEntries(formData);
+      
+      console.log('Enviando dados:', dados);
+
+      try {
+        // Enviar para o servidor
+        const resposta = await fetch('/parcerias-escolas', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(dados)
+        });
+
+        console.log('Status da resposta:', resposta.status);
+        
+        const resultado = await resposta.json();
+        
+        console.log('Resultado:', resultado);
+
+        if (resposta.ok && resultado.sucesso) {
+          // Guardar ID da parceria no window e email
+          window.parceriaId = resultado.id;
+          window.escolaEmail = dados.email;
+          console.log('✅ Parceria criada com ID:', window.parceriaId);
+          
+          // Sucesso!
+          form.style.display = 'none';
+          successMsg.style.display = 'block';
+          document.querySelector('.pe-form-header').style.display = 'none';
+
+          setTimeout(() => {
+            toast.classList.add('show');
+          }, 4000);
+        } else {
+          // Erro na validação ou na requisição
+          const erroMsg = resultado.mensagem || 'Falha ao enviar solicitação';
+          alert('Erro: ' + erroMsg);
+          if (resultado.erros) {
+            console.error('Erros de validação:', resultado.erros);
+          }
+        }
+      } catch (erro) {
+        console.error('Erro ao enviar formulário:', erro);
+        console.error('Stack:', erro.stack);
+        alert('Erro ao enviar solicitação: ' + erro.message);
+      }
+    });
+
+    function openChat() {
+      toast.classList.remove('show');
+      document.getElementById('chatOverlay').showModal();
+      carregarMensagensChat();
+      
+      // Auto-refresh a cada 3 segundos enquanto o chat está aberto
+      if (window.chatRefreshInterval) clearInterval(window.chatRefreshInterval);
+      window.chatRefreshInterval = setInterval(() => {
+        carregarMensagensChat();
+      }, 3000);
+    }
+
+    function closeChat() {
+      document.getElementById('chatOverlay').close();
+      if (window.chatRefreshInterval) {
+        clearInterval(window.chatRefreshInterval);
+        window.chatRefreshInterval = null;
+      }
+    }
+
+    // Carregar mensagens da parceria do backend
+    let ultimaContagemMensagensEscola = 0;
+    
+    async function carregarMensagensChat() {
+      if (!window.parceriaId) {
+        console.log('❌ Nenhuma parceria ID disponível');
+        return;
+      }
+
+      try {
+        const resposta = await fetch(`/api/parcerias/mensagens/todas`);
+        const dados = await resposta.json();
+        
+        if (dados.sucesso) {
+          const parceriaData = dados.dados[window.parceriaId] || {};
+          const mensagensParceria = parceriaData.mensagens || [];
+          console.log('📨 Mensagens carregadas:', mensagensParceria.length);
+          
+          // Verificar se há novas mensagens de admin
+          const contagemAtual = mensagensParceria.filter(m => m.remetente === 'admin').length;
+          if (contagemAtual > ultimaContagemMensagensEscola && ultimaContagemMensagensEscola > 0) {
+            mostrarNotificacaoEscola('💬 Resposta do nosso especialista!');
+          }
+          ultimaContagemMensagensEscola = contagemAtual;
+          
+          // Limpar chat atual
+          const chatMessages = document.getElementById('chatMessages');
+          chatMessages.innerHTML = '';
+          
+          // Adicionar cada mensagem
+          mensagensParceria.forEach(msg => {
+            const ehEscola = msg.remetente === 'escola';
+            const tipo = ehEscola ? 'user' : 'bot';
+            const p = document.createElement('p');
+            p.className = 'msg msg-' + tipo;
+            p.textContent = msg.conteudo;
+            chatMessages.appendChild(p);
+            
+            const span = document.createElement('span');
+            span.className = 'msg-time' + (ehEscola ? ' right' : '');
+            const dataMsg = new Date(msg.data_mensagem);
+            span.textContent = dataMsg.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            chatMessages.appendChild(span);
+          });
+          
+          // Scroll para o final
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+          
+          // Remover opções de chat (se existirem)
+          const opts = document.getElementById('chatOptions');
+          if(opts) opts.remove();
+        }
+      } catch (erro) {
+        console.error('❌ Erro ao carregar mensagens:', erro);
+      }
+    }
+    
+    function mostrarNotificacaoEscola(mensagem) {
+      // Criar notificação com toast
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: #4CAF50;
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        font-size: 14px;
+        font-weight: 500;
+        z-index: 10000;
+        animation: slideInRight 0.3s ease-out;
+      `;
+      toast.textContent = mensagem;
+      
+      // Adicionar animação CSS
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideInRight {
+          from {
+            transform: translateX(400px);
+            opacity: 0;
+          }
+          to {
+            transform: translateX(0);
+            opacity: 1;
+          }
+        }
+      `;
+      if (!document.querySelector('style[data-toast-escolar]')) {
+        style.setAttribute('data-toast-escolar', 'true');
+        document.head.appendChild(style);
+      }
+      
+      document.body.appendChild(toast);
+      
+      // Remover após 5 segundos
+      setTimeout(() => {
+        toast.style.animation = 'slideInRight 0.3s ease-out reverse';
+        setTimeout(() => toast.remove(), 300);
+      }, 5000);
+      
+      // Tentar notificação nativa do navegador se permitido
+      if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('Pequenos Exploradores', { body: mensagem, icon: '/img/logo.png' });
+      }
+    }
+
+    // Respostas automáticas desativadas - usar somente mensagens do backend
+    const botReplies = {};
+
+    let typingEl = null;
+
+    function addMsg(text, type, delay = 0) {
+      const msgs = document.getElementById('chatMessages');
+      setTimeout(() => {
+        if(typingEl) { typingEl.remove(); typingEl = null; }
+        const p = document.createElement('p');
+        p.className = 'msg msg-' + type;
+        p.innerHTML = text;
+        msgs.appendChild(p);
+        msgs.scrollTop = msgs.scrollHeight;
+      }, delay);
+    }
+
+    function showTyping() {
+      const msgs = document.getElementById('chatMessages');
+      typingEl = document.createElement('p');
+      typingEl.className = 'msg msg-bot';
+      typingEl.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
+      msgs.appendChild(typingEl);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function sendOption(text) {
+      const opts = document.getElementById('chatOptions');
+      if(opts) opts.remove();
+      addMsg(text, 'user');
+      sendMsgToBackend(text);
+    }
+
+    async function sendMsgToBackend(text) {
+      if (!window.parceriaId) {
+        console.log('❌ Nenhuma parceria ID disponível');
+        alert('Erro: Nenhuma parceria ID. Recarregue a página.');
+        return;
+      }
+
+      try {
+        console.log('📤 Enviando mensagem para parceria', window.parceriaId, ':', text);
+        const resposta = await fetch(`/api/parcerias/${window.parceriaId}/mensagens`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            conteudo: text,
+            remetente: 'escola'
+          })
+        });
+
+        const resultado = await resposta.json();
+        
+        if (resposta.ok && resultado.sucesso) {
+          console.log('✅ Mensagem enviada com sucesso');
+          
+          // Aguardar um pouco e recarregar mensagens do backend
+          await new Promise(resolve => setTimeout(resolve, 500));
+          await carregarMensagensChat();
+        } else {
+          console.error('❌ Erro ao enviar mensagem:', resultado);
+          alert('Erro ao enviar mensagem');
+        }
+      } catch (erro) {
+        console.error('❌ Erro ao enviar mensagem:', erro);
+        alert('Erro ao enviar mensagem: ' + erro.message);
+      }
+    }
+
+    function sendMsg(e) {
+      e.preventDefault();
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if(!text) return;
+      input.value = '';
+      const opts = document.getElementById('chatOptions');
+      if(opts) opts.remove();
+      sendMsgToBackend(text);
+    }
+  </script>
+
+</body>
+</html>

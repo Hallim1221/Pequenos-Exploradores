@@ -1,74 +1,84 @@
-const pool = require('../config/database');
+const BaseModel = require('./BaseModel');
+const mockdb = require('../lib/mockdb');
 
-class Quiz {
+class Quiz extends BaseModel {
+  static useMock = false;
+
   // Criar novo quiz
   static async criar(titulo, tema, tipo_ambiente = null) {
-    const connection = await pool.getConnection();
-    try {
-      const [result] = await connection.execute(
-        'INSERT INTO quizzes (titulo, tema, tipo_ambiente) VALUES (?, ?, ?)',
-        [titulo, tema, tipo_ambiente]
-      );
-      return { id: result.insertId, titulo, tema };
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [result] = await connection.execute(
+          'INSERT INTO quizzes (titulo, tema, tipo_ambiente) VALUES (?, ?, ?)',
+          [titulo, tema, tipo_ambiente]
+        );
+        this.log('criar', 'success', `Quiz ${titulo} criado`);
+        return { id: result.insertId, titulo, tema };
+      }),
+      () => mockdb.quizzes && mockdb.quizzes.length > 0 
+        ? { id: mockdb.nextQuizId++, titulo, tema }
+        : { id: Date.now(), titulo, tema }
+    );
   }
 
   // Buscar quiz por ID com perguntas
   static async buscarPorId(id) {
-    const connection = await pool.getConnection();
-    try {
-      const [quiz] = await connection.execute(
-        'SELECT * FROM quizzes WHERE id = ?',
-        [id]
-      );
-      
-      const [perguntas] = await connection.execute(
-        'SELECT * FROM perguntas WHERE quiz_id = ?',
-        [id]
-      );
-      
-      return { ...quiz[0], perguntas };
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [quiz] = await connection.execute(
+          'SELECT * FROM quizzes WHERE id = ?',
+          [id]
+        );
+        
+        const [perguntas] = await connection.execute(
+          'SELECT * FROM perguntas WHERE quiz_id = ?',
+          [id]
+        );
+        
+        return quiz[0] ? { ...quiz[0], perguntas } : null;
+      }),
+      () => {
+        const quiz = mockdb.quizzes?.find(q => q.id === parseInt(id));
+        return quiz ? { ...quiz, perguntas: [] } : null;
+      }
+    );
   }
 
   // Listar todos os quizzes
   static async listarTodos() {
-    const connection = await pool.getConnection();
-    try {
-      const [rows] = await connection.execute('SELECT * FROM quizzes');
-      return rows;
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [rows] = await connection.execute('SELECT * FROM quizzes');
+        return rows;
+      }),
+      () => mockdb.quizzes || []
+    );
   }
 
   // Listar quizzes por tema
   static async listarPorTema(tema) {
-    const connection = await pool.getConnection();
-    try {
-      const [rows] = await connection.execute(
-        'SELECT * FROM quizzes WHERE tema = ?',
-        [tema]
-      );
-      return rows;
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [rows] = await connection.execute(
+          'SELECT * FROM quizzes WHERE tema = ?',
+          [tema]
+        );
+        return rows;
+      }),
+      () => mockdb.quizzes?.filter(q => q.tema === tema) || []
+    );
   }
 
   // Deletar quiz
   static async deletar(id) {
-    const connection = await pool.getConnection();
-    try {
-      await connection.execute('DELETE FROM quizzes WHERE id = ?', [id]);
-      return true;
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        await connection.execute('DELETE FROM quizzes WHERE id = ?', [id]);
+        this.log('deletar', 'success', `Quiz ${id} deletado`);
+        return true;
+      }),
+      () => true
+    );
   }
 }
 

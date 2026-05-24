@@ -8,6 +8,9 @@ const Aluno = require('../models/Aluno');
 const Professor = require('../models/Professor');
 const Turma = require('../models/Turma');
 const Quiz = require('../models/Quiz');
+const Compra = require('../models/Compra');
+const Gestao = require('../models/Gestao');
+const Parceria = require('../models/Parceria');
 
 // Cadastro 2 do Professor
 router.get('/professor/cadastro2', (req, res) => {
@@ -19,8 +22,15 @@ router.get('/login2', (req, res) => {
   res.render('login2');
 });
 // Dashboard administrativo
-router.get('/dashboard-admin', (req, res) => {
-  res.render('dashboard-admin');
+router.get('/dashboard-admin', async (req, res) => {
+  try {
+    // Buscar todas as parcerias
+    const parcerias = await Parceria.listarTodas();
+    res.render('dashboard-admin', { parcerias: parcerias || [] });
+  } catch (erro) {
+    console.error('Erro ao carregar parcerias:', erro);
+    res.render('dashboard-admin', { parcerias: [] });
+  }
 });
 
 // Página de turmas do professor
@@ -49,32 +59,79 @@ router.get('/adicionar-turma', (req, res) => {
 });
 
 // Compra de avatar
-router.post('/comprar-avatar', (req, res) => {
-  const { avatar, preco } = req.body;
-  let saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
-  let avatares = Array.isArray(req.session.avatares) ? req.session.avatares : [];
-  const precoNum = parseInt(preco, 10);
-  if (!avatar || isNaN(precoNum) || precoNum <= 0) {
-    return res.status(400).json({ sucesso: false, mensagem: 'Dados inválidos.' });
+router.post('/comprar-avatar', async (req, res) => {
+  try {
+    // Verificar autenticação
+    if (!req.session.user || req.session.user.tipo !== 'aluno' || !req.session.user.id) {
+      return res.status(401).json({ sucesso: false, mensagem: 'Não autenticado' });
+    }
+
+    const { avatar, preco } = req.body;
+    const precoNum = parseInt(preco, 10);
+
+    // Validar entrada
+    if (!avatar || isNaN(precoNum) || precoNum <= 0) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Dados inválidos' });
+    }
+
+    // Processar compra através do modelo
+    const resultado = await Compra.comprarAvatar(req.session.user.id, avatar, precoNum);
+    
+    if (!resultado.sucesso) {
+      return res.status(400).json(resultado);
+    }
+
+    // Atualizar session com novos valores
+    req.session.saldo = resultado.saldo;
+    req.session.avatares = resultado.avatares;
+
+    return res.json(resultado);
+  } catch (erro) {
+    console.error('Erro ao comprar avatar:', erro);
+    return res.status(500).json({ sucesso: false, mensagem: 'Erro ao processar compra' });
   }
-  if (saldo < precoNum) {
-    return res.status(400).json({ sucesso: false, mensagem: 'Saldo insuficiente.' });
-  }
-  if (avatares.includes(avatar)) {
-    return res.status(400).json({ sucesso: false, mensagem: 'Avatar já comprado.' });
-  }
-  saldo -= precoNum;
-  avatares.push(avatar);
-  req.session.saldo = saldo;
-  req.session.avatares = avatares;
-  return res.json({ sucesso: true, saldo, avatares });
 });
 // Cadastro do Professor (POST)
-router.post('/professor/cadastro', (req, res) => {
-  // Aqui você pode adicionar lógica de cadastro, validação, etc.
-  // Agora redireciona para a tela de turmas do professor (primeira série)
-  res.redirect(encodeURI('/professor/serie/1º Ano'));
-});
+router.post('/professor/cadastro',
+  [
+    body('nome').notEmpty().withMessage('Nome é obrigatório'),
+    body('email').isEmail().withMessage('Email inválido'),
+    body('password').isLength({ min: 6 }).withMessage('Senha deve ter ao menos 6 caracteres')
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render('professor-cadastro', { errors: errors.array(), old: req.body });
+    }
+
+    try {
+      const { nome, email, password } = req.body;
+      
+      // Verificar se email já existe
+      const professorExistente = await Professor.buscarPorEmail(email);
+      if (professorExistente) {
+        return res.status(400).render('professor-cadastro', {
+          errors: [{ msg: 'Email já cadastrado' }],
+          old: req.body
+        });
+      }
+
+      // Criar professor no BD
+      const novoProfessor = await Professor.criar(nome, email, password);
+      
+      // Fazer login automático
+      req.session.user = { tipo: 'professor', email: email, id: novoProfessor.id };
+      
+      return res.redirect('/professor/dashboard');
+    } catch (erro) {
+      console.error('Erro ao cadastrar professor:', erro);
+      return res.status(500).render('professor-cadastro', {
+        errors: [{ msg: 'Erro ao cadastrar. Tente novamente.' }],
+        old: req.body
+      });
+    }
+  }
+);
 
 // Cadastro do Professor
 router.get('/professor/cadastro', (req, res) => {
@@ -121,7 +178,7 @@ router.post('/aluno/cadastro',
       const novoAluno = await Aluno.criar(nome, email, password);
       
       // Fazer login automático
-      req.session.user = { tipo: 'aluno', email: email };
+      req.session.user = { tipo: 'aluno', email: email, id: novoAluno.id };
       req.session.saldo = 700;
       
       return res.redirect('/aluno');
@@ -136,9 +193,22 @@ router.post('/aluno/cadastro',
 );
 
 // Rota para página de compra de avatares
-router.get('/comprar-avatares', (req, res) => {
-  const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
-  res.render('comprar-avatares', { saldo });
+router.get('/comprar-avatares', async (req, res) => {
+  try {
+    let saldo = 700; // Padrão
+    
+    if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
+      const aluno = await Aluno.buscarPorId(req.session.user.id);
+      if (aluno) {
+        saldo = aluno.saldo;
+      }
+    }
+    
+    res.render('comprar-avatares', { saldo });
+  } catch (erro) {
+    console.error('Erro ao carregar página de compras:', erro);
+    res.render('comprar-avatares', { saldo: 700 });
+  }
 });
 
 // Página inicial
@@ -161,6 +231,11 @@ router.get('/instituicoes', (req, res) => {
   res.render('instituicoes');
 });
 
+// Parcerias com Escolas
+router.get('/parcerias-escolas', (req, res) => {
+  res.render('parcerias-escolas');
+});
+
 router.post('/contato',
   [
     body('nome').notEmpty().withMessage('Nome é obrigatório'),
@@ -181,18 +256,38 @@ router.get('/login', (req, res) => {
   res.render('login');
 });
 
-router.post('/login', (req, res) => {
-  const role = req.body.role;
-  if (role === 'aluno') {
-    req.session.user = { tipo: 'aluno', email: req.body.email };
-    return res.redirect('/aluno');
+router.post('/login', async (req, res) => {
+  try {
+    const { role, email, senha } = req.body;
+    
+    if (!role || !email || !senha) {
+      return res.status(400).json({ success: false, message: 'Dados incompletos' });
+    }
+
+    if (role === 'aluno') {
+      const aluno = await Aluno.buscarPorEmail(email);
+      if (!aluno || aluno.senha !== senha) {
+        return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+      }
+      req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
+      req.session.saldo = aluno.saldo;
+      return res.status(200).json({ success: true, redirect: '/aluno' });
+    }
+
+    if (role === 'professor') {
+      const professor = await Professor.buscarPorEmail(email);
+      if (!professor || professor.senha !== senha) {
+        return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+      }
+      req.session.user = { tipo: 'professor', email: email, id: professor.id };
+      return res.status(200).json({ success: true, redirect: '/professor/dashboard' });
+    }
+
+    return res.status(400).json({ success: false, message: 'Tipo de usuário inválido' });
+  } catch (erro) {
+    console.error('Erro ao fazer login:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
   }
-  if (role === 'professor') {
-    req.session.user = { tipo: 'professor', email: req.body.email };
-    return res.redirect('/professor/dashboard');
-  }
-  // Se quiser tratar outros perfis futuramente
-  res.redirect('/');
 });
 
 
@@ -211,7 +306,7 @@ router.post('/aluno/login', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
     }
 
-    // Buscar aluno no BD
+    // Buscar aluno no BD com validação de senha
     const aluno = await Aluno.buscarPorEmail(email);
 
     if (!aluno || aluno.senha !== senha) {
@@ -222,7 +317,7 @@ router.post('/aluno/login', async (req, res) => {
     req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
     req.session.saldo = aluno.saldo;
 
-    return res.status(200).json({ success: true });
+    return res.status(200).json({ success: true, redirect: '/aluno' });
   } catch (erro) {
     console.error('Erro ao fazer login:', erro);
     return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
@@ -238,10 +333,13 @@ router.post('/gestao/login', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
     }
 
-    // Validação básica (você pode integrar com um modelo de Gestao se quiser)
-    // Por enquanto, aceita qualquer gestão
-    req.session.user = { tipo: 'gestao', email: email };
+    // Validar gestor com BD
+    const gestor = await Gestao.validarCredenciais(email, senha);
+    if (!gestor) {
+      return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
+    }
 
+    req.session.user = { tipo: 'gestao', email: email, id: gestor.id };
     return res.status(200).json({ success: true });
   } catch (erro) {
     console.error('Erro ao fazer login de gestão:', erro);
@@ -251,19 +349,48 @@ router.post('/gestao/login', async (req, res) => {
 
 // Área do Aluno
 
-router.get('/aluno', (req, res) => {
+router.get('/aluno', async (req, res) => {
   // Protege rota: exige login
   if (!req.session.user || req.session.user.tipo !== 'aluno') {
     return res.redirect('/aluno/login');
   }
-  const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
-  res.render('aluno-novo', { saldo });
+  
+  try {
+    // Buscar dados atualizados do aluno
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) {
+      return res.redirect('/aluno/login');
+    }
+    
+    const saldo = aluno.saldo;
+    req.session.saldo = saldo; // Manter session sincronizada
+    res.render('aluno-novo', { saldo });
+  } catch (erro) {
+    console.error('Erro ao carregar página aluno:', erro);
+    const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
+    res.render('aluno-novo', { saldo });
+  }
 });
 
 // Área do Aluno Versão Nova Redesenhada
-router.get('/aluno-novo', (req, res) => {
-  const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
-  res.render('aluno-novo', { saldo });
+router.get('/aluno-novo', async (req, res) => {
+  try {
+    let saldo = 700; // Padrão
+    
+    // Se está autenticado, buscar saldo real do BD
+    if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
+      const aluno = await Aluno.buscarPorId(req.session.user.id);
+      if (aluno) {
+        saldo = aluno.saldo;
+        req.session.saldo = saldo; // Manter session sincronizada
+      }
+    }
+    
+    res.render('aluno-novo', { saldo });
+  } catch (erro) {
+    console.error('Erro ao carregar página aluno-novo:', erro);
+    res.render('aluno-novo', { saldo: 700 });
+  }
 });
 
 
@@ -349,10 +476,32 @@ router.get('/criar_turma', (req, res) => {
 });
 
 // Criação de turma do professor (POST)
-router.post('/professor/turmas/criar', (req, res) => {
-  // Aqui você pode validar e salvar os dados da turma, se desejar
-  // Para agora, apenas redireciona para a página de turmas do professor
-  res.redirect('/professor/turmas');
+router.post('/professor/turmas/criar', async (req, res) => {
+  try {
+    // Verificar autenticação
+    if (!req.session.user || req.session.user.tipo !== 'professor' || !req.session.user.id) {
+      return res.status(401).json({ sucesso: false, mensagem: 'Não autenticado' });
+    }
+
+    const { nome, ano_escolar } = req.body;
+
+    // Validar entrada
+    if (!nome || !ano_escolar) {
+      return res.status(400).render('criar_turma', {
+        errors: [{ msg: 'Nome e ano escolar são obrigatórios' }]
+      });
+    }
+
+    // Criar turma no BD
+    const novaTurma = await Turma.criar(nome, req.session.user.id, ano_escolar);
+
+    return res.redirect('/professor/dashboard');
+  } catch (erro) {
+    console.error('Erro ao criar turma:', erro);
+    return res.status(500).render('criar_turma', {
+      errors: [{ msg: 'Erro ao criar turma. Tente novamente.' }]
+    });
+  }
 });
 
 // Página da área do professor
@@ -371,6 +520,195 @@ router.get('/logout', (req, res) => {
     console.log('Sessão destruída. Redirecionando...');
     res.redirect('/');
   });
+});
+
+// ROTAS DE PARCERIAS COM ESCOLAS
+router.get('/parcerias-escolas', (req, res) => {
+  res.render('parcerias-escolas');
+});
+
+// ROTA DE TESTE
+router.get('/test-parcerias', (req, res) => {
+  res.json({ teste: 'ok', metodosParceria: Object.getOwnPropertyNames(Parceria).filter(m => typeof Parceria[m] === 'function') });
+});
+
+router.post('/parcerias-escolas', async (req, res) => {
+  try {
+    console.log('=== POST /parcerias-escolas ===');
+    console.log('Body recebido:', req.body);
+    
+    const { nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec } = req.body;
+
+    // Validar dados
+    console.log('Validando dados...');
+    const validacao = Parceria.validar({
+      nome_contato,
+      email,
+      telefone,
+      cidade,
+      nome_escola,
+      cargo,
+      tipo_escola,
+      codigo_mec
+    });
+
+    console.log('Validação resultado:', validacao);
+
+    if (!validacao.valido) {
+      console.log('Validação falhou');
+      return res.status(400).json({
+        sucesso: false,
+        mensagem: 'Validação falhou',
+        erros: validacao.erros
+      });
+    }
+
+    // Verificar se já existe solicitação deste email
+    console.log('Verificando se email já existe...');
+    const parceriaExistente = await Parceria.buscarPorEmail(email);
+    console.log('Email existe?', !!parceriaExistente);
+    
+    if (parceriaExistente) {
+      return res.status(400).json({
+        sucesso: false,
+        mensagem: 'Já existe uma solicitação associada a este e-mail. Por favor, use outro e-mail ou aguarde o retorno.'
+      });
+    }
+
+    // Criar parceria
+    console.log('Criando parceria...');
+    const resultado = await Parceria.criar({
+      nome_contato,
+      email,
+      telefone,
+      cidade,
+      nome_escola,
+      cargo,
+      tipo_escola,
+      codigo_mec
+    });
+
+    console.log('Resultado da criação:', resultado);
+
+    if (resultado.status === 'sucesso' || resultado.id) {
+      console.log('Sucesso! ID:', resultado.id);
+      return res.status(201).json({
+        sucesso: true,
+        mensagem: 'Solicitação enviada com sucesso! Um especialista entrará em contato em breve.',
+        id: resultado.id
+      });
+    } else {
+      return res.status(500).json({
+        sucesso: false,
+        mensagem: 'Erro ao processar solicitação'
+      });
+    }
+  } catch (erro) {
+    console.error('=== ERRO ao criar parceria ===');
+    console.error('Erro:', erro.message);
+    console.error('Stack:', erro.stack);
+    return res.status(500).json({
+      sucesso: false,
+      mensagem: 'Erro ao processar solicitação',
+      erro: erro.message
+    });
+  }
+});
+
+// API: Atualizar status de parceria
+router.patch('/api/parcerias/:id/status', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const statusValidos = ['pendente', 'em_andamento', 'concluido', 'rejeitado'];
+    if (!statusValidos.includes(status)) {
+      return res.status(400).json({
+        sucesso: false,
+        mensagem: 'Status inválido'
+      });
+    }
+
+    const resultado = await Parceria.atualizarStatus(id, status);
+    if (resultado) {
+      res.json({ sucesso: true, mensagem: 'Status atualizado' });
+    } else {
+      res.status(404).json({ sucesso: false, mensagem: 'Parceria não encontrada' });
+    }
+  } catch (erro) {
+    console.error('Erro ao atualizar status:', erro);
+    res.status(500).json({
+      sucesso: false,
+      mensagem: 'Erro ao processar',
+      erro: erro.message
+    });
+  }
+});
+
+// API: Listar todas as mensagens de parcerias
+router.get('/api/parcerias/mensagens/todas', async (req, res) => {
+  try {
+    console.log(`\n🟢 GET /api/parcerias/mensagens/todas chamado`);
+    
+    const todasParcerias = await Parceria.listarTodas();
+    console.log(`  -> Total de parcerias: ${todasParcerias.length}`);
+    
+    const mensagensPorParceria = {};
+    
+    for (const parceria of todasParcerias) {
+      console.log(`  -> Carregando mensagens da parceria ${parceria.id}...`);
+      const mensagens = await Parceria.listarMensagensParcerias(parceria.id);
+      mensagensPorParceria[parceria.id] = {
+        parceria,
+        mensagens: mensagens || []
+      };
+      console.log(`     -> ${mensagens?.length || 0} mensagens`);
+    }
+    
+    res.json({ sucesso: true, dados: mensagensPorParceria });
+  } catch (erro) {
+    console.error('❌ Erro ao listar mensagens:', erro);
+    res.status(500).json({ sucesso: false, erro: erro.message });
+  }
+});
+
+// API: Enviar mensagem sobre parceria
+router.post('/api/parcerias/:id/mensagens', async (req, res) => {
+  const fs = require('fs');
+  const path = require('path');
+  const logFile = path.join(__dirname, '..', 'debug-post-mensagem.log');
+  
+  try {
+    const { id } = req.params;
+    const { conteudo, remetente = 'admin' } = req.body;
+
+    // Log em arquivo para debug
+    fs.appendFileSync(logFile, `\n[${new Date().toISOString()}] POST /api/parcerias/${id}/mensagens\n`);
+    fs.appendFileSync(logFile, `Remetente: ${remetente}, Conteúdo: ${conteudo}\n`);
+
+    // Validar inputs
+    if (!conteudo || !conteudo.trim()) {
+      fs.appendFileSync(logFile, `ERRO: Conteúdo vazio\n`);
+      return res.status(400).json({ sucesso: false, erro: 'Conteúdo vazio' });
+    }
+
+    // Debug: confirmar que a nova rota está sendo executada
+    console.log(`\n🔵 POST /api/parcerias/${id}/mensagens - Mensagem recebida`);
+    console.log(`   Remetente: ${remetente}`);
+    console.log(`   Conteúdo: ${conteudo}`);
+
+    // Criar mensagem via modelo
+    const mensagem = await Parceria.criarMensagemParceria(id, conteudo, remetente);
+    
+    fs.appendFileSync(logFile, `✅ Mensagem criada: ID=${mensagem.id}, parceria_id=${mensagem.parceria_id}\n`);
+    console.log(`   ✅ Mensagem criada com ID: ${mensagem.id}`);
+
+    return res.json({ sucesso: true, mensagem });
+  } catch (erro) {
+    fs.appendFileSync(logFile, `❌ ERRO: ${erro.message}\n${erro.stack}\n`);
+    console.error(`❌ Erro ao criar mensagem:`, erro);
+    return res.status(500).json({ sucesso: false, erro: 'Erro ao processar mensagem' });
+  }
 });
 
 module.exports = router;

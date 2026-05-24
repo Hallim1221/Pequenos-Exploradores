@@ -1,63 +1,68 @@
-const pool = require('../config/database');
+const BaseModel = require('./BaseModel');
+const mockdb = require('../lib/mockdb');
 
-class Pergunta {
+class Pergunta extends BaseModel {
+  static useMock = false;
+
   // Criar nova pergunta
   static async criar(quiz_id, enunciado, tipo = 'multipla_escolha') {
-    const connection = await pool.getConnection();
-    try {
-      const [result] = await connection.execute(
-        'INSERT INTO perguntas (quiz_id, enunciado, tipo) VALUES (?, ?, ?)',
-        [quiz_id, enunciado, tipo]
-      );
-      return { id: result.insertId, quiz_id, enunciado };
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [result] = await connection.execute(
+          'INSERT INTO perguntas (quiz_id, enunciado, tipo) VALUES (?, ?, ?)',
+          [quiz_id, enunciado, tipo]
+        );
+        this.log('criar', 'success', `Pergunta criada para quiz ${quiz_id}`);
+        return { id: result.insertId, quiz_id, enunciado };
+      }),
+      () => ({ id: Date.now(), quiz_id, enunciado })
+    );
   }
 
   // Buscar pergunta por ID com opções
   static async buscarPorId(id) {
-    const connection = await pool.getConnection();
-    try {
-      const [pergunta] = await connection.execute(
-        'SELECT * FROM perguntas WHERE id = ?',
-        [id]
-      );
-      
-      const [opcoes] = await connection.execute(
-        'SELECT * FROM opcoes WHERE pergunta_id = ?',
-        [id]
-      );
-      
-      return { ...pergunta[0], opcoes };
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [pergunta] = await connection.execute(
+          'SELECT * FROM perguntas WHERE id = ?',
+          [id]
+        );
+        
+        const [opcoes] = await connection.execute(
+          'SELECT * FROM opcoes WHERE pergunta_id = ?',
+          [id]
+        );
+        
+        return pergunta[0] ? { ...pergunta[0], opcoes } : null;
+      }),
+      () => ({ id: id, opcoes: [] })
+    );
   }
 
   // Listar perguntas de um quiz
   static async listarPorQuiz(quiz_id) {
-    const connection = await pool.getConnection();
-    try {
-      const [rows] = await connection.execute(
-        'SELECT * FROM perguntas WHERE quiz_id = ?',
-        [quiz_id]
-      );
-      return rows;
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [rows] = await connection.execute(
+          'SELECT * FROM perguntas WHERE quiz_id = ?',
+          [quiz_id]
+        );
+        return rows;
+      }),
+      () => []
+    );
   }
 
   // Deletar pergunta
   static async deletar(id) {
-    const connection = await pool.getConnection();
-    try {
-      await connection.execute('DELETE FROM perguntas WHERE id = ?', [id]);
-      return true;
-    } finally {
-      connection.release();
-    }
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        await connection.execute('DELETE FROM perguntas WHERE id = ?', [id]);
+        this.log('deletar', 'success', `Pergunta ${id} deletada`);
+        return true;
+      }),
+      () => true
+    );
   }
 }
 

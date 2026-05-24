@@ -214,6 +214,33 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
   </section>
 </section>
 
+<!-- ======== MODAL NOVO ALUNO ======== -->
+<section class="modal-overlay" id="modalAluno">
+  <section class="modal">
+    <h2>👨‍🎓 Adicionar Aluno</h2>
+    <p>Preencha os dados para adicionar um aluno à turma</p>
+    <form id="formAdicionarAluno">
+      <section class="form-group">
+        <label>E-mail do Aluno</label>
+        <input type="email" id="emailAluno" placeholder="aluno@email.com" required>
+      </section>
+      <section class="form-group">
+        <label>Definir Senha</label>
+        <input type="password" id="senhaAluno" placeholder="Mínimo 6 caracteres" required minlength="6">
+      </section>
+      <section class="form-group">
+        <label>Confirmar Senha</label>
+        <input type="password" id="confirmarSenhaAluno" placeholder="Repita a senha" required minlength="6">
+      </section>
+      <section class="form-group" id="mensagemAluno" style="display:none; color:#28a745; padding:10px; background:#f0f8f0; border-radius:4px;"></section>
+      <section class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeAluno()">Cancelar</button>
+        <button type="button" class="btn-confirm" onclick="adicionarAluno()">Adicionar ✓</button>
+      </section>
+    </form>
+  </section>
+</section>
+
 <!-- ======== PAGE: DASHBOARD ======== -->
 <section class="page active" id="dashboard">
   <nav class="navbar-redesign">
@@ -232,8 +259,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
   <section class="main">
     <section class="top-row">
       <section class="welcome-card">
-        <h2>👋 Olá, Everton Lopes da Silva</h2>
-        <p>rm922394@coordenador.gmail.com</p>
+        <h2> Olá, Exemplo Lopes da Silva</h2>
+        <p>rm94169@coordenador.gmail.com</p>
         <section class="quick-menu">
           <button class="qm-btn" onclick="goTo('cadastrar')"><img src="/img/pss.png" alt="Cadastrar" style="width:32px;height:32px;object-fit:contain;">Cadastrar Turmas</button>
           <button class="qm-btn" onclick="goTo('painel')"><img src="/img/esl.png" alt="Painel" style="width:32px;height:32px;object-fit:contain;">Painel da Escola</button>
@@ -242,8 +269,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         </section>
       </section>
       <section class="banner-card">
-        <section class="banner-bg">🌿</section>
-        <section class="banner-text">🌍 VAMOS EXPLORAR?<br><span style="font-size:16px;opacity:0.85">Pequenos Exploradores</span></section>
+        <section class="banner-bg"></section>
+        <section class="banner-text"> VAMOS EXPLORAR?<br><span style="font-size:16px;opacity:0.85">Pequenos Exploradores</span></section>
       </section>
     </section>
     <section class="mid-row">
@@ -251,12 +278,10 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         <section class="section-title"> Acessos</section>
         <section class="access-grid">
           <section class="access-item" onclick="goTo('equipe')" style="cursor:pointer">
-            <section class="access-icon"><img src="/img/eqp.png" alt="Professores" style="width:40px;height:40px;object-fit:contain;"></section>
             <section class="access-label">Professores</section>
             <section class="access-pct">85%</section>
           </section>
           <section class="access-item">
-            <section class="access-icon">🧒</section>
             <section class="access-label">Alunos</section>
             <section class="access-pct">95%</section>
           </section>
@@ -313,9 +338,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-    <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
+    <button class="back-btn" onclick="goTo('dashboard')"> Voltar ao Início</button>
     <section class="page-header">
-      <section><h1><img src="/img/pss.jpeg" alt="Cadastrar" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Cadastrar Turma</h1><p>Prof.ª Maria Theodora Pedreira de Freitas</p></section>
       <button class="btn-primary" onclick="openModal()">Cadastrar turma ➕</button>
     </section>
     <section class="card" style="margin-bottom:20px;">
@@ -323,7 +347,6 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         <section class="select-wrap"><select><option>Ano letivo</option><option>2025</option><option>2026</option></select></section>
         <section class="select-wrap"><select><option>Ano / Série</option><option>1° Ano</option><option>2° Ano</option><option>3° Ano</option><option>4° Ano</option><option>5° Ano</option></select></section>
       </section>
-      <section class="turmas-section-title"><img src="/img/esl.jpeg" alt="Ensino" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Ensino Fundamental — Anos Iniciais</section>
       <section class="turmas-list">
         <section class="turma-item">
           <section class="turma-item-left">
@@ -331,7 +354,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
             <section><section class="turma-item-name">5° Ano D</section><section class="turma-item-meta">30 alunos · Prof.ª Maria Theodora · 2025</section></section>
           </section>
           <section class="turma-item-actions">
-            <button class="btn-icon" title="Editar">✏️</button>
+            <button class="btn-icon" title="Editar" onclick="openAluno()">✏️</button>
             <button class="btn-icon danger" title="Remover">🗑️</button>
           </section>
         </section>
@@ -341,7 +364,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
             <section><section class="turma-item-name">1ª Série B</section><section class="turma-item-meta">28 alunos · Prof.ª Ana Lima · 2025</section></section>
           </section>
           <section class="turma-item-actions">
-            <button class="btn-icon">✏️</button>
+            <button class="btn-icon" onclick="openAluno()">✏️</button>
             <button class="btn-icon danger">🗑️</button>
           </section>
         </section>
@@ -351,7 +374,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
             <section><section class="turma-item-name">4ª Série B</section><section class="turma-item-meta">29 alunos · Prof.ª Carla Souza · 2025</section></section>
           </section>
           <section class="turma-item-actions">
-            <button class="btn-icon">✏️</button>
+            <button class="btn-icon" onclick="openAluno()">✏️</button>
             <button class="btn-icon danger">🗑️</button>
           </section>
         </section>
@@ -376,8 +399,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-    <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
-    <section class="section-title" style="font-size:24px;margin-bottom:20px;"><img src="/img/esl.jpeg" alt="Painel" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Painel da Escola</section>
+      <button class="back-btn" onclick="goTo('dashboard')"> Voltar ao Início</button>
+    <section class="section-title" style="font-size:24px;margin-bottom:20px;">Painel da Escola</section>
     <section class="stats-grid">
       <section class="stat-box"><section class="s-icon">🧒</section><section class="s-num">87</section><section class="s-label">Alunos Ativos</section></section>
       <section class="stat-box"><section class="s-icon"><img src="/img/eqp.png" alt="Professores" style="width:40px;height:40px;object-fit:contain;"></section><section class="s-num">12</section><section class="s-label">Professores</section></section>
@@ -423,30 +446,33 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-    <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
+    <button class="back-btn" onclick="goTo('dashboard')">  Voltar ao Início</button>
     <section style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-      <section class="section-title" style="font-size:24px;margin-bottom:0;"><img src="/img/eqp.png" alt="Equipe" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Equipe Escolar</section>
-      <button class="btn-primary" onclick="openMembro()">Adicionar membro ➕</button>
+      <section class="section-title" style="font-size:24px;margin-bottom:0;"> Equipe Escolar</section>
+      
     </section>
     <section class="team-grid">
       <section class="team-card">
         <section class="team-avatar">👨‍💼</section>
-        <section class="team-name">Everton Lopes da Silva</section>
+        <section class="team-name">Exemplo Lopes da Silva</section>
         <section class="team-role">Coordenador Geral</section>
         <span class="team-badge badge-coord">Coordenador</span>
       </section>
       <section class="team-card">
-        <section class="team-avatar"><img src="/img/eqp.png" alt="Membro" style="width:56px;height:56px;object-fit:contain;"></section>
+        <section class="team-avatar">👩‍🏫</section>
+        <section class="team-name">Maria Theodora Pedreira</section>
         <section class="team-role">5° Ano D · 4° Ano B</section>
         <span class="team-badge badge-prof">Professora</span>
       </section>
       <section class="team-card">
-        <section class="team-avatar"><img src="/img/eqp.png" alt="Membro" style="width:56px;height:56px;object-fit:contain;"></section>
+        <section class="team-avatar">👩‍🏫</section>
+        <section class="team-name">Ana Lima</section>
         <section class="team-role">1ª Série B · 2ª Série A</section>
         <span class="team-badge badge-prof">Professora</span>
       </section>
       <section class="team-card">
-        <section class="team-avatar"><img src="/img/eqp.png" alt="Membro" style="width:56px;height:56px;object-fit:contain;"></section>
+        <section class="team-avatar">👩‍🏫</section>
+        <section class="team-name">Carla Souza</section>
         <section class="team-role">4ª Série B · 3ª Série C</section>
         <span class="team-badge badge-prof">Professora</span>
       </section>
@@ -480,10 +506,9 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-    <button class="back-btn" onclick="goTo('dashboard')">← Voltar ao Início</button>
+    <button class="back-btn" onclick="goTo('dashboard')"> Voltar ao Início</button>
     <section class="card feedback-card">
       <section id="feedbackForm">
-        <section class="section-title" style="font-size:24px;"><img src="/img/bal.png" alt="Ajuda" style="width:36px;height:36px;object-fit:contain;display:inline;margin-right:8px;"> Ajude-nos a Melhorar</section>
         <p style="color:#5a9a72;font-size:15px;margin-bottom:4px;">Sua opinião é muito importante para nós! Como você avalia a plataforma?</p>
         <section class="rating-row">
           <button class="rating-btn" onclick="selectRating(this)"><span class="rating-emoji">😞</span>Ruim</button>
@@ -526,7 +551,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         <section style="background:#eff6ff;border-radius:16px;padding:18px;border:2px solid #bfdbfe;"><section style="font-size:28px;margin-bottom:8px;">📊</section><section style="font-size:14px;font-weight:600;color:#185fa5;">Acompanhamento</section></section>
         <section style="background:#fffbeb;border-radius:16px;padding:18px;border:2px solid #fde68a;"><section style="font-size:28px;margin-bottom:8px;">🏆</section><section style="font-size:14px;font-weight:600;color:#854f0b;">Recompensas</section></section>
       </section>
-      <button class="btn-primary" style="margin:0 auto;justify-content:center;" onclick="goTo('dashboard')">← Voltar ao Início</button>
+      <button class="btn-primary" style="margin:0 auto;justify-content:center;" onclick="goTo('dashboard')"> Voltar ao Início</button>
     </section>
   </section>
 </section>
@@ -568,6 +593,55 @@ function openModal(){document.getElementById('modalTurma').classList.add('open')
 function closeModal(){document.getElementById('modalTurma').classList.remove('open');}
 function openMembro(){document.getElementById('modalMembro').classList.add('open');}
 function closeMembro(){document.getElementById('modalMembro').classList.remove('open');}
+function openAluno(){document.getElementById('modalAluno').classList.add('open');}
+function closeAluno(){document.getElementById('modalAluno').classList.remove('open'); document.getElementById('formAdicionarAluno').reset(); document.getElementById('mensagemAluno').style.display='none';}
+function adicionarAluno(){
+  const email = document.getElementById('emailAluno').value.trim();
+  const senha = document.getElementById('senhaAluno').value;
+  const confirmarSenha = document.getElementById('confirmarSenhaAluno').value;
+  const mensagemEl = document.getElementById('mensagemAluno');
+  
+  // Validar campos
+  if (!email || !senha || !confirmarSenha) {
+    alert('Por favor, preencha todos os campos');
+    return;
+  }
+  
+  if (senha.length < 6) {
+    alert('Senha deve ter no mínimo 6 caracteres');
+    return;
+  }
+  
+  if (senha !== confirmarSenha) {
+    alert('As senhas não correspondem');
+    return;
+  }
+  
+  // Enviar dados para servidor
+  fetch('/api/instituicoes/adicionar-aluno', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ email, senha })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.sucesso) {
+      mensagemEl.textContent = '✓ Aluno cadastrado com sucesso!';
+      mensagemEl.style.display = 'block';
+      setTimeout(() => {
+        closeAluno();
+      }, 1500);
+    } else {
+      alert(data.mensagem || 'Erro ao cadastrar aluno');
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert('Erro ao conectar ao servidor');
+  });
+}
 function selectRating(btn){
   document.querySelectorAll('.rating-btn').forEach(b=>b.classList.remove('selected'));
   btn.classList.add('selected');
