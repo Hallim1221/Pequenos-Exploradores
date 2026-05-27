@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PlanetaR - Plataforma Educacional</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@700;800&family=Fredoka:wght@400;700&family=Fredoka+One&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
 <style>
   :root {
     --green-dark: #2d7a2d;
@@ -44,20 +44,62 @@
   .page { display: none; min-height: 100vh; flex-direction: column; }
   .page.active { display: flex; }
 
-  /* ── NAVBAR REDESIGN ─────────────────────────────── */
-  .navbar-redesign{background:#61b231;padding:0 40px;height:72px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 16px rgba(97,178,49,.28);position:fixed;top:0;left:0;right:0;width:100%;z-index:9000;}
-  .logo-redesign{display:flex;align-items:center;gap:16px;margin-left:-32px;font-family:'Baloo 2',cursive;font-size:30px;color:white;text-shadow:2px 2px 0 rgba(0,0,0,.15);}
-  .logo-redesign img{width:145px;height:94px;object-fit:contain;}
-  .nav-links-redesign{display:flex;gap:8px;align-items:center;margin-left:130px;}
-  .nav-link-redesign{color:rgba(255,255,255,.9);font-size:16px;font-weight:600;padding:8px 18px;border-radius:50px;text-decoration:none;transition:all .2s;cursor:pointer;}
-  .nav-link-redesign:hover,.nav-link-redesign.active{background:rgba(255,255,255,.25);color:white;}
-  .nav-right-redesign{display:flex;align-items:center;gap:16px;}
-  .btn-sair-redesign{background:rgba(255,255,255,.2);border:2px solid rgba(255,255,255,.5);color:white;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:7px 22px;border-radius:50px;cursor:pointer;transition:all .2s;}
-  .btn-sair-redesign:hover{background:rgba(255,255,255,.35);}
-  .bell-btn-redesign{position:relative;background:rgba(255,255,255,.2);border:none;border-radius:50%;width:44px;height:44px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;transition:all .2s;}
-  .bell-btn-redesign:hover{background:rgba(255,255,255,.35);}
-  .bell-badge-redesign{position:absolute;top:4px;right:4px;background:#FFD600;color:#7c5800;font-size:10px;font-weight:700;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-  body{padding-top:72px;}
+  /* ── NAV ─────────────────────────────── */
+  nav {
+    background: var(--green-main);
+    padding: 0 32px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem; color: white;
+    cursor: pointer;
+  }
+  .nav-logo span {
+    width: 38px; height: 38px; background: rgba(255,255,255,0.2);
+    border-radius: 50%; display: grid; place-items: center; font-size: 1.3rem;
+  }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-link {
+    color: rgba(255,255,255,0.85); font-weight: 700; font-size: 0.95rem;
+    padding: 8px 18px; border-radius: var(--radius-full);
+    cursor: pointer; transition: all .2s; border: none; background: none;
+  }
+  .nav-link:hover, .nav-link.active {
+    background: rgba(255,255,255,0.2); color: white;
+  }
+  .nav-right { display: flex; gap: 10px; align-items: center; }
+  .btn-sair {
+    border: 2.5px solid white; color: white; background: transparent;
+    padding: 7px 20px; border-radius: var(--radius-full);
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.9rem;
+    cursor: pointer; transition: all .2s;
+  }
+  .btn-sair:hover { background: white; color: var(--green-main); }
+  .btn-back {
+    background: var(--blue); color: white; border: none;
+    width: 36px; height: 36px; border-radius: 50%;
+    font-size: 1.1rem; cursor: pointer; display: grid; place-items: center;
+    transition: transform .2s;
+  }
+  .btn-back:hover { transform: scale(1.1); }
+  .notif-btn {
+    width: 36px; height: 36px; background: rgba(255,255,255,0.2);
+    border: none; border-radius: 50%; color: white; font-size: 1.1rem;
+    cursor: pointer; position: relative;
+  }
+  .notif-badge {
+    position: absolute; top: -2px; right: -2px;
+    width: 16px; height: 16px; background: var(--yellow);
+    border-radius: 50%; font-size: 0.65rem; font-weight: 900;
+    color: var(--text-dark); display: grid; place-items: center;
+  }
 
   /* ── HERO BANNER ─────────────────────── */
   .hero {
@@ -479,21 +521,19 @@
 <!-- PAGE: HOME (ALUNO) -->
 <!-- ════════════════════════════════════════ -->
 <section class="page" id="page-home">
-  <nav class="navbar-redesign">
-    <section class="logo-redesign">
-      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
-    </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign active" href="/aluno-novo">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
-    <section class="nav-right-redesign">
-      <button class="bell-btn-redesign" id="btn-notificacoes" aria-label="Notificações">
-        🔔<span class="bell-badge-redesign">1</span>
-      </button>
-      <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
-    </section>
+  <nav>
+    <header class="nav-logo" onclick="goto('page-home')">
+      <span>🧭</span> PlanetaR
+    </header>
+    <nav class="nav-links">
+      <button class="nav-link active">Início</button>
+      <button class="nav-link" onclick="goto('page-sobre')">Sobre</button>
+      <button class="nav-link">Contato</button>
+    </nav>
+    <aside class="nav-right">
+      <button class="notif-btn">🔔<span class="notif-badge">1</span></button>
+      <button class="btn-sair">Sair</button>
+    </aside>
   </nav>
 
   <section class="hero">
@@ -519,46 +559,46 @@
           🐻
           <span class="avatar-edit">✏️</span>
         </span>
-        <h3 class="profile-name">Lorena Amorim Gomes</h3>
-        <span class="profile-label">ESCOLA</span>
-        <p class="profile-school">Prof.ª Maria Theodora Pedreira</p>
+        <div class="profile-name">Lorena Amorim Gomes</div>
+        <div class="profile-label">ESCOLA</div>
+        <div class="profile-school">Prof.ª Maria Theodora Pedreira</div>
         <hr class="profile-divider">
-        <p class="profile-stat"><span>Missões concluídas</span><strong>1</strong></p>
-        <p class="profile-stat"><span>Em andamento</span><strong>1</strong></p>
-        <p class="profile-stat"><span>Turmas</span><strong>1</strong></p>
-        <p class="profile-stat"><span>Pontos XP</span><strong>320</strong></p>
+        <div class="profile-stat"><span>Missões concluídas</span><strong>1</strong></div>
+        <div class="profile-stat"><span>Em andamento</span><strong>1</strong></div>
+        <div class="profile-stat"><span>Turmas</span><strong>1</strong></div>
+        <div class="profile-stat"><span>Pontos XP</span><strong>320</strong></div>
       </article>
 
       <!-- Missions -->
       <article class="missions-card">
         <h2 class="section-title">🗺️ Minhas Missões</h2>
         <section class="missions-grid">
-          <article class="mission-item done">
-            <span class="mission-icon">🏕️</span>
-            <h4 class="mission-name">Explorar</h4>
+          <div class="mission-item done">
+            <div class="mission-icon">🏕️</div>
+            <div class="mission-name">Explorar</div>
             <span class="mission-tag tag-done">✓ Concluída</span>
-          </article>
-          <article class="mission-item ongoing">
-            <span class="mission-icon">📜</span>
-            <h4 class="mission-name">Aprender</h4>
+          </div>
+          <div class="mission-item ongoing">
+            <div class="mission-icon">📜</div>
+            <div class="mission-name">Aprender</div>
             <span class="mission-tag tag-ongoing">🔥 Em andamento</span>
-          </article>
-          <article class="mission-item new" onclick="goto('page-atividades')">
-            <span class="mission-icon">🌎</span>
-            <h4 class="mission-name">Descobrir</h4>
+          </div>
+          <div class="mission-item new" onclick="goto('page-atividades')">
+            <div class="mission-icon">🌎</div>
+            <div class="mission-name">Descobrir</div>
             <span class="mission-tag tag-new">✨ Novo!</span>
-          </article>
-          <article class="mission-item locked">
-            <span class="mission-icon">🏆</span>
-            <h4 class="mission-name">Conquistar</h4>
+          </div>
+          <div class="mission-item locked">
+            <div class="mission-icon">🏆</div>
+            <div class="mission-name">Conquistar</div>
             <span class="mission-tag tag-locked">🔒 Bloqueada</span>
-          </article>
+          </div>
         </section>
 
-        <section style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
+        <div style="margin-top:24px; display:flex; gap:12px; flex-wrap:wrap;">
           <button onclick="goto('page-turmas')" style="background:var(--green-main);color:white;border:none;border-radius:var(--radius-full);padding:10px 22px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:0.9rem;">🏫 Ver minhas turmas</button>
           <button onclick="goto('page-atividades')" style="background:var(--yellow);color:var(--text-dark);border:none;border-radius:var(--radius-full);padding:10px 22px;font-family:'Nunito',sans-serif;font-weight:800;cursor:pointer;font-size:0.9rem;">🎮 Explorar atividades</button>
-        </section>
+        </div>
       </article>
     </section>
   </main>
@@ -568,21 +608,19 @@
 <!-- PAGE: MINHAS TURMAS -->
 <!-- ════════════════════════════════════════ -->
 <section class="page active" id="page-turmas">
-  <nav class="navbar-redesign">
-    <section class="logo-redesign">
-      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
-    </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/aluno-novo">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
-    <section class="nav-right-redesign">
-      <button class="bell-btn-redesign" id="btn-notificacoes" aria-label="Notificações">
-        🔔<span class="bell-badge-redesign">1</span>
-      </button>
-      <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
-    </section>
+  <nav>
+    <header class="nav-logo" onclick="goto('page-home')">
+      <span>🧭</span> PlanetaR
+    </header>
+    <nav class="nav-links">
+      <button class="nav-link" onclick="goto('page-home')">Início</button>
+      <button class="nav-link">Sobre</button>
+      <button class="nav-link">Contato</button>
+    </nav>
+    <aside class="nav-right">
+      <button class="btn-back" onclick="goto('page-home')">←</button>
+      <button class="btn-sair">Sair</button>
+    </aside>
   </nav>
 
   <header class="page-header">
@@ -594,18 +632,18 @@
     <!-- Turma existente -->
     <article class="turma-card" onclick="goto('page-turma-detalhe')">
       <header class="turma-card-top">
-        <h3 class="turma-card-name">Séries – 5º Ano D</h3>
-        <p class="turma-card-sub">Prof.ª Izabel Santos Soares</p>
+        <div class="turma-card-name">Séries – 5º Ano D</div>
+        <div class="turma-card-sub">Prof.ª Izabel Santos Soares</div>
       </header>
-      <footer class="turma-card-bottom">
-        <p class="turma-info-row"><span>👥</span> 28 estudantes</p>
-        <p class="turma-info-row"><span>📋</span> 2 atividades</p>
-        <p class="turma-info-row"><span>🔑</span> Código: <strong>A3K7</strong></p>
-        <nav class="turma-activities">
+      <div class="turma-card-bottom">
+        <div class="turma-info-row"><span>👥</span> 28 estudantes</div>
+        <div class="turma-info-row"><span>📋</span> 2 atividades</div>
+        <div class="turma-info-row"><span>🔑</span> Código: <strong>A3K7</strong></div>
+        <div class="turma-activities">
           <span class="activity-chip">🦜 Animais do Brasil</span>
           <span class="activity-chip">🌍 Biomas</span>
-        </nav>
-      </footer>
+        </div>
+      </div>
     </article>
 
     <!-- Adicionar nova turma -->
@@ -621,21 +659,19 @@
 <!-- PAGE: TURMA DETALHE -->
 <!-- ════════════════════════════════════════ -->
 <section class="page" id="page-turma-detalhe">
-  <nav class="navbar-redesign">
-    <section class="logo-redesign">
-      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
-    </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/aluno-novo">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
-    <section class="nav-right-redesign">
-      <button class="bell-btn-redesign" id="btn-notificacoes" aria-label="Notificações">
-        🔔<span class="bell-badge-redesign">1</span>
-      </button>
-      <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
-    </section>
+  <nav>
+    <header class="nav-logo" onclick="goto('page-home')">
+      <span>🧭</span> PlanetaR
+    </header>
+    <nav class="nav-links">
+      <button class="nav-link" onclick="goto('page-home')">Início</button>
+      <button class="nav-link">Sobre</button>
+      <button class="nav-link">Contato</button>
+    </nav>
+    <aside class="nav-right">
+      <button class="btn-back" onclick="goto('page-turmas')">←</button>
+      <button class="btn-sair">Sair</button>
+    </aside>
   </nav>
 
   <header class="turma-detail-header">
@@ -644,8 +680,8 @@
       <p>Prof.ª Izabel Santos Soares • 28 estudantes</p>
     </hgroup>
     <aside class="turma-code-badge">
-      <span class="label">Código da turma</span>
-      <span class="code">A3K7</span>
+      <div class="label">Código da turma</div>
+      <div class="code">A3K7</div>
     </aside>
   </header>
 
@@ -658,34 +694,34 @@
   <!-- Sub-tab: Atividades -->
   <section id="sub-atividades-turma" class="atividades-grid" style="display:grid;">
     <article class="atividade-card" onclick="goto('page-atividades')">
-      <header class="atividade-top">
+      <div class="atividade-top">
         <span class="atividade-emoji">🦜</span>
-        <span>
-          <h3 class="atividade-title">Quiz: Animais do Brasil</h3>
+        <div>
+          <div class="atividade-title">Quiz: Animais do Brasil</div>
           <p class="atividade-desc">Descubra curiosidades sobre a fauna brasileira!</p>
-        </span>
-      </header>
+        </div>
+      </div>
       <footer class="atividade-bottom">
-        <aside>
-          <span class="stars">★★★☆☆</span>
-          <span class="difficulty">Intermediário</span>
-        </aside>
+        <div>
+          <div class="stars">★★★☆☆</div>
+          <div class="difficulty">Intermediário</div>
+        </div>
         <button class="btn-jogar">🎮 Jogar</button>
       </footer>
     </article>
     <article class="atividade-card" onclick="goto('page-atividades')">
-      <header class="atividade-top">
+      <div class="atividade-top">
         <span class="atividade-emoji">🌍</span>
-        <span>
-          <h3 class="atividade-title">Quiz: Biomas do Mundo</h3>
+        <div>
+          <div class="atividade-title">Quiz: Biomas do Mundo</div>
           <p class="atividade-desc">Florestas, desertos, oceanos e mais!</p>
-        </span>
-      </header>
+        </div>
+      </div>
       <footer class="atividade-bottom">
-        <aside>
-          <span class="stars">★★☆☆☆</span>
-          <span class="difficulty">Fácil</span>
-        </aside>
+        <div>
+          <div class="stars">★★☆☆☆</div>
+          <div class="difficulty">Fácil</div>
+        </div>
         <button class="btn-jogar">🎮 Jogar</button>
       </footer>
     </article>
@@ -693,68 +729,68 @@
 
   <!-- Sub-tab: Mural -->
   <section id="sub-mural" style="display:none; padding:0 24px;">
-    <article class="empty-state">
-      <span class="empty-icon">📌</span>
+    <div class="empty-state">
+      <div class="empty-icon">📌</div>
       <p>Nenhum recado no mural ainda.</p>
       <span style="font-size:0.85rem;">Sua professora vai postar avisos aqui!</span>
-    </article>
+    </div>
   </section>
 
   <!-- Sub-tab: Pessoas -->
   <section id="sub-pessoas" style="display:none; padding:0 24px;">
     <article class="pessoas-section">
       <h3 class="pessoas-label">Educadores</h3>
-      <article class="pessoa-card\">
-        <span class=\"pessoa-avatar\">👩‍🏫</span>
-        <span>
-          <h4 class=\"pessoa-name\">Izabel Santos Soares</h4>
-          <p class=\"pessoa-meta\">Professora responsável</p>
-        </span>
-      </article>
+      <div class="pessoa-card">
+        <span class="pessoa-avatar">👩‍🏫</span>
+        <div>
+          <div class="pessoa-name">Izabel Santos Soares</div>
+          <div class="pessoa-meta">Professora responsável</div>
+        </div>
+      </div>
 
       <h3 class="pessoas-label" style="margin-top:20px;">Estudantes</h3>
-      <article class="pessoa-card" style="border:2px solid var(--green-main); background:var(--green-pale);">
+      <div class="pessoa-card" style="border:2px solid var(--green-main); background:var(--green-pale);">
         <span class="pessoa-avatar">🐻</span>
-        <span>
-          <h4 class="pessoa-name">Lorena Amorim Gomes</h4>
-          <p class="pessoa-meta">Você • 320 XP</p>
-        </span>
+        <div>
+          <div class="pessoa-name">Lorena Amorim Gomes</div>
+          <div class="pessoa-meta">Você • 320 XP</div>
+        </div>
         <aside class="pessoa-xp">
-          <span>
-            <progress class="progress-mini" style="width:32%"><span class="progress-fill" style="width:32%"></span></progress>
-            <span style="font-size:0.72rem;color:var(--gray);margin-top:2px;">32/100</span>
-          </span>
-          <span class="xp-mini">⭐ 320</span>
+          <div>
+            <div class="progress-mini"><div class="progress-fill" style="width:32%"></div></div>
+            <div style="font-size:0.72rem;color:var(--gray);margin-top:2px;">32/100</div>
+          </div>
+          <div class="xp-mini">⭐ 320</div>
         </aside>
-      </article>
-      <article class="pessoa-card">
+      </div>
+      <div class="pessoa-card">
         <span class="pessoa-avatar">🦊</span>
-        <span>
-          <h4 class="pessoa-name">Lucas Oliveira</h4>
-          <p class="pessoa-meta">15.000 XP</p>
-        </span>
+        <div>
+          <div class="pessoa-name">Lucas Oliveira</div>
+          <div class="pessoa-meta">15.000 XP</div>
+        </div>
         <aside class="pessoa-xp">
-          <span>
-            <progress class="progress-mini" style="width:50%"><span class="progress-fill" style="width:50%"></span></progress>
-            <span style="font-size:0.72rem;color:var(--gray);margin-top:2px;">50/100</span>
-          </span>
-          <span class="xp-mini">⭐ 15k</span>
+          <div>
+            <div class="progress-mini"><div class="progress-fill" style="width:50%"></div></div>
+            <div style="font-size:0.72rem;color:var(--gray);margin-top:2px;">50/100</div>
+          </div>
+          <div class="xp-mini">⭐ 15k</div>
         </aside>
-      </article>
-      <article class="pessoa-card">
+      </div>
+      <div class="pessoa-card">
         <span class="pessoa-avatar">🦋</span>
-        <span>
-          <h4 class="pessoa-name">Ana Carolina Silva</h4>
-          <p class="pessoa-meta">9.200 XP</p>
-        </span>
+        <div>
+          <div class="pessoa-name">Ana Carolina Silva</div>
+          <div class="pessoa-meta">9.200 XP</div>
+        </div>
         <aside class="pessoa-xp">
-          <span>
-            <progress class="progress-mini" style="width:70%"><span class="progress-fill" style="width:70%"></span></progress>
-            <span style="font-size:0.72rem;color:var(--gray);margin-top:2px;">70/100</span>
-          </span>
-          <span class="xp-mini">⭐ 9.2k</span>
+          <div>
+            <div class="progress-mini"><div class="progress-fill" style="width:70%"></div></div>
+            <div style="font-size:0.72rem;color:var(--gray);margin-top:2px;">70/100</div>
+          </div>
+          <div class="xp-mini">⭐ 9.2k</div>
         </aside>
-      </article>
+      </div>
     </article>
   </section>
 </section>
@@ -763,21 +799,19 @@
 <!-- PAGE: ATIVIDADES -->
 <!-- ════════════════════════════════════════ -->
 <section class="page" id="page-atividades">
-  <nav class="navbar-redesign">
-    <section class="logo-redesign">
-      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
-    </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/aluno-novo">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
-    <section class="nav-right-redesign">
-      <button class="bell-btn-redesign" id="btn-notificacoes" aria-label="Notificações">
-        🔔<span class="bell-badge-redesign">1</span>
-      </button>
-      <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
-    </section>
+  <nav>
+    <header class="nav-logo" onclick="goto('page-home')">
+      <span>🧭</span> PlanetaR
+    </header>
+    <nav class="nav-links">
+      <button class="nav-link" onclick="goto('page-home')">Início</button>
+      <button class="nav-link">Sobre</button>
+      <button class="nav-link">Contato</button>
+    </nav>
+    <aside class="nav-right">
+      <button class="btn-back" onclick="history.back(), goto('page-home')">←</button>
+      <button class="btn-sair">Sair</button>
+    </aside>
   </nav>
 
   <header class="page-header">
@@ -787,52 +821,52 @@
 
   <section class="atividades-grid">
     <article class="atividade-card">
-      <header class="atividade-top">
+      <div class="atividade-top">
         <span class="atividade-emoji">🦜</span>
-        <span>
-          <h3 class="atividade-title">Quiz: Animais do Brasil</h3>
+        <div>
+          <div class="atividade-title">Quiz: Animais do Brasil</div>
           <p class="atividade-desc">Descubra curiosidades sobre a fauna brasileira!</p>
-        </span>
-      </header>
+        </div>
+      </div>
       <footer class="atividade-bottom">
-        <aside>
-          <span class="stars">★★★☆☆</span>
-          <span class="difficulty">Intermediário</span>
-        </aside>
+        <div>
+          <div class="stars">★★★☆☆</div>
+          <div class="difficulty">Intermediário</div>
+        </div>
         <button class="btn-jogar" onclick="showToast('🦜 Iniciando quiz...')">🎮 Jogar</button>
       </footer>
     </article>
 
     <article class="atividade-card">
-      <header class="atividade-top">
+      <div class="atividade-top">
         <span class="atividade-emoji">🌍</span>
-        <span>
-          <h3 class="atividade-title">Quiz: Biomas do Mundo</h3>
+        <div>
+          <div class="atividade-title">Quiz: Biomas do Mundo</div>
           <p class="atividade-desc">Teste seus conhecimentos sobre florestas, desertos e oceanos!</p>
-        </span>
-      </header>
+        </div>
+      </div>
       <footer class="atividade-bottom">
-        <aside>
-          <span class="stars">★★☆☆☆</span>
-          <span class="difficulty">Fácil</span>
-        </aside>
+        <div>
+          <div class="stars">★★☆☆☆</div>
+          <div class="difficulty">Fácil</div>
+        </div>
         <button class="btn-jogar" onclick="showToast('🌍 Iniciando quiz...')">🎮 Jogar</button>
       </footer>
     </article>
 
     <article class="atividade-card">
-      <header class="atividade-top">
+      <div class="atividade-top">
         <span class="atividade-emoji">♻️</span>
-        <span>
-          <h3 class="atividade-title">Quiz: Meio Ambiente</h3>
+        <div>
+          <div class="atividade-title">Quiz: Meio Ambiente</div>
           <p class="atividade-desc">Aprenda sobre reciclagem, preservação e sustentabilidade!</p>
-        </span>
-      </header>
+        </div>
+      </div>
       <footer class="atividade-bottom">
-        <aside>
-          <span class="stars">★★★★☆</span>
-          <span class="difficulty">Avançado</span>
-        </aside>
+        <div>
+          <div class="stars">★★★★☆</div>
+          <div class="difficulty">Avançado</div>
+        </div>
         <button class="btn-jogar" onclick="showToast('♻️ Iniciando quiz...')">🎮 Jogar</button>
       </footer>
     </article>
@@ -843,21 +877,19 @@
 <!-- PAGE: RANKING -->
 <!-- ════════════════════════════════════════ -->
 <section class="page" id="page-ranking">
-  <nav class="navbar-redesign">
-    <section class="logo-redesign">
-      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
-    </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/aluno-novo">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
-    <section class="nav-right-redesign">
-      <button class="bell-btn-redesign" id="btn-notificacoes" aria-label="Notificações">
-        🔔<span class="bell-badge-redesign">1</span>
-      </button>
-      <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
-    </section>
+  <nav>
+    <header class="nav-logo" onclick="goto('page-home')">
+      <span>🧭</span> PlanetaR
+    </header>
+    <nav class="nav-links">
+      <button class="nav-link" onclick="goto('page-home')">Início</button>
+      <button class="nav-link">Sobre</button>
+      <button class="nav-link">Contato</button>
+    </nav>
+    <aside class="nav-right">
+      <button class="btn-back" onclick="goto('page-home')">←</button>
+      <button class="btn-sair">Sair</button>
+    </aside>
   </nav>
 
   <header class="page-header">
@@ -888,11 +920,11 @@
     </section>
 
     <section class="ranking-list">
-      <article class="ranking-row"><span class="ranking-pos">1</span><span style="font-size:1.3rem">🦋</span><span><span style="font-weight:800;font-size:.9rem">Ana Carolina Silva</span><span style="font-size:.78rem;color:var(--gray)">22.000 XP</span></span></article>
-      <article class="ranking-row"><span class="ranking-pos">2</span><span style="font-size:1.3rem">🦊</span><span><span style="font-weight:800;font-size:.9rem">Lucas Oliveira</span><span style="font-size:.78rem;color:var(--gray)">15.000 XP</span></span></article>
-      <article class="ranking-row"><span class="ranking-pos">3</span><span style="font-size:1.3rem">🐸</span><span><span style="font-weight:800;font-size:.9rem">Pedro Alves</span><span style="font-size:.78rem;color:var(--gray)">8.500 XP</span></span></article>
-      <article class="ranking-row"><span class="ranking-pos">4</span><span style="font-size:1.3rem">🐦</span><span><span style="font-weight:800;font-size:.9rem">Marina Costa</span><span style="font-size:.78rem;color:var(--gray)">5.200 XP</span></span></article>
-      <article class="ranking-row me"><span class="ranking-pos">5</span><span style="font-size:1.3rem">🐻</span><span><span style="font-weight:800;font-size:.9rem">Lorena Amorim Gomes (você)</span><span style="font-size:.78rem;color:var(--green-dark)">320 XP</span></span></article>
+      <article class="ranking-row"><span class="ranking-pos">1</span><span style="font-size:1.3rem">🦋</span><div><div style="font-weight:800;font-size:.9rem">Ana Carolina Silva</div><div style="font-size:.78rem;color:var(--gray)">22.000 XP</div></div></article>
+      <article class="ranking-row"><span class="ranking-pos">2</span><span style="font-size:1.3rem">🦊</span><div><div style="font-weight:800;font-size:.9rem">Lucas Oliveira</div><div style="font-size:.78rem;color:var(--gray)">15.000 XP</div></div></article>
+      <article class="ranking-row"><span class="ranking-pos">3</span><span style="font-size:1.3rem">🐸</span><div><div style="font-weight:800;font-size:.9rem">Pedro Alves</div><div style="font-size:.78rem;color:var(--gray)">8.500 XP</div></div></article>
+      <article class="ranking-row"><span class="ranking-pos">4</span><span style="font-size:1.3rem">🐦</span><div><div style="font-weight:800;font-size:.9rem">Marina Costa</div><div style="font-size:.78rem;color:var(--gray)">5.200 XP</div></div></article>
+      <article class="ranking-row me"><span class="ranking-pos">5</span><span style="font-size:1.3rem">🐻</span><div><div style="font-weight:800;font-size:.9rem">Lorena Amorim Gomes (você)</div><div style="font-size:.78rem;color:var(--green-dark)">320 XP</div></div></article>
     </section>
   </section>
 </section>
@@ -901,21 +933,19 @@
 <!-- PAGE: SOBRE -->
 <!-- ════════════════════════════════════════ -->
 <section class="page" id="page-sobre">
-  <nav class="navbar-redesign">
-    <section class="logo-redesign">
-      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
-    </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/aluno-novo">Início</a>
-      <a class="nav-link-redesign active" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
-    <section class="nav-right-redesign">
-      <button class="bell-btn-redesign" id="btn-notificacoes" aria-label="Notificações">
-        🔔<span class="bell-badge-redesign">1</span>
-      </button>
-      <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
-    </section>
+  <nav>
+    <header class="nav-logo" onclick="goto('page-home')">
+      <span>🧭</span> PlanetaR
+    </header>
+    <nav class="nav-links">
+      <button class="nav-link" onclick="goto('page-home')">Início</button>
+      <button class="nav-link active">Sobre</button>
+      <button class="nav-link">Contato</button>
+    </nav>
+    <aside class="nav-right">
+      <button class="btn-back" onclick="goto('page-home')">←</button>
+      <button class="btn-sair">Sair</button>
+    </aside>
   </nav>
   <header class="page-header">
     <h2>🧭 Sobre o PlanetaR</h2>
@@ -938,18 +968,18 @@
       <h3>🏫 Entrar em uma Turma</h3>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </header>
-    <section class="modal-body">
-      <section class="code-hint">
+    <div class="modal-body">
+      <div class="code-hint">
         📋 Peça o <strong>código de 4 letras</strong> para a sua professora e digite abaixo!
-      </section>
-      <fieldset class="code-inputs">
+      </div>
+      <div class="code-inputs">
         <input class="code-input" maxlength="1" id="c1" oninput="nextCode(this,'c2')" onkeydown="prevCode(event,null,'c1')">
         <input class="code-input" maxlength="1" id="c2" oninput="nextCode(this,'c3')" onkeydown="prevCode(event,'c1','c2')">
         <input class="code-input" maxlength="1" id="c3" oninput="nextCode(this,'c4')" onkeydown="prevCode(event,'c2','c3')">
         <input class="code-input" maxlength="1" id="c4" oninput="nextCode(this,null)" onkeydown="prevCode(event,'c3','c4')">
-      </fieldset>
+      </div>
       <button class="btn-participar" onclick="participar()">🚀 Participar da turma!</button>
-    </section>
+    </div>
   </article>
 </section>
 

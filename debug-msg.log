@@ -54,3 +54,135 @@
 📝 criarMensagemParceria: id=1, type=string
 ❌ MySQL error: Using mock
 ✅ MockDB: {"id":7,"parceria_id":1,"remetente":"admin","conteudo":"ei","data_mensagem":"2026-05-23T22:45:27.928Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"escola","conteudo":"quero o premium","data_mensagem":"2026-05-25T14:21:28.474Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":3,"parceria_id":1,"remetente":"admin","conteudo":"ei","data_mensagem":"2026-05-25T14:22:03.732Z"}
+
+📝 criarMensagemParceria: id=2, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":5,"parceria_id":2,"remetente":"escola","conteudo":"suave","data_mensagem":"2026-05-25T15:26:23.427Z"}
+
+📝 criarMensagemParceria: id=2, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":6,"parceria_id":2,"remetente":"escola","conteudo":"tchau","data_mensagem":"2026-05-25T15:26:30.010Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"escola","conteudo":"suave","data_mensagem":"2026-05-26T14:29:29.763Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":3,"parceria_id":1,"remetente":"escola","conteudo":"pdp","data_mensagem":"2026-05-26T14:29:36.322Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":4,"parceria_id":1,"remetente":"admin","conteudo":"pdp cz","data_mensagem":"2026-05-26T14:30:12.108Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"escola","conteudo":"oi","data_mensagem":"2026-05-26T16:01:26.900Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":3,"parceria_id":1,"remetente":"escola","conteudo":"ueee","data_mensagem":"2026-05-26T16:20:54.620Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":4,"parceria_id":1,"remetente":"escola","conteudo":"oxi","data_mensagem":"2026-05-26T16:21:33.527Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":5,"parceria_id":1,"remetente":"escola","conteudo":"man","data_mensagem":"2026-05-26T16:21:59.985Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":6,"parceria_id":1,"remetente":"admin","conteudo":"Olá! Tudo bem com vocês?","data_mensagem":"2026-05-26T16:26:10.482Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":7,"parceria_id":1,"remetente":"admin","conteudo":"Testando novamente!","data_mensagem":"2026-05-26T16:26:28.046Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":8,"parceria_id":1,"remetente":"admin","conteudo":"Sistema funcionando perfeitamente!","data_mensagem":"2026-05-26T16:28:59.308Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":9,"parceria_id":1,"remetente":"admin","conteudo":"Tudo funcionando! ✅","data_mensagem":"2026-05-26T16:30:26.630Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":10,"parceria_id":1,"remetente":"admin","conteudo":"foiiiii porr","data_mensagem":"2026-05-26T16:36:05.765Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":11,"parceria_id":1,"remetente":"admin","conteudo":"io","data_mensagem":"2026-05-26T16:36:19.408Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":12,"parceria_id":1,"remetente":"admin","conteudo":"oi","data_mensagem":"2026-05-26T16:37:36.414Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":13,"parceria_id":1,"remetente":"admin","conteudo":"oi","data_mensagem":"2026-05-26T16:37:49.677Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":14,"parceria_id":1,"remetente":"admin","conteudo":"Teste final!","data_mensagem":"2026-05-26T16:40:00.928Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":15,"parceria_id":1,"remetente":"admin","conteudo":"tem q","data_mensagem":"2026-05-26T17:19:05.084Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":16,"parceria_id":1,"remetente":"admin","conteudo":"irrrrrr","data_mensagem":"2026-05-26T17:19:08.616Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":17,"parceria_id":1,"remetente":"escola","conteudo":"aeee kraka","data_mensagem":"2026-05-26T17:19:26.080Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":18,"parceria_id":1,"remetente":"escola","conteudo":"eeeee","data_mensagem":"2026-05-26T17:25:00.313Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"escola","conteudo":"ola","data_mensagem":"2026-05-27T14:44:53.662Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":3,"parceria_id":1,"remetente":"admin","conteudo":"oi","data_mensagem":"2026-05-27T14:45:17.204Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":4,"parceria_id":1,"remetente":"admin","conteudo":"teste","data_mensagem":"2026-05-27T21:03:05.174Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":2,"parceria_id":1,"remetente":"escola","conteudo":"eeeii","data_mensagem":"2026-05-27T21:07:54.358Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: Using mock
+✅ MockDB: {"id":3,"parceria_id":1,"remetente":"admin","conteudo":"salve","data_mensagem":"2026-05-27T21:08:08.861Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":5,"parceria_id":1,"remetente":"escola","conteudo":"quero o premium","data_mensagem":"2026-05-27T21:22:29.055Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":6,"parceria_id":1,"remetente":"admin","conteudo":"q","data_mensagem":"2026-05-27T21:26:47.900Z"}
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":1,"remetente":"admin","conteudo":"q","data_mensagem":"2026-05-27T21:26:47.903Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":1,"remetente":"escola","conteudo":"pou","data_mensagem":"2026-05-27T21:26:59.605Z"}

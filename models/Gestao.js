@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 const mockdb = require('../lib/mockdb');
+const Parceria = require('./Parceria');
 
 class Gestao {
   static useMock = false;
@@ -60,12 +61,31 @@ class Gestao {
     try {
       if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
-      const [rows] = await connection.execute(
+      
+      // Tentar validar contra gestores
+      const [gestores] = await connection.execute(
         'SELECT * FROM gestores WHERE email = ? AND senha = ?',
         [email, senha]
       );
+      
+      if (gestores.length > 0) {
+        connection.release();
+        return gestores[0];
+      }
+      
+      // Se não encontrou gestor, tentar validar contra parcerias (escolas)
+      const [parcerias] = await connection.execute(
+        'SELECT * FROM parcerias_escolas WHERE email = ? AND senha_gestao = ?',
+        [email, senha]
+      );
+      
+      if (parcerias.length > 0) {
+        connection.release();
+        return parcerias[0];
+      }
+      
       connection.release();
-      return rows[0] || null;
+      return null;
     } catch (erro) {
       this.useMock = true;
       return mockdb.validarGestor(email, senha);

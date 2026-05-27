@@ -26,6 +26,7 @@ router.get('/dashboard-admin', async (req, res) => {
   try {
     // Buscar todas as parcerias
     const parcerias = await Parceria.listarTodas();
+    console.log('✅ Rota /dashboard-admin chamada - Parcerias encontradas:', parcerias.length);
     res.render('dashboard-admin', { parcerias: parcerias || [] });
   } catch (erro) {
     console.error('Erro ao carregar parcerias:', erro);
@@ -333,13 +334,15 @@ router.post('/gestao/login', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
     }
 
-    // Validar gestor com BD
+    // Validar gestor com BD (valida tanto gestores quanto parcerias)
     const gestor = await Gestao.validarCredenciais(email, senha);
     if (!gestor) {
       return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
     }
 
-    req.session.user = { tipo: 'gestao', email: email, id: gestor.id };
+    // Se for parceria, usar nome_escola; se for gestor, usar nome
+    const nome = gestor.nome_escola || gestor.nome || 'Gestor';
+    req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome };
     return res.status(200).json({ success: true });
   } catch (erro) {
     console.error('Erro ao fazer login de gestão:', erro);
@@ -708,6 +711,35 @@ router.post('/api/parcerias/:id/mensagens', async (req, res) => {
     fs.appendFileSync(logFile, `❌ ERRO: ${erro.message}\n${erro.stack}\n`);
     console.error(`❌ Erro ao criar mensagem:`, erro);
     return res.status(500).json({ sucesso: false, erro: 'Erro ao processar mensagem' });
+  }
+});
+
+// API: Carregar mensagens de uma parceria específica
+router.get('/api/parcerias/:id/mensagens', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    console.log(`\n🟢 GET /api/parcerias/${id}/mensagens chamado`);
+    
+    // Buscar parceria
+    const parceria = await Parceria.buscarPorId(id);
+    if (!parceria) {
+      return res.status(404).json({ sucesso: false, erro: 'Parceria não encontrada' });
+    }
+    
+    // Buscar mensagens
+    const mensagens = await Parceria.listarMensagensParcerias(id);
+    
+    console.log(`   -> ${mensagens?.length || 0} mensagens encontradas`);
+    
+    res.json({ 
+      sucesso: true, 
+      parceria,
+      mensagens: mensagens || []
+    });
+  } catch (erro) {
+    console.error(`❌ Erro ao carregar mensagens:`, erro);
+    res.status(500).json({ sucesso: false, erro: 'Erro ao carregar mensagens' });
   }
 });
 

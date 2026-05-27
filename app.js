@@ -176,6 +176,47 @@ app.get('/api/parcerias/mensagens/todas', async (req, res) => {
   }
 });
 
+// GET /api/parcerias/com-mensagens - Retornar apenas parcerias com mensagens
+// GET /api/parcerias/com-mensagens - COM RESPOSTA ESTRUTURADA
+app.get('/api/parcerias/com-mensagens', async (req, res) => {
+  try {
+    console.log(`\n🟢 GET /api/parcerias/com-mensagens chamado`);
+    
+    const todasParcerias = await Parceria.listarTodas();
+    const parceriasComMensagens = [];
+    
+    for (const parceria of todasParcerias) {
+      const mensagens = await Parceria.listarMensagensParcerias(parceria.id);
+      if (mensagens && mensagens.length > 0) {
+        parceriasComMensagens.push({
+          id: parceria.id,
+          nome_escola: parceria.nome_escola,
+          email: parceria.email,
+          ultimaMensagem: mensagens[mensagens.length - 1],
+          totalMensagens: mensagens.length
+        });
+      }
+    }
+    
+    console.log(`  -> ${parceriasComMensagens.length} parcerias com mensagens`);
+    res.json({ sucesso: true, dados: parceriasComMensagens });
+  } catch (erro) {
+    console.error('❌ Erro ao listar parcerias com mensagens:', erro);
+    res.status(500).json({ sucesso: false, erro: erro.message });
+  }
+});
+
+// GET /api/parcerias-lista - Para dashboard (retorna array direto)
+app.get('/api/parcerias-lista', async (req, res) => {
+  try {
+    const todasParcerias = await Parceria.listarTodas();
+    res.json(todasParcerias || []);
+  } catch (erro) {
+    console.error('Erro ao listar parcerias:', erro);
+    res.json([]);
+  }
+});
+
 // POST /api/parcerias/:id/mensagens - Enviar mensagem
 app.post('/api/parcerias/:id/mensagens', async (req, res) => {
   try {
@@ -199,6 +240,35 @@ app.post('/api/parcerias/:id/mensagens', async (req, res) => {
   } catch (erro) {
     console.error(`❌ Erro ao criar mensagem:`, erro);
     return res.status(500).json({ sucesso: false, erro: 'Erro ao processar mensagem' });
+  }
+});
+
+// GET /api/parcerias/:id/mensagens - Carregar mensagens de uma parceria específica
+app.get('/api/parcerias/:id/mensagens', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    console.log(`\n🟢 GET /api/parcerias/${id}/mensagens chamado`);
+    
+    // Buscar parceria
+    const parceria = await Parceria.buscarPorId(id);
+    if (!parceria) {
+      return res.status(404).json({ sucesso: false, erro: 'Parceria não encontrada' });
+    }
+    
+    // Buscar mensagens
+    const mensagens = await Parceria.listarMensagensParcerias(id);
+    
+    console.log(`   -> ${mensagens?.length || 0} mensagens encontradas`);
+    
+    res.json({ 
+      sucesso: true, 
+      parceria,
+      mensagens: mensagens || []
+    });
+  } catch (erro) {
+    console.error(`❌ Erro ao carregar mensagens:`, erro);
+    res.status(500).json({ sucesso: false, erro: 'Erro ao carregar mensagens' });
   }
 });
 
@@ -233,14 +303,17 @@ app.get('/parcerias-escolas', (req, res) => {
 });
 
 // ROTAS ANTIGAS - Manter compatibilidade
-// Rotas - Hot reload: recarregar módulos a cada requisição
+// Carregador dinâmico de rotas com hot reload
 app.use((req, res, next) => {
   // Não interceptar rotas /api/
   if (req.path.startsWith('/api/')) {
     return next();
   }
+  
   delete require.cache[require.resolve('./routes/index')];
   const indexRouter = require('./routes/index');
+  
+  // Usar o router corretamente como middleware
   indexRouter(req, res, next);
 });
 

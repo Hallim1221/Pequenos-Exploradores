@@ -6,10 +6,9 @@ class Parceria {
 
   // Criar nova solicitação de parceria
   static async criar(dados) {
-    const { nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec } = dados;
+    const { nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec, senha_gestao, confirmar_senha_gestao } = dados;
 
     try {
-      if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       
       // Obter a próxima parceria para gerar ID
@@ -17,9 +16,9 @@ class Parceria {
       
       const [result] = await connection.execute(
         `INSERT INTO parcerias_escolas 
-         (nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec, data_solicitacao, status) 
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'pendente')`,
-        [nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec || null]
+         (nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec, senha_gestao, data_solicitacao, status) 
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'pendente')`,
+        [nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec || null, senha_gestao]
       );
       
       parceriaId = result.insertId;
@@ -36,7 +35,6 @@ class Parceria {
       return { id: parceriaId, email, nome_escola, status: 'sucesso' };
     } catch (erro) {
       console.error('Erro ao criar parceria:', erro);
-      this.useMock = true;
       return mockdb.criarParceria(dados);
     }
   }
@@ -44,7 +42,6 @@ class Parceria {
   // Buscar parceria por ID
   static async buscarPorId(id) {
     try {
-      if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       
       const [rows] = await connection.execute(
@@ -55,7 +52,7 @@ class Parceria {
       connection.release();
       return rows[0] || null;
     } catch (erro) {
-      this.useMock = true;
+      console.error('Erro ao buscar parceria no MySQL:', erro.message);
       return mockdb.buscarParceriaPorId(id);
     }
   }
@@ -63,7 +60,6 @@ class Parceria {
   // Buscar parceria por email
   static async buscarPorEmail(email) {
     try {
-      if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       
       const [rows] = await connection.execute(
@@ -74,7 +70,7 @@ class Parceria {
       connection.release();
       return rows[0] || null;
     } catch (erro) {
-      this.useMock = true;
+      console.error('Erro ao buscar parceria por email no MySQL:', erro.message);
       return mockdb.buscarParceriaPorEmail(email);
     }
   }
@@ -82,7 +78,6 @@ class Parceria {
   // Listar todas as parcerias
   static async listarTodas() {
     try {
-      if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       
       const [rows] = await connection.execute(
@@ -92,7 +87,7 @@ class Parceria {
       connection.release();
       return rows || [];
     } catch (erro) {
-      this.useMock = true;
+      console.error('Erro ao listar parcerias no MySQL:', erro.message);
       return mockdb.listarParcerias();
     }
   }
@@ -100,7 +95,6 @@ class Parceria {
   // Atualizar status de uma parceria
   static async atualizarStatus(id, status) {
     try {
-      if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       
       const [result] = await connection.execute(
@@ -111,7 +105,6 @@ class Parceria {
       connection.release();
       return result.affectedRows > 0;
     } catch (erro) {
-      this.useMock = true;
       return mockdb.atualizarStatusParceria(id, status);
     }
   }
@@ -148,6 +141,14 @@ class Parceria {
       erros.push('Tipo de escola é obrigatório');
     }
 
+    if (!dados.senha_gestao || dados.senha_gestao.length < 8) {
+      erros.push('Senha deve ter pelo menos 8 caracteres');
+    }
+
+    if (dados.senha_gestao !== dados.confirmar_senha_gestao) {
+      erros.push('As senhas não correspondem');
+    }
+
     return { valido: erros.length === 0, erros };
   }
 
@@ -157,7 +158,6 @@ class Parceria {
     fs.appendFileSync('./debug-msg.log', `\n📝 criarMensagemParceria: id=${parceriaId}, type=${typeof parceriaId}\n`);
     
     try {
-      if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       
       const [result] = await connection.execute(
@@ -172,7 +172,6 @@ class Parceria {
       return msg;
     } catch (erro) {
       fs.appendFileSync('./debug-msg.log', `❌ MySQL error: ${erro.message}\n`);
-      this.useMock = true;
       const msg = mockdb.criarMensagemParceria(parceriaId, conteudo, remetente);
       fs.appendFileSync('./debug-msg.log', `✅ MockDB: ${JSON.stringify(msg)}\n`);
       return msg;
@@ -181,10 +180,9 @@ class Parceria {
 
   // Listar mensagens de uma parceria
   static async listarMensagensParcerias(parceriaId) {
-    console.log(`📨 listarMensagensParcerias chamado: parceriaId=${parceriaId} (type=${typeof parceriaId}), useMock=${this.useMock}`);
+    console.log(`📨 listarMensagensParcerias chamado: parceriaId=${parceriaId} (type=${typeof parceriaId})`);
     
     try {
-      if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       
       const [rows] = await connection.execute(
@@ -196,7 +194,6 @@ class Parceria {
       console.log(`  -> Mensagens do MySQL: ${rows?.length || 0}`);
       return rows || [];
     } catch (erro) {
-      this.useMock = true;
       const msgs = mockdb.listarMensagensParcerias(parceriaId);
       console.log(`  -> Mensagens do MockDB: ${msgs?.length || 0}`, msgs.map(m => ({ id: m.id, remetente: m.remetente })));
       return msgs;

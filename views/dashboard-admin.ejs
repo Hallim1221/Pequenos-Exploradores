@@ -881,7 +881,7 @@
         <header class="page-header">
           <section>
             <h2 class="page-title">Mensagens</h2>
-            <p class="page-subtitle">Suporte com instituições</p>
+            <p class="page-subtitle">Suporte com as escolas em parceria</p>
           </section>
         </header>
 
@@ -890,76 +890,46 @@
             <header class="chat-list-header">
               <h3 class="chat-list-title">Conversas</h3>
             </header>
-            <article class="chat-list-items">
-              <section class="chat-item active" onclick="selectChat('E.M. Floresta Verde', 'FV', this)">
-                <span class="chat-avatar">🌿</span>
-                <article class="chat-item-info">
-                  <p class="chat-item-name">E.M. Floresta Verde</p>
-                  <p class="chat-item-preview">Como adicionar uma nova turma?</p>
+            <article class="chat-list-items" id="chat-list-container">
+              <% if (parcerias && parcerias.length > 0) { %>
+                <% parcerias.forEach((parceria, index) => { %>
+                  <section class="chat-item <%= index === 0 ? 'active' : '' %>" onclick="selectChatParceria(<%= parceria.id %>, '<%= parceria.nome_escola %>', this)">
+                    <span class="chat-avatar" style="background: var(--g400); color: white; font-weight: bold;">
+                      <%= parceria.nome_escola.substring(0, 2).toUpperCase() %>
+                    </span>
+                    <article class="chat-item-info">
+                      <p class="chat-item-name"><%= parceria.nome_escola %></p>
+                      <p class="chat-item-preview"><%= parceria.tipo_escola %> • <%= parceria.email %></p>
+                    </article>
+                    <article class="chat-item-meta">
+                      <p class="chat-item-time" id="chat-time-<%= parceria.id %>">--:--</p>
+                    </article>
+                  </section>
+                <% }); %>
+              <% } else { %>
+                <article style="text-align: center; padding: 32px 16px; color: var(--text-mute);">
+                  <p style="font-size: 13px;">Nenhuma parceria cadastrada</p>
                 </article>
-                <article class="chat-item-meta">
-                  <p class="chat-item-time">09:30</p>
-                </article>
-              </section>
-              <section class="chat-item" onclick="selectChat('Instituto Semente', 'IS', this)">
-                <span class="chat-avatar">🌱</span>
-                <article class="chat-item-info">
-                  <p class="chat-item-name">Instituto Semente</p>
-                  <p class="chat-item-preview">Qual é o valor do plano anual?</p>
-                </article>
-                <article class="chat-item-meta">
-                  <p class="chat-item-time">Ontem</p>
-                  <span class="chat-unread">1</span>
-                </article>
-              </section>
-              <section class="chat-item" onclick="selectChat('EMEI Borboletas', 'EB', this)">
-                <span class="chat-avatar">🦋</span>
-                <article class="chat-item-info">
-                  <p class="chat-item-name">EMEI Borboletas</p>
-                  <p class="chat-item-preview">Problema ao fazer login</p>
-                </article>
-                <article class="chat-item-meta">
-                  <p class="chat-item-time">Ontem</p>
-                  <span class="chat-unread">2</span>
-                </article>
-              </section>
+              <% } %>
             </article>
           </section>
 
           <section class="chat-window">
             <header class="chat-win-header">
-              <span class="chat-win-avatar" id="chat-win-avatar">FV</span>
+              <span class="chat-win-avatar" id="chat-win-avatar">--</span>
               <article>
-                <p class="chat-win-name" id="chat-win-name">E.M. Floresta Verde</p>
-                <p class="chat-win-status">Online agora</p>
+                <p class="chat-win-name" id="chat-win-name">Selecione uma conversa</p>
+                <p class="chat-win-status" id="chat-win-email">--</p>
               </article>
             </header>
             <section class="chat-messages" id="chat-messages-usuarios">
-              <section class="msg msg-in">
-                <span class="msg-avatar">🌿</span>
-                <article>
-                  <article class="msg-bubble">Olá! Gostaria de saber como criar uma nova turma?</article>
-                  <p class="msg-time">09:15</p>
-                </article>
-              </section>
-              <section class="msg msg-out">
-                <span class="msg-avatar">AD</span>
-                <article>
-                  <article class="msg-bubble">Olá! Para criar uma turma, acesse o menu "Minhas Turmas" e clique em "Nova Turma". Precisar de ajuda?</article>
-                  <p class="msg-time">09:20 ✓✓</p>
-                </article>
-              </section>
-              <section class="msg msg-in">
-                <span class="msg-avatar">🌿</span>
-                <article>
-                  <article class="msg-bubble">Perfeito, obrigado!</article>
-                  <p class="msg-time">09:14</p>
-                </article>
+              <section style="text-align: center; padding: 40px 16px; color: var(--text-mute);">
+                <p style="font-size: 14px;">Selecione uma escola para iniciar a conversa</p>
               </section>
             </section>
             <footer class="chat-input-row">
-              <input type="text" class="chat-input" id="chat-input-field" placeholder="Digitar mensagem..." onkeypress="sendOnEnter(event)">
-              <button class="chat-send" onclick="sendMessage()">📨</button>
+              <input type="text" class="chat-input" id="chat-input-field" placeholder="Digitar mensagem..." onkeypress="sendOnEnterAdmin(event)">
+              <button class="chat-send" onclick="sendMessageAdmin()" id="send-btn" disabled>📨</button>
             </footer>
           </section>
         </section>
@@ -1348,6 +1318,126 @@ function selectChat(name, initials, el) {
   const unread = el.querySelector('.chat-unread');
   if (unread) unread.remove();
   loadMockMessages(name, initials);
+}
+
+// ===== NOVAS FUNÇÕES PARA CHAT DE PARCERIAS =====
+let parceriaAtualChat = null;
+let parceriaNomeSelecionada = '';
+
+// Função auxiliar para extrair iniciais
+function extrairIniciais(nome) {
+  if (!nome) return '?';
+  return nome.split(' ')
+    .map(palavra => palavra[0])
+    .join('')
+    .substring(0, 2)
+    .toUpperCase();
+}
+
+async function selectChatParceria(id, nomeParceria, el) {
+  parceriaAtualChat = id;
+  parceriaNomeSelecionada = nomeParceria;
+  
+  document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  
+  // Extrair iniciais do nome
+  const initials = nomeParceria.substring(0, 2).toUpperCase();
+  document.getElementById('chat-win-avatar').textContent = initials;
+  document.getElementById('chat-win-name').textContent = nomeParceria;
+  
+  // Buscar email da parceria
+  const parceria = <%-JSON.stringify(parcerias) %>;
+  const parData = parceria.find(p => p.id === id);
+  if (parData) {
+    document.getElementById('chat-win-email').textContent = parData.email || 'Contato via email';
+  }
+  
+  // Habilitar botão de envio
+  document.getElementById('send-btn').disabled = false;
+  
+  // Carregar mensagens
+  await carregarMensagensParcerias(id);
+}
+
+async function carregarMensagensParcerias(id) {
+  try {
+    const resposta = await fetch(`/api/parcerias/${id}/mensagens`);
+    const dados = await resposta.json();
+    
+    const container = document.getElementById('chat-messages-usuarios');
+    container.innerHTML = '';
+    
+    if (dados.sucesso && dados.mensagens && dados.mensagens.length > 0) {
+      dados.mensagens.forEach(msg => {
+        const msgDiv = document.createElement('section');
+        msgDiv.className = 'msg ' + (msg.remetente === 'admin' ? 'msg-out' : 'msg-in');
+        
+        const horaMsg = new Date(msg.data_mensagem);
+        const hora = horaMsg.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+        
+        msgDiv.innerHTML = `
+          <span class="msg-avatar">${msg.remetente === 'admin' ? 'AD' : extrairIniciais(parceriaNomeSelecionada)}</span>
+          <article>
+            <article class="msg-bubble">${msg.conteudo}</article>
+            <p class="msg-time">${hora}${msg.remetente === 'admin' ? ' ✓✓' : ''}</p>
+          </article>
+        `;
+        container.appendChild(msgDiv);
+      });
+    } else {
+      const emptyDiv = document.createElement('section');
+      emptyDiv.style.cssText = 'text-align: center; padding: 40px 16px; color: var(--text-mute);';
+      emptyDiv.innerHTML = '<p style="font-size: 13px;">Nenhuma mensagem ainda. Envie uma para iniciar.</p>';
+      container.appendChild(emptyDiv);
+    }
+    
+    container.scrollTop = container.scrollHeight;
+  } catch (erro) {
+    console.error('Erro ao carregar mensagens:', erro);
+  }
+}
+
+function sendMessageAdmin() {
+  if (!parceriaAtualChat) {
+    alert('Selecione uma escola primeiro');
+    return;
+  }
+  
+  const input = document.getElementById('chat-input-field');
+  const texto = input.value.trim();
+  
+  if (!texto) return;
+  
+  fetch(`/api/parcerias/${parceriaAtualChat}/mensagens`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      conteudo: texto, 
+      remetente: 'admin'
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.sucesso) {
+      input.value = '';
+      carregarMensagensParcerias(parceriaAtualChat);
+      showToast('Mensagem enviada!');
+    } else {
+      alert('Erro ao enviar: ' + data.mensagem);
+    }
+  })
+  .catch(erro => {
+    console.error('Erro:', erro);
+    alert('Erro ao enviar mensagem');
+  });
+}
+
+function sendOnEnterAdmin(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessageAdmin();
+  }
 }
 
 const mockConvos = {

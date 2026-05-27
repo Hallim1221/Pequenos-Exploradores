@@ -2,1618 +2,1005 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Área do Professor — Pequenos Exploradores</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&family=Nunito:wght@400;600;700&display=swap');
-
-*{box-sizing:border-box;margin:0;padding:0;}
-:root{
---green-dark:#2d7a2d;
---green-main:#4caf50;
---green-light:#6ec96e;
---green-pale:#e8f5e9;
---green-mint:#c8e6c9;
---amber:#ff9800;
---amber-light:#fff3e0;
---blue:#1976d2;
---blue-light:#e3f2fd;
---bg:#f0f7f0;
---white:#ffffff;
---text:#1b3a1b;
---text-muted:#5a7a5a;
---radius:16px;
---radius-sm:10px;
---shadow:0 4px 20px rgba(76,175,80,0.15);
---shadow-card:0 2px 12px rgba(0,0,0,0.08);
-}
-
-body{
-font-family:'Fredoka',sans-serif;
-background:var(--bg);
-min-height:100vh;
-color:var(--text);
-display:flex;
-min-height:100vh;
-}
-
-/* ===== SIDEBAR ===== */
-aside{
-width:240px;
-min-width:240px;
-background:var(--green-dark);
-display:flex;
-flex-direction:column;
-padding:0;
-position:fixed;
-top:0;left:0;
-height:100vh;
-z-index:100;
-}
-
-aside>header{
-background:var(--green-main);
-padding:20px 16px;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-aside header span:first-child{
-width:44px;height:44px;
-background:white;
-border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-size:22px;
-}
-
-aside header span:last-child{
-color:white;
-font-size:16px;
-font-weight:600;
-line-height:1.2;
-}
-
-aside>nav{
-padding:16px 0;
-flex:1;
-}
-
-nav section{
-padding:6px 16px 4px;
-font-size:11px;
-color:rgba(255,255,255,0.45);
-letter-spacing:0.08em;
-text-transform:uppercase;
-font-weight:500;
-}
-
-nav article{
-display:flex;
-align-items:center;
-gap:10px;
-padding:11px 20px;
-color:rgba(255,255,255,0.75);
-cursor:pointer;
-font-size:15px;
-font-weight:500;
-border-left:3px solid transparent;
-transition:all 0.18s;
-margin:1px 0;
-}
-
-nav article:hover{background:rgba(255,255,255,0.1);color:white;}
-nav article.active{
-background:rgba(255,255,255,0.15);
-color:white;
-border-left-color:#a5d6a7;
-}
-
-nav article span:first-child{font-size:18px;width:22px;text-align:center;}
-
-aside>footer{
-padding:16px;
-border-top:1px solid rgba(255,255,255,0.1);
-position:relative;
-}
-
-footer article{
-background:rgba(255,255,255,0.12);
-border-radius:var(--radius-sm);
-padding:12px;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-footer article span{
-width:36px;height:36px;
-background:#a5d6a7;
-border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-size:16px;color:var(--green-dark);font-weight:600;
-}
-
-footer article header{
-flex:1;
-}
-
-footer article header p:first-child{color:white;font-size:14px;font-weight:600;}
-footer article header p:last-child{color:rgba(255,255,255,0.55);font-size:12px;}
-
-/* User Profile Menu */
-.user-menu-btn{cursor:pointer;position:relative;z-index:10;}
-
-.user-menu{position:absolute;bottom:100%;left:0;background:white;border-radius:var(--radius-sm);box-shadow:0 -4px 16px rgba(0,0,0,0.15);overflow:hidden;min-width:180px;margin-bottom:8px;opacity:0;visibility:hidden;transform:translateY(8px);transition:all 0.2s ease;pointer-events:none;}
-
-.user-menu.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:all;}
-
-.user-menu a{display:flex;align-items:center;gap:10px;padding:12px 16px;color:var(--text);text-decoration:none;font-size:14px;font-weight:500;transition:background 0.15s;}
-
-.user-menu a:hover{background:var(--green-pale);}
-
-/* ===== MAIN CONTENT ===== */
-main{
-margin-left:240px;
-flex:1;
-display:flex;
-flex-direction:column;
-min-height:100vh;
-}
-
-/* ===== TOPBAR ===== */
-main>header{
-background:white;
-border-bottom:1px solid #e8f5e9;
-padding:0 32px;
-height:64px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-position:sticky;
-top:0;
-z-index:50;
-}
-
-main>header h1{
-font-size:22px;
-font-weight:600;
-color:var(--green-dark);
-display:flex;align-items:center;gap:8px;
-margin:0;
-}
-
-main>header section{display:flex;align-items:center;gap:12px;}
-
-button{
-font-family:'Fredoka',sans-serif;
-font-size:15px;
-font-weight:500;
-padding:9px 20px;
-border-radius:50px;
-border:none;
-cursor:pointer;
-display:inline-flex;
-align-items:center;
-gap:7px;
-transition:all 0.18s;
-}
-
-.btn-primary{
-background:var(--green-main);
-color:white;
-box-shadow:0 3px 10px rgba(76,175,80,0.35);
-}
-.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);}
-
-.btn-ghost{
-background:var(--green-pale);
-color:var(--green-dark);
-}
-.btn-ghost:hover{background:var(--green-mint);}
-
-.btn-amber{
-background:var(--amber);
-color:white;
-box-shadow:0 3px 10px rgba(255,152,0,0.3);
-}
-.btn-amber:hover{background:#e65100;transform:translateY(-1px);}
-
-.btn-sm{padding:6px 14px;font-size:13px;}
-
-/* ===== PAGE CONTENT ===== */
-main>section{
-padding:28px 32px;
-flex:1;
-}
-
-article.page{display:none;}
-article.page.active{display:block;}
-
-/* ===== STATS ROW ===== */
-.stats-row{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:16px;
-margin-bottom:28px;
-}
-
-.stat-card{
-background:white;
-border-radius:var(--radius);
-padding:20px;
-display:flex;
-align-items:center;
-gap:14px;
-box-shadow:var(--shadow-card);
-border:1.5px solid transparent;
-transition:all 0.2s;
-}
-.stat-card:hover{border-color:var(--green-mint);transform:translateY(-2px);}
-
-.stat-icon{
-width:52px;height:52px;
-border-radius:14px;
-display:flex;align-items:center;justify-content:center;
-font-size:24px;
-flex-shrink:0;
-}
-
-.stat-icon.green{background:var(--green-pale);}
-.stat-icon.amber{background:var(--amber-light);}
-.stat-icon.blue{background:var(--blue-light);}
-.stat-icon.pink{background:#fce4ec;}
-
-.stat-card p:first-child{font-size:26px;font-weight:600;color:var(--green-dark);margin:0;}
-.stat-card p:last-child{font-size:13px;color:var(--text-muted);margin:0;}
-
-/* ===== SECTION HEADER ===== */
-.section-header{
-display:flex;align-items:center;justify-content:space-between;
-margin-bottom:18px;
-}
-
-.section-title{
-font-size:18px;font-weight:600;color:var(--green-dark);
-display:flex;align-items:center;gap:8px;
-}
-
-/* ===== CLASS GRID ===== */
-.classes-grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
-}
-
-.class-card{
-background:white;
-border-radius:var(--radius);
-padding:22px;
-box-shadow:var(--shadow-card);
-cursor:pointer;
-border:2px solid transparent;
-transition:all 0.2s;
-position:relative;
-overflow:hidden;
-}
-
-.class-card::before{
-content:'';
-position:absolute;
-top:0;left:0;right:0;
-height:5px;
-background:var(--green-main);
-}
-
-.class-card:nth-child(2)::before{background:#ff9800;}
-.class-card:nth-child(3)::before{background:#1976d2;}
-
-.class-card:hover{
-border-color:var(--green-light);
-transform:translateY(-3px);
-box-shadow:var(--shadow);
-}
-
-.class-card header{
-display:flex;align-items:flex-start;justify-content:space-between;
-margin-bottom:14px;
-}
-
-.class-card header span:first-child{font-size:36px;}
-
-.class-card header span:last-child{
-font-size:11px;
-font-weight:600;
-padding:3px 10px;
-border-radius:50px;
-background:var(--green-pale);
-color:var(--green-dark);
-}
-
-.class-card h3{font-size:18px;font-weight:600;color:var(--text);margin-bottom:4px;}
-.class-card p{font-size:13px;color:var(--text-muted);margin:0 0 14px 0;}
-
-.class-card article{
-display:flex;gap:16px;
-padding-top:14px;
-border-top:1px solid #f0f0f0;
-}
-
-.class-card article section{text-align:center;}
-.class-card article p:first-child{font-size:18px;font-weight:600;color:var(--green-dark);margin:0;}
-.class-card article p:last-child{font-size:12px;color:var(--text-muted);margin:0;}
-
-.class-card footer{
-margin-top:16px;
-display:flex;gap:8px;
-}
-
-/* ===== STUDENTS TABLE ===== */
-.students-table{
-background:white;
-border-radius:var(--radius);
-box-shadow:var(--shadow-card);
-overflow:hidden;
-}
-
-.students-table>header{
-padding:18px 24px;
-background:var(--green-pale);
-display:flex;align-items:center;justify-content:space-between;
-border-bottom:1px solid var(--green-mint);
-}
-
-.students-table h2{font-size:16px;font-weight:600;color:var(--green-dark);margin:0;}
-
-.search-bar{
-display:flex;align-items:center;gap:8px;
-background:white;
-border:1.5px solid var(--green-mint);
-border-radius:50px;
-padding:6px 14px;
-font-family:'Fredoka',sans-serif;
-font-size:14px;
-color:var(--text);
-width:220px;
-}
-
-.search-bar input{
-border:none;outline:none;background:transparent;
-font-family:'Fredoka',sans-serif;
-font-size:14px;
-color:var(--text);
-width:100%;
-}
-
-table{width:100%;border-collapse:collapse;}
-
-thead th{
-padding:14px 24px;
-text-align:left;
-font-size:13px;
-font-weight:600;
-color:var(--text-muted);
-background:#fafafa;
-border-bottom:1px solid #f0f0f0;
-}
-
-tbody tr{
-border-bottom:1px solid #f8f8f8;
-cursor:pointer;
-transition:background 0.15s;
-}
-tbody tr:hover{background:var(--green-pale);}
-tbody tr:last-child{border-bottom:none;}
-
-tbody td{padding:13px 24px;font-size:14px;}
-
-/* ===== EMPTY STATE ===== */
-.empty-state{
-text-align:center;
-padding:60px 32px;
-background:white;
-border-radius:var(--radius);
-box-shadow:var(--shadow-card);
-}
-
-.empty-state h2{font-size:72px;margin:0 0 16px 0;}
-.empty-state h3{font-size:22px;font-weight:600;color:var(--green-dark);margin-bottom:8px;}
-.empty-state p{font-size:15px;color:var(--text-muted);margin-bottom:24px;}
-
-/* ===== MODAL ===== */
-dialog{
-position:fixed;inset:0;
-background:rgba(0,0,0,0.45);
-z-index:999;
-border:none;
-padding:0;
-max-width:500px;
-display:none;
-}
-
-dialog.open{display:block;}
-
-dialog::backdrop{background:rgba(0,0,0,0.45);}
-
-dialog>article{
-background:white;
-border-radius:20px;
-padding:32px;
-width:100%;
-box-shadow:0 20px 60px rgba(0,0,0,0.2);
-animation:modalIn 0.22s ease;
-}
-
-@keyframes modalIn{
-from{transform:translateY(30px);opacity:0;}
-to{transform:translateY(0);opacity:1;}
-}
-
-dialog>article>header{
-display:flex;align-items:center;justify-content:space-between;
-margin-bottom:24px;
-}
-
-dialog h2{
-font-size:20px;font-weight:600;color:var(--green-dark);
-display:flex;align-items:center;gap:8px;
-margin:0;
-}
-
-dialog button[type="button"]{
-width:32px;height:32px;
-border:none;background:#f5f5f5;
-border-radius:50%;cursor:pointer;
-font-size:16px;display:flex;align-items:center;justify-content:center;
-transition:background 0.15s;
-}
-dialog button[type="button"]:hover{background:#e0e0e0;}
-
-.form-group{margin-bottom:18px;}
-
-label{
-display:block;
-font-size:13px;font-weight:600;
-color:var(--text-muted);
-margin-bottom:7px;
-text-transform:uppercase;letter-spacing:0.05em;
-}
-
-input,select,textarea{
-width:100%;
-font-family:'Fredoka',sans-serif;
-font-size:15px;
-padding:11px 16px;
-border:1.5px solid #e0e0e0;
-border-radius:var(--radius-sm);
-outline:none;
-color:var(--text);
-transition:border-color 0.15s;
-background:#fafafa;
-}
-input:focus,select:focus,textarea:focus{border-color:var(--green-main);background:white;}
-
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-
-dialog footer{
-display:flex;justify-content:flex-end;gap:10px;
-margin-top:24px;padding-top:20px;
-border-top:1px solid #f0f0f0;
-}
-
-/* ===== ATIVIDADES ===== */
-.activities-list{display:flex;flex-direction:column;gap:14px;}
-
-.activity-card{
-background:white;
-border-radius:var(--radius);
-padding:20px 24px;
-box-shadow:var(--shadow-card);
-display:flex;align-items:center;gap:20px;
-border-left:5px solid var(--green-main);
-cursor:pointer;
-transition:all 0.2s;
-}
-.activity-card:hover{box-shadow:var(--shadow);transform:translateX(3px);}
-.activity-card.amber-border{border-left-color:var(--amber);}
-.activity-card.blue-border{border-left-color:var(--blue);}
-
-.activity-icon{
-width:52px;height:52px;
-border-radius:14px;
-background:var(--green-pale);
-display:flex;align-items:center;justify-content:center;
-font-size:26px;
-flex-shrink:0;
-}
-
-.activity-icon.amber{background:var(--amber-light);}
-.activity-icon.blue{background:var(--blue-light);}
-
-.activity-card>article{flex:1;}
-.activity-card h3{font-size:16px;font-weight:600;color:var(--text);margin:0 0 4px 0;}
-.activity-card p{font-size:13px;color:var(--text-muted);margin:0;}
-
-.activity-points{
-text-align:right;
-}
-
-.points-big{
-font-size:24px;font-weight:700;color:var(--amber);
-display:flex;align-items:center;gap:4px;
-}
-
-.points-label{font-size:12px;color:var(--text-muted);}
-
-/* ===== ALUNO PERFIL ===== */
-.profile-header{
-background:linear-gradient(135deg,var(--green-dark),var(--green-main));
-border-radius:var(--radius);
-padding:28px;
-color:white;
-display:flex;align-items:center;gap:20px;
-margin-bottom:24px;
-}
-
-.profile-avatar-big{
-width:80px;height:80px;
-background:rgba(255,255,255,0.25);
-border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-size:36px;color:white;font-weight:700;
-border:3px solid rgba(255,255,255,0.5);
-flex-shrink:0;
-}
-
-.profile-header h2{font-size:24px;font-weight:700;margin:0 0 4px 0;}
-.profile-header p{font-size:15px;opacity:0.8;margin:0;}
-
-.profile-stats{
-display:flex;gap:24px;
-margin-left:auto;
-text-align:center;
-}
-
-.profile-stat p:first-child{font-size:22px;font-weight:700;margin:0;}
-.profile-stat p:last-child{font-size:12px;opacity:0.75;margin:0;}
-
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-
-.detail-card{
-background:white;
-border-radius:var(--radius);
-padding:22px;
-box-shadow:var(--shadow-card);
-}
-
-.detail-card>header{
-font-size:15px;font-weight:600;color:var(--text-muted);
-margin-bottom:16px;text-transform:uppercase;letter-spacing:0.05em;
-font-size:12px;
-}
-
-.activity-history-item{
-display:flex;align-items:center;gap:12px;
-padding:10px 0;
-border-bottom:1px solid #f5f5f5;
-}
-.activity-history-item:last-child{border-bottom:none;}
-
-.history-dot{
-width:10px;height:10px;
-border-radius:50%;
-background:var(--green-main);
-flex-shrink:0;
-}
-.history-dot.amber{background:var(--amber);}
-.history-dot.blue{background:var(--blue);}
-
-.activity-history-item p{
-font-size:14px;font-weight:500;flex:1;margin:0;
-}
-.activity-history-item span{font-size:13px;color:var(--amber);font-weight:600;}
-
-/* ===== PAGE HEADER ===== */
-.page-hero{
-background:white;
-border-radius:var(--radius);
-padding:24px 28px;
-margin-bottom:24px;
-box-shadow:var(--shadow-card);
-display:flex;align-items:center;justify-content:space-between;
-}
-
-.page-hero article h2{font-size:20px;font-weight:600;color:var(--green-dark);margin:0;}
-.page-hero article p{font-size:14px;color:var(--text-muted);margin-top:4px;}
-
-.page-hero span{font-size:52px;}
-
-/* ===== BREADCRUMB ===== */
-.breadcrumb{
-display:flex;align-items:center;gap:6px;
-font-size:13px;color:var(--text-muted);
-margin-bottom:20px;
-}
-
-.breadcrumb a{
-color:var(--green-dark);text-decoration:none;cursor:pointer;font-weight:500;
-}
-.breadcrumb a:hover{text-decoration:underline;}
-.breadcrumb span{color:#ccc;}
-
-/* ===== BADGES & CHIPS ===== */
-.badge{
-display:inline-flex;align-items:center;gap:4px;
-font-size:12px;font-weight:500;
-padding:3px 10px;border-radius:50px;
-}
-
-.badge-green{background:var(--green-pale);color:var(--green-dark);}
-.badge-amber{background:var(--amber-light);color:#e65100;}
-.badge-blue{background:var(--blue-light);color:var(--blue);}
-
-.points-chip{
-display:inline-flex;align-items:center;gap:5px;
-background:var(--amber-light);
-color:#bf360c;
-font-size:13px;font-weight:600;
-padding:4px 12px;border-radius:50px;
-}
-
-.progress-bar{
-width:100px;height:8px;
-background:#f0f0f0;
-border-radius:4px;
-overflow:hidden;
-display:inline-block;
-}
-
-.progress-fill{
-height:100%;
-background:var(--green-main);
-border-radius:4px;
-}
-
-.progress-fill.amber{background:var(--amber);}
-.progress-fill.low{background:#ef5350;}
-
-/* ===== TURMA DETAIL ===== */
-.turma-header{
-background:white;
-border-radius:var(--radius);
-padding:24px 28px;
-margin-bottom:24px;
-box-shadow:var(--shadow-card);
-display:flex;align-items:center;gap:20px;
-}
-
-.turma-emoji{
-width:64px;height:64px;
-background:var(--green-pale);
-border-radius:16px;
-display:flex;align-items:center;justify-content:center;
-font-size:32px;
-}
-
-/* ===== RESPONSIVE ===== */
-@media(max-width:1100px){
-.classes-grid{grid-template-columns:repeat(2,1fr);}
-.stats-row{grid-template-columns:repeat(2,1fr);}
-}
-
-/* ===== ANIMATIONS ===== */
-article.page.active{animation:fadeIn 0.2s ease;}
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-.fab{
-position:fixed;
-bottom:28px;right:28px;
-width:56px;height:56px;
-background:var(--green-main);
-border-radius:50%;
-display:flex;align-items:center;justify-content:center;
-font-size:26px;
-box-shadow:0 6px 20px rgba(76,175,80,0.4);
-cursor:pointer;
-border:none;
-color:white;
-transition:all 0.2s;
-z-index:90;
-}
-.fab:hover{background:var(--green-dark);transform:scale(1.1);}
+  :root {
+    --green: #3d9e4f;
+    --green-dark: #2a7338;
+    --green-light: #6dc47e;
+    --green-pale: #edf7ee;
+    --green-mid: #52b266;
+    --yellow: #f5c842;
+    --yellow-pale: #fffbe6;
+    --orange: #f0872a;
+    --blue: #3aafdb;
+    --blue-pale: #e6f6fc;
+    --red: #e05454;
+    --purple: #9b72cf;
+    --white: #ffffff;
+    --bg: #f2f6f2;
+    --card: #ffffff;
+    --text: #1c2e1c;
+    --text-mid: #4a5c4a;
+    --text-light: #8a9e8a;
+    --border: #deeede;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
+    --shadow: 0 4px 20px rgba(0,0,0,0.10);
+    --shadow-lg: 0 8px 36px rgba(61,158,79,0.18);
+    --radius: 18px;
+    --radius-sm: 10px;
+    --radius-full: 999px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+  }
+
+  /* ── SIDEBAR ───────────────────────────── */
+  .sidebar {
+    width: 230px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--green-dark) 0%, var(--green) 100%);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 50;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+  }
+
+  .sidebar-logo {
+    padding: 28px 22px 20px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+  }
+  .sidebar-logo img {
+    width: 38px; height: 38px; border-radius: 10px;
+    object-fit: contain; background: rgba(255,255,255,0.15); padding: 4px;
+  }
+  .sidebar-logo-text {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.1rem; color: white; line-height: 1.2;
+  }
+  .sidebar-logo-text span { font-size: 0.75rem; opacity: .7; display: block; font-family: 'Nunito', sans-serif; font-weight: 600; }
+
+  .sidebar-section { padding: 18px 14px 6px; font-size: 0.68rem; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: .1em; font-weight: 800; }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 20px; margin: 2px 10px; border-radius: 12px;
+    color: rgba(255,255,255,0.78); font-weight: 700; font-size: 0.92rem;
+    cursor: pointer; transition: all .18s; border: none; background: none; width: calc(100% - 20px); text-align: left;
+  }
+  .nav-item .icon { font-size: 1.05rem; width: 22px; text-align: center; }
+  .nav-item:hover { background: rgba(255,255,255,0.12); color: white; }
+  .nav-item.active { background: rgba(255,255,255,0.2); color: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+
+  .sidebar-bottom {
+    margin-top: auto;
+    padding: 18px 14px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .teacher-info {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
+  }
+  .teacher-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); display: grid; place-items: center;
+    font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: white;
+    flex-shrink: 0;
+  }
+  .teacher-name { font-weight: 800; font-size: 0.88rem; color: white; line-height: 1.2; }
+  .teacher-role { font-size: 0.75rem; color: rgba(255,255,255,0.6); }
+  .btn-sair {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 9px 16px; border-radius: 10px;
+    border: 1.5px solid rgba(255,255,255,0.25); background: transparent;
+    color: rgba(255,255,255,0.75); font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.85rem;
+    cursor: pointer; transition: all .18s;
+  }
+  .btn-sair:hover { background: rgba(255,255,255,0.12); color: white; }
+
+  /* ── MAIN ───────────────────────────────── */
+  .main {
+    margin-left: 230px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ────────────────────────────── */
+  .topbar {
+    background: white;
+    padding: 0 32px;
+    height: 62px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1.5px solid var(--border);
+    position: sticky; top: 0; z-index: 40;
+  }
+  .topbar-title { font-family: 'Fredoka One', cursive; font-size: 1.2rem; color: var(--text); }
+  .topbar-actions { display: flex; gap: 10px; }
+  .btn-primary {
+    display: flex; align-items: center; gap: 7px;
+    background: var(--green); color: white; border: none;
+    padding: 9px 20px; border-radius: var(--radius-full);
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.88rem;
+    cursor: pointer; transition: all .18s;
+  }
+  .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); box-shadow: var(--shadow); }
+  .btn-secondary {
+    display: flex; align-items: center; gap: 7px;
+    background: var(--green-pale); color: var(--green-dark); border: 1.5px solid var(--border);
+    padding: 9px 18px; border-radius: var(--radius-full);
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.88rem;
+    cursor: pointer; transition: all .18s;
+  }
+  .btn-secondary:hover { background: #d4edda; border-color: var(--green-light); transform: translateY(-1px); }
+
+  /* ── PAGE SECTIONS ──────────────────────── */
+  .page { display: none; padding: 28px 32px 48px; }
+  .page.active { display: block; }
+
+  /* ── STATS ROW ──────────────────────────── */
+  .stats-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; }
+  .stat-card {
+    background: white; border-radius: var(--radius); padding: 20px 22px;
+    box-shadow: var(--shadow-sm); display: flex; align-items: center; gap: 16px;
+    border: 1.5px solid var(--border);
+  }
+  .stat-icon {
+    width: 50px; height: 50px; border-radius: 14px;
+    display: grid; place-items: center; font-size: 1.5rem; flex-shrink: 0;
+  }
+  .stat-icon.green { background: var(--green-pale); }
+  .stat-icon.yellow { background: var(--yellow-pale); }
+  .stat-icon.blue { background: var(--blue-pale); }
+  .stat-icon.purple { background: #f3eeff; }
+  .stat-num { font-family: 'Fredoka One', cursive; font-size: 1.8rem; color: var(--text); line-height: 1; }
+  .stat-label { font-size: 0.8rem; color: var(--text-light); font-weight: 700; margin-top: 2px; }
+
+  /* ── SECTION HEADER ─────────────────────── */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px;
+  }
+  .section-title {
+    font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text);
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── TURMAS GRID ────────────────────────── */
+  .turmas-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
+  }
+
+  .turma-card {
+    background: white; border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow-sm); border: 1.5px solid var(--border);
+    transition: all .22s; cursor: pointer;
+  }
+  .turma-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: var(--green-light); }
+
+  .turma-card-header {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+    padding: 22px 22px 18px; color: white; position: relative; overflow: hidden;
+  }
+  .turma-card-header::after {
+    content: ''; position: absolute; right: -20px; top: -20px;
+    width: 100px; height: 100px; border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+  }
+  .turma-card-header::before {
+    content: ''; position: absolute; right: 30px; bottom: -30px;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .turma-emoji-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .turma-emoji { font-size: 2rem; }
+  .turma-badge {
+    background: rgba(255,255,255,0.2); border: 1.5px solid rgba(255,255,255,0.3);
+    border-radius: var(--radius-full); padding: 3px 12px;
+    font-size: 0.75rem; font-weight: 800; color: white;
+  }
+  .turma-name { font-family: 'Fredoka One', cursive; font-size: 1.35rem; color: white; }
+  .turma-sub { font-size: 0.82rem; color: rgba(255,255,255,0.78); margin-top: 2px; }
+
+  /* ── CÓDIGO DE ACESSO ── DESTAQUE ─────── */
+  .codigo-acesso {
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(255,255,255,0.15);
+    border: 2px dashed rgba(255,255,255,0.45);
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin-top: 14px;
+    position: relative; z-index: 1;
+  }
+  .codigo-label {
+    font-size: 0.7rem; font-weight: 800; text-transform: uppercase;
+    letter-spacing: .1em; color: rgba(255,255,255,0.75);
+  }
+  .codigo-valor {
+    font-family: 'Fredoka One', cursive; font-size: 1.7rem; color: white;
+    letter-spacing: .12em; line-height: 1;
+  }
+  .btn-copiar {
+    background: rgba(255,255,255,0.25); border: 1.5px solid rgba(255,255,255,0.4);
+    color: white; border-radius: 8px; padding: 6px 12px;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.75rem;
+    cursor: pointer; transition: all .15s; display: flex; align-items: center; gap: 5px;
+  }
+  .btn-copiar:hover { background: rgba(255,255,255,0.4); }
+  .btn-copiar.copied { background: #22c55e; border-color: #16a34a; }
+
+  .turma-card-body { padding: 18px 22px; }
+  .turma-stats-row { display: flex; gap: 18px; margin-bottom: 16px; }
+  .turma-stat { text-align: center; }
+  .turma-stat-num { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--text); line-height: 1; }
+  .turma-stat-label { font-size: 0.72rem; color: var(--text-light); font-weight: 700; margin-top: 1px; }
+
+  .engajamento-bar {
+    height: 7px; background: #e8f0e8; border-radius: 4px; overflow: hidden; margin: 8px 0 14px;
+  }
+  .engajamento-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--green-light), var(--green)); }
+
+  .turma-card-actions { display: flex; gap: 8px; }
+  .btn-turma-action {
+    flex: 1; padding: 9px 0; border-radius: 10px; border: 1.5px solid var(--border);
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.82rem;
+    cursor: pointer; transition: all .15s; background: white; color: var(--text-mid);
+    display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .btn-turma-action:hover { background: var(--green-pale); border-color: var(--green-light); color: var(--green-dark); }
+  .btn-turma-action.primary { background: var(--green-pale); color: var(--green-dark); border-color: var(--green-light); }
+  .btn-turma-action.primary:hover { background: var(--green); color: white; border-color: var(--green); }
+
+  .add-turma-card {
+    background: white; border-radius: var(--radius);
+    border: 2.5px dashed var(--green-light);
+    min-height: 200px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px;
+    cursor: pointer; transition: all .2s; color: var(--green);
+  }
+  .add-turma-card:hover { background: var(--green-pale); border-color: var(--green); transform: translateY(-4px); }
+  .add-icon {
+    width: 54px; height: 54px; background: var(--green-pale); border-radius: 14px;
+    display: grid; place-items: center; font-size: 1.6rem; transition: all .2s;
+  }
+  .add-turma-card:hover .add-icon { background: var(--green); color: white; }
+  .add-turma-card p { font-weight: 800; font-size: 0.95rem; }
+  .add-turma-card span { font-size: 0.82rem; color: var(--text-light); }
+
+  /* ── ATIVIDADES TABLE ───────────────────── */
+  .table-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow-sm); border: 1.5px solid var(--border); overflow: hidden; }
+  .table-header { padding: 18px 22px; border-bottom: 1.5px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .table-title { font-weight: 800; font-size: 0.95rem; }
+  table { width: 100%; border-collapse: collapse; }
+  th { background: var(--bg); padding: 11px 18px; text-align: left; font-size: 0.78rem; font-weight: 800; color: var(--text-light); text-transform: uppercase; letter-spacing: .06em; border-bottom: 1.5px solid var(--border); }
+  td { padding: 13px 18px; border-bottom: 1px solid #f0f4f0; font-size: 0.88rem; font-weight: 600; vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--green-pale); }
+
+  .aluno-avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 0.78rem;
+    font-weight: 900; color: white; flex-shrink: 0;
+  }
+  .aluno-row { display: flex; align-items: center; gap: 10px; }
+  .aluno-name { font-weight: 800; font-size: 0.88rem; }
+  .aluno-sub { font-size: 0.75rem; color: var(--text-light); }
+
+  .status-badge {
+    padding: 3px 10px; border-radius: var(--radius-full);
+    font-size: 0.75rem; font-weight: 800; display: inline-block;
+  }
+  .status-ativo { background: #dcfce7; color: #166534; }
+  .status-andamento { background: #fef9c3; color: #713f12; }
+
+  .progress-bar { width: 80px; height: 7px; background: #e8f0e8; border-radius: 4px; overflow: hidden; display: inline-block; }
+  .progress-fill-bar { height: 100%; background: var(--green); border-radius: 4px; }
+
+  .xp-chip { background: var(--yellow-pale); color: #78350f; padding: 3px 10px; border-radius: var(--radius-full); font-size: 0.8rem; font-weight: 800; }
+
+  .btn-ver { padding: 5px 14px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-family: 'Nunito', sans-serif; font-size: 0.78rem; font-weight: 800; cursor: pointer; color: var(--green-dark); transition: all .15s; }
+  .btn-ver:hover { background: var(--green-pale); border-color: var(--green-light); }
+
+  /* ── ATIVIDADE CARD ─────────────────────── */
+  .atividades-list { display: flex; flex-direction: column; gap: 12px; }
+  .atividade-item {
+    background: white; border-radius: var(--radius-sm); padding: 16px 20px;
+    display: flex; align-items: center; gap: 16px;
+    box-shadow: var(--shadow-sm); border: 1.5px solid var(--border); transition: all .2s;
+  }
+  .atividade-item:hover { box-shadow: var(--shadow); border-color: var(--green-light); }
+  .atividade-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--green-pale); display: grid; place-items: center;
+    font-size: 1.3rem; flex-shrink: 0;
+  }
+  .atividade-title { font-weight: 800; font-size: 0.92rem; }
+  .atividade-meta { font-size: 0.78rem; color: var(--text-light); margin-top: 2px; }
+  .atividade-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .entrega-text { font-size: 0.8rem; color: var(--text-mid); font-weight: 700; }
+
+  /* ── PROGRESSO PAGE ─────────────────────── */
+  .progresso-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .progresso-card { background: white; border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow-sm); border: 1.5px solid var(--border); }
+  .progresso-card-title { font-weight: 800; margin-bottom: 16px; font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+  .engajamento-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .eng-emoji { font-size: 1.3rem; }
+  .eng-label { font-size: 0.88rem; font-weight: 800; flex: 1; }
+  .eng-pct { font-family: 'Fredoka One', cursive; font-size: 1.1rem; color: var(--green); }
+  .eng-bar { height: 8px; background: #e8f0e8; border-radius: 4px; overflow: hidden; margin-top: 4px; }
+  .eng-bar-fill { height: 100%; border-radius: 4px; }
+
+  .ranking-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-bottom: 1px solid #f0f4f0; }
+  .ranking-row:last-child { border-bottom: none; }
+  .ranking-pos { font-family: 'Fredoka One', cursive; font-size: 1.1rem; width: 28px; text-align: center; }
+  .ranking-name { font-weight: 800; font-size: 0.88rem; }
+  .ranking-turma { font-size: 0.75rem; color: var(--text-light); }
+  .ranking-xp { margin-left: auto; }
+
+  /* ── MODAL ──────────────────────────────── */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    display: none; place-items: center; z-index: 200;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: grid; }
+  .modal {
+    background: white; border-radius: var(--radius); width: 90%; max-width: 460px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18); overflow: hidden;
+    animation: popIn .28s ease;
+  }
+  @keyframes popIn { from { transform: scale(.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .modal-head {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    padding: 22px 26px; color: white;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .modal-head h3 { font-family: 'Fredoka One', cursive; font-size: 1.3rem; }
+  .btn-modal-close {
+    background: rgba(255,255,255,0.2); border: none; color: white;
+    width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: grid; place-items: center;
+  }
+  .modal-body { padding: 26px; }
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 0.82rem; font-weight: 800; color: var(--text-mid); margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%; padding: 10px 14px; border: 2px solid var(--border); border-radius: 10px;
+    font-family: 'Nunito', sans-serif; font-size: 0.92rem; color: var(--text); outline: none;
+    transition: border-color .18s;
+  }
+  .form-input:focus { border-color: var(--green); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .btn-cancel { flex: 1; padding: 11px; border: 2px solid var(--border); border-radius: 10px; background: white; font-family: 'Nunito', sans-serif; font-weight: 800; cursor: pointer; color: var(--text-mid); transition: all .15s; }
+  .btn-cancel:hover { background: #f5f5f5; }
+  .btn-confirm { flex: 2; padding: 11px; border: none; border-radius: 10px; background: var(--green); color: white; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.95rem; cursor: pointer; transition: all .15s; }
+  .btn-confirm:hover { background: var(--green-dark); }
+
+  /* ── TOAST ──────────────────────────────── */
+  .toast {
+    position: fixed; bottom: 28px; right: 28px; z-index: 300;
+    background: var(--text); color: white; border-radius: 12px;
+    padding: 13px 22px; font-weight: 700; font-size: 0.9rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    transform: translateY(80px); opacity: 0; transition: all .3s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── GREETING ───────────────────────────── */
+  .greeting-banner {
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    border-radius: var(--radius); padding: 24px 28px;
+    color: white; margin-bottom: 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: var(--shadow-lg);
+  }
+  .greeting-text h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; }
+  .greeting-text p { opacity: .85; font-size: 0.92rem; margin-top: 4px; }
+  .greeting-emoji { font-size: 3rem; }
+
+  /* ── TURMA DETALHE ──────────────────────── */
+  .detalhe-header {
+    display: flex; align-items: flex-start; gap: 20px;
+    background: white; border-radius: var(--radius); padding: 24px;
+    box-shadow: var(--shadow-sm); border: 1.5px solid var(--border); margin-bottom: 20px;
+  }
+  .detalhe-emoji-box {
+    width: 64px; height: 64px; border-radius: 18px;
+    background: linear-gradient(135deg, var(--green), var(--green-dark));
+    display: grid; place-items: center; font-size: 2rem; flex-shrink: 0;
+  }
+  .detalhe-info h2 { font-family: 'Fredoka One', cursive; font-size: 1.5rem; }
+  .detalhe-info p { color: var(--text-light); font-size: 0.88rem; margin-top: 2px; }
+  .detalhe-codigo {
+    margin-left: auto; background: var(--green-pale); border: 2px dashed var(--green-light);
+    border-radius: 14px; padding: 12px 20px; text-align: center; min-width: 140px;
+  }
+  .detalhe-codigo-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; color: var(--text-light); }
+  .detalhe-codigo-value { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--green-dark); letter-spacing: .1em; }
+  .detalhe-codigo-hint { font-size: 0.7rem; color: var(--text-light); margin-top: 2px; }
+
+  .sub-tabs { display: flex; gap: 4px; margin-bottom: 20px; border-bottom: 2px solid var(--border); padding-bottom: 0; }
+  .sub-tab {
+    padding: 10px 20px; border: none; background: none;
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem;
+    color: var(--text-light); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: all .18s;
+  }
+  .sub-tab:hover { color: var(--text); }
+  .sub-tab.active { color: var(--green); border-bottom-color: var(--green); }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 7px;
+    color: var(--text-mid); font-weight: 800; font-size: 0.88rem;
+    cursor: pointer; margin-bottom: 18px; background: none; border: none;
+    padding: 0; transition: color .15s;
+  }
+  .back-btn:hover { color: var(--green); }
 </style>
 </head>
 <body>
 
-<h2 style="position:absolute;left:-9999px;">Área do Professor — Pequenos Exploradores</h2>
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar">
+  <header class="sidebar-logo">
+    <img src="https://pequenos-exploradores.onrender.com/img/log.png" alt="Logo" onerror="this.style.display='none'">
+    <h2 class="sidebar-logo-text">Pequenos<br>Exploradores <small>Área do Professor</small></h2>
+  </header>
 
-<!-- SIDEBAR -->
-<aside>
-<header>
-<img src="/img/log.png" alt="Logo Pequenos Exploradores" style="width:54px;height:54px;object-fit:contain;">
-<span>Pequenos<br>Exploradores</span>
-</header>
-<nav>
-<section>Principal</section>
-<article class="active" onclick="showPage('dashboard')" id="nav-dashboard">
-<span>🏠</span> Início
-</article>
-<article onclick="showPage('turmas')" id="nav-turmas">
-<span>🌱</span> Minhas Turmas
-</article>
-<section>Gerenciar</section>
-<article onclick="showPage('atividades')" id="nav-atividades">
-<span>📋</span> Atividades
-</article>
-<article onclick="showPage('alunos')" id="nav-alunos">
-<span>👦</span> Alunos
-</article>
-<section>Relatórios</section>
-<article onclick="showPage('progresso')" id="nav-progresso">
-<span>📊</span> Progresso
-</article>
-</nav>
-<footer>
-<article class="user-menu-btn" onclick="toggleUserMenu()">
-<span>M</span>
-<header>
-<p>Profª Maria</p>
-<p>Professora</p>
-</header>
-<div class="user-menu" id="user-menu">
-<a href="/" onclick="logout(event)" style="display:flex;align-items:center;gap:10px;">
-<img src="/img/PNGWing.png" alt="Sair" style="width:18px;height:18px;object-fit:contain;">
-<span>Sair</span>
-</a>
-</div>
-</article>
-</footer>
+  <section class="sidebar-section">Principal</section>
+  <button class="nav-item active" onclick="goto('page-inicio')"><span class="icon">🏠</span> Início</button>
+  <button class="nav-item" onclick="goto('page-turmas')"><span class="icon">🌱</span> Minhas Turmas</button>
+
+  <section class="sidebar-section">Gerenciar</section>
+  <button class="nav-item" onclick="goto('page-atividades')"><span class="icon">📋</span> Atividades</button>
+  <button class="nav-item" onclick="goto('page-alunos')"><span class="icon">👦</span> Alunos</button>
+
+  <section class="sidebar-section">Relatórios</section>
+  <button class="nav-item" onclick="goto('page-progresso')"><span class="icon">📊</span> Progresso</button>
+
+  <footer class="sidebar-bottom">
+    <article class="teacher-info">
+      <span class="teacher-avatar">M</span>
+      <article>
+        <p class="teacher-name">Profª Maria</p>
+        <p class="teacher-role">Professora</p>
+      </article>
+    </article>
+    <button class="btn-sair" onclick="showToast('👋 Até logo!')">🚪 Sair</button>
+  </footer>
 </aside>
 
-<!-- MAIN -->
-<main>
-<header id="page-title">
-<h1>🏠 Início</h1>
-<section>
-<button class="btn btn-ghost btn-sm" onclick="openModal('modal-atividade')">＋ Nova Atividade</button>
-<button class="btn btn-primary btn-sm" onclick="openModal('modal-turma')">＋ Nova Turma</button>
-</section>
-</header>
+<!-- ════ MAIN ════ -->
+<main class="main">
 
-<section>
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <span class="topbar-title" id="topbar-title">🏠 Início</span>
+    <section class="topbar-actions">
+      <button class="btn-secondary" onclick="openModal('modal-nova-turma')">＋ Nova Turma</button>
+      <button class="btn-primary" onclick="openModal('modal-nova-atividade')">＋ Nova Atividade</button>
+    </section>
+  </header>
 
-<!-- DASHBOARD -->
-<article class="page active" id="page-dashboard">
-<section class="page-hero">
-<article>
-<h2>Bom dia, Profª Maria! 🌤️</h2>
-<p>Veja o resumo das suas turmas e atividades recentes.</p>
-</article>
-<span>🌳</span>
-</section>
+  <!-- ══ PAGE: INÍCIO ══ -->
+  <section class="page active" id="page-inicio">
+    <section class="greeting-banner">
+      <article class="greeting-text">
+        <h2>Bom dia, Profª Maria! 🌤️</h2>
+        <p>Veja o resumo das suas turmas e atividades recentes.</p>
+      </article>
+      <span class="greeting-emoji">🌳</span>
+    </section>
 
-<section class="stats-row">
-<article class="stat-card">
-<span class="stat-icon green">🌱</span>
-<p>3</p>
-<p>Turmas ativas</p>
-</article>
-<article class="stat-card">
-<span class="stat-icon amber">👦</span>
-<p>72</p>
-<p>Alunos no total</p>
-</article>
-<article class="stat-card">
-<span class="stat-icon blue">📋</span>
-<p>18</p>
-<p>Atividades enviadas</p>
-</article>
-<article class="stat-card">
-<span class="stat-icon pink">⭐</span>
-<p>1.240</p>
-<p>Pontos distribuídos</p>
-</article>
-</section>
+    <section class="stats-row">
+      <article class="stat-card">
+        <span class="stat-icon green">🌱</span>
+        <span><span class="stat-num">3</span><span class="stat-label">Turmas ativas</span></span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon blue">👦</span>
+        <span><span class="stat-num">72</span><span class="stat-label">Alunos no total</span></span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon yellow">📋</span>
+        <span><span class="stat-num">18</span><span class="stat-label">Atividades enviadas</span></span>
+      </article>
+      <article class="stat-card">
+        <span class="stat-icon purple">⭐</span>
+        <span><span class="stat-num">1.240</span><span class="stat-label">Pontos distribuídos</span></span>
+      </article>
+    </section>
 
-<section class="section-header">
-<h2 class="section-title">🌻 Minhas Turmas</h2>
-<button class="btn btn-ghost btn-sm" onclick="showPage('turmas')">Ver todas →</button>
-</section>
+    <header class="section-header">
+      <h2 class="section-title">🌻 Minhas Turmas</h2>
+      <button class="btn-secondary" onclick="goto('page-turmas')">Ver todas →</button>
+    </header>
 
-<section class="classes-grid">
-<article class="class-card" onclick="showPage('turma-detalhe')">
-<header>
-<span>🦋</span>
-<span>3° Ano A</span>
-</header>
-<h3>Turma das Borboletas</h3>
-<p>Ensino Fundamental I</p>
-<article>
-<section><p>24</p><p>Alunos</p></section>
-<section><p>7</p><p>Atividades</p></section>
-<section><p>89%</p><p>Engajamento</p></section>
-</article>
-<footer>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('turma-detalhe')">Ver turma</button>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('modal-aluno')">＋ Aluno</button>
-</footer>
-</article>
+    <section class="turmas-grid" id="turmas-home"></section>
+  </section>
 
-<article class="class-card" onclick="showPage('turma-detalhe')">
-<header>
-<span>🐸</span>
-<span style="background:#fff3e0;color:#e65100;">2° Ano B</span>
-</header>
-<h3>Turma dos Sapos</h3>
-<p>Ensino Fundamental I</p>
-<article>
-<section><p>26</p><p>Alunos</p></section>
-<section><p>5</p><p>Atividades</p></section>
-<section><p>76%</p><p>Engajamento</p></section>
-</article>
-<footer>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('turma-detalhe')">Ver turma</button>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('modal-aluno')">＋ Aluno</button>
-</footer>
-</article>
+  <!-- ══ PAGE: TURMAS ══ -->
+  <section class="page" id="page-turmas">
+    <header class="section-header">
+      <h2 class="section-title">🌱 Minhas Turmas</h2>
+      <span style="font-size:0.85rem;color:var(--text-light);font-weight:700;">Turmas cadastradas (3)</span>
+    </header>
+    <section class="turmas-grid" id="turmas-lista">
+      <!-- cards gerados via JS -->
+    </section>
+  </section>
 
-<article class="class-card" onclick="showPage('turma-detalhe')">
-<header>
-<span>🦜</span>
-<span style="background:#e3f2fd;color:#1565c0;">4° Ano C</span>
-</header>
-<h3>Turma dos Tucanos</h3>
-<p>Ensino Fundamental I</p>
-<article>
-<section><p>22</p><p>Alunos</p></section>
-<section><p>6</p><p>Atividades</p></section>
-<section><p>82%</p><p>Engajamento</p></section>
-</article>
-<footer>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('turma-detalhe')">Ver turma</button>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('modal-aluno')">＋ Aluno</button>
-</footer>
-</article>
-</section>
-</article>
+  <!-- ══ PAGE: TURMA DETALHE ══ -->
+  <section class="page" id="page-turma-detalhe">
+    <button class="back-btn" onclick="goto('page-turmas')">← Voltar para Turmas</button>
+    <header class="detalhe-header" id="detalhe-header"></header>
+    <nav class="sub-tabs">
+      <button class="sub-tab active" onclick="switchSub('sub-atividades')">📋 Atividades</button>
+      <button class="sub-tab" onclick="switchSub('sub-mural')">📌 Mural</button>
+      <button class="sub-tab" onclick="switchSub('sub-pessoas')">👥 Pessoas</button>
+    </nav>
+    <section id="sub-atividades"></section>
+    <section id="sub-mural" style="display:none">
+      <article style="text-align:center;padding:48px 20px;color:var(--text-light)">
+        <span style="font-size:2.5rem;margin-bottom:12px;display:block">📌</span>
+        <p style="font-weight:800">Nenhum recado no mural ainda.</p>
+        <p style="font-size:0.85rem;margin-top:4px">Você pode postar avisos aqui!</p>
+      </article>
+    </section>
+    <section id="sub-pessoas" style="display:none"></section>
+  </section>
 
-<!-- TURMAS -->
-<article class="page" id="page-turmas">
-<section class="page-hero">
-<article>
-<h2>🌱 Minhas Turmas</h2>
-<p>Gerencie suas turmas e adicione novos alunos.</p>
-</article>
-<span>🏫</span>
-</section>
+  <!-- ══ PAGE: ATIVIDADES ══ -->
+  <section class="page" id="page-atividades">
+    <header class="section-header">
+      <h2 class="section-title">📋 Atividades enviadas (18)</h2>
+      <button class="btn-primary" onclick="openModal('modal-nova-atividade')">＋ Nova atividade</button>
+    </header>
+    <section class="atividades-list">
+      <article class="atividade-item">
+        <span class="atividade-icon">🌿</span>
+        <article>
+          <h3 class="atividade-title">Reciclagem na escola</h3>
+          <p class="atividade-meta">🌱 Turma das Borboletas · 📅 10/04/2025</p>
+        </article>
+        <section class="atividade-right">
+          <span class="entrega-text">22/24 entregaram</span>
+          <span class="xp-chip">⭐ 20 pts</span>
+          <button class="btn-ver">Ver</button>
+        </section>
+      </article>
+      <article class="atividade-item">
+        <span class="atividade-icon">🌊</span>
+        <article>
+          <h3 class="atividade-title">Ciclo da água</h3>
+          <p class="atividade-meta">🌱 Turma das Borboletas · 📅 05/04/2025</p>
+        </article>
+        <section class="atividade-right">
+          <span class="entrega-text">19/24 entregaram</span>
+          <span class="xp-chip">⭐ 15 pts</span>
+          <button class="btn-ver">Ver</button>
+        </section>
+      </article>
+      <article class="atividade-item">
+        <span class="atividade-icon">🦁</span>
+        <article>
+          <h3 class="atividade-title">Animais em extinção</h3>
+          <p class="atividade-meta">🐸 Turma dos Sapos · 📅 01/04/2025</p>
+        </article>
+        <section class="atividade-right">
+          <span class="entrega-text">26/26 entregaram</span>
+          <span class="xp-chip">⭐ 25 pts</span>
+          <button class="btn-ver">Ver</button>
+        </section>
+      </article>
+      <article class="atividade-item">
+        <span class="atividade-icon">☀️</span>
+        <article>
+          <h3 class="atividade-title">Energia solar</h3>
+          <p class="atividade-meta">🦜 Turma dos Tucanos · 📅 28/03/2025</p>
+        </article>
+        <section class="atividade-right">
+          <span class="entrega-text">20/22 entregaram</span>
+          <span class="xp-chip">⭐ 30 pts</span>
+          <button class="btn-ver">Ver</button>
+        </section>
+      </article>
+    </section>
+  </section>
 
-<section class="section-header">
-<h2 class="section-title">Turmas cadastradas (3)</h2>
-<button class="btn btn-primary" onclick="openModal('modal-turma')">＋ Criar nova turma</button>
-</section>
+  <!-- ══ PAGE: ALUNOS ══ -->
+  <section class="page" id="page-alunos">
+    <header class="section-header">
+      <h2 class="section-title">👦 Todos os alunos (72)</h2>
+      <button class="btn-primary" onclick="openModal('modal-add-aluno')">＋ Adicionar aluno</button>
+    </header>
+    <article class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Aluno</th><th>Turma</th><th>Atividades</th><th>Progresso</th><th>Pontos</th><th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="aluno-row"><span class="aluno-avatar" style="background:#6dc47e">LA</span><span><span class="aluno-name">Lucas Alves</span></span></span></td>
+            <td>🦋 Borboletas</td><td>6/7</td>
+            <td><span class="progress-bar"><span class="progress-fill-bar" style="width:86%"></span></span></td>
+            <td><span class="xp-chip">⭐ 85</span></td>
+            <td><button class="btn-ver">Ver perfil</button></td>
+          </tr>
+          <tr>
+            <td><span class="aluno-row"><span class="aluno-avatar" style="background:#f5c842;color:#78350f">BS</span><span><span class="aluno-name">Beatriz Santos</span></span></span></td>
+            <td>🦋 Borboletas</td><td>7/7</td>
+            <td><span class="progress-bar"><span class="progress-fill-bar" style="width:100%"></span></span></td>
+            <td><span class="xp-chip">⭐ 110</span></td>
+            <td><button class="btn-ver">Ver perfil</button></td>
+          </tr>
+          <tr>
+            <td><span class="aluno-row"><span class="aluno-avatar" style="background:#3aafdb">PM</span><span><span class="aluno-name">Pedro Monteiro</span></span></span></td>
+            <td>🐸 Sapos</td><td>3/5</td>
+            <td><span class="progress-bar"><span class="progress-fill-bar" style="width:45%"></span></span></td>
+            <td><span class="xp-chip">⭐ 45</span></td>
+            <td><button class="btn-ver">Ver perfil</button></td>
+          </tr>
+          <tr>
+            <td><span class="aluno-row"><span class="aluno-avatar" style="background:#9b72cf">AG</span><span><span class="aluno-name">Ana Guimarães</span></span></span></td>
+            <td>🦋 Borboletas</td><td>5/7</td>
+            <td><span class="progress-bar"><span class="progress-fill-bar" style="width:71%"></span></span></td>
+            <td><span class="xp-chip">⭐ 66</span></td>
+            <td><button class="btn-ver">Ver perfil</button></td>
+          </tr>
+          <tr>
+            <td><span class="aluno-row"><span class="aluno-avatar" style="background:#f0872a">TS</span><span><span class="aluno-name">Tomás Silva</span></span></span></td>
+            <td>🦜 Tucanos</td><td>5/6</td>
+            <td><span class="progress-bar"><span class="progress-fill-bar" style="width:83%"></span></span></td>
+            <td><span class="xp-chip">⭐ 92</span></td>
+            <td><button class="btn-ver">Ver perfil</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </article>
+  </section>
 
-<section class="classes-grid">
-<article class="class-card" onclick="showPage('turma-detalhe')">
-<header>
-<span>🦋</span>
-<span>3° Ano A</span>
-</header>
-<h3>Turma das Borboletas</h3>
-<p>Ensino Fundamental I · Código: BOR24</p>
-<article>
-<section><p>24</p><p>Alunos</p></section>
-<section><p>7</p><p>Atividades</p></section>
-<section><p>89%</p><p>Engajamento</p></section>
-</article>
-<footer>
-<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();showPage('turma-detalhe')">Ver detalhes</button>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('modal-aluno')">＋ Aluno</button>
-</footer>
-</article>
+  <!-- ══ PAGE: PROGRESSO ══ -->
+  <section class="page" id="page-progresso">
+    <header class="section-header" style="margin-bottom:20px">
+      <h2 class="section-title">📊 Progresso das Turmas</h2>
+    </header>
+    <section class="progresso-grid">
+      <article class="progresso-card">
+        <header class="progresso-card-title">🌱 Engajamento por turma</header>
+        <section class="engajamento-row">
+          <span class="eng-emoji">🦋</span>
+          <span style="flex:1">
+            <p class="eng-label">Borboletas — 3° Ano A</p>
+            <span class="eng-bar"><span class="eng-bar-fill" style="width:89%;background:var(--green)"></span></span>
+          </span>
+          <span class="eng-pct">89%</span>
+        </section>
+        <section class="engajamento-row">
+          <span class="eng-emoji">🦜</span>
+          <span style="flex:1">
+            <p class="eng-label">Tucanos — 4° Ano C</p>
+            <span class="eng-bar"><span class="eng-bar-fill" style="width:82%;background:var(--blue)"></span></span>
+          </span>
+          <span class="eng-pct">82%</span>
+        </section>
+        <section class="engajamento-row">
+          <span class="eng-emoji">🐸</span>
+          <span style="flex:1">
+            <p class="eng-label">Sapos — 2° Ano B</p>
+            <span class="eng-bar"><span class="eng-bar-fill" style="width:76%;background:var(--yellow)"></span></span>
+          </span>
+          <span class="eng-pct">76%</span>
+        </section>
+      </article>
 
-<article class="class-card" onclick="showPage('turma-detalhe')">
-<header>
-<span>🐸</span>
-<span style="background:#fff3e0;color:#e65100;">2° Ano B</span>
-</header>
-<h3>Turma dos Sapos</h3>
-<p>Ensino Fundamental I · Código: SAP24</p>
-<article>
-<section><p>26</p><p>Alunos</p></section>
-<section><p>5</p><p>Atividades</p></section>
-<section><p>76%</p><p>Engajamento</p></section>
-</article>
-<footer>
-<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();showPage('turma-detalhe')">Ver detalhes</button>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('modal-aluno')">＋ Aluno</button>
-</footer>
-</article>
+      <article class="progresso-card">
+        <header class="progresso-card-title">🏆 Ranking de alunos</header>
+        <article class="ranking-row"><span class="ranking-pos">🥇</span><span class="aluno-avatar" style="background:#f5c842;color:#78350f;width:30px;height:30px;font-size:0.72rem">BS</span><article><p class="ranking-name">Beatriz Santos</p><p class="ranking-turma">🦋 Borboletas</p></article><span class="ranking-xp"><span class="xp-chip">⭐ 110</span></span></article>
+        <article class="ranking-row"><span class="ranking-pos">🥈</span><span class="aluno-avatar" style="background:#f0872a;width:30px;height:30px;font-size:0.72rem">TS</span><article><p class="ranking-name">Tomás Silva</p><p class="ranking-turma">🦜 Tucanos</p></article><span class="ranking-xp"><span class="xp-chip">⭐ 92</span></span></article>
+        <article class="ranking-row"><span class="ranking-pos">🥉</span><span class="aluno-avatar" style="background:#6dc47e;width:30px;height:30px;font-size:0.72rem">LA</span><article><p class="ranking-name">Lucas Alves</p><p class="ranking-turma">🦋 Borboletas</p></article><span class="ranking-xp"><span class="xp-chip">⭐ 85</span></span></article>
+        <article class="ranking-row"><span class="ranking-pos" style="font-size:0.9rem;font-weight:800;color:var(--text-light)">4</span><span class="aluno-avatar" style="background:#9b72cf;width:30px;height:30px;font-size:0.72rem">AG</span><article><p class="ranking-name">Ana Guimarães</p><p class="ranking-turma">🦋 Borboletas</p></article><span class="ranking-xp"><span class="xp-chip">⭐ 66</span></span></article>
+        <article class="ranking-row"><span class="ranking-pos" style="font-size:0.9rem;font-weight:800;color:var(--text-light)">5</span><span class="aluno-avatar" style="background:#3aafdb;width:30px;height:30px;font-size:0.72rem">PM</span><article><p class="ranking-name">Pedro Monteiro</p><p class="ranking-turma">🐸 Sapos</p></article><span class="ranking-xp"><span class="xp-chip">⭐ 45</span></span></article>
+      </article>
+    </section>
+  </section>
 
-<article class="class-card" onclick="showPage('turma-detalhe')">
-<header>
-<span>🦜</span>
-<span style="background:#e3f2fd;color:#1565c0;">4° Ano C</span>
-</header>
-<h3>Turma dos Tucanos</h3>
-<p>Ensino Fundamental I · Código: TUC24</p>
-<article>
-<section><p>22</p><p>Alunos</p></section>
-<section><p>6</p><p>Atividades</p></section>
-<section><p>82%</p><p>Engajamento</p></section>
-</article>
-<footer>
-<button class="btn btn-primary btn-sm" onclick="event.stopPropagation();showPage('turma-detalhe')">Ver detalhes</button>
-<button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openModal('modal-aluno')">＋ Aluno</button>
-</footer>
-</article>
-</section>
-</article>
+</main><!-- /main -->
 
-<!-- TURMA DETALHE -->
-<article class="page" id="page-turma-detalhe">
-<nav class="breadcrumb">
-<a onclick="showPage('turmas')">Turmas</a>
-<span>›</span>
-<span>Turma das Borboletas</span>
-</nav>
-
-<section class="turma-header">
-<span class="turma-emoji">🦋</span>
-<article style="flex:1">
-<h3 style="font-size:20px;font-weight:700;color:var(--green-dark);margin:0">Turma das Borboletas</h3>
-<p style="font-size:14px;color:var(--text-muted);margin-top:4px">3° Ano A · Ensino Fundamental I · Código de acesso: <b>BOR24</b></p>
-<section style="display:flex;gap:12px;margin-top:12px">
-<span class="badge badge-green">✅ 24 alunos</span>
-<span class="badge badge-amber">📋 7 atividades</span>
-<span class="badge badge-blue">⭐ 420 pontos dist.</span>
-</section>
-</article>
-<section style="display:flex;gap:10px">
-<button class="btn btn-ghost btn-sm" onclick="openModal('modal-aluno')">＋ Adicionar Aluno</button>
-<button class="btn btn-amber btn-sm" onclick="openModal('modal-atividade')">＋ Enviar Atividade</button>
-</section>
-</section>
-
-<section style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
-<button class="btn btn-primary btn-sm" id="tab-alunos-btn" onclick="switchTab('alunos')">👦 Alunos</button>
-<button class="btn btn-ghost btn-sm" id="tab-ativs-btn" onclick="switchTab('atividades')">📋 Atividades</button>
-</section>
-
-<section id="tab-alunos">
-<article class="students-table">
-<header>
-<h2>Alunos da turma (24)</h2>
-<section class="search-bar">
-<span style="opacity:0.5">🔍</span>
-<input type="text" placeholder="Buscar aluno...">
-</section>
-</header>
-<table>
-<thead>
-<tr><th>Aluno</th><th>Atividades</th><th>Progresso</th><th>Pontos</th><th>Status</th><th></th></tr>
-</thead>
-<tbody>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>LA</span>Lucas Alves</td>
-<td>6/7</td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:86%"></span></span></td>
-<td><span class="points-chip">⭐ 85</span></td>
-<td><span class="badge badge-green">Ativo</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>BS</span>Beatriz Santos</td>
-<td>7/7</td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:100%"></span></span></td>
-<td><span class="points-chip">⭐ 110</span></td>
-<td><span class="badge badge-green">Ativo</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>PM</span>Pedro Monteiro</td>
-<td>3/7</td>
-<td><span class="progress-bar"><span class="progress-fill amber" style="width:43%"></span></span></td>
-<td><span class="points-chip">⭐ 38</span></td>
-<td><span class="badge badge-amber">Em andamento</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>AG</span>Ana Guimarães</td>
-<td>5/7</td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:71%"></span></span></td>
-<td><span class="points-chip">⭐ 66</span></td>
-<td><span class="badge badge-green">Ativo</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>RC</span>Rafael Costa</td>
-<td>2/7</td>
-<td><span class="progress-bar"><span class="progress-fill low" style="width:29%"></span></span></td>
-<td><span class="points-chip">⭐ 20</span></td>
-<td><span class="badge badge-amber">Em andamento</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-</tbody>
-</table>
-</article>
+<!-- ════ MODAIS ════ -->
+<section class="modal-overlay" id="modal-nova-turma">
+  <article class="modal">
+    <header class="modal-head"><h3>🌱 Criar nova turma</h3><button class="btn-modal-close" onclick="closeModal('modal-nova-turma')">✕</button></header>
+    <section class="modal-body">
+      <section class="form-row">
+        <article class="form-group"><label class="form-label">Nome da turma *</label><input class="form-input" placeholder="Ex: Turma das Borboletas"></article>
+        <article class="form-group"><label class="form-label">Ano / Série</label><input class="form-input" placeholder="Ex: 3° Ano A"></article>
+      </section>
+      <section class="form-row">
+        <article class="form-group"><label class="form-label">Emoji da turma</label><input class="form-input" placeholder="🦋"></article>
+        <article class="form-group"><label class="form-label">Código de acesso</label><input class="form-input" placeholder="Ex: BOR24" style="text-transform:uppercase;font-family:'Fredoka One',cursive;letter-spacing:.1em"></article>
+      </section>
+      <footer class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal('modal-nova-turma')">Cancelar</button>
+        <button class="btn-confirm" onclick="closeModal('modal-nova-turma');showToast('✅ Turma criada com sucesso!')">Criar turma ✓</button>
+      </footer>
+    </section>
+  </article>
 </section>
 
-<section id="tab-atividades" style="display:none">
-<section class="section-header" style="margin-top:4px">
-<h2 class="section-title">Atividades da turma</h2>
-<button class="btn btn-amber" onclick="openModal('modal-atividade')">＋ Nova atividade</button>
-</section>
-<section class="activities-list">
-<article class="activity-card" onclick="openModal('modal-atividade')">
-<span class="activity-icon">🌿</span>
-<article>
-<h3>Reciclagem na escola</h3>
-<p>📅 Enviada em 10/04/2025 · 22 de 24 completaram</p>
-</article>
-<section class="activity-points">
-<p class="points-big">⭐ 20</p>
-<p class="points-label">pontos</p>
-</section>
-</article>
-<article class="activity-card amber-border" onclick="openModal('modal-atividade')">
-<span class="activity-icon amber">🌊</span>
-<article>
-<h3>Ciclo da água</h3>
-<p>📅 Enviada em 05/04/2025 · 19 de 24 completaram</p>
-</article>
-<section class="activity-points">
-<p class="points-big">⭐ 15</p>
-<p class="points-label">pontos</p>
-</section>
-</article>
-<article class="activity-card blue-border" onclick="openModal('modal-atividade')">
-<span class="activity-icon blue">🦁</span>
-<article>
-<h3>Animais em extinção</h3>
-<p>📅 Enviada em 01/04/2025 · 24 de 24 completaram</p>
-</article>
-<section class="activity-points">
-<p class="points-big">⭐ 25</p>
-<p class="points-label">pontos</p>
-</section>
-</article>
-</section>
-</section>
-</article>
-
-<!-- ATIVIDADES -->
-<article class="page" id="page-atividades">
-<section class="page-hero">
-<article>
-<h2>📋 Atividades</h2>
-<p>Crie e envie atividades para suas turmas com pontuação.</p>
-</article>
-<span>✏️</span>
+<section class="modal-overlay" id="modal-nova-atividade">
+  <article class="modal">
+    <header class="modal-head"><h3>📋 Nova atividade</h3><button class="btn-modal-close" onclick="closeModal('modal-nova-atividade')">✕</button></header>
+    <section class="modal-body">
+      <article class="form-group"><label class="form-label">Título da atividade *</label><input class="form-input" placeholder="Ex: Reciclagem na escola"></article>
+      <article class="form-group"><label class="form-label">Descrição</label><input class="form-input" placeholder="Descreva a atividade..."></article>
+      <section class="form-row">
+        <article class="form-group"><label class="form-label">Turma</label>
+          <select class="form-input"><option>🦋 Turma das Borboletas</option><option>🐸 Turma dos Sapos</option><option>🦜 Turma dos Tucanos</option></select>
+        </article>
+        <article class="form-group"><label class="form-label">Pontos ⭐</label><input class="form-input" type="number" placeholder="20"></article>
+      </section>
+      <article class="form-group"><label class="form-label">Data de entrega</label><input class="form-input" type="date"></article>
+      <footer class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal('modal-nova-atividade')">Cancelar</button>
+        <button class="btn-confirm" onclick="closeModal('modal-nova-atividade');showToast('📋 Atividade enviada!')">Enviar atividade ✓</button>
+      </footer>
+    </section>
+  </article>
 </section>
 
-<section class="section-header">
-<h2 class="section-title">Atividades enviadas (18)</h2>
-<button class="btn btn-amber" onclick="openModal('modal-atividade')">＋ Nova atividade</button>
+<section class="modal-overlay" id="modal-add-aluno">
+  <article class="modal">
+    <header class="modal-head"><h3>👦 Adicionar aluno</h3><button class="btn-modal-close" onclick="closeModal('modal-add-aluno')">✕</button></header>
+    <section class="modal-body">
+      <section class="form-row">
+        <article class="form-group"><label class="form-label">Nome</label><input class="form-input" placeholder="Nome"></article>
+        <article class="form-group"><label class="form-label">Sobrenome</label><input class="form-input" placeholder="Sobrenome"></article>
+      </section>
+      <article class="form-group"><label class="form-label">Turma</label>
+        <select class="form-input"><option>🦋 Turma das Borboletas</option><option>🐸 Turma dos Sapos</option><option>🦜 Turma dos Tucanos</option></select>
+      </article>
+      <article class="form-group"><label class="form-label">Usuário / apelido</label><input class="form-input" placeholder="@apelido"></article>
+      <footer class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal('modal-add-aluno')">Cancelar</button>
+        <button class="btn-confirm" onclick="closeModal('modal-add-aluno');showToast('👦 Aluno adicionado!')">Adicionar aluno ✓</button>
+      </footer>
+    </section>
+  </article>
 </section>
 
-<section class="activities-list">
-<article class="activity-card">
-<span class="activity-icon">🌿</span>
-<article>
-<h3>Reciclagem na escola</h3>
-<p>🌱 Turma das Borboletas · 📅 10/04/2025 · 22/24 entregaram</p>
-</article>
-<section class="activity-points">
-<p class="points-big">⭐ 20</p>
-<p class="points-label">pontos</p>
-</section>
-</article>
-<article class="activity-card amber-border">
-<span class="activity-icon amber">🌊</span>
-<article>
-<h3>Ciclo da água</h3>
-<p>🌱 Turma das Borboletas · 📅 05/04/2025 · 19/24 entregaram</p>
-</article>
-<section class="activity-points">
-<p class="points-big">⭐ 15</p>
-<p class="points-label">pontos</p>
-</section>
-</article>
-<article class="activity-card blue-border">
-<span class="activity-icon blue">🦁</span>
-<article>
-<h3>Animais em extinção</h3>
-<p>🐸 Turma dos Sapos · 📅 01/04/2025 · 26/26 entregaram</p>
-</article>
-<section class="activity-points">
-<p class="points-big">⭐ 25</p>
-<p class="points-label">pontos</p>
-</section>
-</article>
-<article class="activity-card">
-<span class="activity-icon">☀️</span>
-<article>
-<h3>Energia solar</h3>
-<p>🦜 Turma dos Tucanos · 📅 28/03/2025 · 20/22 entregaram</p>
-</article>
-<section class="activity-points">
-<p class="points-big">⭐ 30</p>
-<p class="points-label">pontos</p>
-</section>
-</article>
-</section>
-</article>
-
-<!-- ALUNOS -->
-<article class="page" id="page-alunos">
-<section class="page-hero">
-<article>
-<h2>👦 Alunos</h2>
-<p>Veja todos os alunos cadastrados em suas turmas.</p>
-</article>
-<span>👨‍👩‍👧‍👦</span>
-</section>
-
-<article class="students-table">
-<header>
-<h2>Todos os alunos (72)</h2>
-<section class="search-bar">
-<span style="opacity:0.5">🔍</span>
-<input type="text" placeholder="Buscar aluno...">
-</section>
-</header>
-<table>
-<thead>
-<tr><th>Aluno</th><th>Turma</th><th>Atividades</th><th>Progresso</th><th>Pontos</th><th></th></tr>
-</thead>
-<tbody>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>LA</span>Lucas Alves</td>
-<td><span class="badge badge-green">🦋 Borboletas</span></td>
-<td>6/7</td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:86%"></span></span></td>
-<td><span class="points-chip">⭐ 85</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>BS</span>Beatriz Santos</td>
-<td><span class="badge badge-green">🦋 Borboletas</span></td>
-<td>7/7</td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:100%"></span></span></td>
-<td><span class="points-chip">⭐ 110</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>PM</span>Pedro Monteiro</td>
-<td><span class="badge badge-amber">🐸 Sapos</span></td>
-<td>3/5</td>
-<td><span class="progress-bar"><span class="progress-fill amber" style="width:60%"></span></span></td>
-<td><span class="points-chip">⭐ 45</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>AG</span>Ana Guimarães</td>
-<td><span class="badge badge-green">🦋 Borboletas</span></td>
-<td>5/7</td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:71%"></span></span></td>
-<td><span class="points-chip">⭐ 66</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td><span>TS</span>Tomás Silva</td>
-<td><span class="badge badge-blue">🦜 Tucanos</span></td>
-<td>5/6</td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:83%"></span></span></td>
-<td><span class="points-chip">⭐ 92</span></td>
-<td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();showPage('aluno-perfil')">Ver perfil</button></td>
-</tr>
-</tbody>
-</table>
-</article>
-</article>
-
-<!-- ALUNO PERFIL -->
-<article class="page" id="page-aluno-perfil">
-<nav class="breadcrumb">
-<a onclick="showPage('alunos')">Alunos</a>
-<span>›</span>
-<a onclick="showPage('turma-detalhe')">Turma das Borboletas</a>
-<span>›</span>
-<span>Lucas Alves</span>
-</nav>
-
-<section class="profile-header">
-<span class="profile-avatar-big">LA</span>
-<article>
-<h2>Lucas Alves</h2>
-<p>🦋 Turma das Borboletas · 3° Ano A</p>
-</article>
-<section class="profile-stats">
-<article>
-<p>6/7</p>
-<p>Atividades</p>
-</article>
-<article>
-<p>⭐ 85</p>
-<p>Pontos</p>
-</article>
-<article>
-<p>86%</p>
-<p>Progresso</p>
-</article>
-</section>
-</section>
-
-<section class="detail-grid">
-<article class="detail-card">
-<header>Histórico de atividades</header>
-<section class="activity-history-item">
-<span class="history-dot"></span>
-<p>Reciclagem na escola</p>
-<span>+20 pts</span>
-</section>
-<section class="activity-history-item">
-<span class="history-dot amber"></span>
-<p>Ciclo da água</p>
-<span>+15 pts</span>
-</section>
-<section class="activity-history-item">
-<span class="history-dot blue"></span>
-<p>Animais em extinção</p>
-<span>+25 pts</span>
-</section>
-<section class="activity-history-item">
-<span class="history-dot"></span>
-<p>Energia solar</p>
-<span>+15 pts</span>
-</section>
-<section class="activity-history-item">
-<span class="history-dot amber"></span>
-<p>Florestas do Brasil</p>
-<span>+10 pts</span>
-</section>
-<section class="activity-history-item">
-<span class="history-dot blue"></span>
-<p>Poluição dos rios</p>
-<span>— não entregue</span>
-</section>
-</article>
-
-<article class="detail-card">
-<header>Evolução de pontos</header>
-<section style="margin-bottom:16px">
-<p style="font-size:12px;color:var(--text-muted);margin-bottom:6px">Total acumulado</p>
-<section style="display:flex;align-items:center;gap:10px">
-<progress style="flex:1;height:14px;border-radius:7px;" value="85" max="110"></progress>
-<span style="font-size:15px;font-weight:600;color:var(--amber)">85 / 110</span>
-</section>
-</section>
-<section style="margin-top:18px">
-<p style="font-size:12px;color:var(--text-muted);margin-bottom:10px">Progresso por semana</p>
-<section style="display:flex;align-items:flex-end;gap:8px;height:80px">
-<section style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-<meter style="width:100%;height:30px;border-radius:4px 4px 0 0;" low="40" high="70"></meter>
-<p style="font-size:11px;color:var(--text-muted);margin:0">S1</p>
-</section>
-<section style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-<meter style="width:100%;height:55px;border-radius:4px 4px 0 0;" low="40" high="70"></meter>
-<p style="font-size:11px;color:var(--text-muted);margin:0">S2</p>
-</section>
-<section style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-<meter style="width:100%;height:40px;border-radius:4px 4px 0 0;" low="40" high="70"></meter>
-<p style="font-size:11px;color:var(--text-muted);margin:0">S3</p>
-</section>
-<section style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
-<meter style="width:100%;height:65px;border-radius:4px 4px 0 0;" low="40" high="70"></meter>
-<p style="font-size:11px;color:var(--text-muted);margin:0">S4</p>
-</section>
-</section>
-</section>
-<section style="margin-top:20px;padding-top:16px;border-top:1px solid #f0f0f0;display:flex;gap:10px">
-<button class="btn btn-primary btn-sm" onclick="openModal('modal-pontos')">＋ Adicionar pontos</button>
-<button class="btn btn-ghost btn-sm" onclick="openModal('modal-atividade')">Enviar atividade</button>
-</section>
-</article>
-</section>
-</article>
-
-<!-- PROGRESSO -->
-<article class="page" id="page-progresso">
-<section class="page-hero">
-<article>
-<h2>📊 Progresso das Turmas</h2>
-<p>Acompanhe o desenvolvimento de cada turma.</p>
-</article>
-<span>🏆</span>
-</section>
-
-<section class="stats-row" style="grid-template-columns:repeat(3,1fr)">
-<article class="stat-card">
-<span class="stat-icon green">🌱</span>
-<p>89%</p>
-<p>Borboletas — engajamento</p>
-</article>
-<article class="stat-card">
-<span class="stat-icon amber">🐸</span>
-<p>76%</p>
-<p>Sapos — engajamento</p>
-</article>
-<article class="stat-card">
-<span class="stat-icon blue">🦜</span>
-<p>82%</p>
-<p>Tucanos — engajamento</p>
-</article>
-</section>
-
-<article class="students-table">
-<header>
-<h2>Ranking de alunos</h2>
-</header>
-<table>
-<thead>
-<tr><th>#</th><th>Aluno</th><th>Turma</th><th>Atividades</th><th>Pontos</th><th>Progresso</th></tr>
-</thead>
-<tbody>
-<tr onclick="showPage('aluno-perfil')">
-<td style="font-size:18px">🥇</td>
-<td><span>BS</span>Beatriz Santos</td>
-<td><span class="badge badge-green">🦋 Borboletas</span></td>
-<td>7/7</td>
-<td><span class="points-chip">⭐ 110</span></td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:100%"></span></span></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td style="font-size:18px">🥈</td>
-<td><span>TS</span>Tomás Silva</td>
-<td><span class="badge badge-blue">🦜 Tucanos</span></td>
-<td>5/6</td>
-<td><span class="points-chip">⭐ 92</span></td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:83%"></span></span></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td style="font-size:18px">🥉</td>
-<td><span>LA</span>Lucas Alves</td>
-<td><span class="badge badge-green">🦋 Borboletas</span></td>
-<td>6/7</td>
-<td><span class="points-chip">⭐ 85</span></td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:86%"></span></span></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td style="color:var(--text-muted)">4</td>
-<td><span>AG</span>Ana Guimarães</td>
-<td><span class="badge badge-green">🦋 Borboletas</span></td>
-<td>5/7</td>
-<td><span class="points-chip">⭐ 66</span></td>
-<td><span class="progress-bar"><span class="progress-fill" style="width:71%"></span></span></td>
-</tr>
-<tr onclick="showPage('aluno-perfil')">
-<td style="color:var(--text-muted)">5</td>
-<td><span>PM</span>Pedro Monteiro</td>
-<td><span class="badge badge-amber">🐸 Sapos</span></td>
-<td>3/5</td>
-<td><span class="points-chip">⭐ 45</span></td>
-<td><span class="progress-bar"><span class="progress-fill amber" style="width:60%"></span></span></td>
-</tr>
-</tbody>
-</table>
-</article>
-</article>
-
-</section>
-</main>
-
-<!-- MODALS -->
-
-<!-- Modal: Criar Turma -->
-<dialog id="modal-turma">
-<article>
-<header>
-<h2>🌱 Criar nova turma</h2>
-<button type="button" onclick="closeModal('modal-turma')">✕</button>
-</header>
-<section class="form-group">
-<label>Nome da turma *</label>
-<input type="text" placeholder="Ex: Turma das Borboletas">
-</section>
-<section class="form-row">
-<section class="form-group">
-<label>Ano / Série</label>
-<input type="text" placeholder="Ex: 3° Ano A">
-</section>
-<section class="form-group">
-<label>Emoji da turma</label>
-<input type="text" placeholder="Ex: 🦋">
-</section>
-</section>
-<section class="form-group">
-<label>Senha de acesso</label>
-<input type="password" placeholder="Crie uma senha para os alunos">
-</section>
-<section class="form-group">
-<label>Confirmar senha</label>
-<input type="password" placeholder="Repita a senha">
-</section>
-<footer>
-<button class="btn btn-ghost" onclick="closeModal('modal-turma')">Cancelar</button>
-<button class="btn btn-primary" onclick="closeModal('modal-turma');showPage('turmas')">Criar turma ✓</button>
-</footer>
-</article>
-</dialog>
-
-<!-- Modal: Adicionar Aluno -->
-<dialog id="modal-aluno">
-<article>
-<header>
-<h2>👦 Adicionar aluno</h2>
-<button type="button" onclick="closeModal('modal-aluno')">✕</button>
-</header>
-<section class="form-row">
-<section class="form-group">
-<label>Nome</label>
-<input type="text" placeholder="Nome do aluno">
-</section>
-<section class="form-group">
-<label>Sobrenome</label>
-<input type="text" placeholder="Sobrenome">
-</section>
-</section>
-<section class="form-group">
-<label>Turma</label>
-<select>
-<option>🦋 Turma das Borboletas</option>
-<option>🐸 Turma dos Sapos</option>
-<option>🦜 Turma dos Tucanos</option>
-</select>
-</section>
-<section class="form-group">
-<label>Usuário / apelido</label>
-<input type="text" placeholder="Ex: lucas.alves">
-</section>
-<footer>
-<button class="btn btn-ghost" onclick="closeModal('modal-aluno')">Cancelar</button>
-<button class="btn btn-primary" onclick="closeModal('modal-aluno')">Adicionar aluno ✓</button>
-</footer>
-</article>
-</dialog>
-
-<!-- Modal: Nova Atividade -->
-<dialog id="modal-atividade">
-<article>
-<header>
-<h2>📋 Nova atividade</h2>
-<button type="button" onclick="closeModal('modal-atividade')">✕</button>
-</header>
-<section class="form-group">
-<label>Título da atividade *</label>
-<input type="text" placeholder="Ex: Reciclagem na escola">
-</section>
-<section class="form-group">
-<label>Descrição</label>
-<textarea rows="3" placeholder="Descreva a atividade para os alunos..." style="resize:vertical"></textarea>
-</section>
-<section class="form-row">
-<section class="form-group">
-<label>Turma</label>
-<select>
-<option>🦋 Turma das Borboletas</option>
-<option>🐸 Turma dos Sapos</option>
-<option>🦜 Turma dos Tucanos</option>
-</select>
-</section>
-<section class="form-group">
-<label>Pontos ⭐</label>
-<input type="number" placeholder="Ex: 20" min="1" max="100">
-</section>
-</section>
-<section class="form-group">
-<label>Data de entrega</label>
-<input type="date">
-</section>
-<footer>
-<button class="btn btn-ghost" onclick="closeModal('modal-atividade')">Cancelar</button>
-<button class="btn btn-amber" onclick="closeModal('modal-atividade')">Enviar atividade ✓</button>
-</footer>
-</article>
-</dialog>
-
-<!-- Modal: Adicionar Pontos -->
-<dialog id="modal-pontos">
-<article style="max-width:360px">
-<header>
-<h2>⭐ Adicionar pontos</h2>
-<button type="button" onclick="closeModal('modal-pontos')">✕</button>
-</header>
-<section style="text-align:center;padding:16px 0">
-<section style="font-size:48px;margin-bottom:12px">🏆</section>
-<h3 style="font-size:16px;font-weight:600;color:var(--text);margin:0">Lucas Alves</h3>
-<p style="font-size:13px;color:var(--text-muted);margin-top:4px">85 pontos atuais</p>
-</section>
-<section class="form-group">
-<label>Quantidade de pontos</label>
-<input type="number" placeholder="Ex: 10" min="1" max="100" style="font-size:24px;text-align:center;font-weight:700">
-</section>
-<section class="form-group">
-<label>Motivo</label>
-<input type="text" placeholder="Ex: Participação excepcional">
-</section>
-<footer>
-<button class="btn btn-ghost" onclick="closeModal('modal-pontos')">Cancelar</button>
-<button class="btn btn-amber" onclick="closeModal('modal-pontos')">Salvar pontos ✓</button>
-</footer>
-</article>
-</dialog>
+<output class="toast" id="toast"></output>
 
 <script>
-const titles={
-dashboard:'🏠 Início',
-turmas:'🌱 Minhas Turmas',
-'turma-detalhe':'🦋 Turma das Borboletas',
-atividades:'📋 Atividades',
-alunos:'👦 Alunos',
-'aluno-perfil':'👤 Perfil do Aluno',
-progresso:'📊 Progresso'
+const TURMAS = [
+  {
+    id: 'borboletas',
+    emoji: '🦋',
+    nome: 'Turma das Borboletas',
+    ano: '3° Ano A',
+    serie: 'Ensino Fundamental I',
+    codigo: 'BOR24',
+    alunos: 24,
+    atividades: 7,
+    engajamento: 89,
+    cor: 'linear-gradient(135deg,#3d9e4f,#2a7338)',
+    listaAlunos: [
+      { ini:'LA', nome:'Lucas Alves', ativ:'6/7', pts:85, pct:86, status:'Ativo', bg:'#6dc47e' },
+      { ini:'BS', nome:'Beatriz Santos', ativ:'7/7', pts:110, pct:100, status:'Ativo', bg:'#f5c842', tc:'#78350f' },
+      { ini:'PM', nome:'Pedro Monteiro', ativ:'3/7', pts:38, pct:43, status:'Em andamento', bg:'#3aafdb' },
+      { ini:'AG', nome:'Ana Guimarães', ativ:'5/7', pts:66, pct:71, status:'Ativo', bg:'#9b72cf' },
+      { ini:'RC', nome:'Rafael Costa', ativ:'2/7', pts:20, pct:29, status:'Em andamento', bg:'#f0872a' },
+    ]
+  },
+  {
+    id: 'sapos',
+    emoji: '🐸',
+    nome: 'Turma dos Sapos',
+    ano: '2° Ano B',
+    serie: 'Ensino Fundamental I',
+    codigo: 'SAP24',
+    alunos: 26,
+    atividades: 5,
+    engajamento: 76,
+    cor: 'linear-gradient(135deg,#3aafdb,#1a7fa5)',
+    listaAlunos: [
+      { ini:'PM', nome:'Pedro Monteiro', ativ:'3/5', pts:45, pct:45, status:'Em andamento', bg:'#3aafdb' },
+      { ini:'JS', nome:'Julia Souza', ativ:'5/5', pts:95, pct:100, status:'Ativo', bg:'#6dc47e' },
+    ]
+  },
+  {
+    id: 'tucanos',
+    emoji: '🦜',
+    nome: 'Turma dos Tucanos',
+    ano: '4° Ano C',
+    serie: 'Ensino Fundamental I',
+    codigo: 'TUC24',
+    alunos: 22,
+    atividades: 6,
+    engajamento: 82,
+    cor: 'linear-gradient(135deg,#f0872a,#c05a10)',
+    listaAlunos: [
+      { ini:'TS', nome:'Tomás Silva', ativ:'5/6', pts:92, pct:83, status:'Ativo', bg:'#f0872a' },
+      { ini:'CF', nome:'Carla Freitas', ativ:'4/6', pts:60, pct:67, status:'Ativo', bg:'#9b72cf' },
+    ]
+  }
+];
+
+function renderTurmaCard(t, showDetalhe=false) {
+  const engColor = t.engajamento >= 85 ? 'var(--green)' : t.engajamento >= 75 ? 'var(--blue)' : 'var(--yellow)';
+  const btnClick = showDetalhe ? `abrirDetalhe('${t.id}')` : `abrirDetalhe('${t.id}')`;
+  return `
+    <article class="turma-card" onclick="${btnClick}">
+      <header class="turma-card-header" style="background:${t.cor}">
+        <section class="turma-emoji-row">
+          <span class="turma-emoji">${t.emoji}</span>
+          <span class="turma-badge">${t.ano}</span>
+        </section>
+        <h3 class="turma-name">${t.nome}</h3>
+        <p class="turma-sub">${t.serie}</p>
+        <footer class="codigo-acesso" onclick="event.stopPropagation()">
+          <section>
+            <p class="codigo-label">🔑 Código de acesso</p>
+            <p class="codigo-valor">${t.codigo}</p>
+          </section>
+          <button class="btn-copiar" onclick="copiarCodigo('${t.codigo}',this)">📋 Copiar</button>
+        </footer>
+      </header>
+      <section class="turma-card-body">
+        <section class="turma-stats-row">
+          <article class="turma-stat"><span class="turma-stat-num">${t.alunos}</span><span class="turma-stat-label">Alunos</span></article>
+          <article class="turma-stat"><span class="turma-stat-num">${t.atividades}</span><span class="turma-stat-label">Atividades</span></article>
+          <article class="turma-stat"><span class="turma-stat-num" style="color:${engColor}">${t.engajamento}%</span><span class="turma-stat-label">Engajamento</span></article>
+        </section>
+        <span class="engajamento-bar"><span class="engajamento-fill" style="width:${t.engajamento}%;background:${engColor}"></span></span>
+        <footer class="turma-card-actions">
+          <button class="btn-turma-action primary" onclick="event.stopPropagation();abrirDetalhe('${t.id}')">👁 Ver turma</button>
+          <button class="btn-turma-action" onclick="event.stopPropagation();openModal('modal-add-aluno')">＋ Aluno</button>
+        </footer>
+      </section>
+    </article>
+  `;
+}
+
+function renderTurmasGrid(containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  el.innerHTML = TURMAS.map(t => renderTurmaCard(t)).join('') +
+    `<article class="add-turma-card" onclick="openModal('modal-nova-turma')">
+      <span class="add-icon">➕</span>
+      <p>Criar nova turma</p>
+      <span>Adicione uma nova turma</span>
+    </article>`;
+}
+
+function abrirDetalhe(id) {
+  const t = TURMAS.find(x => x.id === id);
+  if (!t) return;
+
+  // Header
+  document.getElementById('detalhe-header').innerHTML = `
+    <header class="detalhe-emoji-box" style="background:${t.cor}">${t.emoji}</header>
+    <section class="detalhe-info">
+      <h2>${t.nome}</h2>
+      <p>${t.ano} · ${t.serie} · ${t.alunos} alunos</p>
+    </section>
+    <aside class="detalhe-codigo">
+      <p class="detalhe-codigo-label">🔑 Código de acesso</p>
+      <p class="detalhe-codigo-value">${t.codigo}</p>
+      <p class="detalhe-codigo-hint">Compartilhe com os alunos</p>
+      <button class="btn-copiar" style="margin-top:8px;width:100%;justify-content:center" onclick="copiarCodigo('${t.codigo}',this)">📋 Copiar código</button>
+    </aside>
+  `;
+
+  // Sub-atividades
+  document.getElementById('sub-atividades').innerHTML = `
+    <section class="atividades-list">
+      <article class="atividade-item"><span class="atividade-icon">🌿</span><section><h4 class="atividade-title">Reciclagem na escola</h4><p class="atividade-meta">📅 10/04/2025 · 22/${t.alunos} completaram</p></section><span class="atividade-right"><span class="xp-chip">⭐ 20 pts</span><button class="btn-ver">Ver</button></span></article>
+      <article class="atividade-item"><span class="atividade-icon">🌊</span><section><h4 class="atividade-title">Ciclo da água</h4><p class="atividade-meta">📅 05/04/2025 · 19/${t.alunos} completaram</p></section><span class="atividade-right"><span class="xp-chip">⭐ 15 pts</span><button class="btn-ver">Ver</button></span></article>
+      <article class="atividade-item"><span class="atividade-icon">🦁</span><section><h4 class="atividade-title">Animais em extinção</h4><p class="atividade-meta">📅 01/04/2025 · ${t.alunos}/${t.alunos} completaram</p></section><span class="atividade-right"><span class="xp-chip">⭐ 25 pts</span><button class="btn-ver">Ver</button></span></article>
+    </section>
+  `;
+
+  // Sub-pessoas
+  document.getElementById('sub-pessoas').innerHTML = `
+    <article class="table-card">
+      <header class="table-header"><span class="table-title">Alunos da turma (${t.alunos})</span><button class="btn-primary" style="font-size:0.82rem;padding:7px 14px" onclick="openModal('modal-add-aluno')">＋ Adicionar</button></header>
+      <table>
+        <thead><tr><th>Aluno</th><th>Atividades</th><th>Progresso</th><th>Pontos</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+          ${t.listaAlunos.map(a => `
+            <tr>
+              <td><span class="aluno-row"><span class="aluno-avatar" style="background:${a.bg};color:${a.tc||'white'}">${a.ini}</span><span class="aluno-name">${a.nome}</span></span></td>
+              <td>${a.ativ}</td>
+              <td><span class="progress-bar"><span class="progress-fill-bar" style="width:${a.pct}%"></span></span></td>
+              <td><span class="xp-chip">⭐ ${a.pts}</span></td>
+              <td><span class="status-badge ${a.status==='Ativo'?'status-ativo':'status-andamento'}">${a.status}</span></td>
+              <td><button class="btn-ver">Ver perfil</button></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+
+  // Reset sub-tabs
+  document.querySelectorAll('.sub-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.sub-tab')[0].classList.add('active');
+  document.getElementById('sub-atividades').style.display='block';
+  document.getElementById('sub-mural').style.display='none';
+  document.getElementById('sub-pessoas').style.display='none';
+
+  goto('page-turma-detalhe');
+}
+
+function switchSub(id) {
+  ['sub-atividades','sub-mural','sub-pessoas'].forEach(s => {
+    document.getElementById(s).style.display = s===id ? (s==='sub-atividades'?'block':'block') : 'none';
+  });
+  document.querySelectorAll('.sub-tab').forEach((b,i) => {
+    const ids = ['sub-atividades','sub-mural','sub-pessoas'];
+    b.classList.toggle('active', ids[i]===id);
+  });
+}
+
+const PAGES = {
+  'page-inicio':'🏠 Início',
+  'page-turmas':'🌱 Minhas Turmas',
+  'page-turma-detalhe':'🌱 Detalhe da Turma',
+  'page-atividades':'📋 Atividades',
+  'page-alunos':'👦 Alunos',
+  'page-progresso':'📊 Progresso'
 };
 
-function showPage(id){
-document.querySelectorAll('article.page').forEach(p=>p.classList.remove('active'));
-document.querySelectorAll('nav article').forEach(n=>n.classList.remove('active'));
-const page=document.getElementById('page-'+id);
-if(page)page.classList.add('active');
-const navItem=document.getElementById('nav-'+id);
-if(navItem)navItem.classList.add('active');
-const titleEl=document.querySelector('main>header h1');
-if(titleEl&&titles[id])titleEl.textContent=titles[id];
-window.scrollTo(0,0);
+function goto(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId)?.classList.add('active');
+  document.getElementById('topbar-title').textContent = PAGES[pageId] || '';
+  document.querySelectorAll('.nav-item').forEach(b => {
+    const map = { 'page-inicio':'Início','page-turmas':'Turmas','page-atividades':'Atividades','page-alunos':'Alunos','page-progresso':'Progresso' };
+    b.classList.toggle('active', b.textContent.trim().includes(map[pageId]||'__'));
+  });
+  window.scrollTo(0,0);
 }
 
-function openModal(id){
-document.getElementById(id).classList.add('open');
-}
+function openModal(id) { document.getElementById(id)?.classList.add('open'); }
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
 
-function closeModal(id){
-document.getElementById(id).classList.remove('open');
-}
-
-document.querySelectorAll('dialog').forEach(modal=>{
-modal.addEventListener('click',function(e){
-if(e.target===modal)modal.classList.remove('open');
-});
+document.querySelectorAll('.modal-overlay').forEach(m => {
+  m.addEventListener('click', e => { if (e.target===m) m.classList.remove('open'); });
 });
 
-function switchTab(tab){
-if(tab==='alunos'){
-document.getElementById('tab-alunos').style.display='block';
-document.getElementById('tab-atividades').style.display='none';
-document.getElementById('tab-alunos-btn').className='btn btn-primary btn-sm';
-document.getElementById('tab-ativs-btn').className='btn btn-ghost btn-sm';
-}else{
-document.getElementById('tab-alunos').style.display='none';
-document.getElementById('tab-atividades').style.display='block';
-document.getElementById('tab-alunos-btn').className='btn btn-ghost btn-sm';
-document.getElementById('tab-ativs-btn').className='btn btn-primary btn-sm';
-}
+function copiarCodigo(codigo, btn) {
+  navigator.clipboard?.writeText(codigo).catch(()=>{});
+  const orig = btn.innerHTML;
+  btn.innerHTML = '✅ Copiado!';
+  btn.classList.add('copied');
+  setTimeout(()=>{ btn.innerHTML=orig; btn.classList.remove('copied'); }, 2000);
+  showToast(`✅ Código ${codigo} copiado!`);
 }
 
-function toggleUserMenu(){
-const menu=document.getElementById('user-menu');
-menu.classList.toggle('open');
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2800);
 }
 
-function logout(e){
-if(e)e.preventDefault();
-window.location.href='/';
-}
-
-document.addEventListener('click',function(e){
-const menu=document.getElementById('user-menu');
-const btn=document.querySelector('.user-menu-btn');
-if(!btn.contains(e.target)&&!menu.contains(e.target)){
-menu.classList.remove('open');
-}
-});
+// Init
+renderTurmasGrid('turmas-home');
+renderTurmasGrid('turmas-lista');
 </script>
 </body>
 </html>

@@ -594,6 +594,14 @@
           <label>Código MEC / INEP da escola</label>
           <input type="text" name="codigo_mec" placeholder="Opcional — ex: 12345678" />
         </fieldset>
+        <fieldset>
+          <label>Senha para gestão *</label>
+          <input type="password" name="senha_gestao" placeholder="Mínimo 8 caracteres" minlength="8" required />
+        </fieldset>
+        <fieldset>
+          <label>Confirmar senha *</label>
+          <input type="password" name="confirmar_senha_gestao" placeholder="Repita a senha" minlength="8" required />
+        </fieldset>
         <button type="submit" class="pe-btn-submit">Solicitar uma conversa 🚀</button>
       </form>
 
@@ -679,6 +687,17 @@
       // Coletar dados do formulário
       const formData = new FormData(form);
       const dados = Object.fromEntries(formData);
+      
+      // Validar senhas
+      if (dados.senha_gestao !== dados.confirmar_senha_gestao) {
+        alert('❌ As senhas não correspondem. Verifique e tente novamente.');
+        return;
+      }
+      
+      if (dados.senha_gestao.length < 8) {
+        alert('❌ A senha deve ter no mínimo 8 caracteres.');
+        return;
+      }
       
       console.log('Enviando dados:', dados);
 
