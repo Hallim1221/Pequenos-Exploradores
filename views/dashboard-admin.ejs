@@ -1473,6 +1473,14 @@ async function selectChatParceria(id, nomeParceria, el) {
   
   // Carregar mensagens
   await carregarMensagensParcerias(id);
+  
+  // Iniciar polling para atualizar mensagens em tempo real a cada 2 segundos
+  if (window.pollingChat) clearInterval(window.pollingChat);
+  window.pollingChat = setInterval(() => {
+    if (parceriaAtualChat) {
+      carregarMensagensParcerias(parceriaAtualChat);
+    }
+  }, 2000);
 }
 
 async function carregarMensagensParcerias(id) {

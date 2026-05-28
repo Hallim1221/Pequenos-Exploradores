@@ -207,7 +207,70 @@
     window.addEventListener('DOMContentLoaded', function() {
       trocarAba(document.querySelector('.aba.ativa').id.replace('aba-',''));
     });
+
+    // Modal de confirmação de logout
+    function abrirModalLogout() {
+      console.log('abrirModalLogout() chamada');
+      var modal = document.getElementById('modal-logout');
+      var overlay = document.getElementById('modal-logout-overlay');
+      console.log('Modal:', modal);
+      console.log('Overlay:', overlay);
+      if(modal) {
+        modal.style.display = 'flex';
+        console.log('Modal aberto');
+      }
+      if(overlay) {
+        overlay.style.display = 'flex';
+        console.log('Overlay aberto');
+      }
+    }
+
+    function fecharModalLogout(event) {
+      console.log('fecharModalLogout() chamada');
+      var modal = document.getElementById('modal-logout');
+      var overlay = document.getElementById('modal-logout-overlay');
+      if(modal) {
+        modal.style.display = 'none';
+        console.log('Modal fechado');
+      }
+      if(overlay) {
+        overlay.style.display = 'none';
+        console.log('Overlay fechado');
+      }
+    }
+
+    function confirmarLogout() {
+      console.log('confirmarLogout() chamada');
+      fetch('/logout', { method: 'POST' })
+        .then(() => { 
+          console.log('Logout bem-sucedido');
+          window.location.href = '/'; 
+        })
+        .catch((e) => { 
+          console.log('Erro ao fazer logout:', e);
+          window.location.href = '/'; 
+        });
+    }
+
+    function logoutAndRedirect(btn) {
+      console.log('logoutAndRedirect() chamada');
+      console.log('Redirecionando para /');
+      confirmarLogout();
+    }
   </script>
+
+  <!-- Modal de confirmação de logout -->
+  <section id="modal-logout-overlay" onclick="fecharModalLogout(event)" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(30,30,30,0.45);z-index:120000;align-items:center;justify-content:center;">
+    <section id="modal-logout" onclick="event.stopPropagation()" style="background:#fff;border-radius:18px;box-shadow:0 4px 24px #00CFFF22;max-width:340px;width:90vw;padding:1.5em 1.2em 1.2em 1.2em;display:flex;flex-direction:column;align-items:center;position:relative;z-index:120001;">
+      <button class="modal-logout-close" onclick="fecharModalLogout(event)" style="position:absolute;top:0.7em;right:1em;font-size:2em;background:none;border:none;color:#00CFFF;cursor:pointer;">&times;</button>
+      <section style="font-weight:900;font-size:1.15em;color:#1ec773;margin-top:1.2em;margin-bottom:0.7em;">Deseja realmente sair?</section>
+      <section style="width:100%;display:flex;flex-direction:row;gap:1em;justify-content:center;margin-top:1.2em;">
+        <button onclick="fecharModalLogout(event)" style="flex:1;background:#e0e0e0;color:#333;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px #00CFFF22;transition:background 0.2s;">Cancelar</button>
+        <button type="button" class="logout-creative" style="flex:1;background:linear-gradient(90deg,#76e13e 0%,#3bb273 100%);color:#fff;border:none;border-radius:13px;padding:0.7em 2.2em;font-size:1.08em;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(118,225,62,0.3);transition:all 0.2s;" onclick="logoutAndRedirect(this)">Sair</button>
+      </section>
+    </section>
+  </section>
+
 </body>
   <%- include('partials/footer') %>
 </html>

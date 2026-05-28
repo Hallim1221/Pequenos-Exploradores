@@ -656,20 +656,23 @@
       <button class="chat-close" onclick="closeChat()">✕</button>
     </header>
     <section class="chat-messages" id="chatMessages">
-      <p class="msg msg-bot">Olá! 👋 Sou a <strong>Ana</strong>, especialista da equipe Pequenos Exploradores. Fico feliz que sua escola se interessou pela nossa plataforma!</p>
-      <span class="msg-time">Agora</span>
-      <p class="msg msg-bot">Vamos conversar sobre as opções que temos para vocês. O que você gostaria de saber primeiro?</p>
-      <span class="chat-options" id="chatOptions">
-        <button class="chat-opt-btn" onclick="sendOption('Quero saber sobre os planos disponíveis')">Ver planos 📋</button>
-        <button class="chat-opt-btn" onclick="sendOption('Quanto custa para minha escola?')">Valores 💰</button>
-        <button class="chat-opt-btn" onclick="sendOption('Como funciona a plataforma?')">Como funciona 🎒</button>
-      </span>
+      <!-- Mensagens dinâmicas aparecem aqui -->
     </section>
-    <form class="chat-input-area" onsubmit="sendMsg(event)">
-      <input type="text" id="chatInput" placeholder="Escreva sua mensagem..." />
-      <button type="submit" class="chat-send-btn">
-        <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-      </button>
+    <!-- Container para botões dinâmicos -->
+    <div class="chat-options" id="chatOptions"></div>
+    <!-- Container para upload (aparece quando necessário) -->
+    <div id="uploadContainer" style="display: none; padding: 1rem; border-top: 1.5px solid #e8f5e0; background: white;">
+      <label style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem; font-weight: 600; color: #333;">
+        Selecione o comprovante de pagamento:
+      </label>
+      <input type="file" id="uploadFile" accept="image/*,.pdf" style="display: block; margin-bottom: 0.75rem; font-size: 0.85rem; width: 100%;">
+      <div id="filePreview" style="margin-bottom: 0.5rem; font-size: 0.85rem; color: #666;"></div>
+      <button onclick="enviarComprovante()" class="chat-opt-btn" style="width: 100%; padding: 10px;">Enviar comprovante</button>
+    </div>
+    <!-- Input de mensagem manual -->
+    <form id="chatForm" style="padding: 1rem; border-top: 1.5px solid #e8f5e0; background: white; display: flex; gap: 0.75rem;">
+      <input type="text" id="chatInput" placeholder="Digite uma mensagem..." style="flex: 1; padding: 0.75rem; border: 1.5px solid #e8f5e0; border-radius: 24px; font-size: 0.95rem; font-family: inherit;" />
+      <button type="submit" class="chat-send-btn" style="padding: 0.75rem 1.25rem; background: #4caf1e; color: white; border: none; border-radius: 24px; cursor: pointer; font-weight: 600; transition: background 0.2s;">📤</button>
     </form>
   </dialog>
 
@@ -678,17 +681,322 @@
     const formCard = document.getElementById('formCard');
     const successMsg = document.getElementById('successMsg');
     const toast = document.getElementById('toast');
-    window.parceriaId = null; // Guardar ID da parceria NO WINDOW
-    window.escolaEmail = null; // Guardar email da escola
+    window.parceriaId = null;
+    window.escolaEmail = null;
+
+    // ============================================
+    // SISTEMA DE FLUXO DO CHAT
+    // ============================================
+    
+    let chatState = 'inicial'; // Estado atual do chat
+    
+    const mensagensChat = {
+      inicial: {
+        texto: '👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?',
+        botoes: [
+          { texto: '📚 Ver planos', acao: 'verPlanos' },
+          { texto: '💳 Já realizei o pagamento', acao: 'pagamento' },
+          { texto: '❓ Tirar dúvidas', acao: 'duvidas' }
+        ]
+      },
+      planos: {
+        texto: 'Perfeito 😊\n\nAtualmente temos dois planos disponíveis para instituições:\n\n🌱 PLANO ESSENCIAL\n✔ Área do aluno\n✔ Plataforma educacional\n✔ Atividades interativas\n✔ Suporte básico\n💰 R$ 89,90/mês\n\n🚀 PLANO PREMIUM\n✔ Todos os recursos do Essencial\n✔ Recursos avançados\n✔ Relatórios completos\n✔ Suporte prioritário\n✔ Personalização da instituição\n💰 R$ 149,90/mês\n\n🏦 Banco: Nubank\n👤 Pequenos Exploradores Tecnologia LTDA\n📄 CNPJ: 48.372.915/0001-64\n🔑 Chave PIX: financeiro@pequenosexploradores.com',
+        botoes: [
+          { texto: '💳 Já realizei o pagamento', acao: 'pagamento' }
+        ]
+      },
+      pagamento: {
+        texto: 'Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.',
+        botoes: [],
+        upload: true
+      },
+      uploadSucesso: {
+        texto: '✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.',
+        botoes: [
+          { texto: '🚀 Voltar para login', acao: 'irParaLogin' }
+        ]
+      },
+      duvidasTema: {
+        texto: 'Nossa equipe está disponível para ajudar 😊',
+        botoes: [
+          { texto: '📚 Como funciona a plataforma?', acao: 'duvidaPlataforma' },
+          { texto: '💳 Dúvidas sobre pagamento', acao: 'duvida Pagamento' },
+          { texto: '🔓 Liberação de acesso', acao: 'duvidaAcesso' },
+          { texto: '📞 Falar com suporte', acao: 'duvidaSuporte' }
+        ]
+      },
+      duvidaPlataforma: {
+        texto: 'A instituição recebe acesso completo ao sistema educacional, incluindo área do aluno, atividades e recursos exclusivos.',
+        botoes: [
+          { texto: '❓ Tirar dúvidas', acao: 'duvidas' },
+          { texto: '📚 Ver planos', acao: 'verPlanos' }
+        ]
+      },
+      duvida_Pagamento: {
+        texto: 'Atualmente aceitamos pagamentos via PIX. Após a confirmação do pagamento, o acesso é liberado automaticamente.',
+        botoes: [
+          { texto: '❓ Tirar dúvidas', acao: 'duvidas' },
+          { texto: '💳 Já realizei o pagamento', acao: 'pagamento' }
+        ]
+      },
+      duvidaAcesso: {
+        texto: 'O acesso da instituição é liberado após a confirmação do pagamento realizado pela equipe.',
+        botoes: [
+          { texto: '❓ Tirar dúvidas', acao: 'duvidas' },
+          { texto: '💳 Já realizei o pagamento', acao: 'pagamento' }
+        ]
+      },
+      duvidaSuporte: {
+        texto: 'Nossa equipe continuará disponível para ajudar você da melhor forma possível 💚',
+        botoes: [
+          { texto: '❓ Tirar dúvidas', acao: 'duvidas' }
+        ]
+      }
+    };
+    
+    const acoes = {
+      verPlanos: () => {
+        const texto = '📚 Ver planos';
+        adicionarMensagemUsuario(texto);
+        enviarMensagemServidor(texto);
+        setTimeout(() => mudarEstado('planos'), 500);
+      },
+      pagamento: () => {
+        const texto = '💳 Já realizei o pagamento';
+        adicionarMensagemUsuario(texto);
+        enviarMensagemServidor(texto);
+        setTimeout(() => mudarEstado('pagamento'), 500);
+      },
+      duvidas: () => {
+        const texto = '❓ Tirar dúvidas';
+        adicionarMensagemUsuario(texto);
+        enviarMensagemServidor(texto);
+        setTimeout(() => mudarEstado('duvidasTema'), 500);
+      },
+      duvidaPlataforma: () => {
+        const texto = '📚 Como funciona a plataforma?';
+        adicionarMensagemUsuario(texto);
+        enviarMensagemServidor(texto);
+        setTimeout(() => mudarEstado('duvidaPlataforma'), 500);
+      },
+      duvida_Pagamento: () => {
+        const texto = '💳 Dúvidas sobre pagamento';
+        adicionarMensagemUsuario(texto);
+        enviarMensagemServidor(texto);
+        setTimeout(() => mudarEstado('duvida_Pagamento'), 500);
+      },
+      duvidaAcesso: () => {
+        const texto = '🔓 Liberação de acesso';
+        adicionarMensagemUsuario(texto);
+        enviarMensagemServidor(texto);
+        setTimeout(() => mudarEstado('duvidaAcesso'), 500);
+      },
+      duvidaSuporte: () => {
+        const texto = '📞 Falar com suporte';
+        adicionarMensagemUsuario(texto);
+        enviarMensagemServidor(texto);
+        setTimeout(() => mudarEstado('duvidaSuporte'), 500);
+      },
+      irParaLogin: () => window.location.href = '/login'
+    };
+    
+    function adicionarMensagemUsuario(texto) {
+      const chatMessages = document.getElementById('chatMessages');
+      
+      const p = document.createElement('p');
+      p.className = 'msg msg-user';
+      p.style.cssText = 'background: #4caf1e; color: white; padding: 0.75rem 1rem; border-radius: 12px; margin: 0.5rem 0; max-width: 80%; margin-left: auto; word-wrap: break-word;';
+      p.textContent = texto;
+      chatMessages.appendChild(p);
+      
+      const span = document.createElement('span');
+      span.className = 'msg-time';
+      span.textContent = 'Agora';
+      span.style.cssText = 'font-size: 0.75rem; color: #999; text-align: right; display: block; margin-bottom: 0.5rem;';
+      chatMessages.appendChild(span);
+      
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function adicionarMensagemBot(texto) {
+      const chatMessages = document.getElementById('chatMessages');
+      
+      const p = document.createElement('p');
+      p.className = 'msg msg-bot';
+      p.style.cssText = 'background: #f5f5f5; color: #333; padding: 0.75rem 1rem; border-radius: 12px; margin: 0.5rem 0; max-width: 80%; word-wrap: break-word; white-space: pre-wrap;';
+      p.textContent = texto;
+      chatMessages.appendChild(p);
+      
+      const span = document.createElement('span');
+      span.className = 'msg-time';
+      span.textContent = 'Agora';
+      span.style.cssText = 'font-size: 0.75rem; color: #999; margin-bottom: 0.5rem; display: block;';
+      chatMessages.appendChild(span);
+      
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+      
+      // Enviar mensagem do admin para o servidor
+      if (window.parceriaId) {
+        enviarMensagemServidor(texto, 'admin');
+      }
+    }
+    
+    // Função para enviar mensagens ao servidor
+    async function enviarMensagemServidor(conteudo, remetente = 'usuario') {
+      if (!window.parceriaId) {
+        console.warn('⚠️ parceriaId não encontrado. Mensagem não será salva.');
+        return;
+      }
+      
+      try {
+        const resposta = await fetch(`/api/parcerias/${window.parceriaId}/mensagens`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            conteudo: conteudo,
+            remetente: remetente
+          })
+        });
+        
+        if (!resposta.ok) {
+          console.error('❌ Erro ao enviar mensagem:', resposta.statusText);
+          return;
+        }
+        
+        const resultado = await resposta.json();
+        console.log('✅ Mensagem salva no servidor:', resultado);
+      } catch (erro) {
+        console.error('❌ Erro ao enviar para servidor:', erro);
+      }
+    }
+    
+    function mudarEstado(novoEstado) {
+      chatState = novoEstado;
+      renderizarChat();
+    }
+    
+    function renderizarChat() {
+      const config = mensagensChat[chatState];
+      if (!config) {
+        console.error('Estado inválido:', chatState);
+        return;
+      }
+      
+      const chatMessages = document.getElementById('chatMessages');
+      const chatOptions = document.getElementById('chatOptions');
+      const uploadContainer = document.getElementById('uploadContainer');
+      const chatForm = document.getElementById('chatForm');
+      
+      // Limpar botões e upload antigos
+      chatOptions.innerHTML = '';
+      uploadContainer.style.display = 'none';
+      document.getElementById('filePreview').innerHTML = '';
+      
+      // Adicionar mensagem do bot
+      adicionarMensagemBot(config.texto);
+      
+      // Adicionar botões
+      if (config.botoes && config.botoes.length > 0) {
+        config.botoes.forEach(btn => {
+          const button = document.createElement('button');
+          button.className = 'chat-opt-btn';
+          button.textContent = btn.texto;
+          button.style.cssText = 'padding: 10px 15px; margin: 5px; background: #e8f5e0; border: none; border-radius: 20px; cursor: pointer; font-weight: 600; color: #333; transition: background 0.2s;';
+          button.onclick = () => {
+            if (acoes[btn.acao]) {
+              acoes[btn.acao]();
+            }
+          };
+          chatOptions.appendChild(button);
+        });
+      }
+      
+      // Mostrar upload se necessário
+      if (config.upload) {
+        uploadContainer.style.display = 'block';
+        chatForm.style.display = 'none';
+      } else {
+        chatForm.style.display = 'flex';
+      }
+      
+      // Scroll para o final
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function enviarComprovante() {
+      const fileInput = document.getElementById('uploadFile');
+      const file = fileInput.files[0];
+      
+      if (!file) {
+        alert('Por favor, selecione um arquivo');
+        return;
+      }
+      
+      // Mostrar nome do arquivo
+      const filePreview = document.getElementById('filePreview');
+      filePreview.textContent = '✓ Arquivo selecionado: ' + file.name;
+      
+      // Adicionar mensagem no chat sobre o upload
+      const mensagemUpload = `📎 Comprovante enviado: ${file.name}`;
+      adicionarMensagemUsuario(mensagemUpload);
+      
+      // Enviar ao servidor
+      enviarMensagemServidor(mensagemUpload, 'usuario');
+      
+      // Simular upload (em produção, fazer upload do arquivo)
+      setTimeout(() => {
+        mudarEstado('uploadSucesso');
+        fileInput.value = '';
+        
+        // Enviar mensagem de sucesso do admin
+        const mensagemAdmin = '✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.';
+        adicionarMensagemBot(mensagemAdmin);
+      }, 1000);
+    }
+    
+    // Listener para preview do arquivo
+    document.addEventListener('change', function(e) {
+      if (e.target.id === 'uploadFile') {
+        const file = e.target.files[0];
+        const preview = document.getElementById('filePreview');
+        if (file) {
+          preview.textContent = '✓ Arquivo selecionado: ' + file.name;
+        }
+      }
+    });
+    
+    // Tratamento de envio de mensagem manual
+    document.getElementById('chatForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const input = document.getElementById('chatInput');
+      const mensagem = input.value.trim();
+      
+      if (!mensagem) return;
+      
+      // Adicionar mensagem do usuário
+      adicionarMensagemUsuario(mensagem);
+      
+      // Enviar ao servidor
+      enviarMensagemServidor(mensagem, 'usuario');
+      
+      input.value = '';
+      
+      // Simular resposta do admin
+      setTimeout(() => {
+        const respostaAdmin = 'Obrigado pela sua mensagem! Nossa equipe analisará e entrará em contato em breve 💚';
+        adicionarMensagemBot(respostaAdmin);
+      }, 1500);
+    });
 
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
 
-      // Coletar dados do formulário
       const formData = new FormData(form);
       const dados = Object.fromEntries(formData);
       
-      // Validar senhas
       if (dados.senha_gestao !== dados.confirmar_senha_gestao) {
         alert('❌ As senhas não correspondem. Verifique e tente novamente.');
         return;
@@ -702,7 +1010,6 @@
       console.log('Enviando dados:', dados);
 
       try {
-        // Enviar para o servidor
         const resposta = await fetch('/parcerias-escolas', {
           method: 'POST',
           headers: {
@@ -718,12 +1025,10 @@
         console.log('Resultado:', resultado);
 
         if (resposta.ok && resultado.sucesso) {
-          // Guardar ID da parceria no window e email
           window.parceriaId = resultado.id;
           window.escolaEmail = dados.email;
           console.log('✅ Parceria criada com ID:', window.parceriaId);
           
-          // Sucesso!
           form.style.display = 'none';
           successMsg.style.display = 'block';
           document.querySelector('.pe-form-header').style.display = 'none';
@@ -732,7 +1037,6 @@
             toast.classList.add('show');
           }, 4000);
         } else {
-          // Erro na validação ou na requisição
           const erroMsg = resultado.mensagem || 'Falha ao enviar solicitação';
           alert('Erro: ' + erroMsg);
           if (resultado.erros) {
@@ -749,212 +1053,12 @@
     function openChat() {
       toast.classList.remove('show');
       document.getElementById('chatOverlay').showModal();
-      carregarMensagensChat();
-      
-      // Auto-refresh a cada 3 segundos enquanto o chat está aberto
-      if (window.chatRefreshInterval) clearInterval(window.chatRefreshInterval);
-      window.chatRefreshInterval = setInterval(() => {
-        carregarMensagensChat();
-      }, 3000);
+      chatState = 'inicial';
+      renderizarChat();
     }
 
     function closeChat() {
       document.getElementById('chatOverlay').close();
-      if (window.chatRefreshInterval) {
-        clearInterval(window.chatRefreshInterval);
-        window.chatRefreshInterval = null;
-      }
-    }
-
-    // Carregar mensagens da parceria do backend
-    let ultimaContagemMensagensEscola = 0;
-    
-    async function carregarMensagensChat() {
-      if (!window.parceriaId) {
-        console.log('❌ Nenhuma parceria ID disponível');
-        return;
-      }
-
-      try {
-        const resposta = await fetch(`/api/parcerias/mensagens/todas`);
-        const dados = await resposta.json();
-        
-        if (dados.sucesso) {
-          const parceriaData = dados.dados[window.parceriaId] || {};
-          const mensagensParceria = parceriaData.mensagens || [];
-          console.log('📨 Mensagens carregadas:', mensagensParceria.length);
-          
-          // Verificar se há novas mensagens de admin
-          const contagemAtual = mensagensParceria.filter(m => m.remetente === 'admin').length;
-          if (contagemAtual > ultimaContagemMensagensEscola && ultimaContagemMensagensEscola > 0) {
-            mostrarNotificacaoEscola('💬 Resposta do nosso especialista!');
-          }
-          ultimaContagemMensagensEscola = contagemAtual;
-          
-          // Limpar chat atual
-          const chatMessages = document.getElementById('chatMessages');
-          chatMessages.innerHTML = '';
-          
-          // Adicionar cada mensagem
-          mensagensParceria.forEach(msg => {
-            const ehEscola = msg.remetente === 'escola';
-            const tipo = ehEscola ? 'user' : 'bot';
-            const p = document.createElement('p');
-            p.className = 'msg msg-' + tipo;
-            p.textContent = msg.conteudo;
-            chatMessages.appendChild(p);
-            
-            const span = document.createElement('span');
-            span.className = 'msg-time' + (ehEscola ? ' right' : '');
-            const dataMsg = new Date(msg.data_mensagem);
-            span.textContent = dataMsg.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            chatMessages.appendChild(span);
-          });
-          
-          // Scroll para o final
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-          
-          // Remover opções de chat (se existirem)
-          const opts = document.getElementById('chatOptions');
-          if(opts) opts.remove();
-        }
-      } catch (erro) {
-        console.error('❌ Erro ao carregar mensagens:', erro);
-      }
-    }
-    
-    function mostrarNotificacaoEscola(mensagem) {
-      // Criar notificação com toast
-      const toast = document.createElement('div');
-      toast.style.cssText = `
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        background: #4CAF50;
-        color: white;
-        padding: 16px 24px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        font-size: 14px;
-        font-weight: 500;
-        z-index: 10000;
-        animation: slideInRight 0.3s ease-out;
-      `;
-      toast.textContent = mensagem;
-      
-      // Adicionar animação CSS
-      const style = document.createElement('style');
-      style.textContent = `
-        @keyframes slideInRight {
-          from {
-            transform: translateX(400px);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
-        }
-      `;
-      if (!document.querySelector('style[data-toast-escolar]')) {
-        style.setAttribute('data-toast-escolar', 'true');
-        document.head.appendChild(style);
-      }
-      
-      document.body.appendChild(toast);
-      
-      // Remover após 5 segundos
-      setTimeout(() => {
-        toast.style.animation = 'slideInRight 0.3s ease-out reverse';
-        setTimeout(() => toast.remove(), 300);
-      }, 5000);
-      
-      // Tentar notificação nativa do navegador se permitido
-      if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification('Pequenos Exploradores', { body: mensagem, icon: '/img/logo.png' });
-      }
-    }
-
-    // Respostas automáticas desativadas - usar somente mensagens do backend
-    const botReplies = {};
-
-    let typingEl = null;
-
-    function addMsg(text, type, delay = 0) {
-      const msgs = document.getElementById('chatMessages');
-      setTimeout(() => {
-        if(typingEl) { typingEl.remove(); typingEl = null; }
-        const p = document.createElement('p');
-        p.className = 'msg msg-' + type;
-        p.innerHTML = text;
-        msgs.appendChild(p);
-        msgs.scrollTop = msgs.scrollHeight;
-      }, delay);
-    }
-
-    function showTyping() {
-      const msgs = document.getElementById('chatMessages');
-      typingEl = document.createElement('p');
-      typingEl.className = 'msg msg-bot';
-      typingEl.innerHTML = '<span class="typing-dots"><span></span><span></span><span></span></span>';
-      msgs.appendChild(typingEl);
-      msgs.scrollTop = msgs.scrollHeight;
-    }
-
-    function sendOption(text) {
-      const opts = document.getElementById('chatOptions');
-      if(opts) opts.remove();
-      addMsg(text, 'user');
-      sendMsgToBackend(text);
-    }
-
-    async function sendMsgToBackend(text) {
-      if (!window.parceriaId) {
-        console.log('❌ Nenhuma parceria ID disponível');
-        alert('Erro: Nenhuma parceria ID. Recarregue a página.');
-        return;
-      }
-
-      try {
-        console.log('📤 Enviando mensagem para parceria', window.parceriaId, ':', text);
-        const resposta = await fetch(`/api/parcerias/${window.parceriaId}/mensagens`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            conteudo: text,
-            remetente: 'escola'
-          })
-        });
-
-        const resultado = await resposta.json();
-        
-        if (resposta.ok && resultado.sucesso) {
-          console.log('✅ Mensagem enviada com sucesso');
-          
-          // Aguardar um pouco e recarregar mensagens do backend
-          await new Promise(resolve => setTimeout(resolve, 500));
-          await carregarMensagensChat();
-        } else {
-          console.error('❌ Erro ao enviar mensagem:', resultado);
-          alert('Erro ao enviar mensagem');
-        }
-      } catch (erro) {
-        console.error('❌ Erro ao enviar mensagem:', erro);
-        alert('Erro ao enviar mensagem: ' + erro.message);
-      }
-    }
-
-    function sendMsg(e) {
-      e.preventDefault();
-      const input = document.getElementById('chatInput');
-      const text = input.value.trim();
-      if(!text) return;
-      input.value = '';
-      const opts = document.getElementById('chatOptions');
-      if(opts) opts.remove();
-      sendMsgToBackend(text);
     }
   </script>
 
