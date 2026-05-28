@@ -199,6 +199,29 @@ class Parceria {
       return msgs;
     }
   }
+
+  // Marcar mensagens como visualizadas
+  static async marcarMensagensComoVisualizadas(parceriaId) {
+    console.log(`👁️ Marcando mensagens como visualizadas para parceria ${parceriaId}`);
+    
+    try {
+      const connection = await pool.getConnection();
+      
+      const [result] = await connection.execute(
+        'UPDATE mensagens_parcerias SET visualizado = 1 WHERE parceria_id = ?',
+        [parceriaId]
+      );
+      
+      connection.release();
+      console.log(`  ✅ ${result.affectedRows} mensagens marcadas como visualizadas`);
+      return true;
+    } catch (erro) {
+      console.error('Erro ao marcar como visualizadas:', erro.message);
+      console.log(`  📌 Usando mockdb para marcar..`);
+      mockdb.marcarMensagensComoVisualizadas(parceriaId);
+      return true;
+    }
+  }
 }
 
 module.exports = Parceria;

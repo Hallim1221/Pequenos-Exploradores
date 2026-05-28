@@ -26,11 +26,24 @@ router.get('/dashboard-admin', async (req, res) => {
   try {
     // Buscar todas as parcerias
     const parcerias = await Parceria.listarTodas();
-    console.log('✅ Rota /dashboard-admin chamada - Parcerias encontradas:', parcerias.length);
-    res.render('dashboard-admin', { parcerias: parcerias || [] });
+    
+    // Contar apenas mensagens recebidas (de escolas) não lidas
+    let totalMensagensNaoLidas = 0;
+    for (const parceria of parcerias) {
+      const mensagens = await Parceria.listarMensagensParcerias(parceria.id);
+      const mensagensNaoLidas = mensagens.filter(msg => 
+        msg.remetente === 'escola' && (!msg.visualizado || msg.visualizado === 0)
+      ).length;
+      totalMensagensNaoLidas += mensagensNaoLidas;
+    }
+    
+    res.render('dashboard-admin', { 
+      parcerias: parcerias || [],
+      notificacoesMensagens: totalMensagensNaoLidas
+    });
   } catch (erro) {
     console.error('Erro ao carregar parcerias:', erro);
-    res.render('dashboard-admin', { parcerias: [] });
+    res.render('dashboard-admin', { parcerias: [], notificacoesMensagens: 0 });
   }
 });
 
@@ -229,7 +242,16 @@ router.get('/contato', (req, res) => {
 
 // Instituições
 router.get('/instituicoes', (req, res) => {
-  res.render('instituicoes');
+  // Protege rota: exige login de gestão/parceria
+  if (!req.session.user || req.session.user.tipo !== 'gestao') {
+    return res.redirect('/login');
+  }
+
+  // Passa o nome e email da parceria/gestor logado para o template
+  res.render('instituicoes', {
+    nome: req.session.user.nome || 'Gestor',
+    email: req.session.user.email || ''
+  });
 });
 
 // Parcerias com Escolas
@@ -340,8 +362,8 @@ router.post('/gestao/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
     }
 
-    // Se for parceria, usar nome_escola; se for gestor, usar nome
-    const nome = gestor.nome_escola || gestor.nome || 'Gestor';
+    // Usar nome_contato (nome completo da pessoa) como primeira opção
+    const nome = gestor.nome_contato || gestor.nome || 'Gestor';
     req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome };
     return res.status(200).json({ success: true });
   } catch (erro) {
@@ -366,12 +388,14 @@ router.get('/aluno', async (req, res) => {
     }
     
     const saldo = aluno.saldo;
+    const nomeCompletoAluno = aluno.nome || 'Explorador';
+    const nomeAluno = nomeCompletoAluno.split(' ')[0];
     req.session.saldo = saldo; // Manter session sincronizada
-    res.render('aluno-novo', { saldo });
+    res.render('aluno-novo', { saldo, nomeAluno, nomeCompletoAluno });
   } catch (erro) {
     console.error('Erro ao carregar página aluno:', erro);
     const saldo = typeof req.session.saldo !== 'undefined' ? req.session.saldo : 700;
-    res.render('aluno-novo', { saldo });
+    res.render('aluno-novo', { saldo, nomeAluno: 'Explorador', nomeCompletoAluno: 'Explorador' });
   }
 });
 
@@ -379,20 +403,25 @@ router.get('/aluno', async (req, res) => {
 router.get('/aluno-novo', async (req, res) => {
   try {
     let saldo = 700; // Padrão
+    let nomeAluno = 'Explorador'; // Nome padrão
+    let nomeCompletoAluno = 'Explorador'; // Nome completo padrão
     
     // Se está autenticado, buscar saldo real do BD
     if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
       const aluno = await Aluno.buscarPorId(req.session.user.id);
       if (aluno) {
         saldo = aluno.saldo;
+        nomeCompletoAluno = aluno.nome || 'Explorador';
+        // Extrair primeiro nome (parte antes do primeiro espaço)
+        nomeAluno = nomeCompletoAluno.split(' ')[0];
         req.session.saldo = saldo; // Manter session sincronizada
       }
     }
     
-    res.render('aluno-novo', { saldo });
+    res.render('aluno-novo', { saldo, nomeAluno, nomeCompletoAluno });
   } catch (erro) {
     console.error('Erro ao carregar página aluno-novo:', erro);
-    res.render('aluno-novo', { saldo: 700 });
+    res.render('aluno-novo', { saldo: 700, nomeAluno: 'Explorador', nomeCompletoAluno: 'Explorador' });
   }
 });
 
@@ -444,8 +473,25 @@ router.get('/ranking2', (req, res) => {
 });
 
 // Ranking3
-router.get('/ranking3', (req, res) => {
-  res.render('ranking3');
+router.get('/ranking3', async (req, res) => {
+  try {
+    let nomeAluno = 'Explorador';
+    
+    // Se está autenticado, buscar nome real do BD
+    if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
+      const aluno = await Aluno.buscarPorId(req.session.user.id);
+      if (aluno) {
+        const nomeCompletoAluno = aluno.nome || 'Explorador';
+        // Extrair primeiro nome
+        nomeAluno = nomeCompletoAluno.split(' ')[0];
+      }
+    }
+    
+    res.render('ranking3', { nomeAluno });
+  } catch (erro) {
+    console.error('Erro ao carregar ranking3:', erro);
+    res.render('ranking3', { nomeAluno: 'Explorador' });
+  }
 });
 
 // Recarga

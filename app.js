@@ -52,11 +52,15 @@ console.log('🔔 Registrando rota POST /api/instituicoes/adicionar-aluno...');
 app.post('/api/instituicoes/adicionar-aluno', async (req, res) => {
   console.log('✅ POST /api/instituicoes/adicionar-aluno recebido!');
   try {
-    const { email, senha } = req.body;
+    const { nome, email, senha } = req.body;
 
     // Validar dados
-    if (!email || !senha) {
-      return res.status(400).json({ sucesso: false, mensagem: 'Email e senha são obrigatórios' });
+    if (!nome || !email || !senha) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Nome, email e senha são obrigatórios' });
+    }
+
+    if (nome.length < 3) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Nome deve ter no mínimo 3 caracteres' });
     }
 
     if (senha.length < 6) {
@@ -71,7 +75,7 @@ app.post('/api/instituicoes/adicionar-aluno', async (req, res) => {
     }
 
     // Criar aluno no banco de dados
-    const novoAluno = await Aluno.criar('Aluno Instituição', email, senha);
+    const novoAluno = await Aluno.criar(nome, email, senha);
     
     // Cadastrar aluno na instituição
     const resultado = mockdb.cadastrarAlunoPorInstituicao(email, senha);
@@ -148,6 +152,28 @@ app.get('/test/parceria-listar/:id', async (req, res) => {
 });
 
 // ===== ROTAS DE PARCERIAS E MENSAGENS =====
+
+// GET /api/notificacoes/count - Contar apenas mensagens recebidas (de escolas) não lidas
+app.get('/api/notificacoes/count', async (req, res) => {
+  try {
+    const parcerias = await Parceria.listarTodas();
+    let totalNaoLidas = 0;
+    
+    for (const parceria of parcerias) {
+      const mensagens = await Parceria.listarMensagensParcerias(parceria.id);
+      // Contar apenas mensagens recebidas (remetente = 'escola') que não foram visualizadas
+      const naoLidas = mensagens.filter(msg => 
+        msg.remetente === 'escola' && (!msg.visualizado || msg.visualizado === 0)
+      ).length;
+      totalNaoLidas += naoLidas;
+    }
+    
+    res.json({ count: totalNaoLidas });
+  } catch (erro) {
+    console.error('Erro ao contar notificações:', erro.message);
+    res.status(500).json({ error: 'Erro ao contar notificações' });
+  }
+});
 
 // GET /api/parcerias/mensagens/todas - Listar todas as mensagens
 app.get('/api/parcerias/mensagens/todas', async (req, res) => {
@@ -259,6 +285,9 @@ app.get('/api/parcerias/:id/mensagens', async (req, res) => {
     // Buscar mensagens
     const mensagens = await Parceria.listarMensagensParcerias(id);
     
+    // Marcar mensagens como visualizadas
+    await Parceria.marcarMensagensComoVisualizadas(id);
+    
     console.log(`   -> ${mensagens?.length || 0} mensagens encontradas`);
     
     res.json({ 
@@ -269,6 +298,62 @@ app.get('/api/parcerias/:id/mensagens', async (req, res) => {
   } catch (erro) {
     console.error(`❌ Erro ao carregar mensagens:`, erro);
     res.status(500).json({ sucesso: false, erro: 'Erro ao carregar mensagens' });
+  }
+});
+
+// GET /api/instituicoes - Listar todas as instituições (parcerias) com planos
+app.get('/api/instituicoes', async (req, res) => {
+  try {
+    const parcerias = await Parceria.listarTodas();
+    
+    // Formato para tabela
+    const instituicoes = parcerias.map(p => ({
+      id: p.id,
+      nome: p.nome_escola || p.nome_contato,
+      cidade: p.cidade,
+      email: p.email,
+      plano: p.plano || 'em-andamento', // plano: 'comum', 'premium', 'em-andamento'
+      status: p.status || 'ativo',
+      alunos: p.alunos || 0,
+      professor: p.nome_contato || 'N/A'
+    }));
+    
+    res.json({ sucesso: true, instituicoes });
+  } catch (erro) {
+    console.error('Erro ao listar instituições:', erro.message);
+    res.status(500).json({ sucesso: false, erro: 'Erro ao listar instituições' });
+  }
+});
+
+// PUT /api/instituicoes/:id/plano - Atualizar plano da instituição
+app.put('/api/instituicoes/:id/plano', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { plano } = req.body;
+    
+    // Validar plano
+    if (!['comum', 'premium', 'em-andamento'].includes(plano)) {
+      return res.status(400).json({ sucesso: false, erro: 'Plano inválido' });
+    }
+    
+    // Atualizar no banco
+    try {
+      const connection = await pool.getConnection();
+      await connection.execute(
+        'UPDATE parcerias_escolas SET plano = ? WHERE id = ?',
+        [plano, id]
+      );
+      connection.release();
+    } catch (erro) {
+      console.error('Erro ao atualizar no MySQL:', erro.message);
+      // Usar mockdb como fallback
+      mockdb.atualizarPlanoParceria(id, plano);
+    }
+    
+    res.json({ sucesso: true, mensagem: `Plano atualizado para ${plano}` });
+  } catch (erro) {
+    console.error('Erro ao atualizar plano:', erro.message);
+    res.status(500).json({ sucesso: false, erro: 'Erro ao atualizar plano' });
   }
 });
 

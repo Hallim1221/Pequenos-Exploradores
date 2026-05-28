@@ -44,6 +44,10 @@ body{padding-top:72px;}
 .back-btn{display:inline-flex;align-items:center;gap:7px;background:var(--g1);color:var(--white);border:none;border-radius:40px;padding:9px 20px;font-family:'Fredoka One',sans-serif;font-size:14px;cursor:pointer;margin-bottom:24px;box-shadow:var(--sh);transition:all .15s;}
 .back-btn:hover{background:var(--g2);transform:translateX(-2px);}
 
+/* BACK BUTTON VOLTAR */
+.back-btn-voltar{position:fixed;top:90px;left:20px;z-index:1000;background:#27a844;color:white;border:none;border-radius:50px;padding:10px 18px;font-family:'Fredoka One',sans-serif;font-size:14px;cursor:pointer;display:flex;align-items:center;gap:6px;box-shadow:0 4px 12px rgba(39,168,68,.3);transition:all .2s ease;}
+.back-btn-voltar:hover{background:#1b7a30;transform:translateX(-3px);box-shadow:0 6px 16px rgba(39,168,68,.4);}
+
 /* SECTION TITLE */
 .sec-title{font-family:'Fredoka One',sans-serif;font-size:20px;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 
@@ -202,6 +206,9 @@ body{padding-top:72px;}
 </head>
 <body>
 
+<!-- BOTÃO DE VOLTAR -->
+<button class="back-btn-voltar" onclick="history.back()">← Voltar</button>
+
 <nav class="navbar-redesign">
   <section class="logo-redesign">
     <img src="/img/log.png" alt="Logo Pequenos Exploradores">
@@ -287,7 +294,7 @@ body{padding-top:72px;}
     <article class="pod bronze">
       <span class="pod-medal">🥉</span>
       <span class="pod-av bronze">👧</span>
-      <h3 class="pod-name">Lorena <span class="you">Você</span></h3>
+      <h3 class="pod-name"><%= nomeAluno %> <span class="you">Você</span></h3>
       <p class="pod-pts">420 pts</p>
       <p class="pod-miss">🎯 5 missões</p>
     </article>
@@ -308,7 +315,7 @@ body{padding-top:72px;}
     </div>
     <div class="rrow me">
       <span class="rn">3°</span><span class="rav">👧</span>
-      <article class="ri"><h4 class="ri-name">Lorena <span class="you">Você</span></h4><p class="ri-sub">🎯 5 missões</p></article>
+      <article class="ri"><h4 class="ri-name"><%= nomeAluno %> <span class="you">Você</span></h4><p class="ri-sub">🎯 5 missões</p></article>
       <span class="rpts">420 pts</span>
     </div>
     <button class="ver-mais green" onclick="goPage('ranking')">🏆 Ver Ranking Completo →</button>
@@ -382,7 +389,7 @@ body{padding-top:72px;}
     <article class="pod bronze">
       <span class="pod-medal">🥉</span>
       <span class="pod-av bronze">👧</span>
-      <h3 class="pod-name">Lorena <span class="you">Você</span></h3>
+      <h3 class="pod-name"><%= nomeAluno %> <span class="you">Você</span></h3>
       <p class="pod-pts">420 pts</p>
       <p class="pod-miss">🎯 5 missões</p>
     </article>
@@ -402,7 +409,7 @@ body{padding-top:72px;}
     </div>
     <div class="rrow me">
       <span class="rn">3°</span><span class="rav">👧</span>
-      <article class="ri"><h4 class="ri-name">Lorena <span class="you">Você</span></h4><p class="ri-sub">🎯 5 missões</p></article>
+      <article class="ri"><h4 class="ri-name"><%= nomeAluno %> <span class="you">Você</span></h4><p class="ri-sub">🎯 5 missões</p></article>
       <span class="rpts">420 pts</span>
     </div>
     <div class="rrow">
@@ -516,6 +523,71 @@ function goPage(name){
   document.getElementById('page-'+name).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
+
+// Substituir emoji 👧 pelo avatar do usuario e avatares aleatórios para os outros
+window.addEventListener('load', function() {
+  const avatares = [
+    '/img/tcc.img/animal1.png',
+    '/img/tcc.img/animal2.png',
+    '/img/tcc.img/animal3.png',
+    '/img/tcc.img/animal4.png',
+    '/img/tcc.img/animal5.png',
+    '/img/tcc.img/animal6.png',
+    '/img/tcc.img/animal7.png',
+    '/img/tcc.img/animal8.png'
+  ];
+  
+  function getAvatarAleatorio() {
+    return avatares[Math.floor(Math.random() * avatares.length)];
+  }
+  
+  const avatarSalvo = localStorage.getItem('avatar_usuario');
+  
+  if (avatarSalvo) {
+    // Substituir em .rc-avatar
+    const rcAvatar = document.querySelector('.rc-avatar');
+    if (rcAvatar) {
+      rcAvatar.innerHTML = `<img src="${avatarSalvo}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+    }
+    
+    // Substituir em .pod-av bronze (o pódio do Lorena/Você)
+    const podAvatars = document.querySelectorAll('.pod-av');
+    podAvatars.forEach(el => {
+      const podParent = el.closest('.pod');
+      if (podParent && podParent.querySelector('.you')) {
+        el.innerHTML = `<img src="${avatarSalvo}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+      }
+    });
+    
+    // Substituir em .rav dentro de .rrow.me (linhas onde "Você" aparece)
+    const rowsMe = document.querySelectorAll('.rrow.me');
+    rowsMe.forEach(row => {
+      const ravElement = row.querySelector('.rav');
+      if (ravElement) {
+        ravElement.innerHTML = `<img src="${avatarSalvo}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+      }
+    });
+  }
+  
+  // Substituir outros emojis 🧒👧 por avatares aleatórios
+  const allAvatarElements = document.querySelectorAll('.pod-av, .rav');
+  allAvatarElements.forEach(el => {
+    // Pular elementos que já foram modificados (que contêm <img>)
+    if (el.innerHTML.includes('<img')) {
+      return;
+    }
+    
+    // Verificar se contém emoji 🧒 ou 👧
+    if (el.textContent.includes('🧒') || el.textContent.includes('👧')) {
+      const avatarAleatorio = getAvatarAleatorio();
+      el.innerHTML = `<img src="${avatarAleatorio}" alt="Avatar" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
+    }
+  });
+});
 </script>
+
+<!-- FOOTER -->
+<%- include('./partials/footer.ejs') %>
+
 </body>
 </html>

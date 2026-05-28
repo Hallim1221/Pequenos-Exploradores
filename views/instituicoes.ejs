@@ -221,6 +221,10 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <p>Preencha os dados para adicionar um aluno à turma</p>
     <form id="formAdicionarAluno">
       <section class="form-group">
+        <label>Nome do Aluno</label>
+        <input type="text" id="nomeAluno" placeholder="Nome completo" required>
+      </section>
+      <section class="form-group">
         <label>E-mail do Aluno</label>
         <input type="email" id="emailAluno" placeholder="aluno@email.com" required>
       </section>
@@ -259,8 +263,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
   <section class="main">
     <section class="top-row">
       <section class="welcome-card">
-        <h2> Olá, Exemplo Lopes da Silva</h2>
-        <p>rm94169@coordenador.gmail.com</p>
+        <h2> Olá, <%= nome %></h2>
+        <p><%= email %></p>
         <section class="quick-menu">
           <button class="qm-btn" onclick="goTo('cadastrar')"><img src="/img/pss.png" alt="Cadastrar" style="width:32px;height:32px;object-fit:contain;">Cadastrar Turmas</button>
           <button class="qm-btn" onclick="goTo('painel')"><img src="/img/esl.png" alt="Painel" style="width:32px;height:32px;object-fit:contain;">Painel da Escola</button>
@@ -454,7 +458,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <section class="team-grid">
       <section class="team-card">
         <section class="team-avatar">👨‍💼</section>
-        <section class="team-name">Exemplo Lopes da Silva</section>
+        <section class="team-name"><%= nome %></section>
         <section class="team-role">Coordenador Geral</section>
         <span class="team-badge badge-coord">Coordenador</span>
       </section>
@@ -596,14 +600,20 @@ function closeMembro(){document.getElementById('modalMembro').classList.remove('
 function openAluno(){document.getElementById('modalAluno').classList.add('open');}
 function closeAluno(){document.getElementById('modalAluno').classList.remove('open'); document.getElementById('formAdicionarAluno').reset(); document.getElementById('mensagemAluno').style.display='none';}
 function adicionarAluno(){
+  const nome = document.getElementById('nomeAluno').value.trim();
   const email = document.getElementById('emailAluno').value.trim();
   const senha = document.getElementById('senhaAluno').value;
   const confirmarSenha = document.getElementById('confirmarSenhaAluno').value;
   const mensagemEl = document.getElementById('mensagemAluno');
   
   // Validar campos
-  if (!email || !senha || !confirmarSenha) {
+  if (!nome || !email || !senha || !confirmarSenha) {
     alert('Por favor, preencha todos os campos');
+    return;
+  }
+  
+  if (nome.length < 3) {
+    alert('Nome deve ter no mínimo 3 caracteres');
     return;
   }
   
@@ -623,7 +633,7 @@ function adicionarAluno(){
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ email, senha })
+    body: JSON.stringify({ nome, email, senha })
   })
   .then(res => res.json())
   .then(data => {

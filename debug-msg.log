@@ -186,3 +186,55 @@
 📝 criarMensagemParceria: id=1, type=string
 ❌ MySQL error: 
 ✅ MockDB: {"id":8,"parceria_id":1,"remetente":"escola","conteudo":"pou","data_mensagem":"2026-05-27T21:26:59.605Z"}
+
+📝 criarMensagemParceria: id=2, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":2,"remetente":"admin","conteudo":"agora","data_mensagem":"2026-05-27T21:45:58.312Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":1,"remetente":"escola","conteudo":"annn","data_mensagem":"2026-05-27T21:46:08.188Z"}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":1,"remetente":"admin","conteudo":"blz","data_mensagem":"2026-05-27T21:48:37.011Z"}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":3,"remetente":"escola","conteudo":"beleza fii","data_mensagem":"2026-05-27T21:49:23.722Z"}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":3,"remetente":"admin","conteudo":"suave","data_mensagem":"2026-05-27T21:49:45.026Z"}
+
+📝 criarMensagemParceria: id=2, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":2,"remetente":"admin","conteudo":"teste de notificação","data_mensagem":"2026-05-27T22:10:42.549Z"}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":3,"remetente":"escola","conteudo":"oi","data_mensagem":"2026-05-27T22:22:37.303Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"escola","conteudo":"salve","data_mensagem":"2026-05-27T22:22:49.288Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":3,"remetente":"escola","conteudo":"eae","data_mensagem":"2026-05-27T22:24:06.316Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":3,"remetente":"escola","conteudo":"ola boa noite","data_mensagem":"2026-05-27T22:38:02.928Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":3,"remetente":"escola","conteudo":"olaaaa","data_mensagem":"2026-05-27T22:39:39.721Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"escola","conteudo":"heyy","data_mensagem":"2026-05-27T22:47:52.183Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"escola","conteudo":"compra o plano mais caro","data_mensagem":"2026-05-27T22:57:17.188Z","visualizado":0}
