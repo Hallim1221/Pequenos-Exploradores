@@ -62,12 +62,10 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 .desempenho-pct{font-size:13px;font-weight:700;color:#2d8a4e;text-align:right;}
 
 /* ===================== CADASTRAR TURMA ===================== */
-#cadastrar .back-btn{display:flex;align-items:center;gap:8px;color:#2d8a4e;font-size:16px;font-weight:600;cursor:pointer;margin-bottom:20px;background:none;border:none;font-family:'Fredoka',sans-serif;}
-#cadastrar .back-btn:hover{color:#1a5c36;}
 #cadastrar .page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:24px;}
 #cadastrar .page-header h1{font-family:'Fredoka One',cursive;font-size:26px;color:#1a4731;}
 #cadastrar .page-header p{font-size:15px;color:#5a9a72;margin-top:2px;}
-.btn-primary{background:linear-gradient(135deg,#2d8a4e,#3aad60);color:white;font-family:'Fredoka One',cursive;font-size:16px;padding:11px 22px;border-radius:14px;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(45,138,78,0.3);transition:all 0.2s;}
+.btn-primary{background:linear-gradient(135deg,#2d8a4e,#3aad60);color:white;font-family:'Fredoka One',cursive;font-size:14px;padding:8px 16px;border-radius:14px;border:none;cursor:pointer;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(45,138,78,0.3);transition:all 0.2s;margin-bottom:12px;}
 .btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(45,138,78,0.4);}
 .filters-row{display:flex;gap:14px;margin-bottom:22px;}
 .select-wrap{position:relative;flex:1;}
@@ -114,7 +112,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 .info-row:last-child{border-bottom:none;}
 .info-row .lbl{color:#5a9a72;font-weight:500;}
 .info-row .val{color:#1a4731;font-weight:600;}
-.chart-bars{display:flex;align-items:flex-end;gap:12px;height:120px;padding:0 8px;}
+.chart-bars{display:flex;align-items:flex-end;gap:12px;height:120px;padding:0 8px;margin-top:40px;}
 .bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;}
 .bar{width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,#3aad60,#2d8a4e);}
 .bar-label{font-size:12px;color:#5a9a72;font-weight:500;}
@@ -193,15 +191,19 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <p>Adicione um professor ou funcionário à equipe</p>
     <section class="form-group">
       <label>Nome Completo</label>
-      <input type="text" placeholder="Nome do membro">
+      <input type="text" id="membro-nome" placeholder="Nome do membro">
     </section>
     <section class="form-group">
       <label>E-mail</label>
-      <input type="email" placeholder="email@escola.com.br">
+      <input type="email" id="membro-email" placeholder="email@escola.com.br">
+    </section>
+    <section class="form-group">
+      <label>Senha</label>
+      <input type="password" id="membro-senha" placeholder="Crie uma senha">
     </section>
     <section class="form-group">
       <label>Cargo</label>
-      <select>
+      <select id="membro-cargo">
         <option>Professor(a)</option>
         <option>Coordenador(a)</option>
         <option>Suporte</option>
@@ -209,7 +211,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
     <section class="modal-actions">
       <button class="btn-cancel" onclick="closeMembro()">Cancelar</button>
-      <button class="btn-confirm" onclick="closeMembro()">Adicionar ✓</button>
+      <button class="btn-confirm" onclick="adicionarMembro()">Adicionar ✓</button>
     </section>
   </section>
 </section>
@@ -342,7 +344,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-    <button class="back-btn" onclick="goTo('dashboard')"> Voltar ao Início</button>
+    <button class="btn-primary" onclick="goTo('dashboard')">← Voltar</button>
     <section class="page-header">
       <button class="btn-primary" onclick="openModal()">Cadastrar turma ➕</button>
     </section>
@@ -403,7 +405,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-      <button class="back-btn" onclick="goTo('dashboard')"> Voltar ao Início</button>
+      <button class="btn-primary" onclick="goTo('dashboard')">← Voltar</button>
     <section class="section-title" style="font-size:24px;margin-bottom:20px;">Painel da Escola</section>
     <section class="stats-grid">
       <section class="stat-box"><section class="s-icon">🧒</section><section class="s-num">87</section><section class="s-label">Alunos Ativos</section></section>
@@ -450,7 +452,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-    <button class="back-btn" onclick="goTo('dashboard')">  Voltar ao Início</button>
+    <button class="btn-primary" onclick="goTo('dashboard')">← Voltar</button>
     <section style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
       <section class="section-title" style="font-size:24px;margin-bottom:0;"> Equipe Escolar</section>
       
@@ -510,7 +512,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
   </nav>
   <section class="main">
-    <button class="back-btn" onclick="goTo('dashboard')"> Voltar ao Início</button>
+    <button class="btn-primary" onclick="goTo('dashboard')">← Voltar</button>
     <section class="card feedback-card">
       <section id="feedbackForm">
         <p style="color:#5a9a72;font-size:15px;margin-bottom:4px;">Sua opinião é muito importante para nós! Como você avalia a plataforma?</p>
@@ -597,6 +599,61 @@ function openModal(){document.getElementById('modalTurma').classList.add('open')
 function closeModal(){document.getElementById('modalTurma').classList.remove('open');}
 function openMembro(){document.getElementById('modalMembro').classList.add('open');}
 function closeMembro(){document.getElementById('modalMembro').classList.remove('open');}
+
+function adicionarMembro(){
+  const nome = document.getElementById('membro-nome').value.trim();
+  const email = document.getElementById('membro-email').value.trim();
+  const senha = document.getElementById('membro-senha').value;
+  const cargo = document.getElementById('membro-cargo').value;
+  
+  // Validar campos
+  if (!nome || !email || !senha) {
+    alert('Por favor, preencha todos os campos');
+    return;
+  }
+  
+  if (nome.length < 3) {
+    alert('Nome deve ter no mínimo 3 caracteres');
+    return;
+  }
+  
+  if (senha.length < 6) {
+    alert('Senha deve ter no mínimo 6 caracteres');
+    return;
+  }
+  
+  // Validar email
+  if (!email.includes('@')) {
+    alert('E-mail inválido');
+    return;
+  }
+  
+  // Enviar dados para servidor
+  fetch('/api/professor/cadastro', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ nome, email, senha, cargo })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.sucesso) {
+      alert('✓ Professor cadastrado com sucesso! Ele pode agora fazer login.');
+      document.getElementById('membro-nome').value = '';
+      document.getElementById('membro-email').value = '';
+      document.getElementById('membro-senha').value = '';
+      closeMembro();
+    } else {
+      alert('Erro: ' + (data.mensagem || 'Não foi possível cadastrar'));
+    }
+  })
+  .catch(err => {
+    console.error('Erro:', err);
+    alert('Erro ao conectar com servidor');
+  });
+}
+
 function openAluno(){document.getElementById('modalAluno').classList.add('open');}
 function closeAluno(){document.getElementById('modalAluno').classList.remove('open'); document.getElementById('formAdicionarAluno').reset(); document.getElementById('mensagemAluno').style.display='none';}
 function adicionarAluno(){

@@ -71,6 +71,25 @@ router.post('/dashboard', async (req, res) => {
   }
 });
 
+// Área do professor - page principal
+router.get('/area', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.redirect('/professor/login');
+  }
+  
+  try {
+    const professor = await Professor.buscarPorId(req.session.user.id);
+    const turmas = await Turma.listarPorProfessor(req.session.user.id);
+    res.render('professor_area', { 
+      professor: professor || {},
+      turmasCount: turmas.length
+    });
+  } catch (erro) {
+    console.error('Erro ao carregar professor_area:', erro);
+    res.render('professor_area', { professor: {}, turmasCount: 0 });
+  }
+});
+
 // Seleção de turma após escolher série
 router.get('/serie/:serie', async (req, res) => {
   if (!req.session.user || req.session.user.tipo !== 'professor') {

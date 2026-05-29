@@ -471,13 +471,14 @@
 
   <footer class="sidebar-bottom">
     <article class="teacher-info">
-      <span class="teacher-avatar">M</span>
+      <% const profName = professor && professor.nome ? professor.nome.split(' ').filter(n => n.toLowerCase() !== 'prof.' && n.toLowerCase() !== 'profª' && n.toLowerCase() !== 'professor')[0] : 'P'; %>
+      <span class="teacher-avatar"><%= profName.charAt(0).toUpperCase() %></span>
       <article>
-        <p class="teacher-name">Profª Maria</p>
+        <p class="teacher-name">Prof. <%= profName %></p>
         <p class="teacher-role">Professora</p>
       </article>
     </article>
-    <button class="btn-sair" onclick="showToast('👋 Até logo!')">🚪 Sair</button>
+    <button class="btn-sair" onclick="openModal('modal-logout')">🚪 Sair</button>
   </footer>
 </aside>
 
@@ -497,7 +498,8 @@
   <section class="page active" id="page-inicio">
     <section class="greeting-banner">
       <article class="greeting-text">
-        <h2>Bom dia, Profª Maria! 🌤️</h2>
+        <% const greetName = professor && professor.nome ? professor.nome.split(' ').filter(n => n.toLowerCase() !== 'prof.' && n.toLowerCase() !== 'profª' && n.toLowerCase() !== 'professor')[0] : 'Professor'; %>
+        <h2>Bom dia, Prof. <%= greetName %>! 🌤️</h2>
         <p>Veja o resumo das suas turmas e atividades recentes.</p>
       </article>
       <span class="greeting-emoji">🌳</span>
@@ -782,6 +784,19 @@
   </article>
 </section>
 
+<section class="modal-overlay" id="modal-logout">
+  <article class="modal">
+    <header class="modal-head"><h3>🚪 Fazer logout</h3><button class="btn-modal-close" onclick="closeModal('modal-logout')">✕</button></header>
+    <section class="modal-body" style="text-align:center;">
+      <p style="font-size:1.1rem;color:#333;margin-bottom:1.5em;">Deseja realmente sair?</p>
+      <footer class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal('modal-logout')">Cancelar</button>
+        <button class="btn-confirm" onclick="confirmarLogout()">Sair ✓</button>
+      </footer>
+    </section>
+  </article>
+</section>
+
 <output class="toast" id="toast"></output>
 
 <script>
@@ -847,9 +862,8 @@ function renderTurmaCard(t, showDetalhe=false) {
       <header class="turma-card-header" style="background:${t.cor}">
         <section class="turma-emoji-row">
           <span class="turma-emoji">${t.emoji}</span>
-          <span class="turma-badge">${t.ano}</span>
         </section>
-        <h3 class="turma-name">${t.nome}</h3>
+        <h3 class="turma-name">${t.ano}</h3>
         <p class="turma-sub">${t.serie}</p>
         <footer class="codigo-acesso" onclick="event.stopPropagation()">
           <section>
@@ -978,6 +992,12 @@ function goto(pageId) {
 
 function openModal(id) { document.getElementById(id)?.classList.add('open'); }
 function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+
+function confirmarLogout() {
+  fetch('/logout', { method: 'POST' })
+    .then(() => { window.location.href = '/'; })
+    .catch(err => { console.error('Erro ao fazer logout:', err); });
+}
 
 document.querySelectorAll('.modal-overlay').forEach(m => {
   m.addEventListener('click', e => { if (e.target===m) m.classList.remove('open'); });

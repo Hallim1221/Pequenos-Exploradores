@@ -91,6 +91,46 @@ app.post('/api/instituicoes/adicionar-aluno', async (req, res) => {
   }
 });
 
+// POST /api/professor/cadastro - Cadastrar novo professor
+app.post('/api/professor/cadastro', async (req, res) => {
+  console.log('✅ POST /api/professor/cadastro recebido!');
+  try {
+    const { nome, email, senha, cargo } = req.body;
+
+    // Validar dados
+    if (!nome || !email || !senha) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Nome, email e senha são obrigatórios' });
+    }
+
+    if (nome.length < 3) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Nome deve ter no mínimo 3 caracteres' });
+    }
+
+    if (senha.length < 6) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Senha deve ter no mínimo 6 caracteres' });
+    }
+
+    // Verificar se email já existe
+    const Professor = require('./models/Professor');
+    const professorExistente = await Professor.buscarPorEmail(email);
+    if (professorExistente) {
+      return res.status(400).json({ sucesso: false, mensagem: 'Este email já está cadastrado' });
+    }
+
+    // Criar professor no banco de dados
+    const novoProfessor = await Professor.criar(nome, email, senha, cargo || 'Professor(a)');
+    
+    if (novoProfessor && novoProfessor.id) {
+      return res.json({ sucesso: true, mensagem: 'Professor cadastrado com sucesso!', id: novoProfessor.id });
+    }
+    
+    return res.status(400).json({ sucesso: false, mensagem: 'Erro ao cadastrar professor' });
+  } catch (erro) {
+    console.error('Erro ao cadastrar professor:', erro);
+    return res.status(500).json({ sucesso: false, mensagem: 'Erro ao cadastrar professor' });
+  }
+});
+
 // TESTE SIMPLES
 app.post('/teste-aluno', (req, res) => {
   console.log('✅ POST /teste-aluno recebido!');

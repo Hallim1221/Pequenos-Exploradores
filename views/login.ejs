@@ -210,7 +210,16 @@
     z-index: 1;
     font-weight: 400;
     line-height: 1.4;
-    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
+    text-shadow: 
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      0 -1px 0 #000,
+      0 1px 0 #000,
+      -1px 0 0 #000,
+      1px 0 0 #000,
+      0 0 8px rgba(0,0,0,0.8);
   }
 
   .role-card .card-badge {
@@ -329,7 +338,16 @@
     margin-bottom: 6px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
-    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
+    text-shadow: 
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      0 -1px 0 #000,
+      0 1px 0 #000,
+      -1px 0 0 #000,
+      1px 0 0 #000,
+      0 0 8px rgba(0,0,0,0.8);
   }
 
   .input-group input {
@@ -441,7 +459,16 @@
     color: rgba(255,255,255,0.85);
     margin-top: 8px;
     font-weight: 400;
-    text-shadow: 0 0 8px rgba(0,0,0,0.8), 0 2px 6px rgba(0,0,0,0.7);
+    text-shadow: 
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000,
+      0 -1px 0 #000,
+      0 1px 0 #000,
+      -1px 0 0 #000,
+      1px 0 0 #000,
+      0 0 8px rgba(0,0,0,0.8);
   }
 
   .btn-voltar {
@@ -770,11 +797,12 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha })
       })
-      .then(res => {
-        if (res.ok) {
-          window.location.href = '/professor_area';
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = '/professor/area';
         } else {
-          alert('E-mail ou senha incorretos!');
+          alert(data.message || 'E-mail ou senha incorretos!');
         }
       })
       .catch(err => {
