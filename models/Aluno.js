@@ -5,20 +5,20 @@ class Aluno {
   static useMock = false;
 
   // Criar novo aluno
-  static async criar(nome, email, senha, data_nascimento = null) {
+  static async criar(nome, email, senha, data_nascimento = null, instituicao_id = null) {
     try {
       if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       const [result] = await connection.execute(
-        'INSERT INTO alunos (nome, email, senha, data_nascimento, saldo) VALUES (?, ?, ?, ?, ?)',
-        [nome, email, senha, data_nascimento, 700]
+        'INSERT INTO alunos (nome, email, senha, data_nascimento, saldo, instituicao_id) VALUES (?, ?, ?, ?, ?, ?)',
+        [nome, email, senha, data_nascimento, 700, instituicao_id]
       );
       connection.release();
-      return { id: result.insertId, nome, email };
+      return { id: result.insertId, nome, email, instituicao_id };
     } catch (erro) {
       // Usar mock se BD falhar
       this.useMock = true;
-      return mockdb.criarAluno(nome, email, senha);
+      return mockdb.criarAluno(nome, email, senha, instituicao_id);
     }
   }
 
@@ -98,6 +98,24 @@ class Aluno {
     } catch (erro) {
       this.useMock = true;
       return mockdb.deletarAluno(id);
+    }
+  }
+
+  // Buscar o plano da escola/instituição do aluno
+  static async buscarPlanoEscola(aluno) {
+    try {
+      const Parceria = require('./Parceria');
+      const instituicaoId = aluno.instituicao_id;
+      
+      if (!instituicaoId) {
+        return 'comum';
+      }
+
+      const parceria = await Parceria.buscarPorId(instituicaoId);
+      return (parceria && parceria.plano) ? parceria.plano : 'comum';
+    } catch (erro) {
+      console.error('Erro ao buscar plano:', erro);
+      return 'comum';
     }
   }
 }

@@ -17,6 +17,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 .nav-link:hover,.nav-link.active{background:rgba(255,255,255,0.25);color:white;}
 .btn-sair{background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);color:white;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:6px 20px;border-radius:50px;cursor:pointer;transition:all 0.2s;}
 .btn-sair:hover{background:rgba(255,255,255,0.35);}
+.btn-sair-redesign{background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.5);color:white;font-family:'Fredoka',sans-serif;font-size:16px;font-weight:600;padding:7px 22px;border-radius:50px;cursor:pointer;transition:all 0.2s;}
+.btn-sair-redesign:hover{background:rgba(255,255,255,0.35);}
 
 /* MAIN */
 .main{padding:28px 44px;flex:1;}
@@ -253,13 +255,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <section class="logo-redesign">
       <img src="/img/log.png" alt="Logo Pequenos Exploradores">
     </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
     <section class="nav-right-redesign">
-      <a href="/aluno-login" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+      <button onclick="abrirModalLogoutEquipe()" class="btn-sair-redesign">Sair</button>
     </section>
   </nav>
   <section class="main">
@@ -334,13 +331,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <section class="logo-redesign">
       <img src="/img/log.png" alt="Logo Pequenos Exploradores">
     </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
     <section class="nav-right-redesign">
-      <a href="/aluno-login" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+      <button onclick="abrirModalLogoutEquipe()" class="btn-sair-redesign">Sair</button>
     </section>
   </nav>
   <section class="main">
@@ -395,13 +387,9 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <section class="logo-redesign">
       <img src="/img/log.png" alt="Logo Pequenos Exploradores">
     </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
+
     <section class="nav-right-redesign">
-      <a href="/aluno-login" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+      <button onclick="abrirModalLogoutEquipe()" class="btn-sair-redesign">Sair</button>
     </section>
   </nav>
   <section class="main">
@@ -410,17 +398,17 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <section class="stats-grid">
       <section class="stat-box"><section class="s-icon">🧒</section><section class="s-num">87</section><section class="s-label">Alunos Ativos</section></section>
       <section class="stat-box"><section class="s-icon"><img src="/img/eqp.png" alt="Professores" style="width:40px;height:40px;object-fit:contain;"></section><section class="s-num">12</section><section class="s-label">Professores</section></section>
-      <section class="stat-box"><section class="s-icon"><img src="/img/pss.jpeg" alt="Turmas" style="width:40px;height:40px;object-fit:contain;"></section><section class="s-num">3</section><section class="s-label">Turmas Cadastradas</section></section>
+      <section class="stat-box"><section class="s-icon"><img src="/img/pss.png" alt="Turmas" style="width:40px;height:40px;object-fit:contain;"></section><section class="s-num">3</section><section class="s-label">Turmas Cadastradas</section></section>
       <section class="stat-box"><section class="s-icon">⭐</section><section class="s-num">83%</section><section class="s-label">Desempenho Geral</section></section>
     </section>
     <section class="school-info-grid">
       <section class="card info-card">
         <section class="section-title">🏛️ Dados da Escola</section>
-        <section class="info-row"><span class="lbl">Nome</span><span class="val">Prof.ª Maria Theodora</span></section>
-        <section class="info-row"><span class="lbl">Coordenador</span><span class="val">Everton Lopes da Silva</span></section>
+        <section class="info-row"><span class="lbl">Nome</span><span class="val"><%= nomeEscola %></span></section>
+        <section class="info-row"><span class="lbl">Coordenador</span><span class="val"><%= nomePessoa %></span></section>
         <section class="info-row"><span class="lbl">Nível</span><span class="val">Ensino Fundamental I</span></section>
         <section class="info-row"><span class="lbl">Ano Letivo</span><span class="val">2025</span></section>
-        <section class="info-row"><span class="lbl">Status</span><span class="val" style="color:#2d8a4e;">✅ Ativa</span></section>
+        <section class="info-row"><span class="lbl">Status</span><span class="dval" style="color:#2d8a4e;">✅ Ativa</span></section>
       </section>
       <section class="card">
         <section class="section-title">📈 Desempenho por Turma</section>
@@ -442,13 +430,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <section class="logo-redesign">
       <img src="/img/log.png" alt="Logo Pequenos Exploradores">
     </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
     <section class="nav-right-redesign">
-      <a href="/aluno-login" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+      <button onclick="abrirModalLogoutEquipe()" class="btn-sair-redesign">Sair</button>
     </section>
   </nav>
   <section class="main">
@@ -464,35 +447,53 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
         <section class="team-role">Coordenador Geral</section>
         <span class="team-badge badge-coord">Coordenador</span>
       </section>
-      <section class="team-card">
-        <section class="team-avatar">👩‍🏫</section>
-        <section class="team-name">Maria Theodora Pedreira</section>
-        <section class="team-role">5° Ano D · 4° Ano B</section>
-        <span class="team-badge badge-prof">Professora</span>
-      </section>
-      <section class="team-card">
-        <section class="team-avatar">👩‍🏫</section>
-        <section class="team-name">Ana Lima</section>
-        <section class="team-role">1ª Série B · 2ª Série A</section>
-        <span class="team-badge badge-prof">Professora</span>
-      </section>
-      <section class="team-card">
-        <section class="team-avatar">👩‍🏫</section>
-        <section class="team-name">Carla Souza</section>
-        <section class="team-role">4ª Série B · 3ª Série C</section>
-        <span class="team-badge badge-prof">Professora</span>
-      </section>
-      <section class="team-card">
-        <section class="team-avatar">🧑‍💻</section>
-        <section class="team-name">Roberto Ferreira</section>
-        <section class="team-role">Suporte Técnico</section>
-        <span class="team-badge badge-support">Suporte</span>
-      </section>
+      <% if(professores && professores.length > 0) { %>
+        <% professores.forEach(prof => { %>
+          <%
+            let emoji = '👩‍🏫';
+            let badgeClass = 'badge-prof';
+            let roleText = 'Professor(a)';
+            
+            if (prof.cargo === 'Coordenador(a)') {
+              emoji = '👨‍💼';
+              badgeClass = 'badge-coord';
+              roleText = 'Coordenador(a)';
+            } else if (prof.cargo === 'Suporte') {
+              emoji = '🧑‍💻';
+              badgeClass = 'badge-support';
+              roleText = 'Suporte';
+            }
+          %>
+          <section class="team-card">
+            <section class="team-avatar"><%= emoji %></section>
+            <section class="team-name"><%= prof.nome %></section>
+            <section class="team-role"><%= prof.email %></section>
+            <span class="team-badge <%= badgeClass %>"><%= roleText %></span>
+          </section>
+        <% }); %>
+      <% } %>
       <section class="add-member-card" onclick="openMembro()">
         <section class="add-icon">➕</section>
         <section class="add-text">Adicionar novo membro</section>
       </section>
     </section>
+  </section>
+</section>
+
+<!-- Modal de confirmação de logout para equipe -->
+<section id="modal-logout-equipe" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.45); z-index:20000; align-items:center; justify-content:center;">
+  <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
+    <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
+    <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
+    <section style="display:flex; gap:1.2em; justify-content:center;">
+      <button onclick="confirmarLogoutEquipe()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+        Sim
+      </button>
+      <button onclick="fecharModalLogoutEquipe()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+        Não
+      </button>
+    </section>
+    <button onclick="fecharModalLogoutEquipe()" style="position:absolute; top:0.7em; right:1em; background:none; border:none; font-size:2em; color:#00CFFF; cursor:pointer;">&times;</button>
   </section>
 </section>
 
@@ -502,13 +503,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <section class="logo-redesign">
       <img src="/img/log.png" alt="Logo Pequenos Exploradores">
     </section>
-    <section class="nav-links-redesign">
-      <a class="nav-link-redesign" href="/">Início</a>
-      <a class="nav-link-redesign" href="/sobre">Sobre</a>
-      <a class="nav-link-redesign" href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Contato</a>
-    </section>
     <section class="nav-right-redesign">
-      <a href="/aluno-login" style="background: linear-gradient(90deg,#7c3aed 100%, #7c3aed 100%); color: #fff; text-decoration: none; font-weight: 700; padding: 0.6em 1.5em; border-radius: 8px; border: none; cursor: pointer; font-size: 0.95em;">Seja uma escola parceira </a>
+      <button onclick="abrirModalLogoutEquipe()" class="btn-sair-redesign">Sair</button>
     </section>
   </nav>
   <section class="main">
@@ -640,6 +636,40 @@ function adicionarMembro(){
   .then(data => {
     if (data.sucesso) {
       alert('✓ Professor cadastrado com sucesso! Ele pode agora fazer login.');
+      
+      // Adicionar novo card à grid de equipe
+      const emojiMap = {
+        'Professor(a)': '👩‍🏫',
+        'Coordenador(a)': '👨‍💼',
+        'Suporte': '🧑‍💻'
+      };
+      
+      const badgeMap = {
+        'Professor(a)': 'badge-prof',
+        'Coordenador(a)': 'badge-coord',
+        'Suporte': 'badge-support'
+      };
+      
+      const emoji = emojiMap[cargo] || '👤';
+      const badgeClass = badgeMap[cargo] || 'badge-prof';
+      const badgeText = cargo;
+      
+      // Criar novo card
+      const novoCard = document.createElement('section');
+      novoCard.className = 'team-card';
+      novoCard.innerHTML = `
+        <section class="team-avatar">${emoji}</section>
+        <section class="team-name">${nome}</section>
+        <section class="team-role">${email}</section>
+        <span class="team-badge ${badgeClass}">${badgeText}</span>
+      `;
+      
+      // Inserir antes do card "add-member-card"
+      const teamGrid = document.querySelector('.team-grid');
+      const addMemberCard = document.querySelector('.add-member-card');
+      teamGrid.insertBefore(novoCard, addMemberCard);
+      
+      // Limpar formulário
       document.getElementById('membro-nome').value = '';
       document.getElementById('membro-email').value = '';
       document.getElementById('membro-senha').value = '';
@@ -720,6 +750,21 @@ function sendFeedback(){
 document.querySelectorAll('.modal-overlay').forEach(m=>{
   m.addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');}});
 });
+
+// Funções de logout para página de equipe
+function abrirModalLogoutEquipe() {
+  var modal = document.getElementById('modal-logout-equipe');
+  if(modal) modal.style.display = 'flex';
+}
+
+function fecharModalLogoutEquipe() {
+  var modal = document.getElementById('modal-logout-equipe');
+  if(modal) modal.style.display = 'none';
+}
+
+function confirmarLogoutEquipe() {
+  window.location.href = '/logout';
+}
 </script>
 
 <!-- FOOTER -->

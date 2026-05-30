@@ -153,8 +153,14 @@ router.get('/professor/cadastro', (req, res) => {
 });
 
 // Cadastro do Aluno
-router.get('/aluno/cadastro', (req, res) => {
-  res.render('aluno-cadastro');
+router.get('/aluno/cadastro', async (req, res) => {
+  try {
+    const instituicoes = await Parceria.listarTodas();
+    res.render('aluno-cadastro', { instituicoes: instituicoes || [] });
+  } catch (erro) {
+    console.error('Erro ao buscar instituições:', erro);
+    res.render('aluno-cadastro', { instituicoes: [] });
+  }
 });
 
 // Cadastro do Aluno (POST) - processa o formulário e redireciona para a área do aluno
@@ -168,28 +174,32 @@ router.post('/aluno/cadastro',
         throw new Error('As senhas não conferem');
       }
       return true;
-    })
+    }),
+    body('instituicao_id').notEmpty().withMessage('Instituição é obrigatória')
   ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render('aluno-cadastro', { errors: errors.array(), old: req.body });
+      const instituicoes = await Parceria.listarTodas();
+      return res.status(400).render('aluno-cadastro', { errors: errors.array(), old: req.body, instituicoes: instituicoes || [] });
     }
 
     try {
-      const { nome, email, password } = req.body;
+      const { nome, email, password, instituicao_id } = req.body;
       
       // Verificar se email já existe
       const alunoExistente = await Aluno.buscarPorEmail(email);
       if (alunoExistente) {
+        const instituicoes = await Parceria.listarTodas();
         return res.status(400).render('aluno-cadastro', { 
           errors: [{ msg: 'Email já cadastrado' }], 
-          old: req.body 
+          old: req.body,
+          instituicoes: instituicoes || []
         });
       }
 
-      // Criar novo aluno no BD
-      const novoAluno = await Aluno.criar(nome, email, password);
+      // Criar novo aluno no BD com a instituição
+      const novoAluno = await Aluno.criar(nome, email, password, null, instituicao_id);
       
       // Fazer login automático
       req.session.user = { tipo: 'aluno', email: email, id: novoAluno.id };
@@ -198,9 +208,11 @@ router.post('/aluno/cadastro',
       return res.redirect('/aluno');
     } catch (erro) {
       console.error('Erro ao cadastrar aluno:', erro);
+      const instituicoes = await Parceria.listarTodas();
       return res.status(500).render('aluno-cadastro', { 
         errors: [{ msg: 'Erro ao cadastrar. Tente novamente.' }], 
-        old: req.body 
+        old: req.body,
+        instituicoes: instituicoes || []
       });
     }
   }
@@ -241,17 +253,64 @@ router.get('/contato', (req, res) => {
 });
 
 // Instituições
-router.get('/instituicoes', (req, res) => {
+router.get('/instituicoes', async (req, res) => {
   // Protege rota: exige login de gestão/parceria
   if (!req.session.user || req.session.user.tipo !== 'gestao') {
     return res.redirect('/login');
   }
 
-  // Passa o nome e email da parceria/gestor logado para o template
-  res.render('instituicoes', {
-    nome: req.session.user.nome || 'Gestor',
-    email: req.session.user.email || ''
-  });
+  try {
+    // Buscar informações completas do gestor/parceria
+    let nomeEscola = 'Escola';
+    let nomeContato = req.session.user.nome || 'Gestor';
+    let professores = [];
+    
+    const Gestao = require('../models/Gestao');
+    const Professor = require('../models/Professor');
+    
+    const gestor = await Gestao.buscarPorId(req.session.user.id);
+    
+    if (gestor && gestor.nome_escola) {
+      nomeEscola = gestor.nome_escola;
+    }
+
+    // Usar nome_contato se disponível
+    if (gestor && gestor.nome_contato) {
+      nomeContato = gestor.nome_contato;
+    }
+
+    // Buscar todos os professores para exibir na equipe escolar
+    try {
+      const todosProfessores = await Professor.listarTodos();
+      // Se houver filtro de instituição, aplicar aqui
+      if (req.session.user.instituicao_id && todosProfessores) {
+        professores = todosProfessores.filter(p => p.instituicao === req.session.user.instituicao_id);
+      } else if (todosProfessores) {
+        professores = todosProfessores;
+      }
+    } catch (erroProf) {
+      console.error('Erro ao buscar professores:', erroProf);
+      professores = [];
+    }
+
+    // Passa o nome da escola e nome da pessoa para o template
+    res.render('instituicoes', {
+      nomeEscola: nomeEscola,
+      nomePessoa: nomeContato,
+      nome: req.session.user.nome || 'Gestor',
+      email: req.session.user.email || '',
+      professores: professores
+    });
+  } catch (erro) {
+    console.error('Erro ao buscar dados da instituição:', erro);
+    res.render('instituicoes', {
+      nomeEscola: 'Escola',
+      nomePessoa: req.session.user.nome || 'Gestor',
+      nome: req.session.user.nome || 'Gestor',
+      email: req.session.user.email || '',
+      professores: []
+    });
+  }
 });
 
 // Parcerias com Escolas
@@ -321,28 +380,78 @@ router.get('/aluno/login', (req, res) => {
 });
 
 
+// ROTA DE TESTE - DEBUG
+router.get('/test-aluno-methods', (req, res) => {
+  const métodos = Object.getOwnPropertyNames(Aluno).filter(m => typeof Aluno[m] === 'function');
+  res.json({
+    tipoAluno: typeof Aluno,
+    métodos: métodos,
+    temBuscarPlanoEscola: typeof Aluno.buscarPlanoEscola,
+    todasAsPropriedades: Object.getOwnPropertyNames(Aluno)
+  });
+});
+
 router.post('/aluno/login', async (req, res) => {
+  const fs = require('fs');
+  
   try {
+    console.log('📧 [1] POST /aluno/login recebido');
     const { email, senha } = req.body;
+    fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Iniciando login para: ${email}`);
 
     if (!email || !senha) {
+      fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Email ou senha vazios`);
       return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
     }
 
     // Buscar aluno no BD com validação de senha
+    console.log('📧 [2] Buscando aluno:', email);
+    fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Buscando aluno por email`);
     const aluno = await Aluno.buscarPorEmail(email);
+    console.log('👤 [3] Aluno encontrado:', aluno);
+    fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Aluno encontrado: ${JSON.stringify(aluno)}`);
 
     if (!aluno || aluno.senha !== senha) {
+      fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Credenciais inválidas`);
       return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
     }
 
     // Fazer login
     req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
     req.session.saldo = aluno.saldo;
+    console.log('✅ [4] Session criada');
+    fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Session criada`);
 
-    return res.status(200).json({ success: true, redirect: '/aluno' });
+    // Determinar para qual página redirecionar baseado no plano da escola
+    let redirectPage = '/aluno-novo'; // padrão
+    
+    // Se o aluno tem uma escola associada, verificar o plano
+    console.log('🏫 [5] Verificando plano da escola para instituicao_id:', aluno.instituicao_id);
+    fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Verificando plano para instituição: ${aluno.instituicao_id}`);
+    
+    try {
+      const plano = await Aluno.buscarPlanoEscola(aluno);
+      console.log('📋 [6] Plano encontrado:', plano);
+      fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Plano encontrado: ${plano}`);
+      
+      if (plano === 'premium') {
+        redirectPage = '/aluno-premium';
+      }
+    } catch (erroBuscarPlano) {
+      console.error('❌ [6] Erro ao buscar plano:', erroBuscarPlano.message);
+      console.error('Tipo de Aluno:', typeof Aluno);
+      console.error('Métodos de Aluno:', Object.getOwnPropertyNames(Aluno).filter(m => typeof Aluno[m] === 'function'));
+      fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] ERRO ao buscar plano: ${erroBuscarPlano.message}`);
+      // Continuar com padrão
+    }
+
+    console.log('✅ [7] Login bem-sucedido, redirecionando para:', redirectPage);
+    fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] Redirecting to: ${redirectPage}`);
+    return res.status(200).json({ success: true, redirect: redirectPage });
   } catch (erro) {
-    console.error('Erro ao fazer login:', erro);
+    console.error('❌ [ERROR] Erro ao fazer login:', erro);
+    console.error('Stack:', erro.stack);
+    fs.appendFileSync('./login-debug.log', `\n[${new Date().toISOString()}] ERRO FATAL: ${erro.message}\nStack: ${erro.stack}`);
     return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
   }
 });
@@ -364,7 +473,7 @@ router.post('/gestao/login', async (req, res) => {
 
     // Usar nome_contato (nome completo da pessoa) como primeira opção
     const nome = gestor.nome_contato || gestor.nome || 'Gestor';
-    req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome };
+    req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome, instituicao_id: gestor.instituicao_id };
     return res.status(200).json({ success: true });
   } catch (erro) {
     console.error('Erro ao fazer login de gestão:', erro);
@@ -422,6 +531,32 @@ router.get('/aluno-novo', async (req, res) => {
   } catch (erro) {
     console.error('Erro ao carregar página aluno-novo:', erro);
     res.render('aluno-novo', { saldo: 700, nomeAluno: 'Explorador', nomeCompletoAluno: 'Explorador' });
+  }
+});
+
+// ALUNO PREMIUM
+router.get('/aluno-premium', async (req, res) => {
+  try {
+    let saldo = 700; // Padrão
+    let nomeAluno = 'Explorador'; // Nome padrão
+    let nomeCompletoAluno = 'Explorador'; // Nome completo padrão
+    
+    // Se está autenticado, buscar saldo real do BD
+    if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
+      const aluno = await Aluno.buscarPorId(req.session.user.id);
+      if (aluno) {
+        saldo = aluno.saldo;
+        nomeCompletoAluno = aluno.nome || 'Explorador';
+        // Extrair primeiro nome (parte antes do primeiro espaço)
+        nomeAluno = nomeCompletoAluno.split(' ')[0];
+        req.session.saldo = saldo; // Manter session sincronizada
+      }
+    }
+    
+    res.render('aluno-premium', { saldo, nomeAluno, nomeCompletoAluno });
+  } catch (erro) {
+    console.error('Erro ao carregar página aluno-premium:', erro);
+    res.render('aluno-premium', { saldo: 700, nomeAluno: 'Explorador', nomeCompletoAluno: 'Explorador' });
   }
 });
 
@@ -554,8 +689,21 @@ router.post('/professor/turmas/criar', async (req, res) => {
 });
 
 // Página da área do professor
-router.get('/professor_area', (req, res) => {
-  res.render('professor_area');
+router.get('/professor_area', async (req, res) => {
+  try {
+    let professor = null;
+    
+    // Se está autenticado como professor, buscar dados do BD
+    if (req.session.user && req.session.user.tipo === 'professor' && req.session.user.id) {
+      professor = await Professor.buscarPorId(req.session.user.id);
+    }
+    
+    // Passar dados para a template
+    res.render('professor_area', { professor: professor || {} });
+  } catch (erro) {
+    console.error('Erro ao carregar página professor_area:', erro);
+    res.render('professor_area', { professor: {} });
+  }
 });
 
 // LOGOUT
@@ -786,6 +934,95 @@ router.get('/api/parcerias/:id/mensagens', async (req, res) => {
   } catch (erro) {
     console.error(`❌ Erro ao carregar mensagens:`, erro);
     res.status(500).json({ sucesso: false, erro: 'Erro ao carregar mensagens' });
+  }
+});
+
+// API: Listar todas as instituições (parcerias_escolas)
+router.get('/api/instituicoes', async (req, res) => {
+  try {
+    const instituicoes = await Parceria.listarTodas();
+    
+    // Formatar dados para o dashboard
+    const dadosFormatados = instituicoes.map(inst => ({
+      id: inst.id,
+      nome: inst.nome_escola,
+      email: inst.email,
+      cidade: inst.cidade,
+      professor: inst.nome_contato,
+      status: inst.status,
+      plano: inst.plano || 'em-andamento'
+    }));
+    
+    res.json({ 
+      sucesso: true, 
+      instituicoes: dadosFormatados
+    });
+  } catch (erro) {
+    console.error('❌ Erro ao listar instituições:', erro);
+    res.status(500).json({ sucesso: false, erro: 'Erro ao listar instituições' });
+  }
+});
+
+// API: Atualizar plano de uma instituição
+router.put('/api/instituicoes/:id/plano', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { plano } = req.body;
+    
+    // Validar plano
+    if (!['premium', 'comum', 'em-andamento'].includes(plano)) {
+      return res.status(400).json({ 
+        sucesso: false, 
+        erro: 'Plano inválido. Use: premium, comum ou em-andamento' 
+      });
+    }
+    
+    // Atualizar plano na parceria (instituição)
+    const result = await Parceria.atualizarPlano(id, plano);
+    
+    if (!result.sucesso) {
+      return res.status(400).json(result);
+    }
+    
+    res.json({ 
+      sucesso: true, 
+      mensagem: `Plano atualizado para ${plano}` 
+    });
+  } catch (erro) {
+    console.error('❌ Erro ao atualizar plano:', erro);
+    res.status(500).json({ sucesso: false, erro: 'Erro ao atualizar plano' });
+  }
+});
+
+// API: Listar alunos de uma instituição
+router.get('/api/instituicoes/:id/alunos', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    // Buscar todos os alunos
+    const todoosAlunos = await Aluno.listarTodos();
+    
+    // Filtrar alunos que pertencem a esta instituição
+    const alunosDaInstituicao = todoosAlunos.filter(aluno => 
+      aluno.instituicao_id === parseInt(id)
+    );
+    
+    // Formatar dados para exibição
+    const dadosFormatados = alunosDaInstituicao.map(aluno => ({
+      id: aluno.id,
+      nome: aluno.nome,
+      email: aluno.email,
+      saldo: aluno.saldo || 0
+    }));
+    
+    res.json({ 
+      sucesso: true, 
+      total: dadosFormatados.length,
+      alunos: dadosFormatados
+    });
+  } catch (erro) {
+    console.error('❌ Erro ao listar alunos da instituição:', erro);
+    res.status(500).json({ sucesso: false, erro: 'Erro ao listar alunos' });
   }
 });
 

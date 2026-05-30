@@ -767,11 +767,13 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, senha })
       })
-      .then(res => {
-        if (res.ok) {
-          window.location.href = '/aluno';
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          // Redireciona para a página correta baseado no plano da escola
+          window.location.href = data.redirect || '/aluno';
         } else {
-          alert('E-mail ou senha incorretos!');
+          alert(data.message || 'E-mail ou senha incorretos!');
         }
       })
       .catch(err => {

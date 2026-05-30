@@ -427,26 +427,13 @@ app.get('/parcerias-escolas', (req, res) => {
   res.render('parcerias-escolas');
 });
 
-// ROTAS ANTIGAS - Manter compatibilidade
-// Carregador dinâmico de rotas com hot reload
-app.use((req, res, next) => {
-  // Não interceptar rotas /api/
-  if (req.path.startsWith('/api/')) {
-    return next();
-  }
-  
-  delete require.cache[require.resolve('./routes/index')];
-  const indexRouter = require('./routes/index');
-  
-  // Usar o router corretamente como middleware
-  indexRouter(req, res, next);
-});
+// ROTAS - Importar rotas corretas
+const indexRouter = require('./routes/index');
+const professorRouter = require('./routes/professor');
 
-app.use('/professor', (req, res, next) => {
-  delete require.cache[require.resolve('./routes/professor')];
-  const professorRouter = require('./routes/professor');
-  professorRouter(req, res, next);
-});
+// Usar rotas como middleware
+app.use('/', indexRouter);
+app.use('/professor', professorRouter);
 
 // TESTE - Adicionar rota POST diretamente aqui
 app.post('/test-post', (req, res) => {

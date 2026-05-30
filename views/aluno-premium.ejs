@@ -1,0 +1,1653 @@
+
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Fredoka:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Fredoka',sans-serif;background:#1e0a3c;min-height:100vh;margin-top:72px;}
+.page{display:none;min-height:100vh;flex-direction:column;}
+.page.active{display:flex;}
+
+/* MAIN */
+.main{padding:24px 36px;flex:1;}
+
+/* ============ HOME PREMIUM ============ */
+#home .home-grid{display:grid;grid-template-columns:260px 1fr 260px;gap:18px;}
+
+/* Profile card */
+.profile-card{background:linear-gradient(160deg,#2d1260,#4a1fa8);border-radius:22px;padding:22px;border:2px solid rgba(168,85,247,0.4);box-shadow:0 8px 32px rgba(74,31,168,0.4);}
+.prof-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#6c3fc5);display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 12px;border:3px solid rgba(255,255,255,0.3);box-shadow:0 0 20px rgba(168,85,247,0.4);}
+.prof-name{font-family:'Fredoka One',cursive;font-size:17px;color:white;text-align:center;margin-bottom:4px;}
+.prof-school{font-size:12px;color:rgba(255,255,255,0.6);text-align:center;margin-bottom:14px;line-height:1.4;}
+.prof-turma{background:rgba(255,255,255,0.12);border:1px solid rgba(168,85,247,0.5);border-radius:50px;padding:5px 14px;font-size:13px;color:#d8b4fe;font-weight:600;text-align:center;margin-bottom:14px;}
+.xp-section{margin-bottom:14px;}
+.xp-label{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.65);margin-bottom:6px;}
+.xp-bar{background:rgba(255,255,255,0.12);border-radius:50px;height:10px;overflow:hidden;}
+.xp-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,#a855f7,#22c55e);width:42%;}
+.stat-pills{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.stat-pill{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:10px;text-align:center;}
+.stat-pill .sp-num{font-family:'Fredoka One',cursive;font-size:20px;color:#a855f7;}
+.stat-pill .sp-label{font-size:11px;color:rgba(255,255,255,0.6);}
+.btn-evoluir{width:100%;margin-top:14px;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-family:'Fredoka One',cursive;font-size:17px;padding:12px;border:none;border-radius:14px;cursor:pointer;box-shadow:0 4px 14px rgba(34,197,94,0.4);transition:all 0.2s;}
+.btn-evoluir:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(34,197,94,0.5);}
+
+/* CENTER */
+.center-col{display:flex;flex-direction:column;gap:16px;}
+.greeting-banner{background:linear-gradient(120deg,#4a1fa8,#7c3aed);border-radius:22px;padding:22px 28px;border:2px solid rgba(168,85,247,0.3);position:relative;overflow:hidden;}
+.greeting-banner::before{content:'✨🌟💫';position:absolute;right:20px;top:10px;font-size:24px;opacity:0.3;letter-spacing:6px;}
+.greeting-banner h1{font-family:'Fredoka One',cursive;color:white;font-size:26px;margin-bottom:4px;}
+.greeting-banner p{color:rgba(255,255,255,0.8);font-size:15px;}
+.xp-pill-top{background:rgba(255,255,255,0.15);border:2px solid rgba(168,85,247,0.5);border-radius:50px;padding:7px 18px;color:white;font-size:14px;font-weight:600;display:inline-flex;align-items:center;gap:6px;margin-top:12px;}
+.cats{display:flex;gap:10px;flex-wrap:wrap;}
+.cat-pill{background:rgba(255,255,255,0.08);border:2px solid rgba(168,85,247,0.3);border-radius:50px;padding:8px 16px;font-size:14px;font-weight:600;color:#d8b4fe;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:6px;}
+.cat-pill:hover,.cat-pill.active{background:rgba(168,85,247,0.3);border-color:#a855f7;color:white;}
+.missions-card{background:linear-gradient(160deg,#2d1260,#3d1a80);border-radius:22px;padding:20px;border:2px solid rgba(168,85,247,0.3);}
+.card-title{font-family:'Fredoka One',cursive;font-size:18px;color:white;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.missions-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.m-card{background:rgba(255,255,255,0.06);border:2px solid rgba(168,85,247,0.2);border-radius:16px;padding:14px 10px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.m-card:hover{background:rgba(168,85,247,0.15);border-color:#a855f7;transform:translateY(-3px);}
+.m-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 8px;}
+.m-icon.p{background:rgba(168,85,247,0.25);}
+.m-icon.g{background:rgba(34,197,94,0.2);}
+.m-icon.y{background:rgba(249,199,79,0.2);}
+.m-icon.b{background:rgba(59,130,246,0.2);}
+.m-name{font-size:13px;font-weight:600;color:white;margin-bottom:5px;}
+.m-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:50px;display:inline-block;}
+.mb-done{background:rgba(34,197,94,0.2);color:#4ade80;}
+.mb-prog{background:rgba(249,199,79,0.2);color:#fbbf24;}
+.mb-lock{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);}
+
+/* RIGHT — MASCOTE PREVIEW */
+.mascot-side{background:linear-gradient(160deg,#2d1260,#4a1fa8);border-radius:22px;padding:22px;border:2px solid rgba(168,85,247,0.4);display:flex;flex-direction:column;align-items:center;gap:14px;}
+.mascot-title{font-family:'Fredoka One',cursive;color:white;font-size:16px;text-align:center;}
+.egg-main{width:110px;height:110px;border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;background:linear-gradient(160deg,#e879f9,#a855f7);display:flex;align-items:center;justify-content:center;font-size:52px;box-shadow:0 0 30px rgba(168,85,247,0.5);animation:float 3s ease-in-out infinite;cursor:pointer;border:3px solid rgba(255,255,255,0.3);}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+.egg-level{background:linear-gradient(90deg,#a855f7,#22c55e);color:white;font-size:12px;font-weight:700;padding:4px 14px;border-radius:50px;}
+.egg-progress-wrap{width:100%;}
+.egg-prog-label{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:5px;}
+.egg-prog-bar{background:rgba(255,255,255,0.1);border-radius:50px;height:8px;overflow:hidden;}
+.egg-prog-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,#a855f7,#22c55e);width:42%;}
+.btn-gallery{width:100%;background:rgba(168,85,247,0.2);border:2px solid rgba(168,85,247,0.5);color:#d8b4fe;font-family:'Fredoka One',cursive;font-size:15px;padding:10px;border-radius:14px;cursor:pointer;transition:all 0.2s;}
+.btn-gallery:hover{background:rgba(168,85,247,0.35);color:white;}
+.mini-eggs{display:flex;gap:8px;justify-content:center;}
+.mini-egg{width:36px;height:36px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;border:2px solid rgba(255,255,255,0.15);transition:all 0.2s;}
+.mini-egg:hover{transform:scale(1.15);}
+.mini-egg.locked{filter:grayscale(1);opacity:0.4;}
+
+/* ============ GALERIA ============ */
+#galeria .gal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+#galeria .gal-header h1{font-family:'Fredoka One',cursive;font-size:26px;color:white;}
+.gal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.egg-card{background:linear-gradient(160deg,#2d1260,#3d1a80);border-radius:22px;padding:22px 16px;text-align:center;border:2px solid rgba(168,85,247,0.25);transition:all 0.25s;cursor:pointer;}
+.egg-card:hover:not(.locked-card){transform:translateY(-5px);border-color:#a855f7;box-shadow:0 12px 32px rgba(168,85,247,0.3);}
+.egg-card.locked-card{opacity:0.5;filter:grayscale(0.6);}
+.egg-visual{width:90px;height:90px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;display:flex;align-items:center;justify-content:center;font-size:46px;margin:0 auto 12px;box-shadow:0 0 20px rgba(168,85,247,0.3);}
+.ev0{background:linear-gradient(160deg,#d4d4d4,#a3a3a3);}
+.ev1{background:linear-gradient(160deg,#86efac,#22c55e);animation:float 3s ease-in-out infinite;}
+.ev2{background:linear-gradient(160deg,#93c5fd,#3b82f6);animation:float 3.5s ease-in-out infinite;}
+.ev3{background:linear-gradient(160deg,#f9a8d4,#ec4899);animation:float 2.8s ease-in-out infinite;}
+.ev4{background:linear-gradient(160deg,#fcd34d,#f59e0b);animation:float 4s ease-in-out infinite;}
+.ev5{background:linear-gradient(160deg,#c4b5fd,#8b5cf6);animation:float 3.2s ease-in-out infinite;}
+.ev6{background:linear-gradient(160deg,#fed7aa,#f97316);animation:float 2.5s ease-in-out infinite;}
+.ev7{background:linear-gradient(160deg,#99f6e4,#14b8a6);animation:float 3.8s ease-in-out infinite;}
+.egg-name{font-family:'Fredoka One',cursive;font-size:16px;color:white;margin-bottom:5px;}
+.egg-pts{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:10px;}
+.egg-status-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:50px;overflow:hidden;margin-bottom:8px;}
+.egg-status-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,#a855f7,#22c55e);}
+.egg-status-label{font-size:11px;font-weight:600;padding:4px 12px;border-radius:50px;display:inline-block;}
+.sl-done{background:rgba(34,197,94,0.2);color:#4ade80;}
+.sl-prog{background:rgba(168,85,247,0.2);color:#c4b5fd;}
+.sl-lock{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.35);}
+.lock-icon{font-size:28px;margin-bottom:8px;}
+.pts-needed{font-size:12px;color:rgba(255,255,255,0.5);}
+
+/* ============ RANKING + CHAT (old) ============ */
+#ranking .rank-layout{display:grid;grid-template-columns:1fr 320px;gap:18px;height:calc(100vh - 160px);}
+.rank-card{background:linear-gradient(160deg,#2d1260,#3d1a80);border-radius:22px;padding:22px;border:2px solid rgba(168,85,247,0.3);overflow-y:auto;}
+.rank-tabs{display:flex;gap:8px;margin-bottom:18px;}
+.rank-tab{padding:7px 18px;border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;border:2px solid rgba(168,85,247,0.3);color:#c4b5fd;background:none;font-family:'Fredoka',sans-serif;transition:all 0.2s;}
+.rank-tab.active{background:rgba(168,85,247,0.3);border-color:#a855f7;color:white;}
+.rank-top3{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:12px;margin-bottom:22px;align-items:flex-end;}
+.top-item{background:rgba(255,255,255,0.06);border-radius:18px;padding:16px 12px;text-align:center;border:2px solid rgba(168,85,247,0.2);}
+.top-item.gold{background:linear-gradient(160deg,rgba(249,199,79,0.15),rgba(245,158,11,0.1));border-color:rgba(249,199,79,0.5);transform:scale(1.05);}
+.top-item.silver{background:linear-gradient(160deg,rgba(200,200,200,0.1),rgba(160,160,160,0.05));border-color:rgba(200,200,200,0.3);}
+.top-item.bronze{background:linear-gradient(160deg,rgba(205,127,50,0.1),rgba(160,100,30,0.05));border-color:rgba(205,127,50,0.3);}
+.top-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 8px;}
+.top-item.gold .top-avatar{background:linear-gradient(135deg,#fcd34d,#f59e0b);box-shadow:0 0 16px rgba(249,199,79,0.5);}
+.top-item.silver .top-avatar{background:linear-gradient(135deg,#d1d5db,#9ca3af);}
+.top-item.bronze .top-avatar{background:linear-gradient(135deg,#d97706,#92400e);}
+.top-medal{font-size:22px;margin-bottom:6px;}
+.top-name{font-size:13px;font-weight:600;color:white;margin-bottom:4px;}
+.top-pts{font-family:'Fredoka One',cursive;font-size:18px;color:#a855f7;}
+.top-item.gold .top-pts{color:#fcd34d;}
+.rank-list{display:flex;flex-direction:column;gap:8px;}
+.rank-row{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.05);border-radius:14px;padding:12px 16px;border:1px solid rgba(168,85,247,0.15);transition:all 0.2s;}
+.rank-row:hover{background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.3);}
+.rank-row.me{background:rgba(168,85,247,0.15);border-color:rgba(168,85,247,0.5);}
+.rank-pos{font-family:'Fredoka One',cursive;font-size:16px;color:rgba(255,255,255,0.4);width:24px;text-align:center;}
+.rank-av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#6c3fc5);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.rank-info{flex:1;}
+.rank-name{font-size:14px;font-weight:600;color:white;}
+.rank-sub{font-size:12px;color:rgba(255,255,255,0.5);}
+.rank-pts-val{font-family:'Fredoka One',cursive;font-size:16px;color:#a855f7;}
+.rank-row.me .rank-pts-val{color:#4ade80;}
+.you-badge{background:rgba(34,197,94,0.2);color:#4ade80;font-size:10px;font-weight:700;padding:2px 8px;border-radius:50px;margin-left:6px;}
+
+/* ============ CHAT PAGE — COMPLETO ============ */
+#chat .chat-main-layout{
+  display:grid;
+  grid-template-columns:280px 1fr 300px;
+  gap:0;
+  height:calc(100vh - 160px);
+  background:linear-gradient(160deg,#2d1260,#1e0a3c);
+  border-radius:24px;
+  overflow:hidden;
+  border:2px solid rgba(168,85,247,0.35);
+  box-shadow:0 16px 60px rgba(74,31,168,0.5);
+}
+
+/* ---- LEFT SIDEBAR: lista de alunos ---- */
+.chat-sidebar{
+  background:linear-gradient(180deg,#2a1158,#1e0a3c);
+  border-right:1px solid rgba(168,85,247,0.2);
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.sidebar-top{
+  padding:18px 16px 12px;
+  flex-shrink:0;
+}
+.sidebar-top-title{
+  font-family:'Fredoka One',cursive;
+  font-size:17px;color:white;
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:12px;
+}
+.sidebar-search{
+  position:relative;
+  margin-bottom:12px;
+}
+.sidebar-search input{
+  width:100%;
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(168,85,247,0.3);
+  border-radius:50px;
+  padding:8px 14px 8px 36px;
+  color:white;
+  font-family:'Fredoka',sans-serif;
+  font-size:13px;
+  outline:none;
+  transition:border 0.2s;
+}
+.sidebar-search input:focus{border-color:#a855f7;}
+.sidebar-search input::placeholder{color:rgba(255,255,255,0.35);}
+.sidebar-search .search-ico{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  font-size:14px;opacity:0.5;
+}
+
+/* Filtros status */
+.status-filters{
+  display:flex;gap:6px;flex-wrap:wrap;
+  padding:0 16px 12px;
+  flex-shrink:0;
+  border-bottom:1px solid rgba(168,85,247,0.15);
+}
+.sf-btn{
+  padding:5px 12px;border-radius:50px;font-size:12px;font-weight:600;
+  cursor:pointer;border:1.5px solid rgba(168,85,247,0.3);
+  color:#c4b5fd;background:none;
+  font-family:'Fredoka',sans-serif;transition:all 0.2s;
+}
+.sf-btn.active,.sf-btn:hover{background:rgba(168,85,247,0.25);border-color:#a855f7;color:white;}
+.sf-btn.online{border-color:rgba(34,197,94,0.4);color:#4ade80;}
+.sf-btn.online.active,.sf-btn.online:hover{background:rgba(34,197,94,0.15);border-color:#4ade80;}
+
+/* Lista de alunos */
+.students-list{
+  flex:1;overflow-y:auto;
+  padding:10px 10px;
+  display:flex;flex-direction:column;gap:4px;
+}
+.students-list::-webkit-scrollbar{width:4px;}
+.students-list::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.3);border-radius:4px;}
+.student-item{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:14px;
+  cursor:pointer;transition:all 0.2s;
+  border:1.5px solid transparent;
+}
+.student-item:hover{background:rgba(168,85,247,0.1);border-color:rgba(168,85,247,0.25);}
+.student-item.active-chat{background:rgba(168,85,247,0.2);border-color:rgba(168,85,247,0.5);}
+.student-item.active-chat .si-name{color:#e9d5ff;}
+.si-av-wrap{position:relative;flex-shrink:0;}
+.si-av{
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+  border:2px solid rgba(255,255,255,0.15);
+}
+.si-status-dot{
+  position:absolute;bottom:1px;right:1px;
+  width:11px;height:11px;border-radius:50%;
+  border:2px solid #1e0a3c;
+}
+.dot-online{background:#22c55e;}
+.dot-playing{background:#f9c74f;}
+.dot-studying{background:#3b82f6;}
+.dot-offline{background:#6b7280;}
+.si-info{flex:1;min-width:0;}
+.si-name{font-size:14px;font-weight:600;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.si-meta{font-size:11px;color:rgba(255,255,255,0.45);display:flex;align-items:center;gap:4px;}
+.si-pts{font-family:'Fredoka One',cursive;font-size:13px;color:#a855f7;flex-shrink:0;}
+.turma-header{
+  font-size:10px;font-weight:700;letter-spacing:1px;
+  color:rgba(255,255,255,0.3);
+  text-transform:uppercase;
+  padding:8px 12px 4px;
+}
+
+/* ---- CENTER: janela de chat ---- */
+.chat-window{
+  display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#1e0a3c,#180838);
+  position:relative;
+}
+
+/* fundo decorativo */
+.chat-bg-deco{
+  position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(168,85,247,0.05) 0%,transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(34,197,94,0.04) 0%,transparent 40%);
+  pointer-events:none;
+}
+
+/* Header do chat */
+.chat-win-header{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:12px;
+  padding:16px 22px;
+  border-bottom:1px solid rgba(168,85,247,0.2);
+  background:rgba(45,18,96,0.6);
+  backdrop-filter:blur(10px);
+  position:relative;z-index:2;
+}
+.cwh-left{display:flex;align-items:center;gap:12px;flex:1;}
+.cwh-av{
+  width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;
+  border:2px solid rgba(255,255,255,0.2);
+  box-shadow:0 0 12px rgba(168,85,247,0.3);
+  flex-shrink:0;
+  position:relative;
+}
+.cwh-av .cwh-status{
+  position:absolute;bottom:1px;right:1px;
+  width:12px;height:12px;border-radius:50%;border:2px solid #1e0a3c;
+}
+.cwh-title{font-family:'Fredoka One',cursive;font-size:17px;color:white;}
+.cwh-sub{font-size:12px;color:rgba(255,255,255,0.5);}
+.cwh-actions{display:flex;gap:8px;}
+.cwh-btn{
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:1.5px solid rgba(168,85,247,0.3);
+  color:rgba(255,255,255,0.7);font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all 0.2s;
+}
+.cwh-btn:hover{background:rgba(168,85,247,0.2);color:white;}
+
+/* Messages area */
+.chat-messages-area{
+  flex:1;overflow-y:auto;
+  padding:20px 22px;
+  display:flex;flex-direction:column;gap:14px;
+  position:relative;z-index:1;
+}
+.chat-messages-area::-webkit-scrollbar{width:5px;}
+.chat-messages-area::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.25);border-radius:4px;}
+
+/* Separador de data */
+.date-sep{
+  display:flex;align-items:center;gap:10px;
+  margin:6px 0;
+}
+.date-sep span{
+  font-size:11px;color:rgba(255,255,255,0.35);
+  background:rgba(255,255,255,0.06);
+  border-radius:50px;padding:4px 12px;
+  white-space:nowrap;
+}
+.date-sep::before,.date-sep::after{
+  content:'';flex:1;height:1px;
+  background:rgba(168,85,247,0.15);
+}
+
+/* Mensagens */
+.msg-row{display:flex;gap:10px;align-items:flex-end;}
+.msg-row.me{flex-direction:row-reverse;}
+.msg-row-av{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;
+  border:2px solid rgba(255,255,255,0.12);
+}
+.msg-row.me .msg-row-av{background:linear-gradient(135deg,#22c55e,#16a34a);}
+.msg-body{display:flex;flex-direction:column;gap:3px;max-width:65%;}
+.msg-row.me .msg-body{align-items:flex-end;}
+.msg-sender{font-size:11px;color:rgba(255,255,255,0.45);margin-bottom:1px;display:flex;align-items:center;gap:5px;}
+.sender-rank{background:rgba(168,85,247,0.25);color:#c4b5fd;font-size:10px;font-weight:700;padding:2px 6px;border-radius:50px;}
+.msg-bubble-new{
+  padding:11px 15px;border-radius:18px;
+  font-size:14px;line-height:1.5;color:white;
+  position:relative;
+}
+.msg-row:not(.me) .msg-bubble-new{
+  background:rgba(255,255,255,0.09);
+  border:1px solid rgba(168,85,247,0.2);
+  border-bottom-left-radius:4px;
+}
+.msg-row.me .msg-bubble-new{
+  background:linear-gradient(135deg,#6d28d9,#a855f7);
+  border:1px solid rgba(168,85,247,0.4);
+  border-bottom-right-radius:4px;
+  box-shadow:0 4px 14px rgba(168,85,247,0.25);
+}
+.msg-time{font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;}
+.msg-row.me .msg-time{text-align:right;}
+
+/* Card especial de pontos */
+.pts-share-card{
+  background:linear-gradient(135deg,rgba(168,85,247,0.2),rgba(34,197,94,0.1));
+  border:1.5px solid rgba(168,85,247,0.4);
+  border-radius:16px;padding:12px 16px;
+  display:flex;align-items:center;gap:12px;
+  max-width:220px;
+}
+.pts-share-card .psc-icon{font-size:28px;}
+.psc-info .psc-label{font-size:11px;color:rgba(255,255,255,0.5);}
+.psc-info .psc-val{font-family:'Fredoka One',cursive;font-size:20px;color:#a855f7;}
+.psc-info .psc-sub{font-size:11px;color:rgba(255,255,255,0.45);}
+
+/* Mascote conquistado card */
+.mascot-share-card{
+  background:linear-gradient(135deg,rgba(249,199,79,0.15),rgba(168,85,247,0.1));
+  border:1.5px solid rgba(249,199,79,0.4);
+  border-radius:16px;padding:12px 16px;
+  display:flex;align-items:center;gap:12px;
+  max-width:240px;
+}
+.mascot-share-card .msc-egg{
+  width:48px;height:48px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  display:flex;align-items:center;justify-content:center;font-size:24px;
+  flex-shrink:0;
+}
+.msc-info .msc-label{font-size:10px;color:#fbbf24;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+.msc-info .msc-name{font-family:'Fredoka One',cursive;font-size:15px;color:white;}
+.msc-info .msc-pts{font-size:12px;color:rgba(255,255,255,0.5);}
+
+/* Reações */
+.msg-reactions{display:flex;gap:4px;margin-top:4px;}
+.reaction-pill{
+  background:rgba(255,255,255,0.07);
+  border:1px solid rgba(168,85,247,0.2);
+  border-radius:50px;padding:3px 9px;font-size:12px;
+  cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:3px;
+}
+.reaction-pill:hover,.reaction-pill.active{background:rgba(168,85,247,0.2);border-color:#a855f7;}
+.reaction-pill span{font-size:10px;color:rgba(255,255,255,0.5);}
+
+/* Digitando... */
+.typing-indicator{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;background:rgba(255,255,255,0.06);
+  border:1px solid rgba(168,85,247,0.15);
+  border-radius:16px;border-bottom-left-radius:4px;
+  width:fit-content;
+}
+.typing-dots{display:flex;gap:4px;align-items:center;}
+.typing-dots span{
+  width:7px;height:7px;border-radius:50%;
+  background:#a855f7;opacity:0.4;
+  animation:typing-bounce 1.2s ease-in-out infinite;
+}
+.typing-dots span:nth-child(2){animation-delay:.2s;}
+.typing-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes typing-bounce{0%,80%,100%{transform:scale(1);opacity:0.4;}40%{transform:scale(1.3);opacity:1;}}
+.typing-name{font-size:12px;color:rgba(255,255,255,0.4);}
+
+/* Emoji Picker mini */
+.emoji-bar{
+  display:flex;gap:6px;
+  padding:8px 22px;
+  border-top:1px solid rgba(168,85,247,0.1);
+  background:rgba(30,10,60,0.5);
+  flex-shrink:0;
+}
+.emoji-quick{
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,0.07);
+  border:1.5px solid rgba(168,85,247,0.2);
+  cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.15s;
+}
+.emoji-quick:hover{background:rgba(168,85,247,0.2);transform:scale(1.15);}
+
+/* Input area */
+.chat-input-area{
+  flex-shrink:0;
+  padding:14px 22px 18px;
+  background:rgba(30,10,60,0.7);
+  backdrop-filter:blur(10px);
+  border-top:1px solid rgba(168,85,247,0.15);
+}
+.chat-input-bar{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(255,255,255,0.07);
+  border:1.5px solid rgba(168,85,247,0.3);
+  border-radius:50px;padding:8px 8px 8px 18px;
+  transition:border 0.2s;
+}
+.chat-input-bar:focus-within{border-color:#a855f7;box-shadow:0 0 0 3px rgba(168,85,247,0.12);}
+.chat-input-bar input{
+  flex:1;background:none;border:none;outline:none;
+  color:white;font-family:'Fredoka',sans-serif;font-size:15px;
+}
+.chat-input-bar input::placeholder{color:rgba(255,255,255,0.3);}
+.chat-tool-btn{
+  width:34px;height:34px;border-radius:50%;
+  background:none;border:none;
+  color:rgba(255,255,255,0.5);font-size:18px;
+  cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;
+}
+.chat-tool-btn:hover{color:white;background:rgba(255,255,255,0.08);}
+.chat-send-btn{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,#7c3aed,#a855f7);
+  border:none;color:white;font-size:18px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 12px rgba(168,85,247,0.4);
+  transition:all 0.2s;flex-shrink:0;
+}
+.chat-send-btn:hover{transform:scale(1.08);box-shadow:0 6px 18px rgba(168,85,247,0.5);}
+
+/* ---- RIGHT SIDEBAR: info do aluno ---- */
+.chat-info-panel{
+  background:linear-gradient(180deg,#2a1158,#1e0a3c);
+  border-left:1px solid rgba(168,85,247,0.2);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+  padding:20px 16px;
+  gap:16px;
+}
+.chat-info-panel::-webkit-scrollbar{width:4px;}
+.chat-info-panel::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.25);border-radius:4px;}
+
+.info-profile{
+  text-align:center;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(168,85,247,0.15);
+}
+.info-av{
+  width:72px;height:72px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;margin:0 auto 10px;
+  border:3px solid rgba(168,85,247,0.5);
+  box-shadow:0 0 20px rgba(168,85,247,0.3);
+}
+.info-name{font-family:'Fredoka One',cursive;font-size:16px;color:white;margin-bottom:3px;}
+.info-turma{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px;}
+.info-status-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:4px 12px;border-radius:50px;font-size:12px;font-weight:600;
+}
+.isp-online{background:rgba(34,197,94,0.15);color:#4ade80;border:1px solid rgba(34,197,94,0.3);}
+.isp-playing{background:rgba(249,199,79,0.15);color:#fbbf24;border:1px solid rgba(249,199,79,0.3);}
+.isp-studying{background:rgba(59,130,246,0.15);color:#93c5fd;border:1px solid rgba(59,130,246,0.3);}
+.isp-offline{background:rgba(107,114,128,0.15);color:#9ca3af;border:1px solid rgba(107,114,128,0.3);}
+.status-dot-sm{width:7px;height:7px;border-radius:50%;}
+.sd-online{background:#22c55e;}
+.sd-playing{background:#f9c74f;}
+.sd-studying{background:#3b82f6;}
+.sd-offline{background:#6b7280;}
+
+.info-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.info-stat{
+  background:rgba(255,255,255,0.06);border-radius:12px;
+  padding:10px 8px;text-align:center;
+  border:1px solid rgba(168,85,247,0.15);
+}
+.info-stat-num{font-family:'Fredoka One',cursive;font-size:18px;color:#a855f7;}
+.info-stat-label{font-size:10px;color:rgba(255,255,255,0.45);}
+
+.info-section-title{
+  font-family:'Fredoka One',cursive;font-size:14px;color:rgba(255,255,255,0.7);
+  display:flex;align-items:center;gap:6px;margin-bottom:8px;
+}
+
+/* mascote do aluno */
+.info-mascot{
+  background:rgba(168,85,247,0.08);
+  border:1.5px solid rgba(168,85,247,0.25);
+  border-radius:16px;padding:14px;text-align:center;
+}
+.info-mascot-egg{
+  width:60px;height:60px;
+  border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;margin:0 auto 8px;
+  animation:float 3s ease-in-out infinite;
+}
+.info-mascot-name{font-family:'Fredoka One',cursive;font-size:14px;color:white;margin-bottom:4px;}
+.info-mascot-level{font-size:11px;color:#c4b5fd;}
+
+/* Missões recentes */
+.info-missions{display:flex;flex-direction:column;gap:6px;}
+.info-mission-item{
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,0.05);border-radius:10px;
+  padding:8px 10px;border:1px solid rgba(168,85,247,0.12);
+}
+.im-ico{font-size:16px;width:28px;text-align:center;}
+.im-name{font-size:12px;color:white;flex:1;}
+.im-pts{font-family:'Fredoka One',cursive;font-size:12px;color:#a855f7;}
+
+/* Convidar / turma buttons */
+.info-actions{display:flex;flex-direction:column;gap:8px;}
+.ia-btn{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:10px 14px;border-radius:12px;
+  font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;border:none;
+}
+.ia-btn-primary{background:linear-gradient(135deg,#a855f7,#7c3aed);color:white;box-shadow:0 4px 12px rgba(168,85,247,0.3);}
+.ia-btn-primary:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(168,85,247,0.4);}
+.ia-btn-ghost{background:rgba(255,255,255,0.06);border:1.5px solid rgba(168,85,247,0.25);color:#c4b5fd;}
+.ia-btn-ghost:hover{background:rgba(168,85,247,0.15);color:white;}
+
+/* FOOTER */
+.footer{background:linear-gradient(135deg,#1e0a3c,#2d1260);padding:28px 36px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-top:1px solid rgba(168,85,247,0.2);}
+.footer-brand{font-family:'Fredoka One',cursive;color:white;font-size:18px;margin-bottom:4px;}
+.footer-desc{color:rgba(255,255,255,0.5);font-size:13px;}
+.footer-contact{text-align:center;color:rgba(255,255,255,0.7);}
+.footer-contact h3{font-family:'Fredoka One',cursive;font-size:16px;color:white;margin-bottom:4px;}
+.footer-email{color:#c4b5fd;font-size:13px;}
+.footer-social{width:38px;height:38px;background:rgba(255,255,255,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;margin:8px auto 0;cursor:pointer;border:1px solid rgba(168,85,247,0.3);}
+
+/* MODAL EGG DETAIL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:100;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:linear-gradient(160deg,#2d1260,#4a1fa8);border-radius:24px;padding:32px;width:360px;border:2px solid rgba(168,85,247,0.5);text-align:center;}
+.modal h2{font-family:'Fredoka One',cursive;font-size:22px;color:white;margin-bottom:8px;}
+.modal p{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:20px;}
+.modal-egg{width:100px;height:100px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;display:flex;align-items:center;justify-content:center;font-size:52px;margin:0 auto 16px;animation:float 2s ease-in-out infinite;}
+.modal-pts{font-family:'Fredoka One',cursive;font-size:28px;color:#a855f7;margin-bottom:6px;}
+.modal-pts-label{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:20px;}
+.modal-bar-wrap{width:100%;margin-bottom:20px;}
+.modal-bar-label{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:6px;}
+.modal-bar{height:10px;background:rgba(255,255,255,0.1);border-radius:50px;overflow:hidden;}
+.modal-bar-fill{height:100%;border-radius:50px;background:linear-gradient(90deg,#a855f7,#22c55e);}
+.btn-modal-close{background:rgba(255,255,255,0.1);border:2px solid rgba(168,85,247,0.4);color:white;font-family:'Fredoka',sans-serif;font-size:15px;font-weight:600;padding:10px 28px;border-radius:14px;cursor:pointer;width:100%;}
+
+/* Notification toast */
+.toast{
+  position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  color:white;font-family:'Fredoka One',cursive;font-size:15px;
+  padding:12px 24px;border-radius:50px;
+  box-shadow:0 8px 24px rgba(34,197,94,0.4);
+  z-index:200;opacity:0;transition:all 0.3s;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* FOOTER STYLES */
+.footer-section {
+  background: linear-gradient(135deg, #4a1fa8, #6c3fc5);
+  border-top: 2px solid rgba(168, 85, 247, 0.3);
+  color: rgba(255, 255, 255, 0.9);
+  padding: 48px 0 48px 0;
+  margin-top: 80px;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  left: 0;
+  right: 0;
+  box-shadow: 0 -4px 16px rgba(106, 63, 197, 0.28);
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.footer-col h3 {
+  font-family: 'Fredoka', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footer-col nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer-col a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 13px;
+  font-family: 'Fredoka', sans-serif;
+  transition: color 0.25s ease;
+  font-weight: 500;
+}
+
+.footer-col a:hover {
+  color: #fff;
+}
+
+.social-links {
+  display: flex;
+  gap: 16px;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  padding-top: 20px;
+  text-align: center;
+}
+
+.footer-bottom p {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.75);
+  font-family: 'Fredoka', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .footer-section {
+    padding: 32px 0 32px 0;
+    margin-top: 60px;
+  }
+
+  .footer-container {
+    padding: 0 16px;
+  }
+
+  .footer-content {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .footer-col h3 {
+    font-size: 12px;
+  }
+
+  .footer-col a {
+    font-size: 12px;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-bottom p {
+    font-size: 11px;
+  }
+}
+</style>
+
+<link rel="stylesheet" href="/css/aluno-redesign.css">
+
+<style>
+/* Override do aluno-redesign para manter fundo premium */
+body {
+  background: #1e0a3c !important;
+}
+/* Navbar com cor original (purple) */
+.navbar-redesign {
+  background: linear-gradient(135deg,#4a1fa8,#6c3fc5) !important;
+}
+</style>
+
+<!-- MODAL EGG DETAIL -->
+<section class="modal-overlay" id="eggModal">
+  <section class="modal">
+    <section class="modal-egg ev1" id="modalEggVis">🌱</section>
+    <h2 id="modalEggName">Plantinha</h2>
+    <p id="modalEggDesc">Seu mascote está crescendo! Continue ganhando pontos para evoluir.</p>
+    <section class="modal-pts" id="modalEggPts">420 pts</section>
+    <section class="modal-pts-label" id="modalEggPtsLabel">de 1000 pts para evoluir</section>
+    <section class="modal-bar-wrap">
+      <section class="modal-bar-label"><span>Progresso</span><span id="modalPct">42%</span></section>
+      <section class="modal-bar"><section class="modal-bar-fill" id="modalBarFill" style="width:42%"></section></section>
+    </section>
+    <button class="btn-modal-close" onclick="closeEggModal()">Fechar ✓</button>
+  </section>
+</section>
+
+<!-- Logout Modal -->
+<section class="modal-overlay" id="logoutModal" onclick="if(event.target===this) document.getElementById('logoutModal').style.display='none'" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:200;align-items:center;justify-content:center;">
+  <section class="modal" style="background:linear-gradient(135deg,#2d1b4e,#1e0a3c);border:2px solid rgba(167,139,250,0.3);border-radius:20px;padding:30px;max-width:400px;text-align:center;color:white;">
+    <h2 style="font-size:22px;margin-bottom:15px;color:#e0e7ff;">Deseja mesmo sair?</h2>
+    <p style="font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:25px;">Sua sessão será encerrada</p>
+    <section style="display:flex;gap:10px;justify-content:center;">
+      <button onclick="window.location.href='/logout'" style="background:#ef4444;color:white;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;">Sim</button>
+      <button onclick="document.getElementById('logoutModal').style.display='none'" style="background:rgba(255,255,255,0.2);color:white;border:2px solid rgba(255,255,255,0.3);padding:10px 20px;border-radius:8px;cursor:pointer;font-weight:600;">Não</button>
+    </section>
+  </section>
+</section>
+
+<!-- Toast -->
+<section class="toast" id="toast">✅ Mensagem enviada!</section>
+
+<!-- NAVBAR -->
+<nav class="navbar-redesign">
+  <section class="logo-redesign">
+    <img src="/img/log.png" alt="Logo Pequenos Exploradores">
+  </section>
+  <section class="nav-right-redesign">
+    <button class="btn-sair-redesign" onclick="abrirModalLogout()">Sair</button>
+  </section>
+</nav>
+
+<!-- ========== HOME ========== -->
+<section class="page active" id="home">
+  <section class="main">
+    <section class="home-grid">
+      <section class="profile-card">
+        <section class="prof-avatar">🧒</section>
+        <section class="prof-name">Lorena Amorim Gomes</section>
+        <section class="prof-school">Prof.ª Maria Theodora Pedreira de Freitas</section>
+        <section class="prof-turma">5° Ano D</section>
+        <section class="xp-section">
+          <section class="xp-label"><span>Nível 3 — Explorador</span><span>42%</span></section>
+          <section class="xp-bar"><section class="xp-fill"></section></section>
+        </section>
+        <section class="stat-pills">
+          <section class="stat-pill"><section class="sp-num">420</section><section class="sp-label">Pontos XP</section></section>
+          <section class="stat-pill"><section class="sp-num">🔥7</section><section class="sp-label">Sequência</section></section>
+          <section class="stat-pill"><section class="sp-num">5</section><section class="sp-label">Missões</section></section>
+          <section class="stat-pill"><section class="sp-num">3°</section><section class="sp-label">Ranking</section></section>
+        </section>
+        <button class="btn-evoluir" onclick="goTo('galeria')">🥚 Ver Mascotes</button>
+      </section>
+      <section class="center-col">
+        <section class="greeting-banner">
+          <h1>✨ Olá, Lorena!</h1>
+          <p>Você está no nível 3! Continue explorando para evoluir seu mascote 🥚</p>
+          <section class="xp-pill-top">⭐ 420 pontos · 3° lugar no ranking</section>
+        </section>
+        <section class="cats">
+          <section class="cat-pill active" onclick="goTo('chat')">💬 Chat</section>
+          <section class="cat-pill" onclick="goTo('galeria')">🐾 Mascotes</section>
+          <section class="cat-pill" onclick="goTo('ranking')">🏆 Ranking</section>
+         
+        </section>
+        <section class="missions-card">
+          <section class="card-title">🗺️ Missões de Hoje</section>
+          <section class="missions-grid">
+            <section class="m-card"><section class="m-icon g">🌍</section><section class="m-name">Explorar</section><span class="m-badge mb-done">✓ Feita</span></section>
+            <section class="m-card"><section class="m-icon p">📜</section><section class="m-name">Aprender</section><span class="m-badge mb-prog">🔥 Em andamento</span></section>
+            <section class="m-card"><section class="m-icon y">🏆</section><section class="m-name">Desafio</section><span class="m-badge mb-prog">Novo!</span></section>
+            <section class="m-card" style="opacity:0.5;"><section class="m-icon b">🔒</section><section class="m-name">Conquistar</section><span class="m-badge mb-lock">Bloqueada</span></section>
+          </section>
+        </section>
+      </section>
+      <section class="mascot-side">
+        <section class="mascot-title">🥚 Seu Mascote</section>
+        <section class="egg-main" onclick="openEggModal('Plantinha','🌱','ev1',420,1000)">🌱</section>
+        <span class="egg-level">Nível 2 — Broto</span>
+        <section class="egg-progress-wrap">
+          <section class="egg-prog-label"><span>Para próxima evolução</span><span>420/1000</span></section>
+          <section class="egg-prog-bar"><section class="egg-prog-fill"></section></section>
+        </section>
+        <section class="mini-eggs">
+          <section class="mini-egg ev3" onclick="openEggModal('Florezinha','🌸','ev3',180,500)" style="background:linear-gradient(160deg,#f9a8d4,#ec4899);">🌸</section>
+          <section class="mini-egg locked">🥚</section>
+          <section class="mini-egg locked">🥚</section>
+          <section class="mini-egg locked">🥚</section>
+        </section>
+        <button class="btn-gallery" onclick="goTo('galeria')">Ver galeria completa →</button>
+      </section>
+    </section>
+  </section>
+  <footer class="footer-section">
+    <section class="footer-container">
+      <section class="footer-content">
+        <section class="footer-col">
+          <h3>Sobre</h3>
+          <nav>
+            <a href="/sobre">Quem somos</a>
+            <a href="/contato">Contato</a>
+            <a href="#">Privacidade</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Plataforma</h3>
+          <nav>
+            <a href="/aluno-login">Login Aluno</a>
+            <a href="/professor-login">Login Professor</a>
+            <a href="/aluno-cadastro">Cadastro</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Siga-nos</h3>
+          <nav class="social-links">
+            <a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+          </nav>
+        </section>
+      </section>
+
+      <section class="footer-bottom">
+        <p>&copy; 2025 Pequenos Exploradores. Todos os direitos reservados.</p>
+      </section>
+    </section>
+  </footer>
+</section>
+
+<!-- ========== GALERIA ========== -->
+<section class="page" id="galeria">
+  <section class="main">
+    <section class="gal-header">
+      <section>
+        <button style="background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:14px;cursor:pointer;margin-bottom:6px;" onclick="goTo('home')">← Voltar</button>
+        <h1>🥚 Galeria de Mascotes</h1>
+        <p style="color:rgba(255,255,255,0.55);font-size:14px;margin-top:4px;">Ganhe pontos para chocar seus ovos e evoluir os bichinhos!</p>
+      </section>
+      <section style="background:rgba(168,85,247,0.15);border:2px solid rgba(168,85,247,0.4);border-radius:16px;padding:12px 20px;text-align:center;">
+        <section style="font-family:'Fredoka One',cursive;font-size:24px;color:#a855f7;">420</section>
+        <section style="font-size:12px;color:rgba(255,255,255,0.6);">Seus pontos</section>
+      </section>
+    </section>
+    <section class="gal-grid">
+      <section class="egg-card" onclick="openEggModal('Plantinha','🌱','ev1',420,1000)"><section class="egg-visual ev1">🌱</section><section class="egg-name">Plantinha</section><section class="egg-pts">420 / 1000 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:42%"></section></section><span class="egg-status-label sl-prog">🌿 Evoluindo</span></section>
+      <section class="egg-card" onclick="openEggModal('Florezinha','🌸','ev3',180,500)"><section class="egg-visual ev3">🌸</section><section class="egg-name">Florezinha</section><section class="egg-pts">180 / 500 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:36%"></section></section><span class="egg-status-label sl-prog">🌸 Evoluindo</span></section>
+      <section class="egg-card" onclick="openEggModal('Gota','💧','ev2',500,500)"><section class="egg-visual ev2">💧</section><section class="egg-name">Gota</section><section class="egg-pts">500 / 500 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:100%"></section></section><span class="egg-status-label sl-done">✓ Evoluído!</span></section>
+      <section class="egg-card locked-card"><section class="egg-visual ev0" style="background:linear-gradient(160deg,#4b5563,#374151);">🥚</section><section class="egg-name">Folhagem</section><section class="pts-needed">🔒 Precisa de 800 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:0%"></section></section><span class="egg-status-label sl-lock">🔒 Bloqueado</span></section>
+      <section class="egg-card locked-card"><section class="egg-visual ev0" style="background:linear-gradient(160deg,#4b5563,#374151);">🥚</section><section class="egg-name">Sol</section><section class="pts-needed">🔒 Precisa de 1200 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:0%"></section></section><span class="egg-status-label sl-lock">🔒 Bloqueado</span></section>
+      <section class="egg-card locked-card"><section class="egg-visual ev0" style="background:linear-gradient(160deg,#4b5563,#374151);">🥚</section><section class="egg-name">Vulcão</section><section class="pts-needed">🔒 Precisa de 2000 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:0%"></section></section><span class="egg-status-label sl-lock">🔒 Bloqueado</span></section>
+      <section class="egg-card locked-card"><section class="egg-visual ev0" style="background:linear-gradient(160deg,#4b5563,#374151);">🥚</section><section class="egg-name">Oceano</section><section class="pts-needed">🔒 Precisa de 3000 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:0%"></section></section><span class="egg-status-label sl-lock">🔒 Bloqueado</span></section>
+      <section class="egg-card locked-card"><section class="egg-visual ev0" style="background:linear-gradient(160deg,#4b5563,#374151);">🥚</section><section class="egg-name">Galáxia</section><section class="pts-needed">🔒 Precisa de 5000 pts</section><section class="egg-status-bar"><section class="egg-status-fill" style="width:0%"></section></section><span class="egg-status-label sl-lock">🔒 Bloqueado</span></section>
+    </section>
+  </section>
+  <footer class="footer-section">
+    <section class="footer-container">
+      <section class="footer-content">
+        <section class="footer-col">
+          <h3>Sobre</h3>
+          <nav>
+            <a href="/sobre">Quem somos</a>
+            <a href="/contato">Contato</a>
+            <a href="#">Privacidade</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Plataforma</h3>
+          <nav>
+            <a href="/aluno-login">Login Aluno</a>
+            <a href="/professor-login">Login Professor</a>
+            <a href="/aluno-cadastro">Cadastro</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Siga-nos</h3>
+          <nav class="social-links">
+            <a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+          </nav>
+        </section>
+      </section>
+
+      <section class="footer-bottom">
+        <p>&copy; 2025 Pequenos Exploradores. Todos os direitos reservados.</p>
+      </section>
+    </section>
+  </footer>
+</section>
+
+<!-- ========== RANKING ========== -->
+<section class="page" id="ranking">
+  <section class="main">
+    <section class="rank-layout">
+      <section class="rank-card">
+        <button style="background:none;border:none;color:rgba(255,255,255,0.6);font-family:'Fredoka',sans-serif;font-size:14px;cursor:pointer;margin-bottom:6px;" onclick="goTo('home')">← Voltar</button>
+        <section class="card-title">🏆 Ranking da Turma</section>
+        <section class="rank-tabs">
+          <button class="rank-tab active">Esta Semana</button>
+          <button class="rank-tab">Este Mês</button>
+          <button class="rank-tab">Geral</button>
+        </section>
+        <section class="rank-top3">
+          <section class="top-item silver"><section class="top-medal">🥈</section><section class="top-avatar">🧒</section><section class="top-name">Pedro</section><section class="top-pts">580 pts</section></section>
+          <section class="top-item gold"><section class="top-medal">🥇</section><section class="top-avatar">👧</section><section class="top-name">Ana Beatriz</section><section class="top-pts">720 pts</section></section>
+          <section class="top-item bronze"><section class="top-medal">🥉</section><section class="top-avatar">🧒</section><section class="top-name">Lorena</section><section class="top-pts">420 pts</section></section>
+        </section>
+        <section class="rank-list">
+          <section class="rank-row"><span class="rank-pos">4°</span><section class="rank-av">🧒</section><section class="rank-info"><section class="rank-name">Lucas</section><section class="rank-sub">🌿 5 missões</section></section><section class="rank-pts-val">390 pts</section></section>
+          <section class="rank-row"><span class="rank-pos">5°</span><section class="rank-av">👧</section><section class="rank-info"><section class="rank-name">Maria</section><section class="rank-sub">🌿 4 missões</section></section><section class="rank-pts-val">350 pts</section></section>
+          <section class="rank-row me"><span class="rank-pos">3°</span><section class="rank-av" style="background:linear-gradient(135deg,#22c55e,#16a34a);">🧒</section><section class="rank-info"><section class="rank-name">Lorena <span class="you-badge">Você</span></section><section class="rank-sub">🌿 5 missões</section></section><section class="rank-pts-val">420 pts</section></section>
+          <section class="rank-row"><span class="rank-pos">7°</span><section class="rank-av">🧒</section><section class="rank-info"><section class="rank-name">Rafael</section><section class="rank-sub">🌿 3 missões</section></section><section class="rank-pts-val">310 pts</section></section>
+          <section class="rank-row"><span class="rank-pos">8°</span><section class="rank-av">👧</section><section class="rank-info"><section class="rank-name">Isabela</section><section class="rank-sub">🌿 3 missões</section></section><section class="rank-pts-val">280 pts</section></section>
+        </section>
+      </section>
+      <!-- mini chat no ranking -->
+      <section class="chat-card" style="background:linear-gradient(160deg,#2d1260,#3d1a80);border-radius:22px;border:2px solid rgba(168,85,247,0.3);display:flex;flex-direction:column;overflow:hidden;">
+        <section style="padding:16px 18px;border-bottom:1px solid rgba(168,85,247,0.2);display:flex;align-items:center;gap:10px;">
+          <section style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#22c55e);display:flex;align-items:center;justify-content:center;font-size:18px;">💬</section>
+          <section><section style="font-family:'Fredoka One',cursive;font-size:15px;color:white;">Chat da Turma</section><section style="font-size:11px;color:rgba(255,255,255,0.5);">5° Ano D</section></section>
+          <section style="margin-left:auto;display:flex;align-items:center;gap:4px;font-size:12px;color:#4ade80;">● 8 online</section>
+        </section>
+        <section style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;max-height:200px;" id="chatMessagesRanking">
+        </section>
+        <section style="padding:10px 14px;display:flex;flex-direction:column;gap:5px;border-top:1px solid rgba(168,85,247,0.2);">
+          <section style="font-size:10px;color:rgba(255,255,255,0.4);text-align:center;font-weight:700;letter-spacing:0.5px;margin-bottom:2px;">💬 TOQUE PARA ENVIAR</section>
+          <button onclick="sendMsgRanking('mission')" class="ready-msg-mini">🗺️ Vamos fazer uma missão juntos?</button>
+          <button onclick="sendMsgRanking('points')" class="ready-msg-mini">⭐ Quer ver meus pontos?</button>
+          <button onclick="sendMsgRanking('challenge')" class="ready-msg-mini">🏆 Te desafio hoje!</button>
+          <button onclick="sendMsgRanking('cheer')" class="ready-msg-mini">🎉 Parabéns turma!</button>
+          <button onclick="sendMsgRanking('invite')" class="ready-msg-mini">🌿 Vem jogar comigo agora!</button>
+        </section>
+        <section style="padding:8px 14px;text-align:center;">
+          <button onclick="goTo('chat')" style="background:rgba(168,85,247,0.15);border:1.5px solid rgba(168,85,247,0.4);color:#c4b5fd;font-family:'Fredoka',sans-serif;font-size:13px;font-weight:600;padding:7px 20px;border-radius:50px;cursor:pointer;">Abrir chat completo →</button>
+        </section>
+      </section>
+    </section>
+  </section>
+  <footer class="footer-section">
+    <section class="footer-container">
+      <section class="footer-content">
+        <section class="footer-col">
+          <h3>Sobre</h3>
+          <nav>
+            <a href="/sobre">Quem somos</a>
+            <a href="/contato">Contato</a>
+            <a href="#">Privacidade</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Plataforma</h3>
+          <nav>
+            <a href="/aluno-login">Login Aluno</a>
+            <a href="/professor-login">Login Professor</a>
+            <a href="/aluno-cadastro">Cadastro</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Siga-nos</h3>
+          <nav class="social-links">
+            <a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+          </nav>
+        </section>
+      </section>
+
+      <section class="footer-bottom">
+        <p>&copy; 2025 Pequenos Exploradores. Todos os direitos reservados.</p>
+      </section>
+    </section>
+  </footer>
+</section>
+
+<!-- ========== CHAT PAGE — COMPLETO ========== -->
+<section class="page" id="chat">
+  <section class="main" style="padding:18px 28px;">
+
+    <!-- Header da página -->
+    <section style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <section style="display:flex;align-items:center;gap:12px;">
+        <button onclick="goTo('home')" style="background:rgba(255,255,255,0.07);border:1.5px solid rgba(168,85,247,0.3);color:rgba(255,255,255,0.7);font-family:'Fredoka',sans-serif;font-size:14px;padding:6px 14px;border-radius:50px;cursor:pointer;">← Voltar</button>
+        <h2 style="font-family:'Fredoka One',cursive;font-size:22px;color:white;">💬 Chat Geral</h2>
+      </section>
+      <section style="display:flex;align-items:center;gap:8px;">
+        <section style="display:flex;align-items:center;gap:5px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.3);padding:6px 14px;border-radius:50px;">
+          <section style="width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse-green 2s infinite;"></section>
+          <span style="font-size:13px;color:#4ade80;font-weight:600;">8 online agora</span>
+        </section>
+      </section>
+    </section>
+
+    <!-- Layout 3 colunas -->
+    <section class="chat-main-layout">
+
+      <!-- ---- SIDEBAR ESQUERDA: alunos ---- -->
+      <section class="chat-sidebar">
+        <section class="sidebar-top">
+          <section class="sidebar-top-title">💬 Chat</section>
+          <section class="sidebar-search">
+            <span class="search-ico">🔍</span>
+            <input type="text" placeholder="Buscar aluno..." id="searchStudents" oninput="filterStudents(this.value)">
+          </section>
+        </section>
+
+        <!-- Filtros -->
+        <section class="status-filters">
+          <button class="sf-btn active" onclick="filterByStatus('todos',this)">Todos</button>
+          <button class="sf-btn online" onclick="filterByStatus('online',this)">Online</button>
+          <button class="sf-btn" onclick="filterByStatus('jogando',this)">Jogando</button>
+          <button class="sf-btn" onclick="filterByStatus('estudando',this)">Estudando</button>
+        </section>
+
+        <!-- Lista de alunos -->
+        <section class="students-list" id="studentsList">
+          <section class="turma-header">💬 CHATS</section>
+          <section class="student-item active-chat" data-status="turma" onclick="openChat('turma')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#a855f7,#22c55e);font-size:18px;">💬</section>
+              <section class="si-status-dot dot-online"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Chat Geral</section>
+              <section class="si-meta">Geral</section>
+            </section>
+            <section class="si-pts" style="background:rgba(34,197,94,0.2);color:#4ade80;font-size:10px;font-weight:700;padding:3px 8px;border-radius:50px;">8 👁</section>
+          </section>
+
+          <section class="turma-header" style="margin-top:8px;">👥 ALUNOS</section>
+
+          <!-- Alunos -->
+          <section class="student-item" data-status="online" data-name="ana beatriz" onclick="openChat('ana')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#fcd34d,#f59e0b);">👧</section>
+              <section class="si-status-dot dot-online"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Ana Beatriz</section>
+              <section class="si-meta">🥇 720 pts</section>
+            </section>
+            <section class="si-pts">720</section>
+          </section>
+
+          <section class="student-item" data-status="online" data-name="pedro" onclick="openChat('pedro')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#93c5fd,#3b82f6);">🧒</section>
+              <section class="si-status-dot dot-online"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Pedro</section>
+              <section class="si-meta">🥈 580 pts</section>
+            </section>
+            <section class="si-pts">580</section>
+          </section>
+
+          <section class="student-item" data-status="estudando" data-name="lucas" onclick="openChat('lucas')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#86efac,#22c55e);">🧒</section>
+              <section class="si-status-dot dot-studying"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Lucas</section>
+              <section class="si-meta">📚 Estudando</section>
+            </section>
+            <section class="si-pts">390</section>
+          </section>
+
+          <section class="student-item" data-status="online" data-name="maria" onclick="openChat('maria')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#f9a8d4,#ec4899);">👧</section>
+              <section class="si-status-dot dot-online"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Maria</section>
+              <section class="si-meta">🌿 4 missões feitas</section>
+            </section>
+            <section class="si-pts">350</section>
+          </section>
+
+          <section class="student-item" data-status="jogando" data-name="rafael" onclick="openChat('rafael')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#fed7aa,#f97316);">🧒</section>
+              <section class="si-status-dot dot-playing"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Rafael</section>
+              <section class="si-meta">🎮 Jogando</section>
+            </section>
+            <section class="si-pts">310</section>
+          </section>
+
+          <section class="student-item" data-status="online" data-name="isabela" onclick="openChat('isabela')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#c4b5fd,#8b5cf6);">👧</section>
+              <section class="si-status-dot dot-online"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Isabela</section>
+              <section class="si-meta">🌿 3 missões feitas</section>
+            </section>
+            <section class="si-pts">280</section>
+          </section>
+
+          <section class="student-item" data-status="estudando" data-name="carla" onclick="openChat('carla')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#99f6e4,#14b8a6);">👧</section>
+              <section class="si-status-dot dot-studying"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Carla</section>
+              <section class="si-meta">📚 Estudando</section>
+            </section>
+            <section class="si-pts">260</section>
+          </section>
+
+          <section class="student-item" data-status="offline" data-name="gustavo" onclick="openChat('gustavo')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#6b7280,#4b5563);filter:grayscale(0.5);">🧒</section>
+              <section class="si-status-dot dot-offline"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name" style="color:rgba(255,255,255,0.6);">Gustavo</section>
+              <section class="si-meta">⚫ Offline</section>
+            </section>
+            <section class="si-pts" style="color:rgba(255,255,255,0.3);">220</section>
+          </section>
+
+          <section class="student-item" data-status="jogando" data-name="vitoria" onclick="openChat('vitoria')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#fde68a,#fbbf24);">👧</section>
+              <section class="si-status-dot dot-playing"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name">Vitória</section>
+              <section class="si-meta">🎮 Jogando</section>
+            </section>
+            <section class="si-pts">195</section>
+          </section>
+
+          <section class="student-item" data-status="offline" data-name="henrique" onclick="openChat('henrique')">
+            <section class="si-av-wrap">
+              <section class="si-av" style="background:linear-gradient(135deg,#6b7280,#4b5563);filter:grayscale(0.5);">🧒</section>
+              <section class="si-status-dot dot-offline"></section>
+            </section>
+            <section class="si-info">
+              <section class="si-name" style="color:rgba(255,255,255,0.6);">Henrique</section>
+              <section class="si-meta">⚫ Offline</section>
+            </section>
+            <section class="si-pts" style="color:rgba(255,255,255,0.3);">150</section>
+          </section>
+        </section>
+      </section>
+
+      <!-- ---- CENTER: janela de chat ---- -->
+      <section class="chat-window">
+        <section class="chat-bg-deco"></section>
+
+        <!-- Header -->
+        <section class="chat-win-header">
+          <section class="cwh-left">
+            <section class="cwh-av" id="cwh-av-el" style="background:linear-gradient(135deg,#a855f7,#22c55e);">
+              💬
+              <section class="cwh-status dot-online"></section>
+            </section>
+            <section>
+              <section class="cwh-title" id="cwh-title">Chat Geral</section>
+              <section class="cwh-sub" id="cwh-sub">8 alunos online agora</section>
+            </section>
+          </section>
+          <section class="cwh-actions">
+            <button class="cwh-btn" title="Compartilhar pontos" onclick="sharePoints()">⭐</button>
+            <button class="cwh-btn" title="Missões" onclick="goTo('home')">🗺️</button>
+            <button class="cwh-btn" title="Ranking" onclick="goTo('ranking')">🏆</button>
+          </section>
+        </section>
+
+        <!-- Messages -->
+        <section class="chat-messages-area" id="chatMsgsMain">
+
+          <!-- typing -->
+          <section class="msg-row" id="typingIndicator" style="display:none;">
+            <section class="msg-row-av" style="background:linear-gradient(135deg,#93c5fd,#3b82f6);">🧒</section>
+            <section class="msg-body">
+              <section class="msg-sender">Pedro</section>
+              <section class="typing-indicator">
+                <section class="typing-dots"><span></span><span></span><span></span></section>
+                <section class="typing-name">digitando...</section>
+              </section>
+            </section>
+          </section>
+
+        </section>
+
+        <!-- Mensagens Prontas -->
+        <section class="ready-msgs-area">
+          <section class="ready-msgs-label">💬 Toque numa mensagem para enviar</section>
+          <section class="ready-msgs-list">
+            <button class="ready-msg-btn" onclick="sendPreset('mission')">🗺️ Vamos fazer uma missão juntos?</button>
+            <button class="ready-msg-btn" onclick="sharePoints()">⭐ Quer ver meus pontos?</button>
+            <button class="ready-msg-btn" onclick="sendPreset('mascot')">🥚 Olha meu mascote! Ele evoluiu!</button>
+            <button class="ready-msg-btn" onclick="sendPreset('challenge')">🏆 Te desafio a completar mais missões do que eu hoje!</button>
+            <button class="ready-msg-btn" onclick="sendPreset('help')">💡 Alguém pode me dar uma dica nessa missão?</button>
+            <button class="ready-msg-btn" onclick="sendPreset('cheer')">🎉 Parabéns turma! Estamos arrasando hoje!</button>
+            <button class="ready-msg-btn" onclick="sendPreset('invite')">🌿 Vem jogar comigo agora!</button>
+            <button class="ready-msg-btn" onclick="sendPreset('rank')">🏅 Você viu minha posição no ranking?</button>
+          </section>
+        </section>
+      </section>
+
+      <!-- ---- RIGHT: painel de info ---- -->
+      <section class="chat-info-panel" id="infoPainel">
+
+        <!-- Perfil -->
+        <section class="info-profile">
+          <section class="info-av" id="info-av" style="background:linear-gradient(135deg,#a855f7,#22c55e);">💬</section>
+          <section class="info-name" id="info-name">Chat Geral</section>
+          <section class="info-turma" id="info-sub">Chat da plataforma</section>
+          <section class="info-status-pill isp-online" id="info-status"><section class="status-dot-sm sd-online"></section> 8 online</section>
+        </section>
+
+        <!-- Stats -->
+        <section>
+          <section class="info-section-title">📊 Estatísticas</section>
+          <section class="info-stats" id="info-stats">
+            <section class="info-stat"><section class="info-stat-num">23</section><section class="info-stat-label">Msgs hoje</section></section>
+            <section class="info-stat"><section class="info-stat-num">8</section><section class="info-stat-label">Online</section></section>
+            <section class="info-stat"><section class="info-stat-num">12</section><section class="info-stat-label">Na turma</section></section>
+            <section class="info-stat"><section class="info-stat-num">6</section><section class="info-stat-label">Missões</section></section>
+          </section>
+        </section>
+
+        <!-- Mascote -->
+        <section>
+          <section class="info-section-title">🥚 Mascote Ativo</section>
+          <section class="info-mascot" id="info-mascot">
+            <section class="info-mascot-egg ev1" style="background:linear-gradient(160deg,#86efac,#22c55e);">🌱</section>
+            <section class="info-mascot-name">Plantinha</section>
+            <section class="info-mascot-level">Nível 2 — Broto • 420/1000 pts</section>
+          </section>
+        </section>
+
+        <!-- Missões recentes -->
+        <section>
+          <section class="info-section-title">🗺️ Últimas Missões</section>
+          <section class="info-missions">
+            <section class="info-mission-item"><section class="im-ico">🌍</section><section class="im-name">Explorar</section><section class="im-pts">+80</section></section>
+            <section class="info-mission-item"><section class="im-ico">💧</section><section class="im-name">Missão Água</section><section class="im-pts">+50</section></section>
+            <section class="info-mission-item"><section class="im-ico">♻️</section><section class="im-name">Reciclagem</section><section class="im-pts">+60</section></section>
+          </section>
+        </section>
+
+        <!-- Ações -->
+        <section>
+          <section class="info-section-title">⚡ Ações</section>
+          <section class="info-actions">
+            <button class="ia-btn ia-btn-primary" onclick="sharePoints()">⭐ Compartilhar Pontos</button>
+            <button class="ia-btn ia-btn-ghost" onclick="goTo('galeria')">🥚 Ver Mascotes</button>
+            <button class="ia-btn ia-btn-ghost" onclick="goTo('ranking')">🏆 Ver Ranking</button>
+          </section>
+        </section>
+
+      </section>
+    </section>
+  </section>
+
+  <footer class="footer-section">
+    <section class="footer-container">
+      <section class="footer-content">
+        <section class="footer-col">
+          <h3>Sobre</h3>
+          <nav>
+            <a href="/sobre">Quem somos</a>
+            <a href="/contato">Contato</a>
+            <a href="#">Privacidade</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Plataforma</h3>
+          <nav>
+            <a href="/aluno-login">Login Aluno</a>
+            <a href="/professor-login">Login Professor</a>
+            <a href="/aluno-cadastro">Cadastro</a>
+          </nav>
+        </section>
+
+        <section class="footer-col">
+          <h3>Siga-nos</h3>
+          <nav class="social-links">
+            <a href="https://www.instagram.com/pequenos_.exploradores_?igsh=MWthZnZ6eG1xeDlxdw==" target="_blank" rel="noopener">Instagram</a>
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+          </nav>
+        </section>
+      </section>
+
+      <section class="footer-bottom">
+        <p>&copy; 2025 Pequenos Exploradores. Todos os direitos reservados.</p>
+      </section>
+    </section>
+  </footer>
+</section>
+
+<style>
+@keyframes pulse-green{0%,100%{box-shadow:0 0 0 0 rgba(34,197,94,0.4);}70%{box-shadow:0 0 0 6px rgba(34,197,94,0);}}
+
+.ready-msg-mini{
+  width:100%;text-align:left;
+  background:rgba(255,255,255,0.05);
+  border:1.5px solid rgba(168,85,247,0.2);
+  border-radius:14px;border-bottom-left-radius:4px;
+  padding:7px 12px;
+  color:rgba(255,255,255,0.82);
+  font-family:'Fredoka',sans-serif;font-size:12px;font-weight:500;
+  cursor:pointer;transition:all 0.15s;
+}
+.ready-msg-mini:hover{
+  background:rgba(168,85,247,0.2);border-color:#a855f7;color:white;
+  transform:translateX(3px);
+}
+.ready-msgs-area{
+  padding:12px 14px 14px;
+  background:rgba(20,6,50,0.85);
+  border-top:2px solid rgba(168,85,247,0.25);
+  flex-shrink:0;
+}
+.ready-msgs-label{
+  font-size:11px;color:rgba(255,255,255,0.4);font-weight:700;letter-spacing:0.7px;
+  text-align:center;margin-bottom:10px;text-transform:uppercase;
+}
+.ready-msgs-list{
+  display:flex;flex-direction:column;gap:7px;
+  max-height:200px;overflow-y:auto;
+  padding-right:4px;
+}
+.ready-msgs-list::-webkit-scrollbar{width:3px;}
+.ready-msgs-list::-webkit-scrollbar-thumb{background:rgba(168,85,247,0.4);border-radius:3px;}
+.ready-msg-btn{
+  width:100%;text-align:left;
+  background:rgba(255,255,255,0.06);
+  border:1.5px solid rgba(168,85,247,0.25);
+  border-radius:18px;border-bottom-left-radius:5px;
+  padding:10px 16px;
+  color:rgba(255,255,255,0.88);
+  font-family:'Fredoka',sans-serif;font-size:14px;font-weight:500;
+  cursor:pointer;line-height:1.4;
+  transition:all 0.18s;
+  display:flex;align-items:center;gap:0;
+}
+.ready-msg-btn:hover{
+  background:linear-gradient(135deg,rgba(168,85,247,0.3),rgba(124,58,237,0.2));
+  border-color:#a855f7;color:white;
+  transform:translateX(4px);
+  box-shadow:0 4px 16px rgba(168,85,247,0.25);
+}
+</style>
+
+<script>
+// ---- NAVEGAÇÃO ----
+// ---- LOGOUT ----
+function abrirModalLogout(){
+  document.getElementById('logoutModal').style.display='flex';
+}
+
+// ---- NAVEGAÇÃO ----
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+// ---- MODAL EGG ----
+function openEggModal(name, emoji, cls, pts, total){
+  const pct = Math.round((pts/total)*100);
+  document.getElementById('modalEggName').textContent = name;
+  document.getElementById('modalEggVis').textContent = emoji;
+  document.getElementById('modalEggVis').className = 'modal-egg ' + cls;
+  document.getElementById('modalEggPts').textContent = pts + ' pts';
+  document.getElementById('modalEggPtsLabel').textContent = 'de ' + total + ' pts para evoluir';
+  document.getElementById('modalPct').textContent = pct + '%';
+  document.getElementById('modalBarFill').style.width = pct + '%';
+  document.getElementById('eggModal').classList.add('open');
+}
+function closeEggModal(){document.getElementById('eggModal').classList.remove('open');}
+document.getElementById('eggModal').addEventListener('click',function(e){if(e.target===this)closeEggModal();});
+
+// ---- TOAST ----
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ---- MENSAGENS PRONTAS ----
+const presetTexts = {
+  mission:   '🗺️ Vamos fazer uma missão juntos?',
+  mascot:    '🥚 Olha meu mascote! Ele evoluiu!',
+  challenge: '🏆 Te desafio a completar mais missões do que eu hoje!',
+  help:      '💡 Alguém pode me dar uma dica nessa missão?',
+  cheer:     '🎉 Parabéns turma! Estamos arrasando hoje!',
+  invite:    '🌿 Vem jogar comigo agora!',
+  rank:      '🏅 Você viu minha posição no ranking?',
+};
+
+function sendPreset(type){
+  const text = presetTexts[type];
+  if(!text) return;
+  const msgs = document.getElementById('chatMsgsMain');
+  const typing = document.getElementById('typingIndicator');
+  if(typing) msgs.removeChild(typing);
+
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+
+  const div = document.createElement('div');
+  div.className = 'msg-row me';
+  div.innerHTML = `
+    <section class="msg-row-av" style="background:linear-gradient(135deg,#22c55e,#16a34a);">🧒</section>
+    <section class="msg-body">
+      <section class="msg-sender">Você</section>
+      <section class="msg-bubble-new">${text}</section>
+      <section class="msg-time">${time}</section>
+    </section>`;
+  msgs.appendChild(div);
+  if(typing) msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+  showToast('✅ Mensagem enviada!');
+
+  // simula resposta
+  setTimeout(()=>{
+    const t2 = document.getElementById('typingIndicator');
+    if(t2) t2.style.display='flex';
+    msgs.scrollTop = msgs.scrollHeight;
+    setTimeout(()=>{
+      if(t2) t2.style.display='none';
+      const responses = [
+        {av:'👧',bg:'#fcd34d,#f59e0b',name:'Ana Beatriz',text:'Boa! Vamos juntos! 🌟'},
+        {av:'🧒',bg:'#93c5fd,#3b82f6',name:'Pedro',text:'Conta comigo! 🔥'},
+        {av:'👧',bg:'#f9a8d4,#ec4899',name:'Maria',text:'Que demais! 💜'},
+        {av:'🧒',bg:'#86efac,#22c55e',name:'Lucas',text:'Mandou bem! 🌿'},
+      ];
+      const r = responses[Math.floor(Math.random()*responses.length)];
+      const t3 = new Date();
+      const rt = t3.getHours().toString().padStart(2,'0')+':'+t3.getMinutes().toString().padStart(2,'0');
+      const rdiv = document.createElement('div');
+      rdiv.className='msg-row';
+      rdiv.innerHTML=`
+        <section class="msg-row-av" style="background:linear-gradient(135deg,${r.bg});">${r.av}</section>
+        <section class="msg-body">
+          <section class="msg-sender">${r.name}</section>
+          <section class="msg-bubble-new">${r.text}</section>
+          <section class="msg-time">${rt}</section>
+        </section>`;
+      msgs.appendChild(rdiv);
+      msgs.scrollTop = msgs.scrollHeight;
+    },1800);
+  },600);
+}
+
+// ---- CHAT RANKING ----
+function sendMsgRanking(type){
+  const msgs = document.getElementById('chatMessagesRanking');
+  const presetTexts = {
+    mission:   '🗺️ Vamos fazer uma missão juntos?',
+    points:    '⭐ Quer ver meus pontos?',
+    challenge: '🏆 Te desafio hoje!',
+    cheer:     '🎉 Parabéns turma!',
+    invite:    '🌿 Vem jogar comigo agora!',
+  };
+  const text = presetTexts[type];
+  if(!text) return;
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  const div = document.createElement('div');
+  div.style.cssText='display:flex;gap:8px;align-items:flex-end;flex-direction:row-reverse;';
+  div.innerHTML = `<section style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#16a34a);display:flex;align-items:center;justify-content:center;font-size:14px;">🧒</section><section style="text-align:right"><section style="font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:2px;">Você • ${time}</section><section style="max-width:200px;padding:9px 13px;border-radius:16px;font-size:13px;line-height:1.4;background:linear-gradient(135deg,#7c3aed,#a855f7);color:white;border-bottom-right-radius:4px;">${text}</section></section>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  showToast('✅ Mensagem enviada!');
+}
+
+// ---- ABRIR CHAT COM ALUNO ----
+const studentData = {
+  turma: {name:'Chat Geral', sub:'5° Ano D • Turma inteira', av:'💬', avBg:'linear-gradient(135deg,#a855f7,#22c55e)', status:'isp-online', statusTxt:'8 online', statusDot:'sd-online'},
+  ana: {name:'Ana Beatriz', sub:'5° Ano D • 720 pts', av:'👧', avBg:'linear-gradient(135deg,#fcd34d,#f59e0b)', status:'isp-online', statusTxt:'Online', statusDot:'sd-online'},
+  pedro: {name:'Pedro', sub:'5° Ano D • 580 pts', av:'🧒', avBg:'linear-gradient(135deg,#93c5fd,#3b82f6)', status:'isp-online', statusTxt:'Online', statusDot:'sd-online'},
+  lucas: {name:'Lucas', sub:'5° Ano D • 390 pts', av:'🧒', avBg:'linear-gradient(135deg,#86efac,#22c55e)', status:'isp-studying', statusTxt:'Estudando', statusDot:'sd-studying'},
+  maria: {name:'Maria', sub:'5° Ano D • 350 pts', av:'👧', avBg:'linear-gradient(135deg,#f9a8d4,#ec4899)', status:'isp-online', statusTxt:'Online', statusDot:'sd-online'},
+  rafael: {name:'Rafael', sub:'5° Ano D • 310 pts', av:'🧒', avBg:'linear-gradient(135deg,#fed7aa,#f97316)', status:'isp-playing', statusTxt:'Jogando', statusDot:'sd-playing'},
+  isabela: {name:'Isabela', sub:'5° Ano D • 280 pts', av:'👧', avBg:'linear-gradient(135deg,#c4b5fd,#8b5cf6)', status:'isp-online', statusTxt:'Online', statusDot:'sd-online'},
+  carla: {name:'Carla', sub:'5° Ano D • 260 pts', av:'👧', avBg:'linear-gradient(135deg,#99f6e4,#14b8a6)', status:'isp-studying', statusTxt:'Estudando', statusDot:'sd-studying'},
+  gustavo: {name:'Gustavo', sub:'5° Ano D • 220 pts', av:'🧒', avBg:'linear-gradient(135deg,#6b7280,#4b5563)', status:'isp-offline', statusTxt:'Offline', statusDot:'sd-offline'},
+  vitoria: {name:'Vitória', sub:'5° Ano D • 195 pts', av:'👧', avBg:'linear-gradient(135deg,#fde68a,#fbbf24)', status:'isp-playing', statusTxt:'Jogando', statusDot:'sd-playing'},
+  henrique: {name:'Henrique', sub:'5° Ano D • 150 pts', av:'🧒', avBg:'linear-gradient(135deg,#6b7280,#4b5563)', status:'isp-offline', statusTxt:'Offline', statusDot:'sd-offline'},
+};
+
+function openChat(id){
+  // highlight sidebar
+  document.querySelectorAll('.student-item').forEach(el=>el.classList.remove('active-chat'));
+  event.currentTarget.classList.add('active-chat');
+
+  const d = studentData[id];
+  if(!d) return;
+
+  // atualiza header
+  document.getElementById('cwh-av-el').innerHTML = d.av + `<section class="cwh-status ${d.statusDot}" style="position:absolute;bottom:1px;right:1px;width:12px;height:12px;border-radius:50%;border:2px solid #1e0a3c;"></section>`;
+  document.getElementById('cwh-av-el').style.background = d.avBg;
+  document.getElementById('cwh-title').textContent = id==='turma' ? 'Chat Geral — 5° Ano D' : d.name;
+  document.getElementById('cwh-sub').textContent = d.sub;
+
+  // atualiza painel info
+  document.getElementById('info-av').textContent = d.av;
+  document.getElementById('info-av').style.background = d.avBg;
+  document.getElementById('info-name').textContent = d.name;
+  document.getElementById('info-sub').textContent = d.sub;
+  const sp = document.getElementById('info-status');
+  sp.className = 'info-status-pill '+d.status;
+  sp.innerHTML = `<section class="status-dot-sm ${d.statusDot}"></section> ${d.statusTxt}`;
+
+  if(id !== 'turma'){
+    document.getElementById('info-stats').innerHTML = `
+      <section class="info-stat"><section class="info-stat-num">${Math.floor(Math.random()*15)+1}</section><section class="info-stat-label">Msgs hoje</section></section>
+      <section class="info-stat"><section class="info-stat-num">${Math.floor(Math.random()*8)+2}</section><section class="info-stat-label">Missões</section></section>
+      <section class="info-stat"><section class="info-stat-num">${Math.floor(Math.random()*5)+1}</section><section class="info-stat-label">Mascotes</section></section>
+      <section class="info-stat"><section class="info-stat-num">${Math.floor(Math.random()*10)+1}</section><section class="info-stat-label">Ranking</section></section>`;
+  }
+
+  // limpa mensagens ao trocar de chat
+  const msgs = document.getElementById('chatMsgsMain');
+  const typing = document.getElementById('typingIndicator');
+  msgs.innerHTML = '';
+  if(typing) msgs.appendChild(typing);
+}
+
+// ---- REAÇÕES ----
+function toggleReaction(el){
+  const isActive = el.classList.contains('active');
+  const num = el.querySelector('span');
+  const count = parseInt(num.textContent);
+  if(isActive){el.classList.remove('active');num.textContent=count-1;}
+  else{el.classList.add('active');num.textContent=count+1;}
+}
+
+// ---- COMPARTILHAR PONTOS ----
+function sharePoints(){
+  const msgs = document.getElementById('chatMsgsMain');
+  const typing = document.getElementById('typingIndicator');
+  if(typing) msgs.removeChild(typing);
+  const now = new Date();
+  const time = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  const div = document.createElement('div');
+  div.className='msg-row me';
+  div.innerHTML=`
+    <section class="msg-row-av" style="background:linear-gradient(135deg,#22c55e,#16a34a);">🧒</section>
+    <section class="msg-body">
+      <section class="msg-sender">Você</section>
+      <section class="pts-share-card">
+        <section class="psc-icon">⭐</section>
+        <section class="psc-info">
+          <section class="psc-label">Meus pontos</section>
+          <section class="psc-val">420 pts</section>
+          <section class="psc-sub">🥉 3° lugar no ranking</section>
+        </section>
+      </section>
+      <section class="msg-time">${time}</section>
+    </section>`;
+  msgs.appendChild(div);
+  if(typing) msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+  showToast('⭐ Pontos compartilhados!');
+}
+
+// ---- FILTROS ----
+function filterByStatus(status, btn){
+  document.querySelectorAll('.sf-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.student-item[data-status]').forEach(el=>{
+    const s = el.getAttribute('data-status');
+    el.style.display = (status==='todos'||s===status) ? 'flex' : 'none';
+  });
+  // sempre mostra chat da turma
+  const turmaItem = document.querySelector('[data-status="turma"]');
+  if(turmaItem && status !== 'todos') turmaItem.style.display='flex';
+}
+
+function filterStudents(query){
+  const q = query.toLowerCase().trim();
+  document.querySelectorAll('.student-item[data-name]').forEach(el=>{
+    const name = el.getAttribute('data-name')||'';
+    el.style.display = (!q || name.includes(q)) ? 'flex' : 'none';
+  });
+}
+
+// Scroll inicial
+setTimeout(()=>{
+  const m = document.getElementById('chatMsgsMain');
+  if(m) m.scrollTop = m.scrollHeight;
+},100);
+</script>
+
+
+
+
+
+
+

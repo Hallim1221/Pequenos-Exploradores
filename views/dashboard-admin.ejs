@@ -1179,6 +1179,19 @@
   </article>
 </dialog>
 
+<!-- Modal: Alunos da Instituição -->
+<dialog class="modal-overlay" id="modal-alunos">
+  <article class="modal" style="width: 600px; max-width: 90vw;">
+    <header class="modal-header">
+      <h2 class="modal-title" id="alunos-title">👥 Alunos da Instituição</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-alunos')">✕</button>
+    </header>
+    <section id="alunos-content" style="padding: 16px; max-height: 400px; overflow-y: auto;">
+      <!-- Alunos carregados aqui -->
+    </section>
+  </article>
+</dialog>
+
 <!-- Toast -->
 <section class="toast" id="toast">✅ <span id="toast-msg">Ação realizada com sucesso</span></section>
 
@@ -1228,6 +1241,16 @@ function confirmDelete(type) {
 let blockingInst = '';
 let isUnblocking = false;
 
+// Handler para mudanças de plano (definido uma única vez, fora da função)
+function handlePlanoChange(event) {
+  if (event.target.classList.contains('plan-select')) {
+    const instId = event.target.getAttribute('data-inst-id');
+    const novoPlano = event.target.value;
+    console.log(`Select disparado: instId=${instId}, novoPlano=${novoPlano}`);
+    atualizarPlano(instId, novoPlano);
+  }
+}
+
 // ===== INSTITUIÇÕES =====
 async function carregarInstituicoes() {
   try {
@@ -1240,10 +1263,16 @@ async function carregarInstituicoes() {
     }
     
     const tbody = document.getElementById('instituicoes-tbody');
+    
+    // Remover listener antigo antes de limpar o tbody
+    tbody.removeEventListener('change', handlePlanoChange);
+    tbody.removeEventListener('click', handleRowClick);
+    
     tbody.innerHTML = '';
     
     dados.instituicoes.forEach(inst => {
       const row = document.createElement('tr');
+      row.style.cursor = 'pointer';
       
       const planClass = inst.plano === 'premium' ? 'plan-premium' : inst.plano === 'comum' ? 'plan-comum' : 'plan-em-andamento';
       const planLabel = inst.plano === 'premium' ? 'Premium ⭐' : inst.plano === 'comum' ? 'Comum' : 'Em Andamento';
@@ -1251,7 +1280,7 @@ async function carregarInstituicoes() {
       row.innerHTML = `
         <td><p class="cell-main">${inst.nome}</p><p class="cell-sub">${inst.email}</p></td>
         <td>
-          <select class="plan-select" onchange="atualizarPlano(${inst.id}, this.value)">
+          <select class="plan-select" data-inst-id="${inst.id}" onclick="event.stopPropagation()">
             <option value="em-andamento" ${inst.plano === 'em-andamento' ? 'selected' : ''}>Em Andamento</option>
             <option value="comum" ${inst.plano === 'comum' ? 'selected' : ''}>Comum</option>
             <option value="premium" ${inst.plano === 'premium' ? 'selected' : ''}>Premium ⭐</option>
@@ -1261,17 +1290,31 @@ async function carregarInstituicoes() {
         <td><p class="cell-main">${inst.professor}</p></td>
         <td><span class="badge badge-green">${inst.status === 'ativo' ? 'Ativo' : 'Inativo'}</span></td>
         <td style="text-align:right">
-          <article class="row-actions">
+          <article class="row-actions" onclick="event.stopPropagation()">
             <button class="btn btn-sm" onclick="editarInstituicao(${inst.id})">✏️</button>
             <button class="btn btn-sm btn-danger" onclick="openBlockModal('${inst.nome}', false)">🚫</button>
           </article>
         </td>
       `;
       
+      row.dataset.instId = inst.id;
+      row.dataset.instName = inst.nome;
       tbody.appendChild(row);
     });
+    
+    // Adicionar listeners
+    tbody.addEventListener('change', handlePlanoChange);
+    tbody.addEventListener('click', handleRowClick);
   } catch (erro) {
     console.error('Erro ao carregar instituições:', erro);
+  }
+}
+
+// Handler para click nas linhas de instituição
+function handleRowClick(event) {
+  const row = event.target.closest('tr');
+  if (row && row.dataset.instId) {
+    abrirAlunosInstituicao(row.dataset.instId, row.dataset.instName);
   }
 }
 
@@ -1290,6 +1333,61 @@ async function atualizarPlano(instId, novoPlano) {
   } catch (erro) {
     console.error('Erro ao atualizar plano:', erro);
     showToast('Erro ao atualizar plano', 3000);
+  }
+}
+
+// Abrir modal com alunos da instituição
+async function abrirAlunosInstituicao(instId, instName) {
+  try {
+    // Atualizar título do modal
+    document.getElementById('alunos-title').textContent = `👥 Alunos de ${instName}`;
+    
+    // Carregar alunos da API
+    const resposta = await fetch(`/api/instituicoes/${instId}/alunos`);
+    const dados = await resposta.json();
+    
+    const conteudo = document.getElementById('alunos-content');
+    conteudo.innerHTML = '';
+    
+    if (!dados.sucesso || dados.total === 0) {
+      conteudo.innerHTML = '<p style="color: var(--text-mute); text-align: center; padding: 20px;">Nenhum aluno cadastrado nesta instituição</p>';
+    } else {
+      // Criar tabela de alunos
+      let html = `
+        <table style="width: 100%; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 1px solid var(--border); background: var(--g50);">
+              <th style="padding: 12px; text-align: left; font-weight: 600; color: var(--text); font-size: 13px;">Nome</th>
+              <th style="padding: 12px; text-align: left; font-weight: 600; color: var(--text); font-size: 13px;">Email</th>
+              <th style="padding: 12px; text-align: right; font-weight: 600; color: var(--text); font-size: 13px;">Saldo</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+      
+      dados.alunos.forEach(aluno => {
+        html += `
+          <tr style="border-bottom: 1px solid var(--border-sm);">
+            <td style="padding: 12px; color: var(--text);">${aluno.nome}</td>
+            <td style="padding: 12px; color: var(--text-sub); font-size: 13px;">${aluno.email}</td>
+            <td style="padding: 12px; text-align: right; color: var(--g700); font-weight: 600;">⭐ ${aluno.saldo}</td>
+          </tr>
+        `;
+      });
+      
+      html += `
+          </tbody>
+        </table>
+      `;
+      
+      conteudo.innerHTML = html;
+    }
+    
+    // Abrir modal
+    openModal('modal-alunos');
+  } catch (erro) {
+    console.error('Erro ao carregar alunos:', erro);
+    showToast('Erro ao carregar alunos', 3000);
   }
 }
 

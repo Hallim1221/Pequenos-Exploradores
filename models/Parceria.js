@@ -222,6 +222,36 @@ class Parceria {
       return true;
     }
   }
+
+  // Atualizar plano de uma instituição
+  static async atualizarPlano(parceriaId, novoPlano) {
+    try {
+      const connection = await pool.getConnection();
+      
+      const [result] = await connection.execute(
+        'UPDATE parcerias_escolas SET plano = ? WHERE id = ?',
+        [novoPlano, parceriaId]
+      );
+      
+      connection.release();
+      
+      if (result.affectedRows === 0) {
+        return { sucesso: false, erro: 'Instituição não encontrada' };
+      }
+      
+      console.log(`✅ Plano da instituição ${parceriaId} atualizado para ${novoPlano}`);
+      return { sucesso: true, mensagem: `Plano atualizado para ${novoPlano}` };
+    } catch (erro) {
+      console.error('Erro ao atualizar plano:', erro);
+      // Fallback para mockdb
+      const resultado = mockdb.atualizarPlanoParceria(parceriaId, novoPlano);
+      if (resultado) {
+        console.log(`✅ MockDB: Plano da instituição ${parceriaId} atualizado para ${novoPlano}`);
+        return { sucesso: true, mensagem: `Plano atualizado para ${novoPlano}` };
+      }
+      return { sucesso: false, erro: 'Erro ao atualizar plano' };
+    }
+  }
 }
 
 module.exports = Parceria;

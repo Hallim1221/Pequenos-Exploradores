@@ -282,3 +282,259 @@
 ✅ MockDB: {"id":23,"parceria_id":9,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-28T15:03:05.188Z","visualizado":0}
 ❌ MySQL error: 
 ✅ MockDB: {"id":24,"parceria_id":9,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-28T15:03:05.193Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-29T22:47:20.037Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":3,"remetente":"usuario","conteudo":"📚 Ver planos","data_mensagem":"2026-05-29T22:47:27.888Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito 😊\n\nAtualmente temos dois planos disponíveis para instituições:\n\n🌱 PLANO ESSENCIAL\n✔ Área do aluno\n✔ Plataforma educacional\n✔ Atividades interativas\n✔ Suporte básico\n💰 R$ 89,90/mês\n\n🚀 PLANO PREMIUM\n✔ Todos os recursos do Essencial\n✔ Recursos avançados\n✔ Relatórios completos\n✔ Suporte prioritário\n✔ Personalização da instituição\n💰 R$ 149,90/mês\n\n🏦 Banco: Nubank\n👤 Pequenos Exploradores Tecnologia LTDA\n📄 CNPJ: 48.372.915/0001-64\n🔑 Chave PIX: financeiro@pequenosexploradores.com","data_mensagem":"2026-05-29T22:47:28.422Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":3,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-29T22:47:31.899Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-29T22:47:32.427Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":3,"remetente":"usuario","conteudo":"📎 Comprovante enviado: Ellipse 21.png","data_mensagem":"2026-05-29T22:47:49.481Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":14,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-29T22:47:50.497Z","visualizado":0}
+❌ MySQL error: 
+✅ MockDB: {"id":15,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-29T22:47:50.522Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":16,"parceria_id":3,"remetente":"admin","conteudo":"o seu plano sera o premium fioti","data_mensagem":"2026-05-29T22:49:09.397Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-29T23:31:02.214Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":3,"remetente":"usuario","conteudo":"❓ Tirar dúvidas","data_mensagem":"2026-05-29T23:31:06.252Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":3,"remetente":"admin","conteudo":"Nossa equipe está disponível para ajudar 😊","data_mensagem":"2026-05-29T23:31:06.771Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":3,"remetente":"usuario","conteudo":"📚 Como funciona a plataforma?","data_mensagem":"2026-05-29T23:31:08.669Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":3,"remetente":"admin","conteudo":"A instituição recebe acesso completo ao sistema educacional, incluindo área do aluno, atividades e recursos exclusivos.","data_mensagem":"2026-05-29T23:31:09.195Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":3,"remetente":"usuario","conteudo":"📚 Ver planos","data_mensagem":"2026-05-29T23:31:16.844Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":14,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito 😊\n\nAtualmente temos dois planos disponíveis para instituições:\n\n🌱 PLANO ESSENCIAL\n✔ Área do aluno\n✔ Plataforma educacional\n✔ Atividades interativas\n✔ Suporte básico\n💰 R$ 89,90/mês\n\n🚀 PLANO PREMIUM\n✔ Todos os recursos do Essencial\n✔ Recursos avançados\n✔ Relatórios completos\n✔ Suporte prioritário\n✔ Personalização da instituição\n💰 R$ 149,90/mês\n\n🏦 Banco: Nubank\n👤 Pequenos Exploradores Tecnologia LTDA\n📄 CNPJ: 48.372.915/0001-64\n🔑 Chave PIX: financeiro@pequenosexploradores.com","data_mensagem":"2026-05-29T23:31:17.573Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":15,"parceria_id":3,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-29T23:31:19.769Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":16,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-29T23:31:20.273Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":17,"parceria_id":3,"remetente":"usuario","conteudo":"📎 Comprovante enviado: eqp.png","data_mensagem":"2026-05-29T23:31:25.842Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":18,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-29T23:31:26.846Z","visualizado":0}
+❌ MySQL error: 
+✅ MockDB: {"id":19,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-29T23:31:26.855Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-29T23:45:13.641Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":3,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-29T23:45:17.453Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-29T23:45:17.969Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":3,"remetente":"usuario","conteudo":"📎 Comprovante enviado: bal.png","data_mensagem":"2026-05-29T23:45:26.398Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-29T23:45:27.424Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-29T23:45:27.460Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-30T00:07:41.096Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":3,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-30T00:07:42.497Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-30T00:07:43.009Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":3,"remetente":"usuario","conteudo":"📎 Comprovante enviado: eqp.png","data_mensagem":"2026-05-30T00:07:48.381Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-30T00:07:49.384Z","visualizado":0}
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-30T00:07:49.394Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":14,"parceria_id":3,"remetente":"admin","conteudo":"pdp","data_mensagem":"2026-05-30T00:08:02.796Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":3,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-30T00:40:16.485Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":3,"remetente":"usuario","conteudo":"📚 Ver planos","data_mensagem":"2026-05-30T00:40:17.871Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito 😊\n\nAtualmente temos dois planos disponíveis para instituições:\n\n🌱 PLANO ESSENCIAL\n✔ Área do aluno\n✔ Plataforma educacional\n✔ Atividades interativas\n✔ Suporte básico\n💰 R$ 89,90/mês\n\n🚀 PLANO PREMIUM\n✔ Todos os recursos do Essencial\n✔ Recursos avançados\n✔ Relatórios completos\n✔ Suporte prioritário\n✔ Personalização da instituição\n💰 R$ 149,90/mês\n\n🏦 Banco: Nubank\n👤 Pequenos Exploradores Tecnologia LTDA\n📄 CNPJ: 48.372.915/0001-64\n🔑 Chave PIX: financeiro@pequenosexploradores.com","data_mensagem":"2026-05-30T00:40:18.450Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":3,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-30T00:40:19.639Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":3,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-30T00:40:20.152Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":3,"remetente":"usuario","conteudo":"📎 Comprovante enviado: eqp.png","data_mensagem":"2026-05-30T00:40:29.654Z","visualizado":0}
+
+📝 criarMensagemParceria: id=3, type=string
+
+📝 criarMensagemParceria: id=3, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":14,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-30T00:40:30.670Z","visualizado":0}
+❌ MySQL error: 
+✅ MockDB: {"id":15,"parceria_id":3,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-30T00:40:30.681Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":4,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-30T00:57:50.244Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":4,"remetente":"usuario","conteudo":"📚 Ver planos","data_mensagem":"2026-05-30T00:57:51.793Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":4,"remetente":"admin","conteudo":"Perfeito 😊\n\nAtualmente temos dois planos disponíveis para instituições:\n\n🌱 PLANO ESSENCIAL\n✔ Área do aluno\n✔ Plataforma educacional\n✔ Atividades interativas\n✔ Suporte básico\n💰 R$ 89,90/mês\n\n🚀 PLANO PREMIUM\n✔ Todos os recursos do Essencial\n✔ Recursos avançados\n✔ Relatórios completos\n✔ Suporte prioritário\n✔ Personalização da instituição\n💰 R$ 149,90/mês\n\n🏦 Banco: Nubank\n👤 Pequenos Exploradores Tecnologia LTDA\n📄 CNPJ: 48.372.915/0001-64\n🔑 Chave PIX: financeiro@pequenosexploradores.com","data_mensagem":"2026-05-30T00:57:52.381Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":4,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-30T00:57:53.256Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":4,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-30T00:57:53.757Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":4,"remetente":"usuario","conteudo":"📎 Comprovante enviado: bal.png","data_mensagem":"2026-05-30T00:58:00.322Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":14,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-30T00:58:01.344Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":15,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-30T00:58:01.371Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":4,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-30T01:33:12.072Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":4,"remetente":"usuario","conteudo":"📚 Ver planos","data_mensagem":"2026-05-30T01:33:13.685Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":4,"remetente":"admin","conteudo":"Perfeito 😊\n\nAtualmente temos dois planos disponíveis para instituições:\n\n🌱 PLANO ESSENCIAL\n✔ Área do aluno\n✔ Plataforma educacional\n✔ Atividades interativas\n✔ Suporte básico\n💰 R$ 89,90/mês\n\n🚀 PLANO PREMIUM\n✔ Todos os recursos do Essencial\n✔ Recursos avançados\n✔ Relatórios completos\n✔ Suporte prioritário\n✔ Personalização da instituição\n💰 R$ 149,90/mês\n\n🏦 Banco: Nubank\n👤 Pequenos Exploradores Tecnologia LTDA\n📄 CNPJ: 48.372.915/0001-64\n🔑 Chave PIX: financeiro@pequenosexploradores.com","data_mensagem":"2026-05-30T01:33:14.201Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":4,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-30T01:33:15.625Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":4,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-30T01:33:16.148Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":4,"remetente":"usuario","conteudo":"📎 Comprovante enviado: eqp.png","data_mensagem":"2026-05-30T01:33:21.348Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":14,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-30T01:33:22.361Z","visualizado":0}
+❌ MySQL error: 
+✅ MockDB: {"id":15,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-30T01:33:22.373Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":4,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-30T01:54:01.906Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":4,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-30T01:54:03.849Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":4,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-30T01:54:04.364Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":4,"remetente":"usuario","conteudo":"📎 Comprovante enviado: eqp.png","data_mensagem":"2026-05-30T01:54:11.800Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-30T01:54:12.889Z","visualizado":0}
+❌ MySQL error: 
+✅ MockDB: {"id":13,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-30T01:54:12.906Z","visualizado":0}

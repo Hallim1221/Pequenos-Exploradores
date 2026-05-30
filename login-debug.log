@@ -1,0 +1,253 @@
+
+[2026-05-29T23:17:19.369Z] Iniciando login para: joao@test.com
+[2026-05-29T23:17:19.371Z] Buscando aluno por email
+[2026-05-29T23:17:19.373Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700}
+[2026-05-29T23:17:19.374Z] Session criada
+[2026-05-29T23:17:19.376Z] Verificando plano para instituição: undefined
+[2026-05-29T23:17:19.380Z] ERRO ao buscar plano: Aluno.buscarPlanoEscola is not a function
+[2026-05-29T23:17:19.381Z] Redirecting to: /aluno-novo
+[2026-05-29T23:18:24.664Z] Iniciando login para: joao@test.com
+[2026-05-29T23:18:24.668Z] Buscando aluno por email
+[2026-05-29T23:18:24.670Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700}
+[2026-05-29T23:18:24.673Z] Session criada
+[2026-05-29T23:18:24.675Z] Verificando plano para instituição: undefined
+[2026-05-29T23:18:24.678Z] ERRO ao buscar plano: Aluno.buscarPlanoEscola is not a function
+[2026-05-29T23:18:24.680Z] Redirecting to: /aluno-novo
+[2026-05-29T23:23:26.234Z] Iniciando login para: joao@test.com
+[2026-05-29T23:23:26.250Z] Buscando aluno por email
+[2026-05-29T23:23:26.255Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700}
+[2026-05-29T23:23:26.263Z] Session criada
+[2026-05-29T23:23:26.265Z] Verificando plano para instituição: undefined
+[2026-05-29T23:23:26.279Z] ERRO ao buscar plano: Aluno.buscarPlanoEscola is not a function
+[2026-05-29T23:23:26.282Z] Redirecting to: /aluno-novo
+[2026-05-29T23:23:47.266Z] Iniciando login para: joao@test.com
+[2026-05-29T23:23:47.269Z] Buscando aluno por email
+[2026-05-29T23:23:47.272Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700}
+[2026-05-29T23:23:47.275Z] Session criada
+[2026-05-29T23:23:47.276Z] Verificando plano para instituição: undefined
+[2026-05-29T23:23:47.278Z] ERRO ao buscar plano: Aluno.buscarPlanoEscola is not a function
+[2026-05-29T23:23:47.279Z] Redirecting to: /aluno-novo
+[2026-05-29T23:28:49.310Z] Iniciando login para: joao@test.com
+[2026-05-29T23:28:49.312Z] Buscando aluno por email
+[2026-05-29T23:28:49.373Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700,"instituicao_id":1}
+[2026-05-29T23:28:49.374Z] Session criada
+[2026-05-29T23:28:49.375Z] Verificando plano para instituição: 1
+[2026-05-29T23:28:49.381Z] Plano encontrado: premium
+[2026-05-29T23:28:49.384Z] Redirecting to: /aluno-premium
+[2026-05-29T23:29:07.321Z] Iniciando login para: maria@test.com
+[2026-05-29T23:29:07.323Z] Buscando aluno por email
+[2026-05-29T23:29:07.325Z] Aluno encontrado: {"id":2,"nome":"Maria Santos","email":"maria@test.com","senha":"senha123","saldo":500,"instituicao_id":2}
+[2026-05-29T23:29:07.326Z] Session criada
+[2026-05-29T23:29:07.331Z] Verificando plano para instituição: 2
+[2026-05-29T23:29:07.339Z] Plano encontrado: comum
+[2026-05-29T23:29:07.341Z] Redirecting to: /aluno-novo
+[2026-05-29T23:33:26.819Z] Iniciando login para: jairo123@gmail.com
+[2026-05-29T23:33:26.971Z] Buscando aluno por email
+[2026-05-29T23:33:27.001Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:33:27.070Z] Session criada
+[2026-05-29T23:33:27.097Z] Verificando plano para instituição: 1
+[2026-05-29T23:33:27.132Z] Plano encontrado: comum
+[2026-05-29T23:33:27.137Z] Redirecting to: /aluno-novo
+[2026-05-29T23:40:36.531Z] Iniciando login para: joao@test.com
+[2026-05-29T23:40:36.533Z] Buscando aluno por email
+[2026-05-29T23:40:36.542Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700,"instituicao_id":1}
+[2026-05-29T23:40:36.544Z] Session criada
+[2026-05-29T23:40:36.546Z] Verificando plano para instituição: 1
+[2026-05-29T23:40:36.555Z] Plano encontrado: premium
+[2026-05-29T23:40:36.556Z] Redirecting to: /aluno-premium
+[2026-05-29T23:41:23.301Z] Iniciando login para: maria@test.com
+[2026-05-29T23:41:23.303Z] Buscando aluno por email
+[2026-05-29T23:41:23.308Z] Aluno encontrado: {"id":2,"nome":"Maria Santos","email":"maria@test.com","senha":"senha123","saldo":500,"instituicao_id":2}
+[2026-05-29T23:41:23.311Z] Session criada
+[2026-05-29T23:41:23.314Z] Verificando plano para instituição: 2
+[2026-05-29T23:41:23.319Z] Plano encontrado: comum
+[2026-05-29T23:41:23.321Z] Redirecting to: /aluno-novo
+[2026-05-29T23:42:55.351Z] Iniciando login para: maria@test.com
+[2026-05-29T23:42:55.353Z] Buscando aluno por email
+[2026-05-29T23:42:55.356Z] Aluno encontrado: {"id":2,"nome":"Maria Santos","email":"maria@test.com","senha":"senha123","saldo":500,"instituicao_id":2}
+[2026-05-29T23:42:55.358Z] Session criada
+[2026-05-29T23:42:55.360Z] Verificando plano para instituição: 2
+[2026-05-29T23:42:55.365Z] Plano encontrado: em-andamento
+[2026-05-29T23:42:55.367Z] Redirecting to: /aluno-novo
+[2026-05-29T23:46:50.758Z] Iniciando login para: jairo123@gmail.com
+[2026-05-29T23:46:50.821Z] Buscando aluno por email
+[2026-05-29T23:46:50.889Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:46:50.970Z] Session criada
+[2026-05-29T23:46:50.988Z] Verificando plano para instituição: 1
+[2026-05-29T23:46:50.996Z] Plano encontrado: comum
+[2026-05-29T23:46:50.998Z] Redirecting to: /aluno-novo
+[2026-05-29T23:47:13.921Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-29T23:47:13.928Z] Buscando aluno por email
+[2026-05-29T23:47:13.932Z] Aluno encontrado: undefined
+[2026-05-29T23:47:13.933Z] Credenciais inválidas
+[2026-05-29T23:47:23.418Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-29T23:47:23.419Z] Buscando aluno por email
+[2026-05-29T23:47:23.426Z] Aluno encontrado: undefined
+[2026-05-29T23:47:23.427Z] Credenciais inválidas
+[2026-05-29T23:48:35.365Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-29T23:48:35.367Z] Buscando aluno por email
+[2026-05-29T23:48:35.370Z] Aluno encontrado: {"id":4,"nome":"Hallim Alves Tavatrs","email":"alveshallim@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:48:35.373Z] Session criada
+[2026-05-29T23:48:35.382Z] Verificando plano para instituição: 1
+[2026-05-29T23:48:35.389Z] Plano encontrado: premium
+[2026-05-29T23:48:35.397Z] Redirecting to: /aluno-premium
+[2026-05-29T23:49:24.995Z] Iniciando login para: jairo123@gmail.com
+[2026-05-29T23:49:25.001Z] Buscando aluno por email
+[2026-05-29T23:49:25.005Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:49:25.007Z] Session criada
+[2026-05-29T23:49:25.008Z] Verificando plano para instituição: 1
+[2026-05-29T23:49:25.013Z] Plano encontrado: premium
+[2026-05-29T23:49:25.019Z] Redirecting to: /aluno-premium
+[2026-05-29T23:49:59.817Z] Iniciando login para: jairo123@gmail.com
+[2026-05-29T23:49:59.819Z] Buscando aluno por email
+[2026-05-29T23:49:59.823Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:49:59.835Z] Session criada
+[2026-05-29T23:49:59.838Z] Verificando plano para instituição: 1
+[2026-05-29T23:49:59.851Z] Plano encontrado: premium
+[2026-05-29T23:49:59.853Z] Redirecting to: /aluno-premium
+[2026-05-29T23:50:36.724Z] Iniciando login para: jairo123@gmail.com
+[2026-05-29T23:50:36.728Z] Buscando aluno por email
+[2026-05-29T23:50:36.731Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:50:36.761Z] Session criada
+[2026-05-29T23:50:36.765Z] Verificando plano para instituição: 1
+[2026-05-29T23:50:36.792Z] Plano encontrado: premium
+[2026-05-29T23:50:36.793Z] Redirecting to: /aluno-premium
+[2026-05-29T23:51:49.895Z] Iniciando login para: jairo123@gmail.com
+[2026-05-29T23:51:49.897Z] Buscando aluno por email
+[2026-05-29T23:51:49.900Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:51:49.912Z] Session criada
+[2026-05-29T23:51:49.917Z] Verificando plano para instituição: 1
+[2026-05-29T23:51:49.930Z] Plano encontrado: comum
+[2026-05-29T23:51:49.932Z] Redirecting to: /aluno-novo
+[2026-05-29T23:52:11.977Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-29T23:52:11.979Z] Buscando aluno por email
+[2026-05-29T23:52:11.980Z] Aluno encontrado: {"id":4,"nome":"Hallim Alves Tavatrs","email":"alveshallim@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-29T23:52:11.986Z] Session criada
+[2026-05-29T23:52:11.992Z] Verificando plano para instituição: 1
+[2026-05-29T23:52:12.010Z] Plano encontrado: comum
+[2026-05-29T23:52:12.013Z] Redirecting to: /aluno-novo
+[2026-05-30T00:04:40.647Z] Iniciando login para: joao@test.com
+[2026-05-30T00:04:40.653Z] Buscando aluno por email
+[2026-05-30T00:04:40.658Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700,"instituicao_id":1}
+[2026-05-30T00:04:40.660Z] Session criada
+[2026-05-30T00:04:40.661Z] Verificando plano para instituição: 1
+[2026-05-30T00:04:40.666Z] Plano encontrado: em-andamento
+[2026-05-30T00:04:40.668Z] Redirecting to: /aluno-novo
+[2026-05-30T00:05:41.070Z] Iniciando login para: maria@test.com
+[2026-05-30T00:05:41.073Z] Buscando aluno por email
+[2026-05-30T00:05:41.075Z] Aluno encontrado: {"id":2,"nome":"Maria Santos","email":"maria@test.com","senha":"senha123","saldo":500,"instituicao_id":2}
+[2026-05-30T00:05:41.077Z] Session criada
+[2026-05-30T00:05:41.078Z] Verificando plano para instituição: 2
+[2026-05-30T00:05:41.084Z] Plano encontrado: premium
+[2026-05-30T00:05:41.085Z] Redirecting to: /aluno-premium
+[2026-05-30T00:09:24.696Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:09:24.700Z] Buscando aluno por email
+[2026-05-30T00:09:24.703Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:09:24.706Z] Session criada
+[2026-05-30T00:09:24.708Z] Verificando plano para instituição: 1
+[2026-05-30T00:09:24.715Z] Plano encontrado: comum
+[2026-05-30T00:09:24.721Z] Redirecting to: /aluno-novo
+[2026-05-30T00:09:57.975Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:09:58.005Z] Buscando aluno por email
+[2026-05-30T00:09:58.044Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:09:58.103Z] Session criada
+[2026-05-30T00:09:58.121Z] Verificando plano para instituição: 1
+[2026-05-30T00:09:58.126Z] Plano encontrado: premium
+[2026-05-30T00:09:58.128Z] Redirecting to: /aluno-premium
+[2026-05-30T00:14:29.756Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-30T00:14:29.758Z] Buscando aluno por email
+[2026-05-30T00:14:29.761Z] Aluno encontrado: undefined
+[2026-05-30T00:14:29.762Z] Credenciais inválidas
+[2026-05-30T00:14:38.376Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-30T00:14:38.379Z] Buscando aluno por email
+[2026-05-30T00:14:38.381Z] Aluno encontrado: undefined
+[2026-05-30T00:14:38.381Z] Credenciais inválidas
+[2026-05-30T00:14:51.312Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:14:51.346Z] Buscando aluno por email
+[2026-05-30T00:14:51.355Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:14:51.357Z] Session criada
+[2026-05-30T00:14:51.359Z] Verificando plano para instituição: 1
+[2026-05-30T00:14:51.367Z] Plano encontrado: comum
+[2026-05-30T00:14:51.372Z] Redirecting to: /aluno-novo
+[2026-05-30T00:18:48.877Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:18:48.879Z] Buscando aluno por email
+[2026-05-30T00:18:48.883Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:18:48.887Z] Session criada
+[2026-05-30T00:18:48.888Z] Verificando plano para instituição: 1
+[2026-05-30T00:18:48.892Z] Plano encontrado: comum
+[2026-05-30T00:18:48.894Z] Redirecting to: /aluno-novo
+[2026-05-30T00:22:06.309Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:22:06.310Z] Buscando aluno por email
+[2026-05-30T00:22:06.312Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:22:06.312Z] Session criada
+[2026-05-30T00:22:06.313Z] Verificando plano para instituição: 1
+[2026-05-30T00:22:06.321Z] Plano encontrado: premium
+[2026-05-30T00:22:06.322Z] Redirecting to: /aluno-premium
+[2026-05-30T00:23:08.123Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:23:08.125Z] Buscando aluno por email
+[2026-05-30T00:23:08.128Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:23:08.130Z] Session criada
+[2026-05-30T00:23:08.132Z] Verificando plano para instituição: 1
+[2026-05-30T00:23:08.144Z] Plano encontrado: comum
+[2026-05-30T00:23:08.146Z] Redirecting to: /aluno-novo
+[2026-05-30T00:36:14.872Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:36:14.874Z] Buscando aluno por email
+[2026-05-30T00:36:14.876Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:36:14.887Z] Session criada
+[2026-05-30T00:36:14.890Z] Verificando plano para instituição: 1
+[2026-05-30T00:36:14.900Z] Plano encontrado: comum
+[2026-05-30T00:36:14.903Z] Redirecting to: /aluno-novo
+[2026-05-30T00:41:59.503Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:41:59.507Z] Buscando aluno por email
+[2026-05-30T00:41:59.508Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:41:59.519Z] Session criada
+[2026-05-30T00:41:59.534Z] Verificando plano para instituição: 1
+[2026-05-30T00:41:59.540Z] Plano encontrado: comum
+[2026-05-30T00:41:59.541Z] Redirecting to: /aluno-novo
+[2026-05-30T00:55:42.164Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:55:42.197Z] Buscando aluno por email
+[2026-05-30T00:55:42.215Z] Aluno encontrado: undefined
+[2026-05-30T00:55:42.218Z] Credenciais inválidas
+[2026-05-30T00:55:54.312Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:55:54.323Z] Buscando aluno por email
+[2026-05-30T00:55:54.326Z] Aluno encontrado: undefined
+[2026-05-30T00:55:54.327Z] Credenciais inválidas
+[2026-05-30T00:59:26.328Z] Iniciando login para: jairo123@gmail.com
+[2026-05-30T00:59:26.433Z] Buscando aluno por email
+[2026-05-30T00:59:26.506Z] Aluno encontrado: {"id":3,"nome":"Jairo Cabeção","email":"jairo123@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T00:59:26.584Z] Session criada
+[2026-05-30T00:59:26.682Z] Verificando plano para instituição: 1
+[2026-05-30T00:59:26.729Z] Plano encontrado: comum
+[2026-05-30T00:59:26.740Z] Redirecting to: /aluno-novo
+[2026-05-30T01:30:05.822Z] Iniciando login para: joao@test.com
+[2026-05-30T01:30:05.824Z] Buscando aluno por email
+[2026-05-30T01:30:05.837Z] Aluno encontrado: {"id":1,"nome":"João Silva","email":"joao@test.com","senha":"senha123","saldo":700,"instituicao_id":1}
+[2026-05-30T01:30:05.839Z] Session criada
+[2026-05-30T01:30:05.841Z] Verificando plano para instituição: 1
+[2026-05-30T01:30:05.848Z] Plano encontrado: premium
+[2026-05-30T01:30:05.850Z] Redirecting to: /aluno-premium
+[2026-05-30T01:30:27.209Z] Iniciando login para: maria@test.com
+[2026-05-30T01:30:27.215Z] Buscando aluno por email
+[2026-05-30T01:30:27.220Z] Aluno encontrado: {"id":2,"nome":"Maria Santos","email":"maria@test.com","senha":"senha123","saldo":500,"instituicao_id":2}
+[2026-05-30T01:30:27.222Z] Session criada
+[2026-05-30T01:30:27.226Z] Verificando plano para instituição: 2
+[2026-05-30T01:30:27.232Z] Plano encontrado: comum
+[2026-05-30T01:30:27.234Z] Redirecting to: /aluno-novo
+[2026-05-30T01:30:40.527Z] Iniciando login para: pedro@test.com
+[2026-05-30T01:30:40.528Z] Buscando aluno por email
+[2026-05-30T01:30:40.530Z] Aluno encontrado: {"id":3,"nome":"Pedro Oliveira","email":"pedro@test.com","senha":"senha123","saldo":650,"instituicao_id":3}
+[2026-05-30T01:30:40.532Z] Session criada
+[2026-05-30T01:30:40.539Z] Verificando plano para instituição: 3
+[2026-05-30T01:30:40.544Z] Plano encontrado: premium
+[2026-05-30T01:30:40.546Z] Redirecting to: /aluno-premium
+[2026-05-30T01:32:02.232Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-30T01:32:02.234Z] Buscando aluno por email
+[2026-05-30T01:32:02.244Z] Aluno encontrado: {"id":4,"nome":"Kaue Aelcio santos guilherme","email":"alveshallim@gmail.com","senha":"13042008","saldo":700,"instituicao_id":1}
+[2026-05-30T01:32:02.246Z] Session criada
+[2026-05-30T01:32:02.247Z] Verificando plano para instituição: 1
+[2026-05-30T01:32:02.269Z] Plano encontrado: comum
+[2026-05-30T01:32:02.282Z] Redirecting to: /aluno-novo
+[2026-05-30T01:59:18.310Z] Iniciando login para: alveshallim@gmail.com
+[2026-05-30T01:59:18.328Z] Buscando aluno por email
+[2026-05-30T01:59:18.359Z] Aluno encontrado: undefined
+[2026-05-30T01:59:18.360Z] Credenciais inválidas
