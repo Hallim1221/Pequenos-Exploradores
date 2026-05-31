@@ -92,14 +92,6 @@
     <form class="cadastro-aluno-form" method="POST" action="/aluno/cadastro">
       <input type="text" name="nome" placeholder="Nome completo" required autocomplete="name">
       <input type="email" name="email" placeholder="E-mail do Aluno" required autocomplete="email">
-      <select name="instituicao_id" required style="padding: 0.7em; border-radius: 6px; border: 2px solid #3bb273; font-size: 1em; background: #fff;">
-        <option value="">-- Selecione sua escola --</option>
-        <% if (typeof instituicoes !== 'undefined' && instituicoes.length > 0) { %>
-          <% instituicoes.forEach(function(inst) { %>
-            <option value="<%= inst.id %>"><%= inst.nome_escola %></option>
-          <% }); %>
-        <% } %>
-      </select>
       <input type="password" name="password" placeholder="Crie uma senha" required autocomplete="new-password">
       <input type="password" name="confirmPassword" placeholder="Confirme a senha" required autocomplete="new-password">
       <button type="submit" class="cadastro-aluno-btn">Cadastrar</button>

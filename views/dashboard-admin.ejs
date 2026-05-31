@@ -197,6 +197,10 @@
     position: absolute; top: 6px; right: 6px;
     width: 7px; height: 7px; border-radius: 50%;
     background: var(--red-mid); border: 1.5px solid #fff;
+    display: none;
+  }
+  .notif-dot.visible {
+    display: block;
   }
   .admin-chip {
     display: flex; align-items: center; gap: 6px;
@@ -409,9 +413,9 @@
   .nivel-ouro { background: #FFF6D9; color: #7A5800; }
 
   /* ── MODAIS ── */
-  dialog.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 999; align-items: center; justify-content: center; }
+  dialog.modal-overlay { display: none; position: fixed; inset: 0; background: transparent; z-index: 999; align-items: center; justify-content: center; border: none; }
   dialog.modal-overlay.open { display: flex; }
-  dialog.modal-overlay::backdrop { background: rgba(0,0,0,0.3); }
+  dialog.modal-overlay::backdrop { display: none; }
   article.modal { background: var(--bg-card); border-radius: 12px; padding: 0; max-width: 500px; width: 90%; box-shadow: var(--shadow-lg); animation: modalIn 0.2s ease; }
   #modal-chat-parceria article.modal { padding: 0; width: 600px; max-width: 90vw; }
   #modal-chat-parceria article.modal header { padding: 16px; }
@@ -476,6 +480,52 @@
   .chat-input:focus { outline: none; border-color: var(--g400); background: #fff; }
   .chat-send { width: 70px; height: 38px; border-radius: 10px; background: var(--g600); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; flex-shrink: 0; transition: background 0.15s; }
   .chat-send:hover { background: var(--g700); }
+
+  /* ── ABA LATERAL DE NOTIFICACOES ── */
+  .notifications-sidebar { position: fixed; right: 0; top: 0; width: 380px; height: 100vh; background: var(--bg-card); border-left: 1px solid var(--border-sm); z-index: 998; transform: translateX(100%); transition: transform 0.3s ease; box-shadow: -2px 0 8px rgba(0,0,0,0.1); }
+  .notifications-sidebar.open { transform: translateX(0); }
+  .notif-header { padding: 16px; border-bottom: 1px solid var(--border-sm); display: flex; align-items: center; justify-content: space-between; }
+  .notif-header-title { font-size: 15px; font-weight: 700; color: var(--text); }
+  .notif-close-btn { width: 32px; height: 32px; border: 1px solid var(--border); background: var(--bg-card); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-sub); transition: all 0.15s; }
+  .notif-close-btn:hover { background: var(--red-bg); color: var(--red); }
+  .notif-content { height: calc(100vh - 60px); overflow-y: auto; display: flex; flex-direction: column; }
+  .notif-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-mute); padding: 24px; text-align: center; }
+  .notif-empty-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.5; }
+  .notif-list { display: flex; flex-direction: column; }
+  .notif-item { padding: 14px 16px; border-bottom: 1px solid var(--border-sm); cursor: pointer; transition: background 0.15s; }
+  .notif-item:hover { background: var(--g50); }
+  .notif-item-header { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .notif-item-type { font-size: 20px; flex-shrink: 0; }
+  .notif-item-title { font-size: 13px; font-weight: 600; color: var(--text); }
+  .notif-item-subtitle { font-size: 12px; color: var(--text-mute); margin-top: 2px; }
+  .notif-item-content { font-size: 12.5px; color: var(--text-sub); line-height: 1.4; margin-top: 6px; }
+  .notif-item-time { font-size: 11px; color: var(--text-mute); margin-top: 8px; }
+
+  /* ── CONFIGURAÇÕES MODAL ── */
+  .settings-modal { position: fixed; right: 0; top: 0; width: 420px; height: 100vh; background: var(--bg-card); border-left: 1px solid var(--border); transform: translateX(120%); transition: transform 0.3s ease; z-index: 1000; overflow-y: auto; box-shadow: -4px 0 12px rgba(0,0,0,0.1); }
+  .settings-modal.open { transform: translateX(0); }
+  .settings-header { padding: 20px; border-bottom: 1px solid var(--border-sm); display: flex; align-items: center; justify-content: space-between; }
+  .settings-header h2 { margin: 0; font-size: 18px; font-weight: 700; color: var(--text); }
+  .settings-close-btn { width: 32px; height: 32px; border: 1px solid var(--border); background: transparent; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-sub); transition: all 0.15s; }
+  .settings-close-btn:hover { background: var(--red-bg); color: var(--red); }
+  .settings-content { padding: 20px; }
+  .settings-section { margin-bottom: 28px; }
+  .settings-section-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-mute); margin-bottom: 12px; }
+  .settings-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 12px; background: var(--g50); border-radius: 8px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; }
+  .settings-item:hover { background: var(--g100); }
+  .settings-item-info { flex: 1; }
+  .settings-item-label { font-size: 14px; font-weight: 600; color: var(--text); }
+  .settings-item-desc { font-size: 12px; color: var(--text-mute); margin-top: 3px; }
+  .toggle-switch { position: relative; width: 44px; height: 24px; background: var(--g300); border-radius: 12px; cursor: pointer; transition: background 0.3s; }
+  .toggle-switch.active { background: var(--g500); }
+  .toggle-switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: left 0.3s; }
+  .toggle-switch.active::after { left: 22px; }
+  .settings-button { width: 100%; padding: 12px; margin-bottom: 10px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .settings-button-primary { background: var(--g500); color: white; }
+  .settings-button-primary:hover { background: var(--g600); }
+  .settings-button-danger { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
+  .settings-button-danger:hover { background: var(--red); color: white; }
+  .settings-divider { height: 1px; background: var(--border-sm); margin: 20px 0; }
 
   /* ── PUBLICAÇÕES ── */
   article.pub-card { background: var(--bg-card); border: 1px solid var(--border-sm); border-radius: 12px; padding: 18px; margin-bottom: 14px; box-shadow: var(--shadow-sm); transition: box-shadow 0.15s; }
@@ -595,14 +645,14 @@
           <span class="breadcrumb-sep">/</span>
           <span id="topbar-breadcrumb">Dashboard</span>
         </nav>
-        <h1 class="topbar-title" id="topbar-title">📊 Dashboard</h1>
+        <h1 class="topbar-title" id="topbar-title"> Dashboard</h1>
       </article>
       <article class="topbar-right">
-        <button class="topbar-btn" title="Notificações">
+        <button class="topbar-btn" title="Notificações" onclick="abrirNotificacoes()">
           🔔
           <span class="notif-dot"></span>
         </button>
-        <button class="topbar-btn" title="Configurações">⚙️</button>
+        <button class="topbar-btn" title="Configurações" onclick="abrirConfiguracoes()">⚙️</button>
         <article class="admin-chip">
           <span class="admin-chip-avatar">AD</span>
           <article>
@@ -622,51 +672,90 @@
             <h2 class="page-title">Dashboard</h2>
             <p class="page-subtitle">Visão geral da plataforma Pequenos Exploradores</p>
           </section>
-          <article class="page-actions">
-            <button class="btn btn-primary btn-sm" onclick="openModal('modal-inst')">＋ Nova Instituição</button>
-          </article>
         </header>
 
         <section class="stats-grid">
           <article class="stat-card" data-icon="">
             <p class="stat-label">Instituições</p>
-            <p class="stat-value">24</p>
-            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 3 este mês</span></p>
+            <p class="stat-value" id="stat-instituicoes">--</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up" id="stat-inst-trend">--</span></p>
           </article>
           <article class="stat-card" data-icon="">
-            <p class="stat-label">Usuários</p>
-            <p class="stat-value">1.240</p>
-            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 125 este mês</span></p>
+            <p class="stat-label">Usuários (Alunos + Prof)</p>
+            <p class="stat-value" id="stat-usuarios">--</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up" id="stat-user-trend">--</span></p>
           </article>
           <article class="stat-card" data-icon="">
             <p class="stat-label">Alunos</p>
-            <p class="stat-value">8.521</p>
-            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 340 este mês</span></p>
+            <p class="stat-value" id="stat-alunos">--</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up" id="stat-alunos-trend">--</span></p>
           </article>
           <article class="stat-card" data-icon="">
-            <p class="stat-label">Receita (PRO)</p>
-            <p class="stat-value">R$ 45k</p>
-            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 12% this mês</span></p>
+            <p class="stat-label">Receita (Saldo Total)</p>
+            <p class="stat-value" id="stat-receita">--</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up" id="stat-receita-trend">--</span></p>
           </article>
         </section>
 
+        <!-- NOVAS SEÇÕES COM DADOS REAIS -->
         <section class="two-col">
+          <!-- PLACAR DE PLANOS -->
           <article class="card">
             <header class="card-header">
-              <h3 class="card-title">📈 Crescimento de Usuários</h3>
-              <p class="card-action">Ver detalhes →</p>
+              <h3 class="card-title">🏆 Distribuição de Planos</h3>
             </header>
-            <p style="font-size:13px;color:var(--text-sub);margin-bottom:12px">Últimos 30 dias</p>
-            <progress class="progress-bar" value="65" max="100"><span class="progress-fill" style="width:65%"></span></progress>
+            <article class="plan-badges" style="display: flex; flex-direction: column; gap: 8px;">
+              <p style="color: var(--text-mute); text-align: center; padding: 20px; font-size: 13px;">Carregando...</p>
+            </article>
           </article>
 
+          <!-- RANKING DE ALUNOS -->
           <article class="card">
             <header class="card-header">
-              <h3 class="card-title">🎯 Taxa de Ativação</h3>
-              <p class="card-action">Ver detalhes →</p>
+              <h3 class="card-title">🎖️ Top 5 Alunos</h3>
             </header>
-            <p style="font-size:13px;color:var(--text-sub);margin-bottom:12px">Conversão de trial para pago</p>
-            <progress class="progress-bar" value="72" max="100"><span class="progress-fill" style="width:72%"></span></progress>
+            <article class="ranking-alunos" style="max-height: 280px; overflow-y: auto;">
+              <p style="color: var(--text-mute); text-align: center; padding: 20px; font-size: 13px;">Carregando...</p>
+            </article>
+          </article>
+        </section>
+
+        <!-- ÚLTIMAS ATIVIDADES -->
+        <article class="card" style="margin-top: 16px;">
+          <header class="card-header">
+            <h3 class="card-title">📋 Últimas Atividades</h3>
+            <p class="card-action">Ver todas →</p>
+          </header>
+          <article class="ultimas-atividades" style="max-height: 300px; overflow-y: auto;">
+            <p style="color: var(--text-mute); text-align: center; padding: 20px; font-size: 13px;">Carregando...</p>
+          </article>
+        </article>
+
+        <section class="two-col" style="margin-top: 16px;">
+          <article class="card" id="crescimento-card" style="cursor: pointer;">
+            <header class="card-header">
+              <h3 class="card-title">📈 Crescimento de Usuários</h3>
+              <p class="card-action" onclick="abrirDetalheCrescimento()">Ver detalhes →</p>
+            </header>
+            <p style="font-size:13px;color:var(--text-mute);margin-bottom:12px">Últimos 30 dias</p>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <progress class="progress-bar" id="crescimento-progress" value="65" max="100"><span class="progress-fill" style="width:65%"></span></progress>
+              <span id="crescimento-valor" style="font-weight: 600; color: var(--g500); min-width: 45px;">65%</span>
+            </div>
+            <p id="crescimento-desc" style="font-size:12px;color:var(--text-mute);margin-top:8px;">Carregando...</p>
+          </article>
+
+          <article class="card" id="ativacao-card" style="cursor: pointer;">
+            <header class="card-header">
+              <h3 class="card-title">🎯 Taxa de Ativação</h3>
+              <p class="card-action" onclick="abrirDetalheAtivacao()">Ver detalhes →</p>
+            </header>
+            <p style="font-size:13px;color:var(--text-mute);margin-bottom:12px">Conversão de trial para pago</p>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <progress class="progress-bar" id="ativacao-progress" value="72" max="100"><span class="progress-fill" style="width:72%"></span></progress>
+              <span id="ativacao-valor" style="font-weight: 600; color: var(--g500); min-width: 45px;">72%</span>
+            </div>
+            <p id="ativacao-desc" style="font-size:12px;color:var(--text-mute);margin-top:8px;">Carregando...</p>
           </article>
         </section>
 
@@ -705,9 +794,6 @@
             <h2 class="page-title">Instituições</h2>
             <p class="page-subtitle">Gerencie todas as escolas registradas</p>
           </section>
-          <article class="page-actions">
-            <button class="btn btn-primary btn-sm" onclick="openModal('modal-inst')">＋ Nova Instituição</button>
-          </article>
         </header>
 
         <section class="search-row">
@@ -893,7 +979,7 @@
             <article class="chat-list-items" id="chat-list-container">
               <% if (parcerias && parcerias.length > 0) { %>
                 <% parcerias.forEach((parceria, index) => { %>
-                  <section class="chat-item <%= index === 0 ? 'active' : '' %>" onclick="selectChatParceria(<%= parceria.id %>, '<%= parceria.nome_escola %>', this)">
+                  <section class="chat-item <%= index === 0 ? 'active' : '' %>" data-parceria-id="<%= parceria.id %>" onclick="selectChatParceria(<%= parceria.id %>, '<%= parceria.nome_escola %>', this)">
                     <span class="chat-avatar" style="background: var(--g400); color: white; font-weight: bold;">
                       <%= parceria.nome_escola.substring(0, 2).toUpperCase() %>
                     </span>
@@ -1019,31 +1105,124 @@
         </header>
 
         <section class="stats-grid">
-          <article class="stat-card" data-icon="📈">
+          <article class="stat-card" data-icon="📈" data-rel-id="crescimento">
             <p class="stat-label">Crescimento Mensal</p>
-            <p class="stat-value">+18%</p>
-            <p class="stat-sub up"><span class="stat-trend trend-up">↑ Acelerado</span></p>
+            <p class="stat-value">--</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">Carregando...</span></p>
           </article>
-          <article class="stat-card" data-icon="⏱️">
+          <article class="stat-card" data-icon="⏱️" data-rel-id="tempo">
             <p class="stat-label">Tempo Médio</p>
-            <p class="stat-value">2h 15m</p>
+            <p class="stat-value">--</p>
             <p class="stat-sub">por sessão</p>
           </article>
-          <article class="stat-card" data-icon="⭐">
+          <article class="stat-card" data-icon="⭐" data-rel-id="satisfacao">
             <p class="stat-label">Satisfação</p>
-            <p class="stat-value">4.8</p>
+            <p class="stat-value">--</p>
             <p class="stat-sub">de 5.0</p>
           </article>
-          <article class="stat-card" data-icon="📊">
+          <article class="stat-card" data-icon="📊" data-rel-id="retencao">
             <p class="stat-label">Retenção</p>
-            <p class="stat-value">87%</p>
-            <p class="stat-sub up"><span class="stat-trend trend-up">↑ 5% ao mês</span></p>
+            <p class="stat-value">--</p>
+            <p class="stat-sub up"><span class="stat-trend trend-up">Carregando...</span></p>
           </article>
         </section>
       </article>
     </section>
   </section>
 </main>
+
+<!-- Aba Lateral de Notificacoes -->
+<aside class="notifications-sidebar" id="notifications-sidebar">
+  <header class="notif-header">
+    <h2 class="notif-header-title">Notificacoes</h2>
+    <button class="notif-close-btn" onclick="fecharNotificacoes()" title="Fechar">✕</button>
+  </header>
+  <div class="notif-content">
+    <div id="notif-items" class="notif-list">
+      <div class="notif-empty">
+        <div class="notif-empty-icon">🔔</div>
+        <p>Nenhuma notificacao no momento</p>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- Modal de Configurações -->
+<div class="settings-modal" id="settings-modal">
+  <header class="settings-header">
+    <h2>⚙️ Configurações</h2>
+    <button class="settings-close-btn" onclick="fecharConfiguracoes()" title="Fechar">✕</button>
+  </header>
+  <div class="settings-content">
+    <!-- Seção: Aparência -->
+    <div class="settings-section">
+      <div class="settings-section-title">Aparência</div>
+      <div class="settings-item" onclick="toggleDarkMode()">
+        <div class="settings-item-info">
+          <div class="settings-item-label">🌙 Modo Escuro</div>
+          <div class="settings-item-desc">Ativa tema escuro para a página admin</div>
+        </div>
+        <div class="toggle-switch" id="toggle-dark-mode"></div>
+      </div>
+    </div>
+
+    <!-- Seção: Notificações -->
+    <div class="settings-section">
+      <div class="settings-section-title">Notificações</div>
+      <div class="settings-item" onclick="toggleMuteNotifications()">
+        <div class="settings-item-info">
+          <div class="settings-item-label">🔇 Silenciar Notificações</div>
+          <div class="settings-item-desc">Desativa sons e alertas</div>
+        </div>
+        <div class="toggle-switch" id="toggle-mute-notifications"></div>
+      </div>
+      <div class="settings-item" onclick="toggleNotificationSound()">
+        <div class="settings-item-info">
+          <div class="settings-item-label">🔔 Som de Notificação</div>
+          <div class="settings-item-desc">Toca som ao receber notificação</div>
+        </div>
+        <div class="toggle-switch active" id="toggle-notification-sound"></div>
+      </div>
+    </div>
+
+    <!-- Seção: Atualizações -->
+    <div class="settings-section">
+      <div class="settings-section-title">Atualizações Automáticas</div>
+      <div class="settings-item" onclick="toggleAutoRefresh()">
+        <div class="settings-item-info">
+          <div class="settings-item-label">🔄 Atualização Automática</div>
+          <div class="settings-item-desc">Recarrega dados a cada <span id="refresh-time">30</span>s</div>
+        </div>
+        <div class="toggle-switch active" id="toggle-auto-refresh"></div>
+      </div>
+    </div>
+
+    <!-- Seção: Privacidade -->
+    <div class="settings-section">
+      <div class="settings-section-title">Segurança</div>
+      <button class="settings-button settings-button-primary" onclick="limparDadosLocais()">
+        🗑️ Limpar Dados Locais
+      </button>
+    </div>
+
+    <div class="settings-divider"></div>
+
+    <!-- Seção: Ações -->
+    <div class="settings-section">
+      <div class="settings-section-title">Conta</div>
+      <button class="settings-button settings-button-danger" onclick="fazerLogout()">
+        🚪 Sair
+      </button>
+    </div>
+
+    <div class="settings-divider"></div>
+
+    <!-- Versão -->
+    <div style="padding: 16px; text-align: center; color: var(--text-mute); font-size: 11px;">
+      Pequenos Exploradores Admin v1.0.0
+    </div>
+  </div>
+</div>
 
 <!-- MODALS -->
 
@@ -1157,6 +1336,44 @@
   </article>
 </dialog>
 
+<!-- Modal: Confirmar exclusão de usuário -->
+<dialog class="modal-overlay" id="modal-delete-usuario">
+  <article class="modal modal-sm">
+    <header class="modal-header">
+      <h2 class="modal-title">🗑️ Excluir Usuário</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-delete-usuario')">✕</button>
+    </header>
+    <p id="delete-usuario-msg" style="font-size:13px;color:var(--text-sub);margin-bottom:14px">Tem certeza que deseja excluir o usuário <strong id="delete-usuario-name"></strong>? Esta ação não pode ser desfeita.</p>
+    <article class="block-warning">
+      <p class="block-warning-title">⚠️ Aviso importante</p>
+      <p class="block-warning-text">A exclusão do usuário é permanente e removerá todos os seus dados do sistema.</p>
+    </article>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-delete-usuario')">Cancelar</button>
+      <button class="btn btn-danger" id="delete-usuario-confirm-btn" onclick="confirmarExclusaoUsuario()">🗑️ Excluir Usuário</button>
+    </footer>
+  </article>
+</dialog>
+
+<!-- Modal: Excluir Instituição -->
+<dialog class="modal-overlay" id="modal-delete-instituicao">
+  <article class="modal modal-sm">
+    <header class="modal-header">
+      <h2 class="modal-title">Excluir Instituicao</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-delete-instituicao')">✕</button>
+    </header>
+    <p id="delete-instituicao-msg" style="font-size:13px;color:var(--text-sub);margin-bottom:14px">Tem certeza que deseja excluir a instituicao <strong id="delete-instituicao-name"></strong>? Esta acao nao pode ser desfeita.</p>
+    <article class="block-warning">
+      <p class="block-warning-title">Aviso importante</p>
+      <p class="block-warning-text">A exclusao da instituicao e permanente e removera todos os seus dados do sistema.</p>
+    </article>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-delete-instituicao')">Cancelar</button>
+      <button class="btn btn-danger" id="delete-instituicao-confirm-btn" onclick="confirmarExclusaoInstituicao()">Excluir Instituicao</button>
+    </footer>
+  </article>
+</dialog>
+
 <!-- Modal: Chat de Parceria -->
 <dialog class="modal-overlay" id="modal-chat-parceria">
   <article class="modal" style="display:flex;flex-direction:column;height:600px;width:600px;">
@@ -1217,6 +1434,58 @@ function navigate(id, el) {
   // Carregar dados específicos de cada página
   if (id === 'instituicoes') {
     carregarInstituicoes();
+  } else if (id === 'dashboard') {
+    carregarDashboard();
+    carregarRanking();
+  } else if (id === 'usuarios') {
+    carregarUsuarios();
+  } else if (id === 'relatorios') {
+    carregarRelatorios();
+  }
+}
+
+async function carregarRelatorios() {
+  try {
+    const resposta = await fetch('/api/relatorios');
+    const dados = await resposta.json();
+    
+    if (!dados.success) {
+      console.error('Erro ao carregar relatórios');
+      return;
+    }
+    
+    const relatorios = dados.relatorios;
+    
+    // Atualizar Crescimento Mensal
+    const cardCrescimento = document.querySelector('[data-rel-id="crescimento"]');
+    if (cardCrescimento) {
+      cardCrescimento.querySelector('.stat-value').textContent = relatorios.crescimento_mensal.valor;
+      const trendClass = relatorios.crescimento_mensal.tendencia === 'acelerado' ? 'trend-up' : 'trend-neutral';
+      cardCrescimento.querySelector('.stat-trend').textContent = `↑ ${relatorios.crescimento_mensal.tendencia.charAt(0).toUpperCase() + relatorios.crescimento_mensal.tendencia.slice(1)}`;
+      cardCrescimento.querySelector('.stat-trend').className = `stat-trend ${trendClass}`;
+    }
+    
+    // Atualizar Tempo Médio
+    const cardTempo = document.querySelector('[data-rel-id="tempo"]');
+    if (cardTempo) {
+      cardTempo.querySelector('.stat-value').textContent = relatorios.tempo_medio.valor;
+    }
+    
+    // Atualizar Satisfação
+    const cardSatisfacao = document.querySelector('[data-rel-id="satisfacao"]');
+    if (cardSatisfacao) {
+      cardSatisfacao.querySelector('.stat-value').textContent = relatorios.satisfacao.valor;
+    }
+    
+    // Atualizar Retenção
+    const cardRetencao = document.querySelector('[data-rel-id="retencao"]');
+    if (cardRetencao) {
+      cardRetencao.querySelector('.stat-value').textContent = relatorios.retencao.valor;
+      const trendClass = relatorios.retencao.tendencia === 'estavel' ? 'trend-up' : 'trend-down';
+      cardRetencao.querySelector('.stat-sub').innerHTML = `<span class="stat-trend ${trendClass}">↑ ${relatorios.retencao.subtexto}</span>`;
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar relatórios:', erro);
   }
 }
 
@@ -1241,6 +1510,181 @@ function confirmDelete(type) {
 let blockingInst = '';
 let isUnblocking = false;
 
+// ===== DASHBOARD DADOS REAIS =====
+async function carregarDashboard() {
+  try {
+    const resposta = await fetch('/api/dashboard/resumo');
+    const dados = await resposta.json();
+    
+    if (!dados.success) {
+      console.error('Erro ao carregar resumo do dashboard');
+      return;
+    }
+    
+    const resumo = dados.resumo;
+    
+    // ===== ATUALIZAR STAT-CARDS COM DADOS REAIS =====
+    
+    // 1. INSTITUIÇÕES (total de parcerias)
+    const totalInst = resumo.total_instituicoes;
+    document.getElementById('stat-instituicoes').textContent = totalInst;
+    document.getElementById('stat-inst-trend').textContent = `Total: ${totalInst} ativa(s)`;
+    
+    // 2. USUÁRIOS (Alunos + Professores)
+    const totalUsuarios = resumo.total_alunos + resumo.total_professores;
+    document.getElementById('stat-usuarios').textContent = totalUsuarios;
+    document.getElementById('stat-user-trend').textContent = `${resumo.total_alunos} alunos + ${resumo.total_professores} prof.`;
+    
+    // 3. ALUNOS (total de alunos)
+    const totalAlunos = resumo.total_alunos;
+    document.getElementById('stat-alunos').textContent = totalAlunos;
+    document.getElementById('stat-alunos-trend').textContent = `Total de alunos cadastrados`;
+    
+    // 4. RECEITA (Saldo total de todos os alunos)
+    // Precisamos buscar os dados de instituições para calcular o saldo total
+    const respostaInst = await fetch('/api/instituicoes');
+    const dadosInst = await respostaInst.json();
+    
+    let saldoTotal = 0;
+    if (dadosInst.success && dadosInst.instituicoes) {
+      saldoTotal = dadosInst.instituicoes.reduce((sum, inst) => sum + (inst.saldo_total || 0), 0);
+    }
+    
+    const instPremium = resumo.planos.premium || 0;
+    document.getElementById('stat-receita').textContent = `⭐ ${saldoTotal} pts`;
+    document.getElementById('stat-receita-trend').textContent = `Saldo total (${instPremium} plano(s) premium)`;
+    
+    // ===== ATUALIZAR BADGES DE PLANO =====
+    const planoBadges = document.querySelector('.plan-badges');
+    if (planoBadges) {
+      let html = '<p style="font-size: 13px; font-weight: 600; margin-bottom: 8px; color: var(--text);">📊 Planos:</p>';
+      if (resumo.planos.premium > 0) {
+        html += `<span class="badge badge-gold">⭐ Premium: ${resumo.planos.premium}</span>`;
+      }
+      if (resumo.planos.comum > 0) {
+        html += `<span class="badge badge-slate">📚 Comum: ${resumo.planos.comum}</span>`;
+      }
+      planoBadges.innerHTML = html;
+    }
+    
+    // ===== ATUALIZAR ÚLTIMAS ATIVIDADES =====
+    const ultimasAtiv = document.querySelector('.ultimas-atividades');
+    if (ultimasAtiv && resumo.ultimas_atividades) {
+      let html = '';
+      resumo.ultimas_atividades.forEach(ativ => {
+        html += `
+          <article style="padding: 10px; border-bottom: 1px solid var(--border-sm); font-size: 13px;">
+            <p style="color: var(--text); font-weight: 500;">👤 ${ativ.aluno_nome || 'Usuário'}</p>
+            <p style="color: var(--text-sub); font-size: 12px;">📍 ${ativ.nome_escola || 'Instituição'}</p>
+            <p style="color: var(--text-mute); font-size: 12px;">🕐 ${new Date(ativ.data).toLocaleDateString('pt-BR')}</p>
+          </article>
+        `;
+      });
+      ultimasAtiv.innerHTML = html || '<p style="color: var(--text-mute); padding: 10px; text-align: center;">Nenhuma atividade ainda</p>';
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar dashboard:', erro);
+  }
+}
+
+async function carregarRanking() {
+  try {
+    const resposta = await fetch('/api/dashboard/ranking?limite=5');
+    const dados = await resposta.json();
+    
+    if (!dados.success) {
+      console.error('Erro ao carregar ranking');
+      return;
+    }
+    
+    const ranking = document.querySelector('.ranking-alunos');
+    if (ranking && dados.ranking) {
+      let html = '';
+      dados.ranking.forEach((aluno, idx) => {
+        const medalha = idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : '📍';
+        html += `
+          <article style="display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid var(--border-sm);">
+            <span style="font-size: 18px;">${medalha}</span>
+            <article style="flex: 1;">
+              <p style="color: var(--text); font-weight: 500; font-size: 13px;">${aluno.nome}</p>
+              <p style="color: var(--text-mute); font-size: 12px;">${aluno.instituicao}</p>
+            </article>
+            <p style="color: var(--g700); font-weight: 700; font-size: 14px;">⭐ ${aluno.pontos}</p>
+          </article>
+        `;
+      });
+      ranking.innerHTML = html || '<p style="color: var(--text-mute); padding: 10px; text-align: center;">Sem dados</p>';
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar ranking:', erro);
+  }
+}
+
+// ===== CRESCIMENTO DE USUÁRIOS =====
+async function carregarCrescimento() {
+  try {
+    const resposta = await fetch('/api/dashboard/crescimento');
+    const dados = await resposta.json();
+    
+    if (!dados.sucesso) {
+      console.error('Erro ao carregar crescimento');
+      return;
+    }
+    
+    // Atualizar barra de progresso
+    const progress = document.getElementById('crescimento-progress');
+    const valor = document.getElementById('crescimento-valor');
+    const desc = document.getElementById('crescimento-desc');
+    
+    if (progress && valor && desc) {
+      const percentual = Math.min(dados.barraPercentual, 100);
+      progress.value = percentual;
+      progress.querySelector('.progress-fill').style.width = percentual + '%';
+      valor.textContent = percentual + '%';
+      desc.textContent = `+${dados.crescimento} usuários (${dados.percentual}% crescimento)`;
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar crescimento:', erro);
+  }
+}
+
+// ===== TAXA DE ATIVAÇÃO =====
+async function carregarAtivacao() {
+  try {
+    const resposta = await fetch('/api/dashboard/taxa-ativacao');
+    const dados = await resposta.json();
+    
+    if (!dados.sucesso) {
+      console.error('Erro ao carregar taxa de ativação');
+      return;
+    }
+    
+    // Atualizar barra de progresso
+    const progress = document.getElementById('ativacao-progress');
+    const valor = document.getElementById('ativacao-valor');
+    const desc = document.getElementById('ativacao-desc');
+    
+    if (progress && valor && desc) {
+      const percentual = Math.min(dados.barraPercentual, 100);
+      progress.value = percentual;
+      progress.querySelector('.progress-fill').style.width = percentual + '%';
+      valor.textContent = percentual + '%';
+      desc.textContent = `${dados.premium_count} de ${dados.total_instituicoes} instituições em plano premium`;
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar taxa de ativação:', erro);
+  }
+}
+
+// ===== DETALHES DOS CARDS =====
+function abrirDetalheCrescimento() {
+  alert('📈 Crescimento de Usuários\n\nÚltimos 30 dias\n\nEsta seção mostra o crescimento de novos usuários (alunos + professores) cadastrados na plataforma nos últimos 30 dias.');
+}
+
+function abrirDetalheAtivacao() {
+  alert('🎯 Taxa de Ativação\n\nConversão Trial → Premium\n\nEsta métrica representa a porcentagem de instituições que converteram de trial (teste) para plano premium (pago).');
+}
+
 // Handler para mudanças de plano (definido uma única vez, fora da função)
 function handlePlanoChange(event) {
   if (event.target.classList.contains('plan-select')) {
@@ -1248,6 +1692,58 @@ function handlePlanoChange(event) {
     const novoPlano = event.target.value;
     console.log(`Select disparado: instId=${instId}, novoPlano=${novoPlano}`);
     atualizarPlano(instId, novoPlano);
+  }
+}
+
+// ===== USUÁRIOS =====
+async function carregarUsuarios() {
+  try {
+    const resposta = await fetch('/api/usuarios');
+    const dados = await resposta.json();
+    
+    if (!dados.success) {
+      console.error('Erro ao carregar usuários');
+      return;
+    }
+    
+    const tbody = document.querySelector('#tbl-users tbody');
+    tbody.innerHTML = '';
+    
+    if (!dados.usuarios || dados.usuarios.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-mute); padding: 20px;">Nenhum usuário encontrado</td></tr>';
+      return;
+    }
+    
+    dados.usuarios.forEach(usuario => {
+      const row = document.createElement('tr');
+      
+      // Determinar status badge
+      const statusBadge = usuario.status === 'ativo' 
+        ? '<span class="badge badge-green">Ativo</span>'
+        : '<span class="badge badge-amber">Pendente</span>';
+      
+      // Determinar tipo de usuário
+      const tipoLabel = usuario.tipo === 'professor' ? 'Professor' : 'Aluno';
+      
+      row.innerHTML = `
+        <td><p class="cell-main">${usuario.nome}</p><p class="cell-sub">${tipoLabel}</p></td>
+        <td>${usuario.email}</td>
+        <td>${usuario.instituicao || 'N/A'}</td>
+        <td>${statusBadge}</td>
+        <td style="text-align:right">
+          ${usuario.status !== 'ativo' 
+            ? `<button class="btn btn-sm btn-primary" onclick="approveUser(this)">✓ Aprovar</button>`
+            : `<button class="btn btn-sm" onclick="abrirConfirmacaoExclusaoUsuario('${usuario.id}', '${usuario.nome}')" title="Excluir usuário">✏️</button>`
+          }
+        </td>
+      `;
+      
+      tbody.appendChild(row);
+    });
+  } catch (erro) {
+    console.error('Erro ao carregar usuários:', erro);
+    const tbody = document.querySelector('#tbl-users tbody');
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-mute); padding: 20px;">Erro ao carregar usuários</td></tr>';
   }
 }
 
@@ -1291,7 +1787,7 @@ async function carregarInstituicoes() {
         <td><span class="badge badge-green">${inst.status === 'ativo' ? 'Ativo' : 'Inativo'}</span></td>
         <td style="text-align:right">
           <article class="row-actions" onclick="event.stopPropagation()">
-            <button class="btn btn-sm" onclick="editarInstituicao(${inst.id})">✏️</button>
+            <button class="btn btn-sm" onclick="editarInstituicao(${inst.id}, '${inst.nome}')">✏️</button>
             <button class="btn btn-sm btn-danger" onclick="openBlockModal('${inst.nome}', false)">🚫</button>
           </article>
         </td>
@@ -1391,8 +1887,8 @@ async function abrirAlunosInstituicao(instId, instName) {
   }
 }
 
-function editarInstituicao(instId) {
-  showToast('Funcionalidade em desenvolvimento');
+function editarInstituicao(instId, instNome) {
+  abrirConfirmacaoExclusaoInstituicao(instId, instNome);
 }
 
 function openBlockModal(instName, unblock) {
@@ -1421,16 +1917,78 @@ function confirmBlock() {
 }
 
 function filterTable(input, tableId) {
-  const q = input.value.toLowerCase();
+  const q = input.value.toLowerCase().trim();
+  if (!q) {
+    // Se o filtro está vazio, mostrar todas as linhas
+    document.querySelectorAll('#' + tableId + ' tbody tr').forEach(row => {
+      row.style.display = '';
+    });
+    return;
+  }
+  
   document.querySelectorAll('#' + tableId + ' tbody tr').forEach(row => {
-    row.style.display = row.textContent.toLowerCase().includes(q) ? '' : 'none';
+    // Procurar em <td> que contêm <p> ou <span>, mas não em <select>
+    let matches = false;
+    const cells = row.querySelectorAll('td');
+    
+    for (let cell of cells) {
+      // Pega apenas o texto dos <p> e <span>, não dos <select>
+      const cellText = Array.from(cell.querySelectorAll('p, span, a'))
+        .map(el => el.textContent)
+        .join(' ')
+        .toLowerCase();
+      
+      if (cellText.includes(q)) {
+        matches = true;
+        break;
+      }
+      
+      // Se não achou em <p> ou <span>, tenta no texto direto da célula (mas evita <select>)
+      if (!cell.querySelector('select') && cell.textContent.toLowerCase().includes(q)) {
+        matches = true;
+        break;
+      }
+    }
+    
+    row.style.display = matches ? '' : 'none';
   });
 }
 
 function filterByPlan(select) {
   const val = select.value.toLowerCase();
-  document.querySelectorAll('#tbl-inst tbody tr').forEach(row => {
-    row.style.display = !val || row.textContent.toLowerCase().includes(val) ? '' : 'none';
+  const tableId = 'tbl-inst';
+  
+  // Aplicar filtro de plano
+  document.querySelectorAll('#' + tableId + ' tbody tr').forEach(row => {
+    const planSelect = row.querySelector('.plan-select');
+    const planValue = planSelect ? planSelect.value.toLowerCase() : '';
+    
+    // Se val está vazio ou o plano bate, mostrar
+    const planMatches = !val || planValue === val;
+    
+    // Também verificar se o filtro de busca ainda está ativo
+    const searchInput = document.querySelector('input[placeholder="Buscar instituição..."]');
+    let searchMatches = true;
+    
+    if (searchInput && searchInput.value.trim()) {
+      const searchQ = searchInput.value.toLowerCase().trim();
+      const cells = row.querySelectorAll('td');
+      searchMatches = false;
+      
+      for (let cell of cells) {
+        const cellText = Array.from(cell.querySelectorAll('p, span, a'))
+          .map(el => el.textContent)
+          .join(' ')
+          .toLowerCase();
+        
+        if (cellText.includes(searchQ)) {
+          searchMatches = true;
+          break;
+        }
+      }
+    }
+    
+    row.style.display = (planMatches && searchMatches) ? '' : 'none';
   });
 }
 
@@ -1480,6 +2038,83 @@ function publishPub(btn) {
 function editInst() { openModal('modal-inst'); }
 function editUser() { openModal('modal-user'); }
 function editAtiv() { openModal('modal-ativ'); }
+
+// Exclusão de usuário
+let usuarioParaExcluir = null;
+
+function abrirConfirmacaoExclusaoUsuario(usuarioId, usuarioNome) {
+  usuarioParaExcluir = usuarioId;
+  document.getElementById('delete-usuario-name').textContent = usuarioNome;
+  openModal('modal-delete-usuario');
+}
+
+async function confirmarExclusaoUsuario() {
+  if (!usuarioParaExcluir) return;
+  
+  try {
+    const resposta = await fetch(`/api/usuarios/${usuarioParaExcluir}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    const resultado = await resposta.json();
+    
+    if (!resposta.ok || !resultado.success) {
+      showToast('Erro ao excluir usuário: ' + (resultado.message || 'Desconhecido'));
+      return;
+    }
+    
+    showToast('✅ Usuário excluído com sucesso!');
+    closeModal('modal-delete-usuario');
+    usuarioParaExcluir = null;
+    
+    // Recarregar a tabela de usuários
+    carregarUsuarios();
+  } catch (erro) {
+    console.error('Erro ao excluir usuário:', erro);
+    showToast('Erro ao excluir usuário: ' + erro.message);
+  }
+}
+
+// Exclusão de instituição
+let instituicaoParaExcluir = null;
+let instituicaoParaExcluirNome = null;
+
+function abrirConfirmacaoExclusaoInstituicao(instId, instNome) {
+  instituicaoParaExcluir = instId;
+  instituicaoParaExcluirNome = instNome;
+  document.getElementById('delete-instituicao-name').textContent = instNome;
+  openModal('modal-delete-instituicao');
+}
+
+async function confirmarExclusaoInstituicao() {
+  if (!instituicaoParaExcluir) return;
+  
+  try {
+    const resposta = await fetch(`/api/instituicoes/${instituicaoParaExcluir}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    const resultado = await resposta.json();
+    
+    if (!resposta.ok || !resultado.success) {
+      showToast('Erro ao excluir instituicao: ' + (resultado.message || 'Desconhecido'));
+      return;
+    }
+    
+    showToast('Instituicao excluida com sucesso!');
+    closeModal('modal-delete-instituicao');
+    instituicaoParaExcluir = null;
+    instituicaoParaExcluirNome = null;
+    
+    // Recarregar a tabela de instituições
+    carregarInstituicoes();
+  } catch (erro) {
+    console.error('Erro ao excluir instituicao:', erro);
+    showToast('Erro ao excluir instituicao: ' + erro.message);
+  }
+}
 
 // Chat
 function selectChat(name, initials, el) {
@@ -1546,6 +2181,281 @@ async function atualizarBadgeNotificacoes() {
     console.error('Erro ao atualizar badge:', erro);
   }
 }
+
+// Abrir aba lateral de notificacoes
+function abrirNotificacoes() {
+  const sidebar = document.getElementById('notifications-sidebar');
+  sidebar.classList.add('open');
+  carregarNotificacoes();
+}
+
+// Fechar aba lateral de notificacoes
+function fecharNotificacoes() {
+  const sidebar = document.getElementById('notifications-sidebar');
+  sidebar.classList.remove('open');
+}
+
+// Carregar e exibir notificacoes
+async function carregarNotificacoes() {
+  try {
+    const resposta = await fetch('/api/notificacoes');
+    const dados = await resposta.json();
+    
+    if (!dados.sucesso) {
+      console.error('Erro ao carregar notificações');
+      return;
+    }
+    
+    const itemsContainer = document.getElementById('notif-items');
+    itemsContainer.innerHTML = '';
+    
+    // Atualizar visibilidade da marquinha
+    const notifDot = document.querySelector('.notif-dot');
+    if (dados.total > 0) {
+      notifDot?.classList.add('visible');
+    } else {
+      notifDot?.classList.remove('visible');
+    }
+    
+    // Se nao houver notificacoes
+    if (dados.total === 0) {
+      itemsContainer.innerHTML = `
+        <div class="notif-empty">
+          <div class="notif-empty-icon">🔔</div>
+          <p>Nenhuma notificacao no momento</p>
+        </div>
+      `;
+      return;
+    }
+    
+    // Exibir solicitacoes de instituicoes pendentes
+    if (dados.parceriasPendentes && dados.parceriasPendentes.length > 0) {
+      for (const parceria of dados.parceriasPendentes) {
+        const data = new Date(parceria.data).toLocaleDateString('pt-BR');
+        itemsContainer.innerHTML += `
+          <div class="notif-item">
+            <div class="notif-item-header">
+              <div class="notif-item-type">📋</div>
+              <div>
+                <div class="notif-item-title">Nova solicitacao de instituicao</div>
+                <div class="notif-item-subtitle">${parceria.nome}</div>
+              </div>
+            </div>
+            <div class="notif-item-content">
+              Contato: ${parceria.contato}<br>
+              Email: ${parceria.email}<br>
+              Cidade: ${parceria.cidade}
+            </div>
+            <div class="notif-item-time">${data}</div>
+          </div>
+        `;
+      }
+    }
+    
+    // Exibir mensagens nao lidas
+    if (dados.mensagensNaoLidas && dados.mensagensNaoLidas.length > 0) {
+      for (const msg of dados.mensagensNaoLidas) {
+        const data = new Date(msg.data).toLocaleDateString('pt-BR');
+        itemsContainer.innerHTML += `
+          <div class="notif-item" onclick="abrirMensagemNotificacao(${msg.id}, ${msg.parceriaId}, '${msg.nomeEscola.replace(/'/g, "\\'")}')">
+            <div class="notif-item-header">
+              <div class="notif-item-type">💬</div>
+              <div>
+                <div class="notif-item-title">Nova mensagem</div>
+                <div class="notif-item-subtitle">${msg.nomeEscola}</div>
+              </div>
+            </div>
+            <div class="notif-item-content">
+              ${msg.conteudo.substring(0, 100)}${msg.conteudo.length > 100 ? '...' : ''}
+            </div>
+            <div class="notif-item-time">${data}</div>
+          </div>
+        `;
+      }
+    }
+  } catch (erro) {
+    console.error('Erro ao carregar notificações:', erro);
+  }
+}
+
+// Abrir mensagem da notificacao e marcar como lida
+async function abrirMensagemNotificacao(mensagemId, parceriaId, nomeEscola) {
+  try {
+    // Marcar mensagem como lida
+    await fetch('/api/notificacoes/marcar-como-lido', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ mensagemId })
+    });
+    
+    // Fechar sidebar de notificacoes
+    fecharNotificacoes();
+    
+    // Navegar para aba de Parcerias/Mensagens
+    document.querySelectorAll('[onclick*="chat"]')[0]?.click();
+    
+    // Selecionar a conversa
+    setTimeout(() => {
+      const chatItem = document.querySelector(`.chat-item[data-parceria-id="${parceriaId}"]`);
+      if (chatItem) {
+        selectChatParceria(parceriaId, nomeEscola, chatItem);
+      }
+    }, 100);
+    
+    // Atualizar badge
+    atualizarBadgeNotificacoes();
+  } catch (erro) {
+    console.error('Erro ao abrir mensagem:', erro);
+  }
+}
+
+// ========== FUNÇÕES DE CONFIGURAÇÕES ==========
+
+// Abrir modal de configurações
+function abrirConfiguracoes() {
+  const modal = document.getElementById('settings-modal');
+  modal.classList.add('open');
+  carregarConfiguroes();
+}
+
+// Fechar modal de configurações
+function fecharConfiguracoes() {
+  const modal = document.getElementById('settings-modal');
+  modal.classList.remove('open');
+}
+
+// Carregar estado atual das configurações
+function carregarConfiguroes() {
+  const darkMode = localStorage.getItem('admin-dark-mode') === 'true';
+  const muteNotifications = localStorage.getItem('admin-mute-notifications') === 'true';
+  const notificationSound = localStorage.getItem('admin-notification-sound') !== 'false';
+  const autoRefresh = localStorage.getItem('admin-auto-refresh') !== 'false';
+  
+  // Atualizar toggles
+  const toggleDark = document.getElementById('toggle-dark-mode');
+  const toggleMute = document.getElementById('toggle-mute-notifications');
+  const toggleSound = document.getElementById('toggle-notification-sound');
+  const toggleRefresh = document.getElementById('toggle-auto-refresh');
+  
+  if (darkMode) toggleDark.classList.add('active');
+  else toggleDark.classList.remove('active');
+  
+  if (muteNotifications) toggleMute.classList.add('active');
+  else toggleMute.classList.remove('active');
+  
+  if (notificationSound) toggleSound.classList.add('active');
+  else toggleSound.classList.remove('active');
+  
+  if (autoRefresh) toggleRefresh.classList.add('active');
+  else toggleRefresh.classList.remove('active');
+}
+
+// Toggle Modo Escuro
+function toggleDarkMode() {
+  const isDarkMode = localStorage.getItem('admin-dark-mode') === 'true';
+  const newState = !isDarkMode;
+  
+  localStorage.setItem('admin-dark-mode', newState);
+  aplicarTemaEscuro(newState);
+  
+  const toggle = document.getElementById('toggle-dark-mode');
+  if (newState) toggle.classList.add('active');
+  else toggle.classList.remove('active');
+}
+
+// Aplicar tema escuro
+function aplicarTemaEscuro(ativo) {
+  const root = document.documentElement;
+  
+  if (ativo) {
+    // Cores tema escuro
+    root.style.setProperty('--bg', '#1a1a1a');
+    root.style.setProperty('--bg-card', '#2d2d2d');
+    root.style.setProperty('--text', '#f5f5f5');
+    root.style.setProperty('--text-sub', '#d0d0d0');
+    root.style.setProperty('--text-mute', '#999999');
+    root.style.setProperty('--border', '#404040');
+    root.style.setProperty('--border-sm', '#333333');
+    root.style.setProperty('--g50', '#3a3a3a');
+    root.style.setProperty('--g100', '#404040');
+    root.style.setProperty('--shadow-sm', '0 2px 8px rgba(0,0,0,0.5)');
+    root.style.setProperty('--shadow-md', '0 4px 12px rgba(0,0,0,0.6)');
+  } else {
+    // Restaurar cores padrão (claro)
+    root.style.setProperty('--bg', '#f8f9fa');
+    root.style.setProperty('--bg-card', '#ffffff');
+    root.style.setProperty('--text', '#1f2937');
+    root.style.setProperty('--text-sub', '#4b5563');
+    root.style.setProperty('--text-mute', '#6b7280');
+    root.style.setProperty('--border', '#e5e7eb');
+    root.style.setProperty('--border-sm', '#f0f0f0');
+    root.style.setProperty('--g50', '#f3f4f6');
+    root.style.setProperty('--g100', '#e5e7eb');
+    root.style.setProperty('--shadow-sm', '0 1px 2px rgba(0,0,0,0.05)');
+    root.style.setProperty('--shadow-md', '0 4px 6px rgba(0,0,0,0.1)');
+  }
+}
+
+// Toggle Silenciar Notificações
+function toggleMuteNotifications() {
+  const isMuted = localStorage.getItem('admin-mute-notifications') === 'true';
+  const newState = !isMuted;
+  
+  localStorage.setItem('admin-mute-notifications', newState);
+  
+  const toggle = document.getElementById('toggle-mute-notifications');
+  if (newState) toggle.classList.add('active');
+  else toggle.classList.remove('active');
+}
+
+// Toggle Som de Notificação
+function toggleNotificationSound() {
+  const hasSound = localStorage.getItem('admin-notification-sound') !== 'false';
+  const newState = !hasSound;
+  
+  localStorage.setItem('admin-notification-sound', newState);
+  
+  const toggle = document.getElementById('toggle-notification-sound');
+  if (newState) toggle.classList.add('active');
+  else toggle.classList.remove('active');
+}
+
+// Toggle Atualização Automática
+function toggleAutoRefresh() {
+  const isEnabled = localStorage.getItem('admin-auto-refresh') !== 'false';
+  const newState = !isEnabled;
+  
+  localStorage.setItem('admin-auto-refresh', newState);
+  
+  const toggle = document.getElementById('toggle-auto-refresh');
+  if (newState) toggle.classList.add('active');
+  else toggle.classList.remove('active');
+}
+
+// Limpar dados locais
+function limparDadosLocais() {
+  if (confirm('Tem certeza que deseja limpar todos os dados locais armazenados?')) {
+    localStorage.clear();
+    sessionStorage.clear();
+    alert('✅ Dados locais foram limpos com sucesso!');
+    location.reload();
+  }
+}
+
+// Fazer logout
+function fazerLogout() {
+  if (confirm('Você deseja realmente sair da sua conta?')) {
+    window.location.href = '/logout';
+  }
+}
+
+// Inicializar tema ao carregar página
+window.addEventListener('load', function() {
+  const isDarkMode = localStorage.getItem('admin-dark-mode') === 'true';
+  if (isDarkMode) {
+    aplicarTemaEscuro(true);
+  }
+});
 
 async function selectChatParceria(id, nomeParceria, el) {
   parceriaAtualChat = id;
@@ -1971,12 +2881,56 @@ document.querySelectorAll('dialog.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
 });
 
+// Fechar sidebars ao clicar fora
+document.addEventListener('click', function(e) {
+  const notifSidebar = document.getElementById('notifications-sidebar');
+  const settingsModal = document.getElementById('settings-modal');
+  
+  if (notifSidebar && notifSidebar.classList.contains('open')) {
+    if (!notifSidebar.contains(e.target) && !e.target.closest('[onclick*="abrirNotificacoes"]')) {
+      fecharNotificacoes();
+    }
+  }
+  
+  if (settingsModal && settingsModal.classList.contains('open')) {
+    if (!settingsModal.contains(e.target) && !e.target.closest('[onclick*="abrirConfiguracoes"]')) {
+      fecharConfiguracoes();
+    }
+  }
+});
+
 // 🔔 Polling automático: atualizar badge a cada 5 segundos
 setInterval(atualizarBadgeNotificacoes, 5000);
 atualizarBadgeNotificacoes(); // Atualizar imediatamente ao carregar
 
-// 📚 Carregar instituições ao inicializar
+// 📚 Carregar dados ao inicializar
 carregarInstituicoes();
+carregarDashboard();
+carregarRanking();
+carregarCrescimento();
+carregarAtivacao();
+
+// 🎨 Aplicar tema escuro se estiver ativado
+if (localStorage.getItem('admin-dark-mode') === 'true') {
+  aplicarTemaEscuro(true);
+}
+
+// � Event listeners para filtros em tempo real
+document.addEventListener('input', function(e) {
+  if (e.target.matches('input[placeholder="Buscar instituição..."]')) {
+    filterTable(e.target, 'tbl-inst');
+  } else if (e.target.matches('input[placeholder="Buscar por escola, email ou contato..."]')) {
+    filterTable(e.target, 'tbl-parcerias');
+  } else if (e.target.matches('input[placeholder="Buscar usuário..."]')) {
+    filterTable(e.target, 'tbl-users');
+  }
+});
+
+// �🔄 Atualizar dashboard a cada 30 segundos
+setInterval(() => {
+  carregarDashboard();
+  carregarRanking();
+}, 30000);
 </script>
 </body>
 </html>

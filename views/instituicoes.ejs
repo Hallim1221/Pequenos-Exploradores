@@ -78,7 +78,8 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 .turmas-list{display:flex;flex-direction:column;gap:10px;}
 .turma-item{background:#f8fffe;border-radius:14px;padding:16px 20px;border:2px solid #e8f7ee;display:flex;align-items:center;justify-content:space-between;transition:all 0.2s;}
 .turma-item:hover{border-color:#52b788;background:white;}
-.turma-item-left{display:flex;align-items:center;gap:14px;}
+.turma-item-left{display:flex;align-items:center;gap:14px;cursor:pointer;flex:1;padding:8px;border-radius:8px;transition:background 0.2s;}
+.turma-item-left:hover{background:#f0faf4;}
 .turma-item-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#b7e4c7,#52b788);display:flex;align-items:center;justify-content:center;font-size:20px;}
 .turma-item-name{font-size:16px;font-weight:600;color:#1a4731;}
 .turma-item-meta{font-size:13px;color:#5a9a72;margin-top:2px;}
@@ -153,6 +154,304 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 .notif{width:8px;height:8px;background:#f9c74f;border-radius:50%;display:inline-block;margin-left:4px;vertical-align:middle;}
 </style>
 
+<script>
+// Funções básicas definidas no início para uso nos onclick handlers
+function goTo(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  if (id === 'cadastrar' && typeof carregarTurmasReais === 'function') {
+    setTimeout(() => carregarTurmasReais(), 100);
+  }
+  if (id === 'instituicoes-alunos' && typeof carregarAlunosInstituicao === 'function') {
+    setTimeout(() => carregarAlunosInstituicao(), 100);
+  }
+}
+function openModal(){document.getElementById('modalTurma').classList.add('open');}
+function closeModal(){document.getElementById('modalTurma').classList.remove('open');}
+function abrirModalExclusao(turmaId){document.getElementById('modalConfirmarExclusao').classList.add('open');window.turmaIdParaExcluir=turmaId;}
+function fecharModalExclusao(){document.getElementById('modalConfirmarExclusao').classList.remove('open');window.turmaIdParaExcluir=null;}
+function confirmarExclusao(){const turmaId=window.turmaIdParaExcluir;if(!turmaId)return;fecharModalExclusao();fetch(`/api/turmas/${turmaId}`,{method:'DELETE',headers:{'Content-Type':'application/json'}}).then(res=>res.json()).then(data=>{if(data.success){alert('✓ Turma removida com sucesso!');document.getElementById(`turma-${turmaId}`)?.remove();carregarTurmasReais();}else{alert('❌ Erro ao remover turma: '+(data.message||'Tente novamente'));}}).catch(err=>console.error('Erro:',err)||alert('❌ Erro ao remover turma!'));}
+function openMembro(){document.getElementById('modalMembro').classList.add('open');}
+function closeMembro(){document.getElementById('modalMembro').classList.remove('open');}
+function openAluno(){document.getElementById('modalAluno').classList.add('open');}
+function closeAluno(){document.getElementById('modalAluno').classList.remove('open'); document.getElementById('formAdicionarAluno').reset(); document.getElementById('mensagemAluno').style.display='none';}
+function abrirModalLogoutEquipe() {var modal = document.getElementById('modal-logout-equipe'); if(modal) modal.style.display = 'flex';}
+function fecharModalLogoutEquipe() {var modal = document.getElementById('modal-logout-equipe'); if(modal) modal.style.display = 'none';}
+function confirmarLogoutEquipe() {window.location.href = '/logout';}
+
+// Função para cadastrar turma
+function cadastrarTurma() {
+  const nomeTurma = document.getElementById('turma-nome')?.value.trim();
+  const anoLetivo = '2025'; // Ano letivo automático
+  const serie = document.getElementById('turma-serie')?.value;
+  const professorId = '1'; // Usar ID fixo por enquanto
+  
+  if (!nomeTurma || !serie) {
+    alert('Por favor, preencha todos os campos obrigatórios');
+    return;
+  }
+  
+  fetch('/api/turmas', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({nome: nomeTurma, ano_escolar: serie, professor_id: professorId})
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert('✓ Turma cadastrada com sucesso!');
+      document.getElementById('turma-nome').value = '';
+      document.getElementById('turma-serie').value = '';
+      closeModal();
+      carregarTurmasReais();
+    } else {
+      alert('Erro ao cadastrar turma: ' + (data.message || 'Tente novamente'));
+    }
+  })
+  .catch(err => {
+    console.error('Erro:', err);
+    alert('Erro ao cadastrar turma');
+  });
+}
+
+// Função para editar turma - abrir modal para cadastrar novo aluno
+function editarTurma(turmaId, turmaNome) {
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay open';
+  modal.id = 'modalCadastrarAluno-' + turmaId;
+  modal.innerHTML = `
+    <section class="modal">
+      <h2>👤 Cadastrar Novo Aluno</h2>
+      <p>Cadastre um aluno para: <strong>${turmaNome}</strong></p>
+      <div id="mensagemCadastroAluno" style="display:none; margin-bottom:1em; padding:0.8em; border-radius:6px; font-weight:600;"></div>
+      <section class="form-group">
+        <label>Nome do Aluno</label>
+        <input type="text" id="input-nome-aluno-${turmaId}" placeholder="Ex: João Silva" />
+      </section>
+      <section class="form-group">
+        <label>E-mail</label>
+        <input type="email" id="input-email-aluno-${turmaId}" placeholder="aluno@email.com" />
+      </section>
+      <section class="form-group">
+        <label>Senha</label>
+        <input type="password" id="input-senha-aluno-${turmaId}" placeholder="Crie uma senha" />
+      </section>
+      <section class="form-group">
+        <label>Confirmar Senha</label>
+        <input type="password" id="input-confirmar-aluno-${turmaId}" placeholder="Confirme a senha" />
+      </section>
+      <section class="modal-actions">
+        <button class="btn-cancel" onclick="document.getElementById('modalCadastrarAluno-${turmaId}').remove()">Cancelar</button>
+        <button class="btn-confirm" onclick="confirmarCadastrarAluno(${turmaId}, '${turmaNome}')">Cadastrar ✓</button>
+      </section>
+    </section>
+  `;
+  document.body.appendChild(modal);
+}
+
+// Função para confirmar cadastro de novo aluno
+function confirmarCadastrarAluno(turmaId, turmaNome) {
+  const nome = document.getElementById(`input-nome-aluno-${turmaId}`)?.value?.trim();
+  const email = document.getElementById(`input-email-aluno-${turmaId}`)?.value?.trim();
+  const senha = document.getElementById(`input-senha-aluno-${turmaId}`)?.value;
+  const confirmarSenha = document.getElementById(`input-confirmar-aluno-${turmaId}`)?.value;
+  
+  if (!nome || !email || !senha || !confirmarSenha) {
+    alert('⚠️ Preencha todos os campos!');
+    return;
+  }
+  
+  if (senha !== confirmarSenha) {
+    alert('⚠️ As senhas não conferem!');
+    return;
+  }
+  
+  if (senha.length < 6) {
+    alert('⚠️ A senha deve ter no mínimo 6 caracteres!');
+    return;
+  }
+  
+  fetch(`/api/instituicoes/criar-aluno-turma`, {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      nome,
+      email,
+      password: senha,
+      turma_id: turmaId
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.success) {
+      alert('✓ ' + (data.message || 'Aluno cadastrado com sucesso!'));
+      document.getElementById(`modalCadastrarAluno-${turmaId}`)?.remove();
+    } else {
+      alert('❌ Erro ao cadastrar aluno: ' + (data.message || 'Tente novamente'));
+    }
+  })
+  .catch(err => {
+    console.error('Erro:', err);
+    alert('❌ Erro ao cadastrar aluno!');
+  });
+}
+
+// Função para carregar e exibir alunos de uma turma
+async function carregarAlunos(turmaId, turmaNome) {
+  try {
+    const response = await fetch(`/api/turmas/${turmaId}/alunos`);
+    const data = await response.json();
+    
+    if (!data.success) {
+      alert('❌ Erro ao carregar alunos: ' + (data.message || 'Tente novamente'));
+      return;
+    }
+    
+    const alunos = data.alunos || [];
+    
+    // Criar modal com lista de alunos
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay open';
+    modal.id = 'modalAlunosTurma-' + turmaId;
+    
+    let alunosHtml = '';
+    if (alunos.length === 0) {
+      alunosHtml = '<p style="text-align:center; color:#888; padding:20px;">Nenhum aluno cadastrado nesta turma</p>';
+    } else {
+      alunosHtml = '<div style="max-height:400px; overflow-y:auto;">';
+      alunos.forEach((aluno, idx) => {
+        alunosHtml += `
+          <div style="padding:12px; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <div style="font-weight:600; color:#333;">${aluno.nome || 'N/A'}</div>
+              <div style="font-size:12px; color:#666;">${aluno.email || 'N/A'}</div>
+            </div>
+          </div>
+        `;
+      });
+      alunosHtml += '</div>';
+    }
+    
+    modal.innerHTML = `
+      <section class="modal">
+        <h2>👥 Alunos da Turma: ${turmaNome}</h2>
+        <p style="color:#666; margin-bottom:1em;">Total de alunos: <strong>${alunos.length}</strong></p>
+        ${alunosHtml}
+        <section class="modal-actions">
+          <button class="btn-cancel" onclick="document.getElementById('modalAlunosTurma-${turmaId}').remove()">Fechar</button>
+          <button class="btn-confirm" onclick="editarTurma(${turmaId}, '${turmaNome.replace(/'/g, "\\'")}')">➕ Adicionar Aluno</button>
+        </section>
+      </section>
+    `;
+    document.body.appendChild(modal);
+  } catch (erro) {
+    console.error('Erro ao carregar alunos:', erro);
+    alert('❌ Erro ao carregar alunos');
+  }
+}
+
+// Função para remover turma - abre modal de confirmação
+function removerTurma(turmaId) {
+  abrirModalExclusao(turmaId);
+}
+
+// Função para carregar turmas reais do banco de dados
+async function carregarTurmasReais() {
+  try {
+    // Usar instituição_id em vez de professor_id
+    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
+    const hiddenInput = document.querySelector('[data-instituicao-id]');
+    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
+    
+    console.log('📚 Carregando turmas da instituição:', instituicaoId);
+    const response = await fetch(`/api/instituicoes/${instituicaoId}/turmas`);
+    const data = await response.json();
+    const container = document.getElementById('turmas-reais');
+    
+    if (!container) return;
+    if (!data.turmas || data.turmas.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color: #888; padding: 40px;">Nenhuma turma cadastrada. Clique em "Cadastrar turma ➕" para criar uma.</p>';
+      return;
+    }
+    
+    container.innerHTML = '';
+    data.turmas.forEach(turma => {
+      const turmaDom = document.createElement('section');
+      turmaDom.className = 'turma-item';
+      turmaDom.id = `turma-${turma.id}`;
+      turmaDom.innerHTML = `
+        <section class="turma-item-left" onclick="carregarAlunos(${turma.id}, '${turma.nome.replace(/'/g, "\\'")}')">
+          <section class="turma-item-icon">📚</section>
+          <section>
+            <section class="turma-item-name">${turma.nome || 'Sem nome'}</section>
+            <section class="turma-item-meta">${turma.total_alunos || 0} alunos · ${turma.ano_escolar || 'N/A'} · 2025</section>
+          </section>
+        </section>
+        <section class="turma-item-actions">
+          <button class="btn-icon" title="Adicionar Aluno" onclick="editarTurma(${turma.id}, '${turma.nome.replace(/'/g, "\\'")}')">➕</button>
+          <button class="btn-icon danger" title="Remover" onclick="removerTurma(${turma.id})">🗑️</button>
+        </section>
+      `;
+      container.appendChild(turmaDom);
+    });
+  } catch (erro) {
+    console.error('Erro ao carregar turmas:', erro);
+  }
+}
+
+// Função para carregar alunos gerais da instituição
+async function carregarAlunosInstituicao() {
+  try {
+    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
+    const hiddenInput = document.querySelector('[data-instituicao-id]');
+    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
+    
+    console.log('👥 Carregando alunos da instituição:', instituicaoId);
+    const response = await fetch(`/api/instituicoes/${instituicaoId}/alunos`);
+    const data = await response.json();
+    const container = document.getElementById('alunos-instituicao');
+    const labelContainer = document.getElementById('total-alunos-label');
+    
+    if (!container) return;
+    
+    if (!data.success || !data.alunos || data.alunos.length === 0) {
+      container.innerHTML = '<p style="text-align:center; color: #888; padding: 40px;">Nenhum aluno cadastrado nesta escola.</p>';
+      if (labelContainer) labelContainer.textContent = 'Total: 0 alunos';
+      return;
+    }
+    
+    if (labelContainer) labelContainer.textContent = `Total: ${data.alunos.length} alunos`;
+    
+    container.innerHTML = '';
+    const cardsHtml = data.alunos.map(aluno => `
+      <section class="aluno-card-geral" style="background:white;border-radius:14px;padding:16px;border:2px solid #e8f7ee;display:flex;justify-content:space-between;align-items:center;transition:all 0.2s;cursor:pointer;" onmouseover="this.style.borderColor='#52b788';this.style.boxShadow='0 4px 12px rgba(82,183,136,0.2)'" onmouseout="this.style.borderColor='#e8f7ee';this.style.boxShadow='none'">
+        <section style="flex:1;">
+          <section style="font-weight:600;color:#1a4731;font-size:15px;">👤 ${aluno.nome || 'N/A'}</section>
+          <section style="font-size:13px;color:#5a9a72;margin-top:4px;">📧 ${aluno.email || 'N/A'}</section>
+          <section style="font-size:12px;color:#999;margin-top:2px;">📅 Cadastrado: ${new Date(aluno.data_cadastro).toLocaleDateString('pt-BR')}</section>
+        </section>
+        <section style="text-align:right;min-width:100px;">
+          <section style="font-size:12px;color:#5a9a72;font-weight:600;margin-bottom:4px;">Saldo</section>
+          <section style="font-size:18px;font-weight:700;color:#2d8a4e;">💰 ${aluno.saldo || 0}</section>
+        </section>
+      </section>
+    `).join('');
+    
+    container.innerHTML = cardsHtml;
+  } catch (erro) {
+    console.error('Erro ao carregar alunos:', erro);
+    const container = document.getElementById('alunos-instituicao');
+    const labelContainer = document.getElementById('total-alunos-label');
+    if (container) {
+      container.innerHTML = '<p style="text-align:center; color:#e74c3c; padding:40px;">Erro ao carregar alunos. Tente novamente.</p>';
+    }
+    if (labelContainer) labelContainer.textContent = 'Erro ao carregar';
+  }
+}
+
+</script>
+
 <link rel="stylesheet" href="/css/aluno-redesign.css">
 
 <!-- ======== MODAL NOVA TURMA ======== -->
@@ -162,26 +461,22 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     <p>Preencha os dados para cadastrar uma nova turma</p>
     <section class="form-group">
       <label>Nome da Turma</label>
-      <input type="text" placeholder="Ex: 5° Ano D">
-    </section>
-    <section class="form-group">
-      <label>Professora Responsável</label>
-      <input type="text" placeholder="Nome da professora">
-    </section>
-    <section class="form-group">
-      <label>Ano Letivo</label>
-      <select><option>2025</option><option>2026</option></select>
+      <input type="text" id="turma-nome" placeholder="Ex: 5° Ano D">
     </section>
     <section class="form-group">
       <label>Ano / Série</label>
-      <select>
-        <option>1° Ano</option><option>2° Ano</option><option>3° Ano</option>
-        <option>4° Ano</option><option>5° Ano</option>
+      <select id="turma-serie">
+        <option value="">Selecione...</option>
+        <option value="1º Ano">1° Ano</option>
+        <option value="2º Ano">2° Ano</option>
+        <option value="3º Ano">3° Ano</option>
+        <option value="4º Ano">4° Ano</option>
+        <option value="5º Ano">5° Ano</option>
       </select>
     </section>
     <section class="modal-actions">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-      <button class="btn-confirm" onclick="closeModal()">Cadastrar ✓</button>
+      <button class="btn-confirm" onclick="cadastrarTurma()">Cadastrar ✓</button>
     </section>
   </section>
 </section>
@@ -248,7 +543,17 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </form>
   </section>
 </section>
-
+<!-- ======== MODAL CONFIRMAR EXCLUSÃO DE TURMA ======== -->
+<section class="modal-overlay" id="modalConfirmarExclusao">
+  <section class="modal">
+    <h2>🗑️ Excluir Turma?</h2>
+    <p>Tem certeza que deseja remover esta turma? Esta ação não pode ser desfeita.</p>
+    <section class="modal-actions">
+      <button class="btn-cancel" onclick="fecharModalExclusao()">Não, Cancelar</button>
+      <button class="btn-confirm" onclick="confirmarExclusao()" style="background:#e74c3c;border-color:#c0392b;">Sim, Excluir</button>
+    </section>
+  </section>
+</section>
 <!-- ======== PAGE: DASHBOARD ======== -->
 <section class="page active" id="dashboard">
   <nav class="navbar-redesign">
@@ -268,7 +573,7 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
           <button class="qm-btn" onclick="goTo('cadastrar')"><img src="/img/pss.png" alt="Cadastrar" style="width:32px;height:32px;object-fit:contain;">Cadastrar Turmas</button>
           <button class="qm-btn" onclick="goTo('painel')"><img src="/img/esl.png" alt="Painel" style="width:32px;height:32px;object-fit:contain;">Painel da Escola</button>
           <button class="qm-btn" onclick="goTo('equipe')"><img src="/img/eqp.png" alt="Equipe" style="width:32px;height:32px;object-fit:contain;">Equipe Escolar</button>
-          <button class="qm-btn" onclick="goTo('ajuda')"><img src="/img/bal.png" alt="Ajuda" style="width:32px;height:32px;object-fit:contain;">Ajude-nos a Melhorar</button>
+          <button class="qm-btn" onclick="goTo('instituicoes-alunos')"><img src="/img/bal.png" alt="Instituição" style="width:32px;height:32px;object-fit:contain;">Alunos Geral</button>
         </section>
       </section>
       <section class="banner-card">
@@ -342,41 +647,9 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
     </section>
     <section class="card" style="margin-bottom:20px;">
       <section class="filters-row">
-        <section class="select-wrap"><select><option>Ano letivo</option><option>2025</option><option>2026</option></select></section>
         <section class="select-wrap"><select><option>Ano / Série</option><option>1° Ano</option><option>2° Ano</option><option>3° Ano</option><option>4° Ano</option><option>5° Ano</option></select></section>
       </section>
-      <section class="turmas-list">
-        <section class="turma-item">
-          <section class="turma-item-left">
-            <section class="turma-item-icon">📚</section>
-            <section><section class="turma-item-name">5° Ano D</section><section class="turma-item-meta">30 alunos · Prof.ª Maria Theodora · 2025</section></section>
-          </section>
-          <section class="turma-item-actions">
-            <button class="btn-icon" title="Editar" onclick="openAluno()">✏️</button>
-            <button class="btn-icon danger" title="Remover">🗑️</button>
-          </section>
-        </section>
-        <section class="turma-item">
-          <section class="turma-item-left">
-            <section class="turma-item-icon">📚</section>
-            <section><section class="turma-item-name">1ª Série B</section><section class="turma-item-meta">28 alunos · Prof.ª Ana Lima · 2025</section></section>
-          </section>
-          <section class="turma-item-actions">
-            <button class="btn-icon" onclick="openAluno()">✏️</button>
-            <button class="btn-icon danger">🗑️</button>
-          </section>
-        </section>
-        <section class="turma-item">
-          <section class="turma-item-left">
-            <section class="turma-item-icon">📚</section>
-            <section><section class="turma-item-name">4ª Série B</section><section class="turma-item-meta">29 alunos · Prof.ª Carla Souza · 2025</section></section>
-          </section>
-          <section class="turma-item-actions">
-            <button class="btn-icon" onclick="openAluno()">✏️</button>
-            <button class="btn-icon danger">🗑️</button>
-          </section>
-        </section>
-      </section>
+      <section class="turmas-list" id="turmas-reais" data-instituicao-id="<%= typeof instituicaoId !== 'undefined' ? instituicaoId : '1' %>"></section>
     </section>
   </section>
 </section>
@@ -585,187 +858,31 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
   </section>
 </section>
 
-<script>
-function goTo(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
-function openModal(){document.getElementById('modalTurma').classList.add('open');}
-function closeModal(){document.getElementById('modalTurma').classList.remove('open');}
-function openMembro(){document.getElementById('modalMembro').classList.add('open');}
-function closeMembro(){document.getElementById('modalMembro').classList.remove('open');}
-
-function adicionarMembro(){
-  const nome = document.getElementById('membro-nome').value.trim();
-  const email = document.getElementById('membro-email').value.trim();
-  const senha = document.getElementById('membro-senha').value;
-  const cargo = document.getElementById('membro-cargo').value;
-  
-  // Validar campos
-  if (!nome || !email || !senha) {
-    alert('Por favor, preencha todos os campos');
-    return;
-  }
-  
-  if (nome.length < 3) {
-    alert('Nome deve ter no mínimo 3 caracteres');
-    return;
-  }
-  
-  if (senha.length < 6) {
-    alert('Senha deve ter no mínimo 6 caracteres');
-    return;
-  }
-  
-  // Validar email
-  if (!email.includes('@')) {
-    alert('E-mail inválido');
-    return;
-  }
-  
-  // Enviar dados para servidor
-  fetch('/api/professor/cadastro', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ nome, email, senha, cargo })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.sucesso) {
-      alert('✓ Professor cadastrado com sucesso! Ele pode agora fazer login.');
-      
-      // Adicionar novo card à grid de equipe
-      const emojiMap = {
-        'Professor(a)': '👩‍🏫',
-        'Coordenador(a)': '👨‍💼',
-        'Suporte': '🧑‍💻'
-      };
-      
-      const badgeMap = {
-        'Professor(a)': 'badge-prof',
-        'Coordenador(a)': 'badge-coord',
-        'Suporte': 'badge-support'
-      };
-      
-      const emoji = emojiMap[cargo] || '👤';
-      const badgeClass = badgeMap[cargo] || 'badge-prof';
-      const badgeText = cargo;
-      
-      // Criar novo card
-      const novoCard = document.createElement('section');
-      novoCard.className = 'team-card';
-      novoCard.innerHTML = `
-        <section class="team-avatar">${emoji}</section>
-        <section class="team-name">${nome}</section>
-        <section class="team-role">${email}</section>
-        <span class="team-badge ${badgeClass}">${badgeText}</span>
-      `;
-      
-      // Inserir antes do card "add-member-card"
-      const teamGrid = document.querySelector('.team-grid');
-      const addMemberCard = document.querySelector('.add-member-card');
-      teamGrid.insertBefore(novoCard, addMemberCard);
-      
-      // Limpar formulário
-      document.getElementById('membro-nome').value = '';
-      document.getElementById('membro-email').value = '';
-      document.getElementById('membro-senha').value = '';
-      closeMembro();
-    } else {
-      alert('Erro: ' + (data.mensagem || 'Não foi possível cadastrar'));
-    }
-  })
-  .catch(err => {
-    console.error('Erro:', err);
-    alert('Erro ao conectar com servidor');
-  });
-}
-
-function openAluno(){document.getElementById('modalAluno').classList.add('open');}
-function closeAluno(){document.getElementById('modalAluno').classList.remove('open'); document.getElementById('formAdicionarAluno').reset(); document.getElementById('mensagemAluno').style.display='none';}
-function adicionarAluno(){
-  const nome = document.getElementById('nomeAluno').value.trim();
-  const email = document.getElementById('emailAluno').value.trim();
-  const senha = document.getElementById('senhaAluno').value;
-  const confirmarSenha = document.getElementById('confirmarSenhaAluno').value;
-  const mensagemEl = document.getElementById('mensagemAluno');
-  
-  // Validar campos
-  if (!nome || !email || !senha || !confirmarSenha) {
-    alert('Por favor, preencha todos os campos');
-    return;
-  }
-  
-  if (nome.length < 3) {
-    alert('Nome deve ter no mínimo 3 caracteres');
-    return;
-  }
-  
-  if (senha.length < 6) {
-    alert('Senha deve ter no mínimo 6 caracteres');
-    return;
-  }
-  
-  if (senha !== confirmarSenha) {
-    alert('As senhas não correspondem');
-    return;
-  }
-  
-  // Enviar dados para servidor
-  fetch('/api/instituicoes/adicionar-aluno', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ nome, email, senha })
-  })
-  .then(res => res.json())
-  .then(data => {
-    if (data.sucesso) {
-      mensagemEl.textContent = '✓ Aluno cadastrado com sucesso!';
-      mensagemEl.style.display = 'block';
-      setTimeout(() => {
-        closeAluno();
-      }, 1500);
-    } else {
-      alert(data.mensagem || 'Erro ao cadastrar aluno');
-    }
-  })
-  .catch(err => {
-    console.error(err);
-    alert('Erro ao conectar ao servidor');
-  });
-}
-function selectRating(btn){
-  document.querySelectorAll('.rating-btn').forEach(b=>b.classList.remove('selected'));
-  btn.classList.add('selected');
-}
-function sendFeedback(){
-  document.getElementById('feedbackForm').style.display='none';
-  document.getElementById('feedbackSent').style.display='block';
-}
-document.querySelectorAll('.modal-overlay').forEach(m=>{
-  m.addEventListener('click',function(e){if(e.target===this){this.classList.remove('open');}});
-});
-
-// Funções de logout para página de equipe
-function abrirModalLogoutEquipe() {
-  var modal = document.getElementById('modal-logout-equipe');
-  if(modal) modal.style.display = 'flex';
-}
-
-function fecharModalLogoutEquipe() {
-  var modal = document.getElementById('modal-logout-equipe');
-  if(modal) modal.style.display = 'none';
-}
-
-function confirmarLogoutEquipe() {
-  window.location.href = '/logout';
-}
-</script>
+<!-- ======== PAGE: ALUNOS GERAIS DA INSTITUIÇÃO ======== -->
+<section class="page" id="instituicoes-alunos">
+  <nav class="navbar-redesign">
+    <section class="logo-redesign">
+      <img src="/img/log.png" alt="Logo Pequenos Exploradores">
+    </section>
+    <section class="nav-right-redesign">
+      <button onclick="abrirModalLogoutEquipe()" class="btn-sair-redesign">Sair</button>
+    </section>
+  </nav>
+  <section class="main">
+    <button class="btn-primary" onclick="goTo('dashboard')">← Voltar</button>
+    <section class="page-header" style="margin-bottom:24px;">
+      <h1 style="font-family:'Fredoka One',cursive;font-size:26px;color:#1a4731;margin-bottom:8px;">👥 Alunos da Escola</h1>
+      <p style="font-size:15px;color:#5a9a72;">Visualize todos os alunos cadastrados na sua instituição</p>
+    </section>
+    <section class="card" style="margin-bottom:20px;">
+      <section style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+        <section class="section-title" style="margin-bottom:0;font-size:18px;">📋 Lista de Alunos</section>
+        <section style="font-size:14px;color:#5a9a72;background:#f0faf4;padding:8px 14px;border-radius:8px;font-weight:600;"><span id="total-alunos-label">Carregando...</span></section>
+      </section>
+      <section class="alunos-list" id="alunos-instituicao" style="display:grid;gap:10px;"></section>
+    </section>
+  </section>
+</section>
 
 <!-- FOOTER -->
 <%- include('./partials/footer.ejs') %>

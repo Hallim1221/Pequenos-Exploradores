@@ -1,6 +1,7 @@
 const pool = require('../config/database');
 const mockdb = require('../lib/mockdb');
 const Parceria = require('./Parceria');
+const Seguranca = require('../lib/seguranca');
 
 class Gestao {
   static useMock = false;
@@ -9,10 +10,14 @@ class Gestao {
   static async criar(nome, email, senha, instituicao_id = null) {
     try {
       if (this.useMock) throw new Error('Using mock');
+      
+      // Hash da senha
+      const senhaHash = await Seguranca.hashSenha(senha);
+      
       const connection = await pool.getConnection();
       const [result] = await connection.execute(
         'INSERT INTO gestores (nome, email, senha, instituicao_id) VALUES (?, ?, ?, ?)',
-        [nome, email, senha, instituicao_id]
+        [nome, email, senhaHash, instituicao_id]
       );
       connection.release();
       return { id: result.insertId, nome, email };
@@ -56,7 +61,7 @@ class Gestao {
     }
   }
 
-  // Validar credenciais
+  // Validar credenciais (usa bcrypt)
   static async validarCredenciais(email, senha) {
     try {
       if (this.useMock) throw new Error('Using mock');
@@ -64,24 +69,30 @@ class Gestao {
       
       // Tentar validar contra gestores
       const [gestores] = await connection.execute(
-        'SELECT * FROM gestores WHERE email = ? AND senha = ?',
-        [email, senha]
+        'SELECT * FROM gestores WHERE email = ?',
+        [email]
       );
       
       if (gestores.length > 0) {
-        connection.release();
-        return gestores[0];
+        const senhaValida = await Seguranca.verificarSenha(senha, gestores[0].senha);
+        if (senhaValida) {
+          connection.release();
+          return gestores[0];
+        }
       }
       
       // Se não encontrou gestor, tentar validar contra parcerias (escolas)
       const [parcerias] = await connection.execute(
-        'SELECT * FROM parcerias_escolas WHERE email = ? AND senha_gestao = ?',
-        [email, senha]
+        'SELECT * FROM parcerias_escolas WHERE email = ?',
+        [email]
       );
       
       if (parcerias.length > 0) {
-        connection.release();
-        return parcerias[0];
+        const senhaValida = await Seguranca.verificarSenha(senha, parcerias[0].senha_gestao || '');
+        if (senhaValida) {
+          connection.release();
+          return parcerias[0];
+        }
       }
       
       connection.release();

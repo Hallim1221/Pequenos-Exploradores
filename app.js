@@ -215,6 +215,79 @@ app.get('/api/notificacoes/count', async (req, res) => {
   }
 });
 
+// GET /api/notificacoes - Retornar notificações detalhadas (parcerias pendentes + mensagens não lidas)
+app.get('/api/notificacoes', async (req, res) => {
+  try {
+    const parcerias = await Parceria.listarTodas();
+    
+    // Parcerias pendentes (solicitações de novas instituições)
+    const parceriasPendentes = parcerias.filter(p => p.status === 'pendente').map(p => ({
+      id: p.id,
+      tipo: 'instituicao',
+      nome: p.nome_escola,
+      contato: p.nome_contato,
+      email: p.email,
+      cidade: p.cidade,
+      data: p.data_solicitacao,
+      status: p.status
+    }));
+    
+    // Mensagens não lidas
+    let mensagensNaoLidas = [];
+    for (const parceria of parcerias) {
+      const mensagens = await Parceria.listarMensagensParcerias(parceria.id);
+      const naoLidas = mensagens.filter(msg => 
+        msg.remetente === 'escola' && (!msg.visualizado || msg.visualizado === 0)
+      );
+      
+      for (const msg of naoLidas) {
+        mensagensNaoLidas.push({
+          id: msg.id,
+          tipo: 'mensagem',
+          parceriaId: parceria.id,
+          nomeEscola: parceria.nome_escola,
+          conteudo: msg.conteudo,
+          remetente: msg.remetente,
+          data: msg.data_mensagem,
+          visualizado: msg.visualizado
+        });
+      }
+    }
+    
+    res.json({
+      sucesso: true,
+      parceriasPendentes: parceriasPendentes,
+      mensagensNaoLidas: mensagensNaoLidas,
+      total: parceriasPendentes.length + mensagensNaoLidas.length
+    });
+  } catch (erro) {
+    console.error('Erro ao listar notificações:', erro.message);
+    res.status(500).json({ sucesso: false, error: 'Erro ao listar notificações' });
+  }
+});
+
+// PUT /api/notificacoes/marcar-como-lido - Marcar mensagem como visualizada
+app.put('/api/notificacoes/marcar-como-lido', async (req, res) => {
+  try {
+    const { mensagemId } = req.body;
+    
+    if (!mensagemId) {
+      return res.status(400).json({ sucesso: false, message: 'mensagemId é obrigatório' });
+    }
+    
+    const resultado = await Parceria.marcarMensagemComoLida(mensagemId);
+    
+    if (resultado) {
+      res.json({ sucesso: true, message: 'Mensagem marcada como lida' });
+    } else {
+      res.status(404).json({ sucesso: false, message: 'Mensagem não encontrada' });
+    }
+  } catch (erro) {
+    console.error('Erro ao marcar mensagem como lida:', erro.message);
+    res.status(500).json({ sucesso: false, error: 'Erro ao marcar mensagem como lida' });
+  }
+});
+
 // GET /api/parcerias/mensagens/todas - Listar todas as mensagens
 app.get('/api/parcerias/mensagens/todas', async (req, res) => {
   try {

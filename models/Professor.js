@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 const mockdb = require('../lib/mockdb');
+const Seguranca = require('../lib/seguranca');
 
 class Professor {
   static useMock = false;
@@ -8,10 +9,14 @@ class Professor {
   static async criar(nome, email, senha, instituicao = null) {
     try {
       if (this.useMock) throw new Error('Using mock');
+      
+      // Hash da senha
+      const senhaHash = await Seguranca.hashSenha(senha);
+      
       const connection = await pool.getConnection();
       const [result] = await connection.execute(
         'INSERT INTO professores (nome, email, senha, instituicao) VALUES (?, ?, ?, ?)',
-        [nome, email, senha, instituicao]
+        [nome, email, senhaHash, instituicao]
       );
       connection.release();
       return { id: result.insertId, nome, email };
@@ -56,6 +61,23 @@ class Professor {
     }
   }
 
+  // Verificar se a senha está correta (usa bcrypt)
+  static async verificarSenha(email, senha) {
+    try {
+      const professor = await this.buscarPorEmail(email);
+      if (!professor) {
+        return false;
+      }
+      
+      // Comparar com bcrypt
+      const senhaValida = await Seguranca.verificarSenha(senha, professor.senha);
+      return senhaValida;
+    } catch (erro) {
+      console.error('Erro ao verificar senha:', erro);
+      return false;
+    }
+  }
+
   // Listar todos os professores
   static async listarTodos() {
     try {
@@ -82,6 +104,42 @@ class Professor {
       this.useMock = true;
       mockdb.professores = mockdb.professores.filter(p => p.id !== parseInt(id));
       return true;
+    }
+  }
+
+  // Atualizar dados do professor
+  static async atualizar(id, { nome, email, instituicao }) {
+    try {
+      if (this.useMock) throw new Error('Using mock');
+      const connection = await pool.getConnection();
+      
+      const campos = [];
+      const valores = [];
+      
+      if (nome !== undefined) { campos.push('nome = ?'); valores.push(nome); }
+      if (email !== undefined) { campos.push('email = ?'); valores.push(email); }
+      if (instituicao !== undefined) { campos.push('instituicao = ?'); valores.push(instituicao); }
+      
+      if (campos.length === 0) {
+        connection.release();
+        return { sucesso: false, mensagem: 'Nenhum campo para atualizar' };
+      }
+      
+      valores.push(id);
+      const query = `UPDATE professores SET ${campos.join(', ')} WHERE id = ?`;
+      
+      await connection.execute(query, valores);
+      connection.release();
+      
+      return { sucesso: true, mensagem: 'Professor atualizado com sucesso' };
+    } catch (erro) {
+      this.useMock = true;
+      mockdb.professores = mockdb.professores.map(p => 
+        p.id === parseInt(id) 
+          ? { ...p, nome: nome ?? p.nome, email: email ?? p.email, instituicao: instituicao ?? p.instituicao }
+          : p
+      );
+      return { sucesso: true, mensagem: 'Professor atualizado com sucesso' };
     }
   }
 }

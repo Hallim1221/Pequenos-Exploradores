@@ -223,6 +223,28 @@ class Parceria {
     }
   }
 
+  // Marcar uma mensagem específica como lida
+  static async marcarMensagemComoLida(mensagemId) {
+    console.log(`👁️ Marcando mensagem ${mensagemId} como lida`);
+    
+    try {
+      const connection = await pool.getConnection();
+      
+      const [result] = await connection.execute(
+        'UPDATE mensagens_parcerias SET visualizado = 1 WHERE id = ?',
+        [mensagemId]
+      );
+      
+      connection.release();
+      console.log(`  ✅ Mensagem marcada como visualizada`);
+      return result.affectedRows > 0;
+    } catch (erro) {
+      console.error('Erro ao marcar mensagem como lida:', erro.message);
+      console.log(`  📌 Usando mockdb para marcar..`);
+      return mockdb.marcarMensagemComoLida(mensagemId);
+    }
+  }
+
   // Atualizar plano de uma instituição
   static async atualizarPlano(parceriaId, novoPlano) {
     try {
@@ -250,6 +272,29 @@ class Parceria {
         return { sucesso: true, mensagem: `Plano atualizado para ${novoPlano}` };
       }
       return { sucesso: false, erro: 'Erro ao atualizar plano' };
+    }
+  }
+
+  // Deletar instituição
+  static async deletar(id) {
+    try {
+      const connection = await pool.getConnection();
+      
+      const [result] = await connection.execute(
+        'DELETE FROM parcerias_escolas WHERE id = ?',
+        [id]
+      );
+      
+      connection.release();
+      
+      if (result.affectedRows > 0) {
+        console.log(`✅ Instituição ${id} deletada com sucesso`);
+        return true;
+      }
+      return false;
+    } catch (erro) {
+      console.error('Erro ao deletar instituição:', erro);
+      return mockdb.deletarInstituicao(id);
     }
   }
 }

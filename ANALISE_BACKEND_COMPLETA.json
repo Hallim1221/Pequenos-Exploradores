@@ -1,0 +1,1346 @@
+{
+  "analise_data": "2026-05-30",
+  "resumo_executivo": {
+    "total_modelos": 12,
+    "total_rotas": 2,
+    "problemas_criticos": 14,
+    "problemas_altos": 18,
+    "problemas_medios": 12,
+    "problemas_baixos": 8,
+    "status_geral": "⚠️ PRECISA DE REFATORAÇÃO"
+  },
+  "modelos": {
+    "Aluno": {
+      "arquivo": "models/Aluno.js",
+      "metodos_existentes": [
+        "criar(nome, email, senha, data_nascimento, instituicao_id)",
+        "buscarPorId(id)",
+        "buscarPorEmail(email)",
+        "listarTodos()",
+        "atualizarSaldo(id, saldo)",
+        "deletar(id)",
+        "buscarPlanoEscola(aluno)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - CRÍTICO: sem UPDATE genérico",
+        "buscarPorInstituicao() - ALTO: útil para gestores",
+        "validarEmail() - MÉDIO",
+        "contar() - MÉDIO: count de alunos",
+        "buscarComFiltros() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de email (apenas em routes)",
+          "❌ CRÍTICO: Sem hash de senha (armazenada em texto plano)",
+          "❌ CRÍTICO: Sem validação de comprimento mínimo de dados",
+          "⚠️ ALTO: Sem sanitização de entrada contra SQL injection"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🔴 CRÍTICO: Senhas armazenadas sem hash (linha 8: 'senha' direto)",
+          "🔴 CRÍTICO: Sem proteção contra SQL injection (parâmetros usados, mas sem validação prévia)",
+          "🔴 CRÍTICO: Sem controle de acesso (qualquer um pode buscar qualquer aluno)",
+          "🟡 ALTO: Session não tem timeout definido",
+          "🟡 ALTO: Sem rate limiting em queries",
+          "🟠 MÉDIO: Sem auditoria de quem acessa dados"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅ Presente",
+        "read": "✅ Presente (buscarPorId, buscarPorEmail, listarTodos)",
+        "update": "❌ CRÍTICO - Faltando: apenas atualizarSaldo()",
+        "delete": "✅ Presente"
+      },
+      "problemas_especificos": [
+        {
+          "prioridade": "CRÍTICO",
+          "problema": "Sem validação de dados de entrada",
+          "localizacao": "Toda classe",
+          "solucao": "Adicionar middleware de validação ou método validarEntrada()"
+        },
+        {
+          "prioridade": "CRÍTICO",
+          "problema": "Senhas em texto plano",
+          "localizacao": "criar() linha 8",
+          "solucao": "Usar bcrypt ou argon2 antes de salvar"
+        },
+        {
+          "prioridade": "ALTO",
+          "problema": "Sem método atualizar() genérico",
+          "localizacao": "Toda classe",
+          "solucao": "Adicionar atualizar(id, dados) que permita atualizar qualquer campo"
+        }
+      ]
+    },
+    "Professor": {
+      "arquivo": "models/Professor.js",
+      "metodos_existentes": [
+        "criar(nome, email, senha, instituicao)",
+        "buscarPorId(id)",
+        "buscarPorEmail(email)",
+        "listarTodos()",
+        "deletar(id)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - CRÍTICO",
+        "buscarPorInstituicao() - ALTO",
+        "validar() - MÉDIO",
+        "listarComTurmas() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de entrada",
+          "❌ CRÍTICO: Sem hash de senha",
+          "⚠️ ALTO: Sem validação de email"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🔴 CRÍTICO: Senhas em texto plano",
+          "🔴 CRÍTICO: Sem validação de entrada",
+          "🟡 ALTO: Sem controle de acesso (qualquer um pode deletar professor)"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "❌ CRÍTICO - Faltando",
+        "delete": "✅"
+      }
+    },
+    "Turma": {
+      "arquivo": "models/Turma.js",
+      "metodos_existentes": [
+        "criar(nome, professor_id, ano_escolar)",
+        "buscarPorId(id)",
+        "listarPorProfessor(professor_id)",
+        "listarAlunosDaTurma(turma_id)",
+        "adicionarAluno(turma_id, aluno_id)",
+        "deletar(id)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - CRÍTICO",
+        "removerAluno() - ALTO",
+        "listarPorAno() - MÉDIO",
+        "contar() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de professor_id",
+          "⚠️ ALTO: Sem validação de ano_escolar"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🟡 ALTO: Sem verificação se professor_id existe antes de criar",
+          "🟡 ALTO: Sem verificação se aluno_id existe antes de adicionar",
+          "🟠 MÉDIO: Sem auditoria de alterações"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "❌ CRÍTICO - Faltando",
+        "delete": "✅"
+      }
+    },
+    "Quiz": {
+      "arquivo": "models/Quiz.js",
+      "metodos_existentes": [
+        "criar(titulo, tema, tipo_ambiente)",
+        "buscarPorId(id)",
+        "listarTodos()",
+        "listarPorTema(tema)",
+        "deletar(id)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - CRÍTICO",
+        "validar() - MÉDIO",
+        "buscarComPerguntas() - ALTO: retorna quiz com todas as perguntas",
+        "contar() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de titulo/tema"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🟡 ALTO: Sem proteção de acesso a quizzes (qualquer um pode deletar)"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "❌ CRÍTICO - Faltando",
+        "delete": "✅"
+      }
+    },
+    "Pergunta": {
+      "arquivo": "models/Pergunta.js",
+      "metodos_existentes": [
+        "criar(quiz_id, enunciado, tipo)",
+        "buscarPorId(id)",
+        "listarPorQuiz(quiz_id)",
+        "deletar(id)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - CRÍTICO",
+        "buscarComOpcoes() - ALTO: retorna pergunta com opções",
+        "validar() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de enunciado",
+          "❌ CRÍTICO: Sem validação de quiz_id"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🟡 ALTO: Sem verificação se quiz_id existe"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "❌ CRÍTICO - Faltando",
+        "delete": "✅"
+      }
+    },
+    "Opcao": {
+      "arquivo": "models/Opcao.js",
+      "metodos_existentes": [
+        "criar(pergunta_id, texto, correta)",
+        "buscarPorId(id)",
+        "listarPorPergunta(pergunta_id)",
+        "deletar(id)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - CRÍTICO",
+        "validar() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de texto",
+          "❌ CRÍTICO: Sem validação de pergunta_id"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🟡 ALTO: Sem verificação de pergunta_id",
+          "🟠 MÉDIO: Sem proteção contra múltiplas respostas corretas"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "❌ CRÍTICO - Faltando",
+        "delete": "✅"
+      }
+    },
+    "Resposta": {
+      "arquivo": "models/Resposta.js",
+      "metodos_existentes": [
+        "criar(aluno_id, pergunta_id, opcao_id, acertou)",
+        "buscarPorAlunoQuiz(aluno_id, quiz_id)",
+        "contarAcertos(aluno_id, quiz_id)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - CRÍTICO",
+        "deletar() - CRÍTICO",
+        "listarPorAluno() - ALTO",
+        "validar() - MÉDIO",
+        "buscarPorPergunta() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de aluno_id",
+          "❌ CRÍTICO: Sem validação de pergunta_id",
+          "⚠️ ALTO: Sem validação se opcao_id pertence à pergunta"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🔴 CRÍTICO: Sem verificação se aluno pode responder esta pergunta",
+          "🟡 ALTO: Possibilidade de truque (enviar acertou=true sem validação)",
+          "🟡 ALTO: Sem auditoria de mudanças de respostas"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "❌ CRÍTICO - Faltando",
+        "delete": "❌ CRÍTICO - Faltando"
+      }
+    },
+    "Compra": {
+      "arquivo": "models/Compra.js",
+      "metodos_existentes": [
+        "comprarAvatar(aluno_id, avatar, preco)",
+        "listarCompras(aluno_id)",
+        "validarPreco(avatar, precoEsperado)"
+      ],
+      "metodos_faltando": [
+        "deletarCompra() - MÉDIO",
+        "reembolsar() - ALTO",
+        "validar() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": true,
+        "problemas": [
+          "⚠️ ALTO: Validação de saldo existe, mas validarPreco() sempre retorna true se BD falhar",
+          "🟡 MÉDIO: Sem validação de formato de avatar"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🔴 CRÍTICO: Sem verificação de autorização (qualquer um pode tentar comprar para outro aluno)",
+          "🟡 ALTO: Se BD falhar, validarPreco() retorna true permitindo compra sem validação",
+          "🟠 MÉDIO: Sem auditoria de transações"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅ (compra)",
+        "read": "✅ (listarCompras)",
+        "update": "❌ Não há reembolso",
+        "delete": "❌ Faltando"
+      },
+      "peculiaridades": [
+        "⚠️ Usa transação (boa prática)",
+        "⚠️ Valida saldo antes de compra",
+        "⚠️ Verifica se avatar já foi comprado",
+        "❌ Mas permite compra sem validar preço se BD falhar"
+      ]
+    },
+    "Parceria": {
+      "arquivo": "models/Parceria.js",
+      "metodos_existentes": [
+        "criar(dados)",
+        "buscarPorId(id)",
+        "buscarPorEmail(email)",
+        "listarTodas()",
+        "atualizarStatus(id, status)",
+        "validar(dados)",
+        "criarMensagemParceria(parceriaId, conteudo, remetente)",
+        "listarMensagensParcerias(parceriaId)",
+        "marcarMensagensComoVisualizadas(parceriaId)",
+        "atualizarPlano(parceriaId, novoPlano)"
+      ],
+      "metodos_faltando": [
+        "atualizar() - ALTO",
+        "deletar() - MÉDIO",
+        "buscarPorCidade() - BAIXO"
+      ],
+      "validacao": {
+        "presente": true,
+        "problemas": [
+          "✅ Tem validar() com boas verificações",
+          "⚠️ ALTO: Mas validação não é chamada em todos os endpoints",
+          "🟡 MÉDIO: Validação de senha_gestao (8 chars) poderia ser mais forte"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🔴 CRÍTICO: Senha de gestão em texto plano",
+          "🔴 CRÍTICO: Sem validação de confirmação de identidade para atualizarPlano()",
+          "🟡 ALTO: Sem controle de acesso em criarMensagemParceria()",
+          "🟡 ALTO: Qualquer um pode enviar mensagens para qualquer parceria",
+          "🟠 MÉDIO: Debug files escrito (./debug-msg.log) expõe dados sensíveis"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "✅ (Parcial: atualizarStatus, atualizarPlano)",
+        "delete": "❌ Faltando"
+      }
+    },
+    "Gestao": {
+      "arquivo": "models/Gestao.js",
+      "metodos_existentes": [
+        "criar(nome, email, senha, instituicao_id)",
+        "buscarPorId(id)",
+        "buscarPorEmail(email)",
+        "validarCredenciais(email, senha)",
+        "listarTodos()",
+        "atualizar(id, nome, email)",
+        "deletar(id)"
+      ],
+      "metodos_faltando": [
+        "validar() - MÉDIO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de entrada em criar()",
+          "⚠️ ALTO: Sem validação de email"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🔴 CRÍTICO: Senhas em texto plano",
+          "🔴 CRÍTICO: validarCredenciais() busca tanto em gestores quanto parcerias - pode causar confusão",
+          "🟡 ALTO: Sem controle de acesso (qualquer um pode deletar)",
+          "🟡 ALTO: listarTodos() expõe dados de gestores"
+        ]
+      },
+      "crud_completude": {
+        "create": "✅",
+        "read": "✅",
+        "update": "✅ (limitado: apenas nome e email)",
+        "delete": "✅"
+      }
+    },
+    "Ranking": {
+      "arquivo": "models/Ranking.js",
+      "metodos_existentes": [
+        "ranking()",
+        "rankingTurma(turma_id)",
+        "posicaoAlunoGeral(aluno_id)"
+      ],
+      "metodos_faltando": [
+        "rankingPorTema() - ALTO",
+        "rankingPorSemana() - MÉDIO",
+        "resetar() - BAIXO"
+      ],
+      "validacao": {
+        "presente": false,
+        "problemas": [
+          "❌ CRÍTICO: Sem validação de turma_id",
+          "⚠️ ALTO: Sem validação de aluno_id"
+        ]
+      },
+      "seguranca": {
+        "problemas": [
+          "🟡 ALTO: Dados de ranking são públicos (qualquer um pode ver tudo)"
+        ]
+      },
+      "crud_completude": {
+        "create": "❌ Não há create",
+        "read": "✅",
+        "update": "❌ Não há update",
+        "delete": "❌ Não há delete"
+      }
+    },
+    "BaseModel": {
+      "arquivo": "models/BaseModel.js",
+      "metodos_existentes": [
+        "executeWithFallback(queryFn, mockFn)",
+        "withConnection(callback)",
+        "withTransaction(callback)",
+        "log(method, status, message)"
+      ],
+      "finalidade": "Classe base para padronizar acesso ao BD com fallback para mockdb",
+      "problemas": [
+        "⚠️ MÉDIO: Classe bem estruturada, mas não está sendo usada por todos os modelos",
+        "⚠️ MÉDIO: Flag useMock é global, não é thread-safe",
+        "🟡 BAIXO: Log não inclui stack trace de erros"
+      ]
+    }
+  },
+  "rotas": {
+    "routes/index.js": {
+      "arquivo": "routes/index.js",
+      "endpoints": [
+        {
+          "metodo": "GET",
+          "rota": "/",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO",
+          "problemas": []
+        },
+        {
+          "metodo": "GET",
+          "rota": "/sobre",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "GET",
+          "rota": "/contato",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "POST",
+          "rota": "/contato",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim (express-validator)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200",
+          "prioridade": "MÉDIO",
+          "problemas": [
+            "⚠️ Response é apenas texto, deveria ser JSON"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/parcerias-escolas",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "POST",
+          "rota": "/parcerias-escolas",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim (modelo)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200/500",
+          "prioridade": "MÉDIO"
+        },
+        {
+          "metodo": "GET",
+          "rota": "/instituicoes",
+          "autenticacao": "✅ Sim (verifica tipo='gestao')",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/302",
+          "prioridade": "MÉDIO",
+          "problemas": [
+            "⚠️ Mas sem verificar se user.id é válido",
+            "🟡 Sem verificar se instituicao_id existe no BD"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/login",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "POST",
+          "rota": "/login",
+          "autenticacao": "❌ Não (é o endpoint de login)",
+          "validacao": "✅ Sim (valida role, email, senha)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/401/200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🔴 CRÍTICO: Compara senha em texto plano",
+            "🟡 ALTO: Sem rate limiting contra brute force",
+            "🟡 ALTO: Sem check de múltiplos logins simultâneos"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/aluno/login",
+          "autenticacao": "❌ Não (é o endpoint de login)",
+          "validacao": "✅ Sim (valida email, senha)",
+          "erro_handling": "✅ Sim (com debug logs)",
+          "status_http": "✅ 400/401/200/500",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Compara senha em texto plano",
+            "🔴 CRÍTICO: Cria debug logs públicos (/login-debug.log)",
+            "🔴 CRÍTICO: Sem verificação de plano antes de redirecionar",
+            "🟡 ALTO: Sem rate limiting",
+            "🟠 MÉDIO: Debug logging expõe dados sensíveis"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/gestao/login",
+          "autenticacao": "❌ Não (é login)",
+          "validacao": "✅ Sim (valida email, senha)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/401/200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem comparação de senha em texto plano - usa apenas email",
+            "🔴 CRÍTICO: Validação feita no modelo que busca em parcerias OU gestores (confuso)"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/aluno",
+          "autenticacao": "✅ Sim",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/302",
+          "prioridade": "MÉDIO",
+          "problemas": [
+            "⚠️ Busca aluno do BD a cada requisição (ineficiente)"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/aluno-novo",
+          "autenticacao": "❌ Não (público)",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "MÉDIO",
+          "problemas": [
+            "⚠️ Se não autenticado, retorna dados padrão (OK)",
+            "⚠️ Se autenticado, busca do BD a cada requisição"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/aluno-premium",
+          "autenticacao": "❌ Não (público)",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "MÉDIO"
+        },
+        {
+          "metodo": "GET",
+          "rota": "/aluno/cadastro",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "POST",
+          "rota": "/aluno/cadastro",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim (express-validator)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🟡 ALTO: Sem verificação de instituicao_id no BD",
+            "🟡 ALTO: Sem email confirmation",
+            "🟠 MÉDIO: Sem captcha contra bots"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/professor/cadastro",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "POST",
+          "rota": "/professor/cadastro",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim (express-validator)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🟡 ALTO: Sem email confirmation",
+            "🟠 MÉDIO: Sem verificação de domínio de email (educacional)"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/comprar-avatar",
+          "autenticacao": "✅ Sim",
+          "validacao": "✅ Sim (valida avatar, preco)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 401/400/200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem verificação se preço é correto (confia no cliente)",
+            "🟡 ALTO: Sem verificação se avatar existe",
+            "🟠 MÉDIO: Sem auditoria de transações"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/comprar-avatares",
+          "autenticacao": "❌ Não (público)",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        }
+      ]
+    },
+    "routes/professor.js": {
+      "arquivo": "routes/professor.js",
+      "endpoints": [
+        {
+          "metodo": "GET",
+          "rota": "/dashboard",
+          "autenticacao": "✅ Sim",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/302",
+          "prioridade": "MÉDIO"
+        },
+        {
+          "metodo": "GET",
+          "rota": "/login",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "POST",
+          "rota": "/login",
+          "autenticacao": "❌ Não (é login)",
+          "validacao": "✅ Sim",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/401/200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🔴 CRÍTICO: Compara senha em texto plano"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/area",
+          "autenticacao": "✅ Sim",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/302",
+          "prioridade": "MÉDIO"
+        },
+        {
+          "metodo": "GET",
+          "rota": "/serie/:serie",
+          "autenticacao": "✅ Sim",
+          "validacao": "❌ Não (sem validar serie)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/302",
+          "prioridade": "MÉDIO",
+          "problemas": [
+            "🟡 ALTO: Sem validação de série válida"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/serie/:serie/turma/:turmaId",
+          "autenticacao": "✅ Sim",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/404/500",
+          "prioridade": "MÉDIO",
+          "problemas": [
+            "🟡 ALTO: Sem verificação se professor é dono da turma"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/turmas",
+          "autenticacao": "✅ Sim",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/302",
+          "prioridade": "BAIXO"
+        },
+        {
+          "metodo": "POST",
+          "rota": "/turmas/criar",
+          "autenticacao": "✅ Sim",
+          "validacao": "✅ Sim (valida nome, ano_escolar)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 401/400/200/500",
+          "prioridade": "MÉDIO",
+          "problemas": [
+            "⚠️ Validação é básica"
+          ]
+        }
+      ]
+    },
+    "app.js (rotas globais)": {
+      "arquivo": "app.js",
+      "endpoints": [
+        {
+          "metodo": "GET",
+          "rota": "/debug-test",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "❌ Não",
+          "status_http": "✅ 200",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Rota de debug em produção sem proteção"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/test-aluno-methods",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "❌ Não",
+          "status_http": "✅ 200",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Rota de debug que expõe estrutura do modelo"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/teste-aluno",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "❌ Não",
+          "status_http": "✅ 200",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Rota de teste sem proteção"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/test/mockdb-criar",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Rota de teste sem autenticação"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/test/mockdb-listar",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Expõe dados de teste públicos"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/api/notificacoes/count",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🟡 ALTO: Sem autenticação (qualquer um pode ver notificações)",
+            "🟠 MÉDIO: Loop for é ineficiente com muitas parcerias"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/api/parcerias/mensagens/todas",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/500",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem autenticação (expõe TODAS as mensagens de parcerias)"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/api/parcerias/com-mensagens",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/500",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem autenticação (expõe informações de parcerias)"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/api/parcerias-lista",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem autenticação (expõe lista completa de parcerias)"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/api/parcerias/:id/mensagens",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim (valida conteudo)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200/500",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem autenticação (qualquer um pode enviar mensagens)",
+            "🔴 CRÍTICO: Sem verificação se parceria existe",
+            "🟡 ALTO: Sem limite de tamanho de mensagem"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/api/parcerias/:id/mensagens",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não (sem validar id)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 404/200/500",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem autenticação (qualquer um pode ler mensagens)"
+          ]
+        },
+        {
+          "metodo": "GET",
+          "rota": "/api/instituicoes",
+          "autenticacao": "❌ Não",
+          "validacao": "❌ Não",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "🟡 ALTO: Sem autenticação (expõe lista de instituições)"
+          ]
+        },
+        {
+          "metodo": "PUT",
+          "rota": "/api/instituicoes/:id/plano",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim (valida plano)",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200/500",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem autenticação (qualquer um pode mudar plano de instituição)",
+            "🔴 CRÍTICO: Grave falta de autorização"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/api/instituicoes/adicionar-aluno",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200/500",
+          "prioridade": "CRÍTICO",
+          "problemas": [
+            "🔴 CRÍTICO: Sem autenticação (qualquer um pode adicionar alunos)",
+            "🟡 ALTO: Sem verificação de instituição"
+          ]
+        },
+        {
+          "metodo": "POST",
+          "rota": "/api/professor/cadastro",
+          "autenticacao": "❌ Não",
+          "validacao": "✅ Sim",
+          "erro_handling": "✅ Sim",
+          "status_http": "✅ 400/200/500",
+          "prioridade": "ALTO",
+          "problemas": [
+            "⚠️ Parece duplicado com /professor/cadastro em routes/index.js"
+          ]
+        }
+      ]
+    }
+  },
+  "gaps_e_funcionalidades_incompletas": {
+    "endpoints_faltando": [
+      {
+        "categoria": "Autenticação",
+        "gaps": [
+          "❌ Sem endpoint de logout (session.destroy)",
+          "❌ Sem endpoint de recuperação de senha",
+          "❌ Sem endpoint de reset de senha",
+          "❌ Sem endpoint de verificação de email",
+          "❌ Sem autenticação por token (JWT)"
+        ],
+        "prioridade": "CRÍTICO"
+      },
+      {
+        "categoria": "Aluno",
+        "gaps": [
+          "❌ Sem endpoint de perfil do aluno (GET /aluno/perfil)",
+          "❌ Sem endpoint de atualizar perfil (PUT /aluno/perfil)",
+          "❌ Sem endpoint de listar avatares comprados",
+          "❌ Sem endpoint de histórico de pontos",
+          "❌ Sem endpoint de deletar conta"
+        ],
+        "prioridade": "ALTO"
+      },
+      {
+        "categoria": "Professor",
+        "gaps": [
+          "❌ Sem endpoint de atualizar perfil (PUT /professor/perfil)",
+          "❌ Sem endpoint de listar alunos com filtros",
+          "❌ Sem endpoint de enviar mensagens para turma",
+          "❌ Sem endpoint de gerar relatórios",
+          "❌ Sem endpoint de deletar conta"
+        ],
+        "prioridade": "ALTO"
+      },
+      {
+        "categoria": "Quiz",
+        "gaps": [
+          "❌ Sem endpoint de enviar respostas (POST /quiz/:id/responder)",
+          "❌ Sem endpoint de resultados de quiz (GET /quiz/:id/resultado)",
+          "❌ Sem endpoint de criar quiz dinâmico",
+          "❌ Sem endpoint de editar quiz"
+        ],
+        "prioridade": "CRÍTICO"
+      },
+      {
+        "categoria": "Gestão",
+        "gaps": [
+          "❌ Sem dashboard de gestão",
+          "❌ Sem endpoint de estatísticas",
+          "❌ Sem endpoint de relatórios",
+          "❌ Sem endpoint de gerenciamento de usuários",
+          "❌ Sem endpoint de auditoria"
+        ],
+        "prioridade": "ALTO"
+      },
+      {
+        "categoria": "Parceria",
+        "gaps": [
+          "❌ Sem endpoint para deletar parceria",
+          "❌ Sem endpoint de atualizar dados da parceria",
+          "❌ Sem endpoint de atualizar senha de gestão"
+        ],
+        "prioridade": "MÉDIO"
+      }
+    ],
+    "queries_sem_fallback": [
+      {
+        "localizacao": "app.js - GET /api/notificacoes/count",
+        "problema": "Loop for com múltiplas chamadas a BD pode falhar parcialmente",
+        "prioridade": "ALTO"
+      },
+      {
+        "localizacao": "app.js - POST /comprar-avatar",
+        "problema": "Se BD falhar, Compra.validarPreco() retorna true permitindo compra sem validação",
+        "prioridade": "CRÍTICO"
+      },
+      {
+        "localizacao": "Parceria.js - criarMensagemParceria()",
+        "problema": "Se BD falhar, mensagem é criada em mockdb sem sincronização",
+        "prioridade": "MÉDIO"
+      }
+    ],
+    "funcionalidades_incompletas": [
+      {
+        "funcionalidade": "Sistema de autenticação",
+        "status": "50% - Tem login, mas faltam endpoints essenciais",
+        "problemas": [
+          "Sem logout",
+          "Sem recuperação de senha",
+          "Sem verificação de email",
+          "Sem rate limiting"
+        ],
+        "prioridade": "CRÍTICO"
+      },
+      {
+        "funcionalidade": "Sistema de quizzes",
+        "status": "30% - Models existem, mas endpoints de interação faltam",
+        "problemas": [
+          "Sem endpoint para responder quiz",
+          "Sem cálculo de resultado",
+          "Sem armazenamento de tentativas"
+        ],
+        "prioridade": "CRÍTICO"
+      },
+      {
+        "funcionalidade": "Sistema de compras",
+        "status": "50% - Compra existe, mas sem validação de preço do servidor",
+        "problemas": [
+          "Preço vem do cliente (inseguro)",
+          "Sem histórico de transações",
+          "Sem sistema de reembolso"
+        ],
+        "prioridade": "CRÍTICO"
+      },
+      {
+        "funcionalidade": "Sistema de parcerias/gestão",
+        "status": "60% - Models existem, mas sem endpoints de CRUD completo",
+        "problemas": [
+          "Sem atualizar dados da parceria",
+          "Sem deletar parceria",
+          "Sem renovação de planos"
+        ],
+        "prioridade": "ALTO"
+      },
+      {
+        "funcionalidade": "Sistema de ranking",
+        "status": "50% - Querys existem, mas sem endpoints públicos ou filtros",
+        "problemas": [
+          "Sem ranking por tema",
+          "Sem ranking por período",
+          "Sem atualização em tempo real"
+        ],
+        "prioridade": "MÉDIO"
+      }
+    ]
+  },
+  "problemas_criticos_detalhados": [
+    {
+      "id": 1,
+      "titulo": "🔴 SENHAS EM TEXTO PLANO",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "Aluno.js",
+        "Professor.js",
+        "Gestao.js",
+        "Parceria.js",
+        "Todas as rotas de login"
+      ],
+      "problema": "Senhas são armazenadas sem hash. Se BD for comprometido, todos os usuários são expostos.",
+      "impacto": "Segurança crítica - violação de LGPD/GDPR",
+      "solucao": "Usar bcrypt ou argon2 para hash de senhas",
+      "arquivos_afetados": [
+        "models/Aluno.js linha 8",
+        "models/Professor.js linha 8",
+        "models/Gestao.js linha 8",
+        "models/Parceria.js",
+        "routes/index.js linhas 369-379"
+      ]
+    },
+    {
+      "id": 2,
+      "titulo": "🔴 AUTENTICAÇÃO AUSENTE EM ENDPOINTS CRÍTICOS",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "PUT /api/instituicoes/:id/plano",
+        "POST /api/parcerias/:id/mensagens",
+        "GET /api/parcerias/mensagens/todas",
+        "POST /api/instituicoes/adicionar-aluno"
+      ],
+      "problema": "Qualquer pessoa pode alterar planos de instituições, enviar mensagens, adicionar alunos",
+      "impacto": "Acesso não autorizado a operações sensíveis",
+      "solucao": "Implementar middleware de autenticação em app.js antes dessas rotas",
+      "arquivos_afetados": [
+        "app.js linhas 226-281"
+      ]
+    },
+    {
+      "id": 3,
+      "titulo": "🔴 FALTA DE VALIDAÇÃO DE PREÇO NA COMPRA",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "routes/index.js - POST /comprar-avatar"
+      ],
+      "problema": "Preço vem do cliente (body). Se validarPreco() falhar, compra é permitida mesmo assim.",
+      "impacto": "Usuários podem comprar avatares por qualquer preço",
+      "solucao": "Armazenar preços no servidor e validar nele",
+      "arquivos_afetados": [
+        "routes/index.js linhas 75-97",
+        "models/Compra.js linhas 61-70"
+      ]
+    },
+    {
+      "id": 4,
+      "titulo": "🔴 ENDPOINTS DE DEBUG EM PRODUÇÃO",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "GET /debug-test",
+        "GET /test-aluno-methods",
+        "POST /teste-aluno",
+        "POST /test/mockdb-*",
+        "GET /test/mockdb-*"
+      ],
+      "problema": "Rotas de teste estão disponíveis em produção sem autenticação",
+      "impacto": "Exposição de estrutura do aplicativo",
+      "solucao": "Remover ou proteger com autenticação e verificação de NODE_ENV",
+      "arquivos_afetados": [
+        "app.js linhas 39-182"
+      ]
+    },
+    {
+      "id": 5,
+      "titulo": "🔴 DEBUG LOGS ESCREVEM DADOS SENSÍVEIS",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "routes/index.js - POST /aluno/login",
+        "models/Parceria.js - criarMensagemParceria()"
+      ],
+      "problema": "Arquivo ./login-debug.log é criado com emails, senhas, dados de sessão",
+      "impacto": "Credenciais e dados pessoais expostos em arquivo público",
+      "solucao": "Remover todos os fs.appendFileSync() com dados sensíveis",
+      "arquivos_afetados": [
+        "routes/index.js linha 359-408",
+        "models/Parceria.js linha 189"
+      ]
+    },
+    {
+      "id": 6,
+      "titulo": "🔴 FALTA DE AUTORIZAÇÃO POR RECURSO",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "routes/professor.js - GET /serie/:serie/turma/:turmaId"
+      ],
+      "problema": "Professor A pode acessar turmas de Professor B",
+      "impacto": "Acesso não autorizado a dados de outros usuários",
+      "solucao": "Verificar se professor_id na sessão é o dono da turma",
+      "arquivos_afetados": [
+        "routes/professor.js linhas 106-127"
+      ]
+    },
+    {
+      "id": 7,
+      "titulo": "🔴 SISTEMA DE QUIZ SEM ENDPOINTS",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "Quiz, Pergunta, Opcao, Resposta models"
+      ],
+      "problema": "Não há endpoints para responder quiz, salvar respostas, visualizar resultados",
+      "impacto": "Feature crítica de negócio não funciona",
+      "solucao": "Implementar POST /quiz/:id/responder, GET /quiz/:id/resultado",
+      "arquivos_afetados": [
+        "routes/index.js, routes/professor.js (faltam endpoints)"
+      ]
+    },
+    {
+      "id": 8,
+      "titulo": "🔴 NÃO HÁ ENDPOINT DE LOGOUT",
+      "severidade": "CRÍTICO",
+      "afetados": [
+        "Todas as areas de usuário"
+      ],
+      "problema": "Usuários não podem fazer logout (session fica ativa)",
+      "impacto": "Segurança - sessão fica aberta indefinidamente",
+      "solucao": "Implementar POST /logout que chama req.session.destroy()",
+      "arquivos_afetados": [
+        "routes/index.js, routes/professor.js (faltam endpoints)"
+      ]
+    }
+  ],
+  "recomendacoes_prioritarias": {
+    "fase_1_emergencial": [
+      {
+        "acao": "REMOVE todas as rotas de /debug-test, /test/* e /teste*",
+        "tempo_estimado": "30 min",
+        "impacto": "Reduce exposição de vulnerabilidades",
+        "arquivos": ["app.js"]
+      },
+      {
+        "acao": "REMOVER todos os fs.appendFileSync() que escrevem dados sensíveis",
+        "tempo_estimado": "1 hora",
+        "impacto": "Previne exposição de credenciais",
+        "arquivos": ["routes/index.js", "models/Parceria.js"]
+      },
+      {
+        "acao": "ADICIONAR autenticação em endpoints de API críticos",
+        "tempo_estimado": "2 horas",
+        "impacto": "Bloqueia acesso não autorizado",
+        "arquivos": ["app.js"]
+      },
+      {
+        "acao": "IMPLEMENTAR middleware de rate limiting",
+        "tempo_estimado": "1,5 horas",
+        "impacto": "Protege contra brute force",
+        "arquivos": ["app.js"]
+      }
+    ],
+    "fase_2_seguranca": [
+      {
+        "acao": "IMPLEMENTAR hash de senhas com bcrypt",
+        "tempo_estimado": "3 horas",
+        "impacto": "Protege senhas comprometidas",
+        "arquivos": ["models/Aluno.js", "models/Professor.js", "models/Gestao.js", "models/Parceria.js"]
+      },
+      {
+        "acao": "VALIDAR preços de avatares no servidor",
+        "tempo_estimado": "1,5 horas",
+        "impacto": "Previne fraude",
+        "arquivos": ["models/Compra.js"]
+      },
+      {
+        "acao": "ADICIONAR verificação de autorização por recurso",
+        "tempo_estimado": "2 horas",
+        "impacto": "Bloqueia acesso não autorizado",
+        "arquivos": ["routes/professor.js"]
+      },
+      {
+        "acao": "IMPLEMENTAR verificação de email",
+        "tempo_estimado": "2 horas",
+        "impacto": "Valida identidade de usuários",
+        "arquivos": ["routes/index.js"]
+      }
+    ],
+    "fase_3_funcionalidades": [
+      {
+        "acao": "IMPLEMENTAR endpoints de quiz (responder, resultado)",
+        "tempo_estimado": "4 horas",
+        "impacto": "Habilita feature core",
+        "arquivos": ["routes/index.js"]
+      },
+      {
+        "acao": "IMPLEMENTAR logout",
+        "tempo_estimado": "30 min",
+        "impacto": "Segurança de sessão",
+        "arquivos": ["routes/index.js"]
+      },
+      {
+        "acao": "IMPLEMENTAR endpoints de recuperação de senha",
+        "tempo_estimado": "2 horas",
+        "impacto": "UX e segurança",
+        "arquivos": ["routes/index.js", "models/Aluno.js"]
+      },
+      {
+        "acao": "IMPLEMENTAR endpoints de perfil do usuário",
+        "tempo_estimado": "2 horas",
+        "impacto": "UX",
+        "arquivos": ["routes/index.js", "routes/professor.js"]
+      }
+    ],
+    "fase_4_codigo": [
+      {
+        "acao": "REFATORAR rotas para usar BaseModel",
+        "tempo_estimado": "3 horas",
+        "impacto": "Padronização e manutenibilidade",
+        "arquivos": ["models/Aluno.js", "models/Professor.js"]
+      },
+      {
+        "acao": "ADICIONAR validação em todos os modelos",
+        "tempo_estimado": "3 horas",
+        "impacto": "Qualidade e segurança",
+        "arquivos": ["models/*.js"]
+      },
+      {
+        "acao": "IMPLEMENTAR UPDATE genérico em modelos",
+        "tempo_estimado": "2 horas",
+        "impacto": "Completude CRUD",
+        "arquivos": ["models/*.js"]
+      }
+    ]
+  },
+  "sumario_estatisticas": {
+    "total_modelos": 12,
+    "modelos_completos": 2,
+    "modelos_incompletos": 10,
+    "total_endpoints": 45,
+    "endpoints_com_autenticacao": 12,
+    "endpoints_sem_autenticacao": 33,
+    "endpoints_com_validacao": 18,
+    "endpoints_sem_validacao": 27,
+    "endpoints_com_autorizacao": 3,
+    "endpoints_sem_autorizacao": 42,
+    "criticos": 14,
+    "altos": 18,
+    "medios": 12,
+    "baixos": 8,
+    "tempo_refatoracao_total_horas": "~35 horas para fazer bem"
+  }
+}

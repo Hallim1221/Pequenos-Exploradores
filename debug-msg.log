@@ -538,3 +538,15 @@
 ✅ MockDB: {"id":12,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-30T01:54:12.889Z","visualizado":0}
 ❌ MySQL error: 
 ✅ MockDB: {"id":13,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-30T01:54:12.906Z","visualizado":0}
+
+📝 criarMensagemParceria: id=5, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":5,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-30T15:25:53.701Z","visualizado":0}
+
+📝 criarMensagemParceria: id=2, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":2,"remetente":"admin","conteudo":"a","data_mensagem":"2026-05-30T18:00:24.825Z","visualizado":0}
+
+📝 criarMensagemParceria: id=2, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":2,"remetente":"admin","conteudo":"aa","data_mensagem":"2026-05-30T18:00:28.072Z","visualizado":0}
