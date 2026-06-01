@@ -675,12 +675,12 @@
         </header>
 
         <section class="stats-grid">
-          <article class="stat-card" data-icon="">
+          <article class="stat-card" data-icon="" onclick="navigate('instituicoes')" style="cursor: pointer;">
             <p class="stat-label">Instituições</p>
             <p class="stat-value" id="stat-instituicoes">--</p>
             <p class="stat-sub up"><span class="stat-trend trend-up" id="stat-inst-trend">--</span></p>
           </article>
-          <article class="stat-card" data-icon="">
+          <article class="stat-card" data-icon="" onclick="navigate('usuarios')" style="cursor: pointer;">
             <p class="stat-label">Usuários (Alunos + Prof)</p>
             <p class="stat-value" id="stat-usuarios">--</p>
             <p class="stat-sub up"><span class="stat-trend trend-up" id="stat-user-trend">--</span></p>
@@ -947,7 +947,7 @@
                   <td>carlos@email.com</td>
                   <td>Instituto Semente</td>
                   <td><span class="badge badge-green">Ativo</span></td>
-                  <td style="text-align:right"><button class="btn btn-sm" onclick="editUser()">✏️</button></td>
+                  <td style="text-align:right"><button class="btn btn-sm" onclick="editUser()" title="Deletar usuário">🗑️</button></td>
                 </tr>
                 <tr>
                   <td><p class="cell-main">Lucia Santos</p></td>
@@ -1374,6 +1374,25 @@
   </article>
 </dialog>
 
+<!-- Modal: Excluir Aluno -->
+<dialog class="modal-overlay" id="modal-delete-aluno">
+  <article class="modal modal-sm">
+    <header class="modal-header">
+      <h2 class="modal-title">🗑️ Excluir Aluno</h2>
+      <button class="modal-close" type="button" onclick="closeModal('modal-delete-aluno')">✕</button>
+    </header>
+    <p id="delete-aluno-msg" style="font-size:13px;color:var(--text-sub);margin-bottom:14px">Tem certeza que deseja excluir o aluno <strong id="delete-aluno-name"></strong>? Esta ação não pode ser desfeita.</p>
+    <article class="block-warning">
+      <p class="block-warning-title">⚠️ Aviso importante</p>
+      <p class="block-warning-text">A exclusão do aluno é permanente e removerá todos os seus dados do sistema, incluindo suas atividades e desempenho.</p>
+    </article>
+    <footer class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-delete-aluno')">Cancelar</button>
+      <button class="btn btn-danger" id="delete-aluno-confirm-btn" onclick="confirmarExclusaoAluno()">🗑️ Excluir Aluno</button>
+    </footer>
+  </article>
+</dialog>
+
 <!-- Modal: Chat de Parceria -->
 <dialog class="modal-overlay" id="modal-chat-parceria">
   <article class="modal" style="display:flex;flex-direction:column;height:600px;width:600px;">
@@ -1431,6 +1450,12 @@ function navigate(id, el) {
   document.getElementById('topbar-breadcrumb').textContent = pageNames[id];
   if (el) el.classList.add('active');
   
+  // Parar polling de chat se sair da página de chat
+  if (id !== 'chat' && window.pollingChat) {
+    clearInterval(window.pollingChat);
+    window.pollingChat = null;
+  }
+  
   // Carregar dados específicos de cada página
   if (id === 'instituicoes') {
     carregarInstituicoes();
@@ -1439,6 +1464,9 @@ function navigate(id, el) {
     carregarRanking();
   } else if (id === 'usuarios') {
     carregarUsuarios();
+  } else if (id === 'chat') {
+    // Atualizar badge ao abrir página de chat
+    atualizarBadgeNotificacoes();
   } else if (id === 'relatorios') {
     carregarRelatorios();
   }
@@ -1733,7 +1761,7 @@ async function carregarUsuarios() {
         <td style="text-align:right">
           ${usuario.status !== 'ativo' 
             ? `<button class="btn btn-sm btn-primary" onclick="approveUser(this)">✓ Aprovar</button>`
-            : `<button class="btn btn-sm" onclick="abrirConfirmacaoExclusaoUsuario('${usuario.id}', '${usuario.nome}')" title="Excluir usuário">✏️</button>`
+            : `<button class="btn btn-sm" onclick="abrirConfirmacaoExclusaoUsuario('${usuario.id}', '${usuario.nome}')" title="Excluir usuário">🗑️</button>`
           }
         </td>
       `;
@@ -1845,7 +1873,7 @@ async function abrirAlunosInstituicao(instId, instName) {
     const conteudo = document.getElementById('alunos-content');
     conteudo.innerHTML = '';
     
-    if (!dados.sucesso || dados.total === 0) {
+    if (!dados.success || dados.total_alunos === 0) {
       conteudo.innerHTML = '<p style="color: var(--text-mute); text-align: center; padding: 20px;">Nenhum aluno cadastrado nesta instituição</p>';
     } else {
       // Criar tabela de alunos
@@ -1855,7 +1883,8 @@ async function abrirAlunosInstituicao(instId, instName) {
             <tr style="border-bottom: 1px solid var(--border); background: var(--g50);">
               <th style="padding: 12px; text-align: left; font-weight: 600; color: var(--text); font-size: 13px;">Nome</th>
               <th style="padding: 12px; text-align: left; font-weight: 600; color: var(--text); font-size: 13px;">Email</th>
-              <th style="padding: 12px; text-align: right; font-weight: 600; color: var(--text); font-size: 13px;">Saldo</th>
+              <th style="padding: 12px; text-align: center; font-weight: 600; color: var(--text); font-size: 13px;">Saldo</th>
+              <th style="padding: 12px; text-align: right; font-weight: 600; color: var(--text); font-size: 13px;">Ação</th>
             </tr>
           </thead>
           <tbody>
@@ -1866,7 +1895,10 @@ async function abrirAlunosInstituicao(instId, instName) {
           <tr style="border-bottom: 1px solid var(--border-sm);">
             <td style="padding: 12px; color: var(--text);">${aluno.nome}</td>
             <td style="padding: 12px; color: var(--text-sub); font-size: 13px;">${aluno.email}</td>
-            <td style="padding: 12px; text-align: right; color: var(--g700); font-weight: 600;">⭐ ${aluno.saldo}</td>
+            <td style="padding: 12px; text-align: center; color: var(--g700); font-weight: 600;">⭐ ${aluno.saldo}</td>
+            <td style="padding: 12px; text-align: right;">
+              <button class="btn btn-sm" onclick="abrirConfirmacaoExclusaoAluno('${aluno.id}', '${aluno.nome.replace(/'/g, "\\'")}')" title="Deletar aluno" style="background: #ff6b6b; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 14px;">🗑️</button>
+            </td>
           </tr>
         `;
       });
@@ -2116,6 +2148,43 @@ async function confirmarExclusaoInstituicao() {
   }
 }
 
+// Exclusão de aluno
+let alunoParaExcluir = null;
+
+function abrirConfirmacaoExclusaoAluno(alunoId, alunoNome) {
+  alunoParaExcluir = alunoId;
+  document.getElementById('delete-aluno-name').textContent = alunoNome;
+  openModal('modal-delete-aluno');
+}
+
+async function confirmarExclusaoAluno() {
+  if (!alunoParaExcluir) return;
+  
+  try {
+    const resposta = await fetch(`/api/alunos/${alunoParaExcluir}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    });
+    
+    const resultado = await resposta.json();
+    
+    if (!resposta.ok || !resultado.success) {
+      showToast('Erro ao excluir aluno: ' + (resultado.message || 'Desconhecido'));
+      return;
+    }
+    
+    showToast('✅ Aluno excluído com sucesso!');
+    closeModal('modal-delete-aluno');
+    alunoParaExcluir = null;
+    
+    // Recarregar a tabela de alunos
+    carregarAlunos();
+  } catch (erro) {
+    console.error('Erro ao excluir aluno:', erro);
+    showToast('Erro ao excluir aluno: ' + erro.message);
+  }
+}
+
 // Chat
 function selectChat(name, initials, el) {
   document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
@@ -2144,37 +2213,41 @@ function extrairIniciais(nome) {
 // Atualizar badge de notificações dinamicamente
 async function atualizarBadgeNotificacoes() {
   try {
-    const resposta = await fetch('/api/notificacoes/count');
+    const resposta = await fetch('/api/parcerias/notificacoes/count');
     const dados = await resposta.json();
     const count = dados.count || 0;
     
-    const badge = document.querySelector('.nav-badge');
+    // Procurar o item de navegação de mensagens
+    const navItemMensagens = Array.from(document.querySelectorAll('.nav-item')).find(el => 
+      el.textContent.includes('Mensagens')
+    );
+    
+    if (!navItemMensagens) return; // Se não encontrar, sair silenciosamente
+    
+    let badge = navItemMensagens.querySelector('.nav-badge');
     
     if (count > 0) {
       if (!badge) {
         // Criar badge se não existir
-        const navMensagens = document.querySelector('article[onclick*="chat"]');
-        if (navMensagens) {
-          const newBadge = document.createElement('span');
-          newBadge.className = 'nav-badge';
-          newBadge.textContent = count;
-          navMensagens.appendChild(newBadge);
-        }
-      } else {
-        // Atualizar badge existente
-        badge.classList.remove('removing'); // Remover animação anterior
-        badge.textContent = count;
+        badge = document.createElement('span');
+        badge.className = 'nav-badge';
+        badge.style.marginLeft = 'auto';
+        navItemMensagens.appendChild(badge);
       }
+      // Atualizar conteúdo
+      badge.classList.remove('removing');
+      badge.textContent = count;
+      badge.style.display = 'inline-flex';
     } else {
-      // Remover badge com animação se count = 0
+      // Remover ou ocultar badge se count = 0
       if (badge) {
         badge.classList.add('removing');
         setTimeout(() => {
-          const badgeAtual = document.querySelector('.nav-badge');
+          const badgeAtual = navItemMensagens.querySelector('.nav-badge');
           if (badgeAtual) {
-            badgeAtual.remove();
+            badgeAtual.style.display = 'none';
           }
-        }, 300); // Aguardar a animação terminar
+        }, 300);
       }
     }
   } catch (erro) {
@@ -2464,6 +2537,15 @@ async function selectChatParceria(id, nomeParceria, el) {
   document.querySelectorAll('.chat-item').forEach(i => i.classList.remove('active'));
   el.classList.add('active');
   
+  // Marcar mensagens como visualizadas quando abrir o chat
+  try {
+    await fetch(`/api/parcerias/${id}/mensagens/visualizar`, { method: 'PUT' });
+    // Atualizar badge após marcar como visto
+    atualizarBadgeNotificacoes();
+  } catch (erro) {
+    console.error('Erro ao marcar mensagens como visualizadas:', erro);
+  }
+  
   // Extrair iniciais do nome
   const initials = nomeParceria.substring(0, 2).toUpperCase();
   document.getElementById('chat-win-avatar').textContent = initials;
@@ -2487,6 +2569,8 @@ async function selectChatParceria(id, nomeParceria, el) {
   window.pollingChat = setInterval(() => {
     if (parceriaAtualChat) {
       carregarMensagensParcerias(parceriaAtualChat);
+      // Atualizar badge também durante polling
+      atualizarBadgeNotificacoes();
     }
   }, 2000);
 }
@@ -2557,6 +2641,8 @@ function sendMessageAdmin() {
       input.value = '';
       carregarMensagensParcerias(parceriaAtualChat);
       showToast('Mensagem enviada!');
+      // Atualizar badge após enviar mensagem
+      setTimeout(() => atualizarBadgeNotificacoes(), 500);
     } else {
       alert('Erro ao enviar: ' + data.mensagem);
     }
@@ -2909,6 +2995,7 @@ carregarDashboard();
 carregarRanking();
 carregarCrescimento();
 carregarAtivacao();
+atualizarBadgeNotificacoes(); // Atualizar badge ao carregar a página
 
 // 🎨 Aplicar tema escuro se estiver ativado
 if (localStorage.getItem('admin-dark-mode') === 'true') {
@@ -2930,6 +3017,7 @@ document.addEventListener('input', function(e) {
 setInterval(() => {
   carregarDashboard();
   carregarRanking();
+  atualizarBadgeNotificacoes(); // Atualizar badge a cada 30s
 }, 30000);
 </script>
 </body>

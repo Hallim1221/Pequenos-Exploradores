@@ -42,7 +42,13 @@ router.post('/login', async (req, res) => {
     // Buscar professor no BD
     const professor = await Professor.buscarPorEmail(email);
 
-    if (!professor || professor.senha !== senha) {
+    if (!professor) {
+      return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
+    }
+
+    // Verificar senha com bcryptjs
+    const senhaValida = await Professor.verificarSenha(email, senha);
+    if (!senhaValida) {
       return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
     }
 

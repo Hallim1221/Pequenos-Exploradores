@@ -69,9 +69,15 @@ class Professor {
         return false;
       }
       
-      // Comparar com bcrypt
-      const senhaValida = await Seguranca.verificarSenha(senha, professor.senha);
-      return senhaValida;
+      // Se a senha armazenada começa com $2, é um hash bcrypt
+      if (professor.senha && professor.senha.startsWith('$2')) {
+        // Comparar com bcrypt
+        const senhaValida = await Seguranca.verificarSenha(senha, professor.senha);
+        return senhaValida;
+      } else {
+        // Se é texto plano (mockdb), comparar direto (compatibilidade com dados antigos)
+        return professor.senha === senha;
+      }
     } catch (erro) {
       console.error('Erro ao verificar senha:', erro);
       return false;

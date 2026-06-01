@@ -245,6 +245,28 @@ class Parceria {
     }
   }
 
+  // Marcar todas as mensagens de uma parceria como lidas
+  static async marcarMensagensParceríaComoLidas(parceriaId) {
+    console.log(`👁️ Marcando mensagens da parceria ${parceriaId} como lidas`);
+    
+    try {
+      const connection = await pool.getConnection();
+      
+      const [result] = await connection.execute(
+        'UPDATE mensagens_parcerias SET visualizado = 1 WHERE parceria_id = ? AND remetente = "escola"',
+        [parceriaId]
+      );
+      
+      connection.release();
+      console.log(`  ✅ ${result.affectedRows} mensagens marcadas como visualizadas`);
+      return result.affectedRows;
+    } catch (erro) {
+      console.error('Erro ao marcar mensagens como lidas:', erro.message);
+      console.log(`  📌 Usando mockdb para marcar..`);
+      return mockdb.marcarMensagensParceríaComoLidas(parceriaId);
+    }
+  }
+
   // Atualizar plano de uma instituição
   static async atualizarPlano(parceriaId, novoPlano) {
     try {

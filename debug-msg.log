@@ -550,3 +550,83 @@
 📝 criarMensagemParceria: id=2, type=string
 ❌ MySQL error: 
 ✅ MockDB: {"id":8,"parceria_id":2,"remetente":"admin","conteudo":"aa","data_mensagem":"2026-05-30T18:00:28.072Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":1,"remetente":"usuario","conteudo":"Olá! Gostaria de saber mais sobre os planos disponíveis.","data_mensagem":"2026-05-31T17:11:04.576Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":8,"parceria_id":1,"remetente":"usuario","conteudo":"eae foi gostei","data_mensagem":"2026-05-31T17:12:19.976Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":1,"remetente":"admin","conteudo":"gostou??","data_mensagem":"2026-05-31T17:15:07.366Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":10,"parceria_id":1,"remetente":"admin","conteudo":"gostou pae","data_mensagem":"2026-05-31T17:15:35.228Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":11,"parceria_id":1,"remetente":"admin","conteudo":"quero ve em","data_mensagem":"2026-05-31T17:24:27.579Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":12,"parceria_id":1,"remetente":"usuario","conteudo":"aeee porrr","data_mensagem":"2026-05-31T17:24:38.107Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":14,"parceria_id":4,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-31T17:30:30.413Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":15,"parceria_id":4,"remetente":"usuario","conteudo":"📚 Ver planos","data_mensagem":"2026-05-31T17:30:52.926Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":16,"parceria_id":4,"remetente":"admin","conteudo":"Perfeito 😊\n\nAtualmente temos dois planos disponíveis para instituições:\n\n🌱 PLANO ESSENCIAL\n✔ Área do aluno\n✔ Plataforma educacional\n✔ Atividades interativas\n✔ Suporte básico\n💰 R$ 89,90/mês\n\n🚀 PLANO PREMIUM\n✔ Todos os recursos do Essencial\n✔ Recursos avançados\n✔ Relatórios completos\n✔ Suporte prioritário\n✔ Personalização da instituição\n💰 R$ 149,90/mês\n\n🏦 Banco: Nubank\n👤 Pequenos Exploradores Tecnologia LTDA\n📄 CNPJ: 48.372.915/0001-64\n🔑 Chave PIX: financeiro@pequenosexploradores.com","data_mensagem":"2026-05-31T17:30:53.497Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":17,"parceria_id":4,"remetente":"usuario","conteudo":"💳 Já realizei o pagamento","data_mensagem":"2026-05-31T17:30:55.704Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":18,"parceria_id":4,"remetente":"admin","conteudo":"Perfeito! 🎉\n\nAgora envie o comprovante do pagamento para continuarmos a liberação do acesso da sua instituição.","data_mensagem":"2026-05-31T17:30:56.234Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":19,"parceria_id":4,"remetente":"usuario","conteudo":"📎 Comprovante enviado: coroa.png","data_mensagem":"2026-05-31T17:31:02.918Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":20,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante enviado com sucesso!\n\nNossa equipe irá analisar as informações e liberar o acesso da instituição.","data_mensagem":"2026-05-31T17:31:03.973Z","visualizado":0}
+❌ MySQL error: 
+✅ MockDB: {"id":21,"parceria_id":4,"remetente":"admin","conteudo":"✅ Comprovante recebido com sucesso!\n\nNossa equipe irá analisar o pagamento e liberar o acesso da instituição.","data_mensagem":"2026-05-31T17:31:03.986Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":22,"parceria_id":4,"remetente":"usuario","conteudo":"deu certo ta bom bjss","data_mensagem":"2026-05-31T17:31:45.080Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":23,"parceria_id":1,"remetente":"usuario","conteudo":"teste","data_mensagem":"2026-05-31T18:25:48.862Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":24,"parceria_id":1,"remetente":"admin","conteudo":"Teste de notificação","data_mensagem":"2026-05-31T18:41:31.534Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":25,"parceria_id":1,"remetente":"escola","conteudo":"Olá! Tudo bem com vocês?","data_mensagem":"2026-05-31T18:42:35.119Z","visualizado":0}
+
+📝 criarMensagemParceria: id=1, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":7,"parceria_id":1,"remetente":"usuario","conteudo":"iae fiii","data_mensagem":"2026-05-31T19:16:12.010Z","visualizado":0}
+
+📝 criarMensagemParceria: id=4, type=string
+❌ MySQL error: 
+✅ MockDB: {"id":9,"parceria_id":4,"remetente":"admin","conteudo":"👋 Olá, seja bem-vindo ao Pequenos Exploradores!\n\nComo podemos te ajudar hoje?","data_mensagem":"2026-05-31T19:20:41.868Z","visualizado":0}

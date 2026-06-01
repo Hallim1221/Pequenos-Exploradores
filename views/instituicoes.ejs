@@ -157,14 +157,22 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 <script>
 // Funções básicas definidas no início para uso nos onclick handlers
 function goTo(id){
+  // Parar polling ao sair do chat
+  if (id !== 'instituicoes-alunos') {
+    pararPollingChat();
+  }
+  
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
   if (id === 'cadastrar' && typeof carregarTurmasReais === 'function') {
     setTimeout(() => carregarTurmasReais(), 100);
   }
-  if (id === 'instituicoes-alunos' && typeof carregarAlunosInstituicao === 'function') {
-    setTimeout(() => carregarAlunosInstituicao(), 100);
+  if (id === 'instituicoes-alunos' && typeof carregarChatGestao === 'function') {
+    setTimeout(() => carregarChatGestao(), 100);
+  }
+  if (id === 'painel' && typeof carregarDadosPainel === 'function') {
+    setTimeout(() => carregarDadosPainel(), 100);
   }
 }
 function openModal(){document.getElementById('modalTurma').classList.add('open');}
@@ -400,53 +408,231 @@ async function carregarTurmasReais() {
   }
 }
 
-// Função para carregar alunos gerais da instituição
-async function carregarAlunosInstituicao() {
+// Função para carregar dados reais do painel da escola
+async function carregarDadosPainel() {
   try {
     let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
     const hiddenInput = document.querySelector('[data-instituicao-id]');
     if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
     
-    console.log('👥 Carregando alunos da instituição:', instituicaoId);
-    const response = await fetch(`/api/instituicoes/${instituicaoId}/alunos`);
-    const data = await response.json();
-    const container = document.getElementById('alunos-instituicao');
-    const labelContainer = document.getElementById('total-alunos-label');
+    console.log('📊 Carregando dados do painel para instituição:', instituicaoId);
     
+    // Buscar alunos
+    const resAlunos = await fetch(`/api/instituicoes/${instituicaoId}/alunos`);
+    const dataAlunos = await resAlunos.json();
+    const totalAlunos = dataAlunos.alunos ? dataAlunos.alunos.length : 0;
+    
+    // Buscar professores
+    const resProfessores = await fetch(`/api/instituicoes/${instituicaoId}/professores`);
+    const dataProfessores = await resProfessores.json();
+    const totalProfessores = dataProfessores.professores ? dataProfessores.professores.length : 0;
+    
+    // Buscar turmas
+    const resTurmas = await fetch(`/api/instituicoes/${instituicaoId}/turmas`);
+    const dataTurmas = await resTurmas.json();
+    const totalTurmas = dataTurmas.turmas ? dataTurmas.turmas.length : 0;
+    
+    // Calcular desempenho médio das turmas
+    let desempenhoMedio = 0;
+    if (dataTurmas.turmas && dataTurmas.turmas.length > 0) {
+      const desempenhos = dataTurmas.turmas.map(t => t.desempenho || 75).reduce((a, b) => a + b, 0);
+      desempenhoMedio = Math.round(desempenhos / dataTurmas.turmas.length);
+    }
+    
+    // Atualizar elementos no DOM
+    const statBoxes = document.querySelectorAll('.stat-box');
+    if (statBoxes.length >= 4) {
+      // Alunos Ativos
+      const alunosBox = statBoxes[0].querySelector('.s-num');
+      if (alunosBox) alunosBox.textContent = totalAlunos;
+      
+      // Professores
+      const professoresBox = statBoxes[1].querySelector('.s-num');
+      if (professoresBox) professoresBox.textContent = totalProfessores;
+      
+      // Turmas Cadastradas
+      const turmasBox = statBoxes[2].querySelector('.s-num');
+      if (turmasBox) turmasBox.textContent = totalTurmas;
+      
+      // Desempenho Geral
+      const desempenhoBox = statBoxes[3].querySelector('.s-num');
+      if (desempenhoBox) desempenhoBox.textContent = desempenhoMedio + '%';
+    }
+    
+  } catch (erro) {
+    console.error('Erro ao carregar dados do painel:', erro);
+  }
+}
+
+// Variável para rastrear última mensagem
+let ultimaMensagemId = null;
+let intervaloChat = null;
+
+// Função para carregar chat da gestão com o admin
+async function carregarChatGestao() {
+  try {
+    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
+    const hiddenInput = document.querySelector('[data-instituicao-id]');
+    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
+    
+    console.log('💬 Carregando chat da instituição:', instituicaoId);
+    
+    // Buscar mensagens do servidor
+    const response = await fetch(`/api/parcerias/${instituicaoId}/mensagens`);
+    const data = await response.json();
+    
+    const container = document.getElementById('chat-messages-container');
     if (!container) return;
     
-    if (!data.success || !data.alunos || data.alunos.length === 0) {
-      container.innerHTML = '<p style="text-align:center; color: #888; padding: 40px;">Nenhum aluno cadastrado nesta escola.</p>';
-      if (labelContainer) labelContainer.textContent = 'Total: 0 alunos';
+    // Limpar container apenas na primeira carga
+    if (container.innerHTML.includes('Nenhuma mensagem')) {
+      container.innerHTML = '';
+    }
+    
+    if (!data.mensagens || data.mensagens.length === 0) {
+      if (container.innerHTML === '') {
+        container.innerHTML = `
+          <section style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:12px;">
+            <section style="font-size:48px;">💬</section>
+            <section style="font-size:14px;color:#5a9a72;text-align:center;">
+              Nenhuma mensagem ainda. Comece uma conversa com nosso especialista!
+            </section>
+          </section>
+        `;
+      }
       return;
     }
     
-    if (labelContainer) labelContainer.textContent = `Total: ${data.alunos.length} alunos`;
-    
-    container.innerHTML = '';
-    const cardsHtml = data.alunos.map(aluno => `
-      <section class="aluno-card-geral" style="background:white;border-radius:14px;padding:16px;border:2px solid #e8f7ee;display:flex;justify-content:space-between;align-items:center;transition:all 0.2s;cursor:pointer;" onmouseover="this.style.borderColor='#52b788';this.style.boxShadow='0 4px 12px rgba(82,183,136,0.2)'" onmouseout="this.style.borderColor='#e8f7ee';this.style.boxShadow='none'">
-        <section style="flex:1;">
-          <section style="font-weight:600;color:#1a4731;font-size:15px;">👤 ${aluno.nome || 'N/A'}</section>
-          <section style="font-size:13px;color:#5a9a72;margin-top:4px;">📧 ${aluno.email || 'N/A'}</section>
-          <section style="font-size:12px;color:#999;margin-top:2px;">📅 Cadastrado: ${new Date(aluno.data_cadastro).toLocaleDateString('pt-BR')}</section>
-        </section>
-        <section style="text-align:right;min-width:100px;">
-          <section style="font-size:12px;color:#5a9a72;font-weight:600;margin-bottom:4px;">Saldo</section>
-          <section style="font-size:18px;font-weight:700;color:#2d8a4e;">💰 ${aluno.saldo || 0}</section>
-        </section>
-      </section>
-    `).join('');
-    
-    container.innerHTML = cardsHtml;
-  } catch (erro) {
-    console.error('Erro ao carregar alunos:', erro);
-    const container = document.getElementById('alunos-instituicao');
-    const labelContainer = document.getElementById('total-alunos-label');
-    if (container) {
-      container.innerHTML = '<p style="text-align:center; color:#e74c3c; padding:40px;">Erro ao carregar alunos. Tente novamente.</p>';
+    // Se é a primeira carga, renderizar todas as mensagens
+    if (ultimaMensagemId === null && container.innerHTML === '') {
+      data.mensagens.forEach(msg => {
+        renderizarMensagem(msg, container);
+        ultimaMensagemId = msg.id;
+      });
+    } else {
+      // Se não é a primeira carga, verificar novas mensagens
+      const mensagensExistentes = container.querySelectorAll('section[style*="align-self"]').length;
+      if (data.mensagens.length > mensagensExistentes) {
+        // Novas mensagens chegaram
+        const novasMensagens = data.mensagens.slice(mensagensExistentes);
+        novasMensagens.forEach(msg => {
+          renderizarMensagem(msg, container);
+        });
+      }
     }
-    if (labelContainer) labelContainer.textContent = 'Erro ao carregar';
+    
+    // Scroll para o final
+    container.scrollTop = container.scrollHeight;
+    
+    // Iniciar polling se ainda não foi iniciado
+    if (intervaloChat === null) {
+      iniciarPollingChat(instituicaoId);
+    }
+    
+  } catch (erro) {
+    console.error('Erro ao carregar chat:', erro);
+  }
+}
+
+// Função para renderizar uma mensagem
+function renderizarMensagem(msg, container) {
+  const isBot = msg.remetente === 'admin' || msg.remetente === 'bot';
+  const msgEl = document.createElement('section');
+  msgEl.style.cssText = isBot 
+    ? 'align-self:flex-start;background:white;border:1.5px solid #d4f0de;border-bottom-left-radius:4px;border-radius:16px;padding:12px 16px;max-width:75%;font-size:14px;color:#333;line-height:1.5;'
+    : 'align-self:flex-end;background:linear-gradient(135deg,#2d8a4e,#3aad60);border-radius:16px;border-bottom-right-radius:4px;padding:12px 16px;max-width:75%;font-size:14px;color:white;line-height:1.5;';
+  
+  msgEl.innerHTML = msg.conteudo;
+  msgEl.dataset.msgId = msg.id;
+  container.appendChild(msgEl);
+}
+
+// Função para iniciar polling
+function iniciarPollingChat(instituicaoId) {
+  intervaloChat = setInterval(async () => {
+    try {
+      const response = await fetch(`/api/parcerias/${instituicaoId}/mensagens`);
+      const data = await response.json();
+      
+      const container = document.getElementById('chat-messages-container');
+      if (!container) return;
+      
+      if (data.mensagens && data.mensagens.length > 0) {
+        // Verificar se existem mensagens novas
+        const mensagensExistentes = container.querySelectorAll('section[style*="align-self"]');
+        if (data.mensagens.length > mensagensExistentes.length) {
+          // Novas mensagens chegaram
+          const novasMensagens = data.mensagens.slice(mensagensExistentes.length);
+          novasMensagens.forEach(msg => {
+            renderizarMensagem(msg, container);
+          });
+          
+          // Scroll para o final
+          container.scrollTop = container.scrollHeight;
+          
+          console.log('✅ Nova mensagem recebida!');
+        }
+      }
+    } catch (erro) {
+      console.error('Erro ao verificar mensagens:', erro);
+    }
+  }, 2000); // Verificar a cada 2 segundos
+}
+
+// Função para parar o polling
+function pararPollingChat() {
+  if (intervaloChat !== null) {
+    clearInterval(intervaloChat);
+    intervaloChat = null;
+  }
+}
+
+// Função para enviar mensagem
+async function enviarMensagemChat() {
+  const input = document.getElementById('chat-input');
+  const mensagem = input.value.trim();
+  
+  if (!mensagem) return;
+  
+  try {
+    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
+    const hiddenInput = document.querySelector('[data-instituicao-id]');
+    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
+    
+    // Adicionar mensagem do usuário ao chat imediatamente
+    const container = document.getElementById('chat-messages-container');
+    if (container && container.innerHTML.includes('Nenhuma mensagem')) {
+      container.innerHTML = '';
+    }
+    
+    if (container) {
+      const msgEl = document.createElement('section');
+      msgEl.style.cssText = 'align-self:flex-end;background:linear-gradient(135deg,#2d8a4e,#3aad60);border-radius:16px;border-bottom-right-radius:4px;padding:12px 16px;max-width:75%;font-size:14px;color:white;line-height:1.5;';
+      msgEl.innerHTML = mensagem;
+      container.appendChild(msgEl);
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    // Enviar mensagem ao servidor
+    const response = await fetch(`/api/parcerias/${instituicaoId}/mensagens`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        conteudo: mensagem,
+        remetente: 'usuario'
+      })
+    });
+    
+    if (!response.ok) {
+      console.error('Erro ao enviar mensagem:', response.statusText);
+      return;
+    }
+    
+    // Limpar input
+    input.value = '';
+    
+  } catch (erro) {
+    console.error('Erro ao enviar mensagem:', erro);
   }
 }
 
@@ -573,7 +759,7 @@ async function carregarAlunosInstituicao() {
           <button class="qm-btn" onclick="goTo('cadastrar')"><img src="/img/pss.png" alt="Cadastrar" style="width:32px;height:32px;object-fit:contain;">Cadastrar Turmas</button>
           <button class="qm-btn" onclick="goTo('painel')"><img src="/img/esl.png" alt="Painel" style="width:32px;height:32px;object-fit:contain;">Painel da Escola</button>
           <button class="qm-btn" onclick="goTo('equipe')"><img src="/img/eqp.png" alt="Equipe" style="width:32px;height:32px;object-fit:contain;">Equipe Escolar</button>
-          <button class="qm-btn" onclick="goTo('instituicoes-alunos')"><img src="/img/bal.png" alt="Instituição" style="width:32px;height:32px;object-fit:contain;">Alunos Geral</button>
+          <button class="qm-btn" onclick="goTo('instituicoes-alunos')"><img src="/img/bal.png" alt="Chat" style="width:32px;height:32px;object-fit:contain;">Chat Admin</button>
         </section>
       </section>
       <section class="banner-card">
@@ -858,7 +1044,7 @@ async function carregarAlunosInstituicao() {
   </section>
 </section>
 
-<!-- ======== PAGE: ALUNOS GERAIS DA INSTITUIÇÃO ======== -->
+<!-- ======== PAGE: CHAT COM ADMIN ======== -->
 <section class="page" id="instituicoes-alunos">
   <nav class="navbar-redesign">
     <section class="logo-redesign">
@@ -871,15 +1057,19 @@ async function carregarAlunosInstituicao() {
   <section class="main">
     <button class="btn-primary" onclick="goTo('dashboard')">← Voltar</button>
     <section class="page-header" style="margin-bottom:24px;">
-      <h1 style="font-family:'Fredoka One',cursive;font-size:26px;color:#1a4731;margin-bottom:8px;">👥 Alunos da Escola</h1>
-      <p style="font-size:15px;color:#5a9a72;">Visualize todos os alunos cadastrados na sua instituição</p>
+      <h1 style="font-family:'Fredoka One',cursive;font-size:26px;color:#1a4731;margin-bottom:8px;">💬 Chat com Especialista</h1>
+      <p style="font-size:15px;color:#5a9a72;">Continua sua conversa sobre a parceria escolar</p>
     </section>
-    <section class="card" style="margin-bottom:20px;">
-      <section style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-        <section class="section-title" style="margin-bottom:0;font-size:18px;">📋 Lista de Alunos</section>
-        <section style="font-size:14px;color:#5a9a72;background:#f0faf4;padding:8px 14px;border-radius:8px;font-weight:600;"><span id="total-alunos-label">Carregando...</span></section>
+    <section class="card" style="margin-bottom:20px;display:flex;flex-direction:column;height:600px;max-height:600px;overflow:hidden;">
+      <!-- Chat Messages -->
+      <section id="chat-messages-container" style="flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px;background:#f9fdf8;border-radius:16px 16px 0 0;">
+        <!-- Messages will be loaded here -->
       </section>
-      <section class="alunos-list" id="alunos-instituicao" style="display:grid;gap:10px;"></section>
+      <!-- Chat Input -->
+      <section style="padding:16px;border-top:2px solid #e8f7ee;display:flex;gap:10px;align-items:flex-end;">
+        <input type="text" id="chat-input" placeholder="Digite sua mensagem..." style="flex:1;padding:12px 16px;border:2px solid #d4f0de;border-radius:50px;font-family:'Fredoka',sans-serif;font-size:14px;outline:none;" onkeypress="if(event.key==='Enter') enviarMensagemChat()">
+        <button onclick="enviarMensagemChat()" style="padding:12px 24px;background:linear-gradient(135deg,#2d8a4e,#3aad60);border:none;border-radius:50px;cursor:pointer;color:white;font-size:14px;font-family:'Fredoka',sans-serif;font-weight:600;flex-shrink:0;transition:all 0.2s;hover:opacity:0.9;">Enviar</button>
+      </section>
     </section>
   </section>
 </section>
