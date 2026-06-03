@@ -1,0 +1,14 @@
+=== INICIANDO REQUISIÇÃO HTTP ===
+POST http://localhost:3000/gestao/login
+Body: {"email":"alveshallim@gmail.com","senha":"13042008"}
+
+Aguardando resposta...
+
+=== RESPOSTA HTTP ===
+Status: 401
+Headers: {"x-powered-by":"Express","content-type":"application/json; charset=utf-8","content-length":"52","etag":"W/\"34-NhG22wCSnq4XOEKckh/uVWWSLpw\"","set-cookie":["connect.sid=s%3AoAu5EvSbGmNxfFZuMd0FujzJc7jumFdu.Awdo1pqt9gS1qFl3MgczG%2BxAkwsFivvFQ1i%2Fg2N6mRY; Path=/; HttpOnly"],"date":"Mon, 01 Jun 2026 17:06:09 GMT","connection":"keep-alive","keep-alive":"timeout=5"}
+Dados recebidos: 51 bytes
+Dados recebidos: 1 bytes
+Corpo completo: {"success":false,"message":"Credenciais inválidas"}
+
+✅ Requisição completa

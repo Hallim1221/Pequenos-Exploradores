@@ -14,6 +14,7 @@ const app = express();
 // Configuração do EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.set('view cache', false); // Desabilitar cache para debug
 
 // Middlewares
 app.use(express.static(path.join(__dirname, 'public')));
@@ -30,14 +31,35 @@ app.use('/api/', (req, res, next) => {
 const session = require('express-session');
 app.use(session({
   secret: 'pequenos-exploradores-secret',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: false } // true se usar https
+  resave: true, // Salvar sessão mesmo sem mudanças para manter a vida útil
+  saveUninitialized: false, // Só salvar sessão se tiver sido modificada
+  cookie: { 
+    secure: false, // true se usar https
+    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+  },
+  name: 'sessionId' // Nome customizado do cookie
 }));
+
+// Middleware para renovar sessão a cada requisição autenticada
+app.use((req, res, next) => {
+  if (req.session && req.session.user) {
+    // Renovar maxAge para estender a vida útil da sessão
+    req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24 horas
+  }
+  next();
+});
 
 // ===== IMPORTAR MODELOS =====
 const Parceria = require('./models/Parceria');
 const mockdb = require('./lib/mockdb');
+const Gestao = require('./models/Gestao');
+const Professor = require('./models/Professor');
+
+// Reset do estado
+Gestao.useMock = false;
+Professor.useMock = false;
+console.log('🔧 Gestao.useMock resetado para false');
+console.log('🔧 Professor.useMock resetado para false');
 
 // ===== ROTAS DE DEBUG =====
 app.get('/debug-test', (req, res) => {
@@ -515,6 +537,17 @@ app.post('/test-post', (req, res) => {
 
 // Inicialização do servidor
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+
+// Inicializar mockdb antes de ligar o servidor
+(async () => {
+  try {
+    await mockdb.inicializarSenhasHasheadas();
+    console.log('✅ MockDB inicializado com sucesso');
+  } catch (erro) {
+    console.error('❌ Erro ao inicializar mockdb:', erro.message);
+  }
+  
+  app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`);
+  });
+})();

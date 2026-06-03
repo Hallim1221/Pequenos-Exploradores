@@ -79,7 +79,7 @@ class Turma extends BaseModel {
         console.log('🔍 MockDB listarPorInstituicao:');
         console.log('   Instituição ID:', instituicao_id);
         console.log('   Todas as turmas:', mockdb.turmas);
-        const resultado = mockdb.turmas.filter(t => t.professor_id === parseInt(professor_id));
+        const resultado = mockdb.turmas.filter(t => t.instituicao_id === parseInt(instituicao_id));
         console.log('   Turmas encontradas:', resultado);
         return resultado;
       }

@@ -1,5 +1,6 @@
 const pool = require('../config/database');
 const mockdb = require('../lib/mockdb');
+const Seguranca = require('../lib/seguranca');
 
 class Parceria {
   static useMock = false;
@@ -11,6 +12,9 @@ class Parceria {
     try {
       const connection = await pool.getConnection();
       
+      // Hash da senha
+      const senhaHash = await Seguranca.hashSenha(senha_gestao);
+      
       // Obter a próxima parceria para gerar ID
       let parceriaId = null;
       
@@ -18,7 +22,7 @@ class Parceria {
         `INSERT INTO parcerias_escolas 
          (nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec, senha_gestao, data_solicitacao, status) 
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), 'pendente')`,
-        [nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec || null, senha_gestao]
+        [nome_contato, email, telefone, cidade, nome_escola, cargo, tipo_escola, codigo_mec || null, senhaHash]
       );
       
       parceriaId = result.insertId;

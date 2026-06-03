@@ -63,9 +63,19 @@ class Gestao {
 
   // Validar credenciais (usa bcrypt)
   static async validarCredenciais(email, senha) {
+    const msg1 = `VALIDAR: ${email}`;
+    console.log(`\n🔐 Gestao.validarCredenciais chamado: ${email}`);
+    console.log(`   useMock STATE: ${this.useMock}`);
+    
     try {
-      if (this.useMock) throw new Error('Using mock');
+      if (this.useMock) {
+        console.log(`   ⚠️ useMock está TRUE, pulando BD e indo direto para mockdb`);
+        throw new Error('Using mock');
+      }
+      
+      console.log(`   📡 Tentando conexão com BD real...`);
       const connection = await pool.getConnection();
+      console.log(`   ✅ Conexão BD obtida`);
       
       // Tentar validar contra gestores
       const [gestores] = await connection.execute(
@@ -73,11 +83,17 @@ class Gestao {
         [email]
       );
       
+      console.log(`   📊 Resultado SELECT gestores: ${gestores.length} linhas`);
+      
       if (gestores.length > 0) {
+        console.log(`🔍 Gestor encontrado: ${email}`);
         const senhaValida = await Seguranca.verificarSenha(senha, gestores[0].senha);
         if (senhaValida) {
+          console.log(`✅ Senha válida para gestor: ${email}`);
           connection.release();
           return gestores[0];
+        } else {
+          console.log(`❌ Senha inválida para gestor: ${email}`);
         }
       }
       
@@ -87,19 +103,33 @@ class Gestao {
         [email]
       );
       
+      console.log(`   📊 Resultado SELECT parcerias_escolas: ${parcerias.length} linhas`);
+      
       if (parcerias.length > 0) {
+        console.log(`🔍 Parceria encontrada: ${email}`);
         const senhaValida = await Seguranca.verificarSenha(senha, parcerias[0].senha_gestao || '');
         if (senhaValida) {
+          console.log(`✅ Senha válida para parceria: ${email}`);
           connection.release();
           return parcerias[0];
+        } else {
+          console.log(`❌ Senha inválida para parceria: ${email}`);
         }
       }
       
+      console.log(`❌ Email não encontrado em gestores ou parcerias: ${email}`);
       connection.release();
       return null;
     } catch (erro) {
+      console.error(`❌ Erro ao validar credenciais (BD falhou): ${erro.message}`);
+      console.log(`   📱 Tentando usar mockdb...`);
+      
       this.useMock = true;
-      return mockdb.validarGestor(email, senha);
+      
+      // IMPORTANTE: usar await porque validarGestor é async agora
+      const resultado = await mockdb.validarGestor(email, senha);
+      console.log(`   mockdb resultado: ${resultado ? 'SIM' : 'NÃO'}`);
+      return resultado;
     }
   }
 

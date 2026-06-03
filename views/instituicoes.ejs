@@ -155,6 +155,11 @@ body{font-family:'Fredoka',sans-serif;background:#f0faf4;min-height:100vh;margin
 </style>
 
 <script>
+// ========== VARIÁVEL GLOBAL PARA INSTITUIÇÃO ==========
+// Esta variável armazena o ID da instituição vindo do servidor
+window.INSTITUICAO_ID = '<%= typeof instituicaoId !== 'undefined' ? instituicaoId : '1' %>';
+console.log('🏫 Instituição ID carregado:', window.INSTITUICAO_ID);
+
 // Funções básicas definidas no início para uso nos onclick handlers
 function goTo(id){
   // Parar polling ao sair do chat
@@ -367,10 +372,8 @@ function removerTurma(turmaId) {
 // Função para carregar turmas reais do banco de dados
 async function carregarTurmasReais() {
   try {
-    // Usar instituição_id em vez de professor_id
-    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
-    const hiddenInput = document.querySelector('[data-instituicao-id]');
-    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
+    // Usar a variável global INSTITUICAO_ID do servidor
+    const instituicaoId = window.INSTITUICAO_ID || '1';
     
     console.log('📚 Carregando turmas da instituição:', instituicaoId);
     const response = await fetch(`/api/instituicoes/${instituicaoId}/turmas`);
@@ -411,10 +414,7 @@ async function carregarTurmasReais() {
 // Função para carregar dados reais do painel da escola
 async function carregarDadosPainel() {
   try {
-    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
-    const hiddenInput = document.querySelector('[data-instituicao-id]');
-    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
-    
+    const instituicaoId = window.INSTITUICAO_ID || '1';
     console.log('📊 Carregando dados do painel para instituição:', instituicaoId);
     
     // Buscar alunos
@@ -464,6 +464,76 @@ async function carregarDadosPainel() {
   }
 }
 
+// Função para adicionar membro (professor)
+async function adicionarMembro() {
+  const nome = document.getElementById('membro-nome')?.value?.trim();
+  const email = document.getElementById('membro-email')?.value?.trim();
+  const senha = document.getElementById('membro-senha')?.value;
+  const confirmarSenha = document.getElementById('membro-confirmar-senha')?.value;
+  const cargo = document.getElementById('membro-cargo')?.value;
+  
+  // Validações
+  if (!nome || !email || !senha || !confirmarSenha || !cargo) {
+    alert('⚠️ Preencha todos os campos!');
+    return;
+  }
+  
+  if (senha !== confirmarSenha) {
+    alert('⚠️ As senhas não conferem!');
+    return;
+  }
+  
+  if (senha.length < 6) {
+    alert('⚠️ A senha deve ter no mínimo 6 caracteres!');
+    return;
+  }
+  
+  if (!email.includes('@')) {
+    alert('⚠️ E-mail inválido!');
+    return;
+  }
+  
+  try {
+    // Usar a variável global INSTITUICAO_ID do servidor
+    const instituicao_id = window.INSTITUICAO_ID || '1';
+    console.log('📤 Adicionando professor para instituição:', instituicao_id);
+    
+    const response = await fetch('/api/instituicoes/adicionar-professor', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome,
+        email,
+        password: senha,
+        cargo,
+        instituicao_id: parseInt(instituicao_id)
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      alert('✓ Professor adicionado com sucesso!');
+      // Limpar campos
+      document.getElementById('membro-nome').value = '';
+      document.getElementById('membro-email').value = '';
+      document.getElementById('membro-senha').value = '';
+      document.getElementById('membro-confirmar-senha').value = '';
+      document.getElementById('membro-cargo').value = 'Professor(a)';
+      closeMembro();
+      // Recarregar equipe se estiver na página
+      if (document.getElementById('equipe').classList.contains('active')) {
+        location.reload();
+      }
+    } else {
+      alert('❌ Erro ao adicionar professor: ' + (data.message || 'Tente novamente'));
+    }
+  } catch (err) {
+    console.error('Erro:', err);
+    alert('❌ Erro ao adicionar professor!');
+  }
+}
+
 // Variável para rastrear última mensagem
 let ultimaMensagemId = null;
 let intervaloChat = null;
@@ -471,10 +541,7 @@ let intervaloChat = null;
 // Função para carregar chat da gestão com o admin
 async function carregarChatGestao() {
   try {
-    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
-    const hiddenInput = document.querySelector('[data-instituicao-id]');
-    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
-    
+    const instituicaoId = window.INSTITUICAO_ID || '1';
     console.log('💬 Carregando chat da instituição:', instituicaoId);
     
     // Buscar mensagens do servidor
@@ -595,9 +662,7 @@ async function enviarMensagemChat() {
   if (!mensagem) return;
   
   try {
-    let instituicaoId = document.body.dataset.instituicaoId || localStorage.getItem('instituicaoId') || '1';
-    const hiddenInput = document.querySelector('[data-instituicao-id]');
-    if (hiddenInput) instituicaoId = hiddenInput.dataset.instituicaoId;
+    const instituicaoId = window.INSTITUICAO_ID || '1';
     
     // Adicionar mensagem do usuário ao chat imediatamente
     const container = document.getElementById('chat-messages-container');
@@ -683,6 +748,10 @@ async function enviarMensagemChat() {
     <section class="form-group">
       <label>Senha</label>
       <input type="password" id="membro-senha" placeholder="Crie uma senha">
+    </section>
+    <section class="form-group">
+      <label>Confirmar Senha</label>
+      <input type="password" id="membro-confirmar-senha" placeholder="Confirme a senha">
     </section>
     <section class="form-group">
       <label>Cargo</label>
@@ -773,11 +842,11 @@ async function enviarMensagemChat() {
         <section class="access-grid">
           <section class="access-item" onclick="goTo('equipe')" style="cursor:pointer">
             <section class="access-label">Professores</section>
-            <section class="access-pct">85%</section>
+            <section class="access-pct"><%= acessos && acessos.professores ? acessos.professores.porcentagem : 0 %>%</section>
           </section>
           <section class="access-item">
             <section class="access-label">Alunos</section>
-            <section class="access-pct">95%</section>
+            <section class="access-pct"><%= acessos && acessos.alunos ? acessos.alunos.porcentagem : 0 %>%</section>
           </section>
         </section>
       </section>
@@ -787,30 +856,27 @@ async function enviarMensagemChat() {
           <button class="tab active">Desempenho</button>
           <button class="tab" onclick="goTo('cadastrar')">Ver Turmas</button>
         </section>
+        <% if (turmas && turmas.length > 0) { %>
+          <% turmas.forEach(function(turma) { %>
         <section class="turma-row">
           <section class="turma-avatar">🎓</section>
-          <section class="turma-info"><section class="turma-nome">5ª Série B</section><section class="turma-alunos">30 alunos</section></section>
+          <section class="turma-info"><section class="turma-nome"><%= turma.nome %></section><section class="turma-alunos"><%= turma.totalAlunos %> aluno<%= turma.totalAlunos !== 1 ? 's' : '' %></section></section>
           <section class="desempenho-bar-wrap">
-            <section style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;color:#5a9a72;">Desempenho</span><span class="desempenho-pct">90%</span></section>
-            <section class="desempenho-bar"><section class="desempenho-fill" style="width:90%"></section></section>
+            <section style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;color:#5a9a72;">Desempenho</span><span class="desempenho-pct">0%</span></section>
+            <section class="desempenho-bar"><section class="desempenho-fill" style="width:0%"></section></section>
           </section>
         </section>
+          <% }); %>
+        <% } else { %>
         <section class="turma-row">
           <section class="turma-avatar">🎓</section>
-          <section class="turma-info"><section class="turma-nome">1ª Série B</section><section class="turma-alunos">28 alunos</section></section>
+          <section class="turma-info"><section class="turma-nome">Nenhuma turma cadastrada</section><section class="turma-alunos">0 alunos</section></section>
           <section class="desempenho-bar-wrap">
-            <section style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;color:#5a9a72;">Desempenho</span><span class="desempenho-pct">85%</span></section>
-            <section class="desempenho-bar"><section class="desempenho-fill" style="width:85%"></section></section>
+            <section style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;color:#5a9a72;">Desempenho</span><span class="desempenho-pct">0%</span></section>
+            <section class="desempenho-bar"><section class="desempenho-fill" style="width:0%"></section></section>
           </section>
         </section>
-        <section class="turma-row">
-          <section class="turma-avatar">🎓</section>
-          <section class="turma-info"><section class="turma-nome">4ª Série B</section><section class="turma-alunos">29 alunos</section></section>
-          <section class="desempenho-bar-wrap">
-            <section style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:12px;color:#5a9a72;">Desempenho</span><span class="desempenho-pct">75%</span></section>
-            <section class="desempenho-bar"><section class="desempenho-fill" style="width:75%"></section></section>
-          </section>
-        </section>
+        <% } %>
       </section>
     </section>
   </section>

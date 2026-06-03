@@ -6,7 +6,7 @@ class Professor {
   static useMock = false;
 
   // Criar novo professor
-  static async criar(nome, email, senha, instituicao = null) {
+  static async criar(nome, email, senha, instituicao_id = null, cargo = null) {
     try {
       if (this.useMock) throw new Error('Using mock');
       
@@ -15,14 +15,14 @@ class Professor {
       
       const connection = await pool.getConnection();
       const [result] = await connection.execute(
-        'INSERT INTO professores (nome, email, senha, instituicao) VALUES (?, ?, ?, ?)',
-        [nome, email, senhaHash, instituicao]
+        'INSERT INTO professores (nome, email, senha, instituicao_id, cargo) VALUES (?, ?, ?, ?, ?)',
+        [nome, email, senhaHash, instituicao_id, cargo]
       );
       connection.release();
-      return { id: result.insertId, nome, email };
+      return { id: result.insertId, nome, email, instituicao_id, cargo };
     } catch (erro) {
       this.useMock = true;
-      return mockdb.criarProfessor(nome, email, senha, instituicao);
+      return mockdb.criarProfessor(nome, email, senha, instituicao_id, cargo);
     }
   }
 

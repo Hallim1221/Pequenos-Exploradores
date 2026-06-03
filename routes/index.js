@@ -164,11 +164,21 @@ router.post('/professor/cadastro',
         });
       }
 
-      // Criar professor no BD
-      const novoProfessor = await Professor.criar(nome, email, password);
+      // Pegar instituição_id se o usuário logado for um gestor/administrador
+      const instituicao_id = req.session.user?.instituicao_id || null;
+      const cargo = req.body.cargo || null; // Se houver cargo no formulário
+      
+      // Criar professor no BD com instituição_id
+      const novoProfessor = await Professor.criar(nome, email, password, instituicao_id, cargo);
       
       // Fazer login automático
-      req.session.user = { tipo: 'professor', email: email, id: novoProfessor.id };
+      req.session.user = { 
+        tipo: 'professor', 
+        email: email, 
+        id: novoProfessor.id,
+        nome: novoProfessor.nome,
+        instituicao_id: instituicao_id
+      };
       
       return res.redirect('/professor/dashboard');
     } catch (erro) {
@@ -281,14 +291,17 @@ router.get('/instituicoes', async (req, res) => {
     return res.redirect('/login');
   }
 
+  // Inicializar variáveis com valores padrão
+  let nomeEscola = 'Escola';
+  let nomeContato = req.session.user.nome || 'Gestor';
+  let professores = [];
+  let acessos = { professores: { porcentagem: 0 }, alunos: { porcentagem: 0 } };
+  let turmas = [];
+
   try {
-    // Buscar informações completas do gestor/parceria
-    let nomeEscola = 'Escola';
-    let nomeContato = req.session.user.nome || 'Gestor';
-    let professores = [];
-    
-    const Gestao = require('../models/Gestao');
+    // Usar Gestao já importado no topo
     const Professor = require('../models/Professor');
+    const Turma = require('../models/Turma');
     
     const gestor = await Gestao.buscarPorId(req.session.user.id);
     
@@ -306,13 +319,42 @@ router.get('/instituicoes', async (req, res) => {
       const todosProfessores = await Professor.listarTodos();
       // Se houver filtro de instituição, aplicar aqui
       if (req.session.user.instituicao_id && todosProfessores) {
-        professores = todosProfessores.filter(p => p.instituicao === req.session.user.instituicao_id);
+        professores = todosProfessores.filter(p => p.instituicao_id === req.session.user.instituicao_id || p.instituicao === req.session.user.instituicao_id);
       } else if (todosProfessores) {
         professores = todosProfessores;
       }
     } catch (erroProf) {
       console.error('Erro ao buscar professores:', erroProf);
       professores = [];
+    }
+
+    // Buscar dados de acessos (novo)
+    try {
+      const resultadoAcessos = await Estatisticas.getAcessosInstituicao(req.session.user.instituicao_id || req.session.user.id);
+      if (resultadoAcessos.success && resultadoAcessos.acessos) {
+        acessos = resultadoAcessos.acessos;
+      }
+    } catch (erroAcessos) {
+      console.error('Erro ao buscar acessos:', erroAcessos);
+    }
+
+    // Buscar turmas da instituição com contagem de alunos
+    try {
+      const turmasRaw = await Turma.listarPorInstituicao(req.session.user.instituicao_id || req.session.user.id);
+      
+      if (turmasRaw && Array.isArray(turmasRaw)) {
+        // Para cada turma, contar alunos
+        for (const turma of turmasRaw) {
+          const alunos = await Turma.listarAlunosDaTurma(turma.id);
+          turmas.push({
+            ...turma,
+            totalAlunos: alunos ? alunos.length : 0
+          });
+        }
+      }
+    } catch (erroTurmas) {
+      console.error('Erro ao buscar turmas:', erroTurmas);
+      turmas = [];
     }
 
     // Passa o nome da escola e nome da pessoa para o template
@@ -323,7 +365,9 @@ router.get('/instituicoes', async (req, res) => {
       email: req.session.user.email || '',
       professores: professores,
       gestorId: req.session.user.id,
-      instituicaoId: req.session.user.instituicao_id || req.session.user.id
+      instituicaoId: req.session.user.instituicao_id || req.session.user.id,
+      acessos: acessos,
+      turmas: turmas
     });
   } catch (erro) {
     console.error('Erro ao buscar dados da instituição:', erro);
@@ -334,7 +378,9 @@ router.get('/instituicoes', async (req, res) => {
       email: req.session.user.email || '',
       professores: [],
       gestorId: req.session.user.id,
-      instituicaoId: req.session.user.instituicao_id || req.session.user.id
+      instituicaoId: req.session.user.instituicao_id || req.session.user.id,
+      acessos: { professores: { porcentagem: 0 }, alunos: { porcentagem: 0 } },
+      turmas: []
     });
   }
 });
@@ -401,8 +447,8 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
       
-      req.session.user = { tipo: 'professor', email: email, id: professor.id };
-      return res.status(200).json({ success: true, redirect: '/professor/dashboard' });
+      req.session.user = { tipo: 'professor', email: email, id: professor.id, nome: professor.nome, instituicao_id: professor.instituicao_id };
+      return res.status(200).json({ success: true, redirect: '/professor/area' });
     }
 
     return res.status(400).json({ success: false, message: 'Tipo de usuário inválido' });
@@ -467,15 +513,21 @@ router.post('/aluno/login', async (req, res) => {
 
 // Login de gestão
 router.post('/gestao/login', async (req, res) => {
+  console.log('\n🔴 POST /gestao/login chamado');
   try {
     const { email, senha } = req.body;
+    console.log(`   Email: ${email}`);
+    console.log(`   Senha: ${senha ? '***' : 'VAZIO'}`);
 
     if (!email || !senha) {
       return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
     }
 
     // Validar gestor com BD (valida tanto gestores quanto parcerias)
+    console.log(`   Chamando Gestao.validarCredenciais...`);
     const gestor = await Gestao.validarCredenciais(email, senha);
+    console.log(`   Resultado: ${gestor ? 'SUCESSO' : 'FALHA'}`);
+    
     if (!gestor) {
       return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
     }
@@ -700,23 +752,6 @@ router.post('/professor/turmas/criar', async (req, res) => {
 });
 
 // Página da área do professor
-router.get('/professor_area', async (req, res) => {
-  try {
-    let professor = null;
-    
-    // Se está autenticado como professor, buscar dados do BD
-    if (req.session.user && req.session.user.tipo === 'professor' && req.session.user.id) {
-      professor = await Professor.buscarPorId(req.session.user.id);
-    }
-    
-    // Passar dados para a template
-    res.render('professor_area', { professor: professor || {} });
-  } catch (erro) {
-    console.error('Erro ao carregar página professor_area:', erro);
-    res.render('professor_area', { professor: {} });
-  }
-});
-
 // LOGOUT
 router.get('/logout', (req, res) => {
   req.session.destroy((err) => {
@@ -1249,7 +1284,7 @@ router.get('/api/instituicoes/:id/professores', async (req, res) => {
     
     // Buscar todos os professores
     const todosProfessores = await Professor.listarTodos();
-    const professoresInst = todosProfessores.filter(p => p.instituicao === instituicao.nome_escola);
+    const professoresInst = todosProfessores.filter(p => (p.instituicao_id === parseInt(id)) || (p.instituicao === instituicao.nome_escola));
     
     // Formatar dados
     const dadosFormatados = professoresInst.map(prof => ({
@@ -1873,6 +1908,41 @@ router.post('/api/instituicoes/criar-aluno-turma', async (req, res) => {
   } catch (erro) {
     console.error('Erro ao criar aluno na turma:', erro);
     res.status(500).json({ success: false, message: 'Erro ao cadastrar aluno' });
+  }
+});
+
+// API: Adicionar novo professor à instituição
+router.post('/api/instituicoes/adicionar-professor', async (req, res) => {
+  try {
+    const { nome, email, password, cargo, instituicao_id } = req.body;
+    
+    // Validar campos
+    if (!nome || !email || !password || !cargo || !instituicao_id) {
+      return res.status(400).json({ success: false, message: 'Todos os campos são obrigatórios' });
+    }
+    
+    // Verificar se email já existe
+    const professorExistente = await Professor.buscarPorEmail(email);
+    if (professorExistente) {
+      return res.status(400).json({ success: false, message: 'Email já cadastrado' });
+    }
+    
+    // Criar novo professor COM instituição_id e cargo
+    const novoProfessor = await Professor.criar(nome, email, password, instituicao_id, cargo);
+    
+    if (!novoProfessor || !novoProfessor.id) {
+      return res.status(500).json({ success: false, message: 'Erro ao criar professor' });
+    }
+    
+    // Retornar sucesso
+    res.json({ 
+      success: true, 
+      message: 'Professor adicionado com sucesso!',
+      professor: novoProfessor
+    });
+  } catch (erro) {
+    console.error('Erro ao adicionar professor:', erro);
+    res.status(500).json({ success: false, message: 'Erro ao adicionar professor' });
   }
 });
 

@@ -459,22 +459,27 @@
   </header>
 
   <section class="sidebar-section">Principal</section>
-  <button class="nav-item active" onclick="goto('page-inicio')"><span class="icon">🏠</span> Início</button>
-  <button class="nav-item" onclick="goto('page-turmas')"><span class="icon">🌱</span> Minhas Turmas</button>
+  <button class="nav-item active" onclick="goto('page-inicio')"><span class="icon"></span> Início</button>
+  <button class="nav-item" onclick="goto('page-turmas')"><span class="icon"></span> Minhas Turmas</button>
 
   <section class="sidebar-section">Gerenciar</section>
-  <button class="nav-item" onclick="goto('page-atividades')"><span class="icon">📋</span> Atividades</button>
-  <button class="nav-item" onclick="goto('page-alunos')"><span class="icon">👦</span> Alunos</button>
+  <button class="nav-item" onclick="goto('page-atividades')"><span class="icon"></span> Atividades</button>
+  <button class="nav-item" onclick="goto('page-alunos')"><span class="icon"></span> Alunos</button>
 
   <section class="sidebar-section">Relatórios</section>
-  <button class="nav-item" onclick="goto('page-progresso')"><span class="icon">📊</span> Progresso</button>
+  <button class="nav-item" onclick="goto('page-progresso')"><span class="icon"></span> Progresso</button>
 
   <footer class="sidebar-bottom">
     <article class="teacher-info">
-      <% const profName = professor && professor.nome ? professor.nome.split(' ').filter(n => n.toLowerCase() !== 'prof.' && n.toLowerCase() !== 'profª' && n.toLowerCase() !== 'professor')[0] : 'P'; %>
-      <span class="teacher-avatar"><%= profName.charAt(0).toUpperCase() %></span>
+      <% 
+        let fullName = professor && professor.nome ? professor.nome : 'Professor';
+        // Remove prefixos como "Prof.", "Profa.", "Prof", "Profa"
+        fullName = fullName.replace(/^prof[aª]?\.?\s+/i, '').trim();
+        const firstName = fullName.split(' ')[0];
+      %>
+      <span class="teacher-avatar"><%= firstName.charAt(0).toUpperCase() %></span>
       <article>
-        <p class="teacher-name">Prof. <%= profName %></p>
+        <p class="teacher-name">Prof. <%= firstName %></p>
         <p class="teacher-role">Professora</p>
       </article>
     </article>
@@ -487,7 +492,7 @@
 
   <!-- TOP BAR -->
   <header class="topbar">
-    <span class="topbar-title" id="topbar-title">🏠 Início</span>
+    <span class="topbar-title" id="topbar-title"> Início</span>
     <section class="topbar-actions">
       <button class="btn-secondary" onclick="openModal('modal-nova-turma')">＋ Nova Turma</button>
       <button class="btn-primary" onclick="openModal('modal-nova-atividade')">＋ Nova Atividade</button>
@@ -498,34 +503,43 @@
   <section class="page active" id="page-inicio">
     <section class="greeting-banner">
       <article class="greeting-text">
-        <% const greetName = professor && professor.nome ? professor.nome.split(' ').filter(n => n.toLowerCase() !== 'prof.' && n.toLowerCase() !== 'profª' && n.toLowerCase() !== 'professor')[0] : 'Professor'; %>
-        <h2>Bom dia, Prof. <%= greetName %>! 🌤️</h2>
+        <% 
+          let greetName = professor && professor.nome ? professor.nome : 'Professor';
+          // Remove prefixos como "Prof.", "Profa.", "Prof", "Profa"
+          greetName = greetName.replace(/^prof[aª]?\.?\s+/i, '').trim();
+          greetName = greetName.split(' ')[0];
+        %>
+        <h2>Bom dia, Prof. <%= greetName %>! </h2>
         <p>Veja o resumo das suas turmas e atividades recentes.</p>
       </article>
-      <span class="greeting-emoji">🌳</span>
+      <span class="greeting-emoji"></span>
     </section>
 
     <section class="stats-row">
+      <%
+      console.log('🔵 TEMPLATE: stats =', typeof stats);
+      console.log('🔵 TEMPLATE: stats value =', stats);
+      %>
       <article class="stat-card">
         <span class="stat-icon green">🌱</span>
-        <span><span class="stat-num">3</span><span class="stat-label">Turmas ativas</span></span>
+        <span><span class="stat-num"><%= (typeof stats !== 'undefined' && stats && stats.turmas) ? stats.turmas : 0 %></span><span class="stat-label">Turmas ativas</span></span>
       </article>
       <article class="stat-card">
         <span class="stat-icon blue">👦</span>
-        <span><span class="stat-num">72</span><span class="stat-label">Alunos no total</span></span>
+        <span><span class="stat-num"><%= (typeof stats !== 'undefined' && stats && stats.alunos) ? stats.alunos : 0 %></span><span class="stat-label">Alunos no total</span></span>
       </article>
       <article class="stat-card">
         <span class="stat-icon yellow">📋</span>
-        <span><span class="stat-num">18</span><span class="stat-label">Atividades enviadas</span></span>
+        <span><span class="stat-num"><%= (typeof stats !== 'undefined' && stats && stats.atividades) ? stats.atividades : 0 %></span><span class="stat-label">Atividades enviadas</span></span>
       </article>
       <article class="stat-card">
         <span class="stat-icon purple">⭐</span>
-        <span><span class="stat-num">1.240</span><span class="stat-label">Pontos distribuídos</span></span>
+        <span><span class="stat-num"><%= (typeof stats !== 'undefined' && (stats && stats.pontos) || 0).toLocaleString('pt-BR') %></span><span class="stat-label">Pontos distribuídos</span></span>
       </article>
     </section>
 
     <header class="section-header">
-      <h2 class="section-title">🌻 Minhas Turmas</h2>
+      <h2 class="section-title"> Minhas Turmas</h2>
       <button class="btn-secondary" onclick="goto('page-turmas')">Ver todas →</button>
     </header>
 
@@ -535,8 +549,8 @@
   <!-- ══ PAGE: TURMAS ══ -->
   <section class="page" id="page-turmas">
     <header class="section-header">
-      <h2 class="section-title">🌱 Minhas Turmas</h2>
-      <span style="font-size:0.85rem;color:var(--text-light);font-weight:700;">Turmas cadastradas (3)</span>
+      <h2 class="section-title"> Minhas Turmas</h2>
+      <span style="font-size:0.85rem;color:var(--text-light);font-weight:700;">Turmas cadastradas (<span id="turmas-count">0</span>)</span>
     </header>
     <section class="turmas-grid" id="turmas-lista">
       <!-- cards gerados via JS -->
@@ -610,7 +624,7 @@
         <span class="atividade-icon">☀️</span>
         <article>
           <h3 class="atividade-title">Energia solar</h3>
-          <p class="atividade-meta">🦜 Turma dos Tucanos · 📅 28/03/2025</p>
+          <p class="atividade-meta"> Turma dos Tucanos · 📅 28/03/2025</p>
         </article>
         <section class="atividade-right">
           <span class="entrega-text">20/22 entregaram</span>
@@ -637,35 +651,35 @@
         <tbody>
           <tr>
             <td><span class="aluno-row"><span class="aluno-avatar" style="background:#6dc47e">LA</span><span><span class="aluno-name">Lucas Alves</span></span></span></td>
-            <td>🦋 Borboletas</td><td>6/7</td>
+            <td> Borboletas</td><td>6/7</td>
             <td><span class="progress-bar"><span class="progress-fill-bar" style="width:86%"></span></span></td>
             <td><span class="xp-chip">⭐ 85</span></td>
             <td><button class="btn-ver">Ver perfil</button></td>
           </tr>
           <tr>
             <td><span class="aluno-row"><span class="aluno-avatar" style="background:#f5c842;color:#78350f">BS</span><span><span class="aluno-name">Beatriz Santos</span></span></span></td>
-            <td>🦋 Borboletas</td><td>7/7</td>
+            <td> Borboletas</td><td>7/7</td>
             <td><span class="progress-bar"><span class="progress-fill-bar" style="width:100%"></span></span></td>
             <td><span class="xp-chip">⭐ 110</span></td>
             <td><button class="btn-ver">Ver perfil</button></td>
           </tr>
           <tr>
             <td><span class="aluno-row"><span class="aluno-avatar" style="background:#3aafdb">PM</span><span><span class="aluno-name">Pedro Monteiro</span></span></span></td>
-            <td>🐸 Sapos</td><td>3/5</td>
+            <td> Sapos</td><td>3/5</td>
             <td><span class="progress-bar"><span class="progress-fill-bar" style="width:45%"></span></span></td>
             <td><span class="xp-chip">⭐ 45</span></td>
             <td><button class="btn-ver">Ver perfil</button></td>
           </tr>
           <tr>
             <td><span class="aluno-row"><span class="aluno-avatar" style="background:#9b72cf">AG</span><span><span class="aluno-name">Ana Guimarães</span></span></span></td>
-            <td>🦋 Borboletas</td><td>5/7</td>
+            <td> Borboletas</td><td>5/7</td>
             <td><span class="progress-bar"><span class="progress-fill-bar" style="width:71%"></span></span></td>
             <td><span class="xp-chip">⭐ 66</span></td>
             <td><button class="btn-ver">Ver perfil</button></td>
           </tr>
           <tr>
             <td><span class="aluno-row"><span class="aluno-avatar" style="background:#f0872a">TS</span><span><span class="aluno-name">Tomás Silva</span></span></span></td>
-            <td>🦜 Tucanos</td><td>5/6</td>
+            <td> Tucanos</td><td>5/6</td>
             <td><span class="progress-bar"><span class="progress-fill-bar" style="width:83%"></span></span></td>
             <td><span class="xp-chip">⭐ 92</span></td>
             <td><button class="btn-ver">Ver perfil</button></td>
@@ -678,13 +692,13 @@
   <!-- ══ PAGE: PROGRESSO ══ -->
   <section class="page" id="page-progresso">
     <header class="section-header" style="margin-bottom:20px">
-      <h2 class="section-title">📊 Progresso das Turmas</h2>
+      <h2 class="section-title"> Progresso das Turmas</h2>
     </header>
     <section class="progresso-grid">
       <article class="progresso-card">
-        <header class="progresso-card-title">🌱 Engajamento por turma</header>
+        <header class="progresso-card-title"> Engajamento por turma</header>
         <section class="engajamento-row">
-          <span class="eng-emoji">🦋</span>
+          <span class="eng-emoji"></span>
           <span style="flex:1">
             <p class="eng-label">Borboletas — 3° Ano A</p>
             <span class="eng-bar"><span class="eng-bar-fill" style="width:89%;background:var(--green)"></span></span>
@@ -692,7 +706,7 @@
           <span class="eng-pct">89%</span>
         </section>
         <section class="engajamento-row">
-          <span class="eng-emoji">🦜</span>
+          <span class="eng-emoji"></span>
           <span style="flex:1">
             <p class="eng-label">Tucanos — 4° Ano C</p>
             <span class="eng-bar"><span class="eng-bar-fill" style="width:82%;background:var(--blue)"></span></span>
@@ -700,7 +714,7 @@
           <span class="eng-pct">82%</span>
         </section>
         <section class="engajamento-row">
-          <span class="eng-emoji">🐸</span>
+          <span class="eng-emoji"></span>
           <span style="flex:1">
             <p class="eng-label">Sapos — 2° Ano B</p>
             <span class="eng-bar"><span class="eng-bar-fill" style="width:76%;background:var(--yellow)"></span></span>
@@ -727,17 +741,25 @@
   <article class="modal">
     <header class="modal-head"><h3>🌱 Criar nova turma</h3><button class="btn-modal-close" onclick="closeModal('modal-nova-turma')">✕</button></header>
     <section class="modal-body">
-      <section class="form-row">
-        <article class="form-group"><label class="form-label">Nome da turma *</label><input class="form-input" placeholder="Ex: Turma das Borboletas"></article>
-        <article class="form-group"><label class="form-label">Ano / Série</label><input class="form-input" placeholder="Ex: 3° Ano A"></article>
-      </section>
-      <section class="form-row">
-        <article class="form-group"><label class="form-label">Emoji da turma</label><input class="form-input" placeholder="🦋"></article>
-        <article class="form-group"><label class="form-label">Código de acesso</label><input class="form-input" placeholder="Ex: BOR24" style="text-transform:uppercase;font-family:'Fredoka One',cursive;letter-spacing:.1em"></article>
-      </section>
+      <article class="form-group"><label class="form-label">Nome da turma *</label><input class="form-input" id="turma-nome-input" placeholder="Ex: Turma das Borboletas"></article>
+      <article class="form-group"><label class="form-label">Ano / Série *</label>
+        <select class="form-input" id="turma-ano-input">
+          <option value="">-- Selecione o ano/série --</option>
+          <option value="1º Ano">1º Ano</option>
+          <option value="2º Ano">2º Ano</option>
+          <option value="3º Ano">3º Ano</option>
+          <option value="4º Ano">4º Ano</option>
+          <option value="5º Ano">5º Ano</option>
+        </select>
+      </article>
+      <article class="form-group" style="background: var(--green-pale); padding: 12px; border-radius: 10px; border: 1.5px dashed var(--green-light); margin-top: 8px;">
+        <p style="font-size: 0.75rem; font-weight: 800; color: var(--text-light); text-transform: uppercase; margin-bottom: 8px;">🔑 Código gerado automaticamente</p>
+        <p style="font-family: 'Fredoka One', cursive; font-size: 1.4rem; color: var(--green-dark); letter-spacing: .1em; margin: 0;" id="codigo-preview">—</p>
+        <p style="font-size: 0.7rem; color: var(--text-light); margin-top: 4px;">Um código único será gerado quando você criar</p>
+      </article>
       <footer class="modal-actions">
         <button class="btn-cancel" onclick="closeModal('modal-nova-turma')">Cancelar</button>
-        <button class="btn-confirm" onclick="closeModal('modal-nova-turma');showToast('✅ Turma criada com sucesso!')">Criar turma ✓</button>
+        <button class="btn-confirm" onclick="criarTurmaProfessor()">Criar turma ✓</button>
       </footer>
     </section>
   </article>
@@ -751,7 +773,7 @@
       <article class="form-group"><label class="form-label">Descrição</label><input class="form-input" placeholder="Descreva a atividade..."></article>
       <section class="form-row">
         <article class="form-group"><label class="form-label">Turma</label>
-          <select class="form-input"><option>🦋 Turma das Borboletas</option><option>🐸 Turma dos Sapos</option><option>🦜 Turma dos Tucanos</option></select>
+          <select class="form-input"><option> Turma das Borboletas</option><option> Turma dos Sapos</option><option> Turma dos Tucanos</option></select>
         </article>
         <article class="form-group"><label class="form-label">Pontos ⭐</label><input class="form-input" type="number" placeholder="20"></article>
       </section>
@@ -766,19 +788,33 @@
 
 <section class="modal-overlay" id="modal-add-aluno">
   <article class="modal">
-    <header class="modal-head"><h3>👦 Adicionar aluno</h3><button class="btn-modal-close" onclick="closeModal('modal-add-aluno')">✕</button></header>
+    <header class="modal-head">
+      <div>
+        <h3>👤 Cadastrar Novo Aluno</h3>
+        <p id="modal-turma-info" style="font-size: 0.9rem; color: var(--text-light); margin-top: 0.3rem;">Cadastre um aluno para: <strong id="turma-nome-modal">Selecione uma turma</strong></p>
+      </div>
+      <button class="btn-modal-close" onclick="closeModal('modal-add-aluno')">✕</button>
+    </header>
     <section class="modal-body">
-      <section class="form-row">
-        <article class="form-group"><label class="form-label">Nome</label><input class="form-input" placeholder="Nome"></article>
-        <article class="form-group"><label class="form-label">Sobrenome</label><input class="form-input" placeholder="Sobrenome"></article>
-      </section>
-      <article class="form-group"><label class="form-label">Turma</label>
-        <select class="form-input"><option>🦋 Turma das Borboletas</option><option>🐸 Turma dos Sapos</option><option>🦜 Turma dos Tucanos</option></select>
+      <article class="form-group">
+        <label class="form-label">Nome do Aluno</label>
+        <input class="form-input" id="aluno-nome-input" placeholder="Nome completo">
       </article>
-      <article class="form-group"><label class="form-label">Usuário / apelido</label><input class="form-input" placeholder="@apelido"></article>
+      <article class="form-group">
+        <label class="form-label">E-mail</label>
+        <input class="form-input" id="aluno-email-input" placeholder="email@exemplo.com" type="email">
+      </article>
+      <article class="form-group">
+        <label class="form-label">Senha</label>
+        <input class="form-input" id="aluno-senha-input" placeholder="Escolha uma senha segura" type="password">
+      </article>
+      <article class="form-group">
+        <label class="form-label">Confirmar Senha</label>
+        <input class="form-input" id="aluno-confirmar-senha-input" placeholder="Repita a senha" type="password">
+      </article>
       <footer class="modal-actions">
         <button class="btn-cancel" onclick="closeModal('modal-add-aluno')">Cancelar</button>
-        <button class="btn-confirm" onclick="closeModal('modal-add-aluno');showToast('👦 Aluno adicionado!')">Adicionar aluno ✓</button>
+        <button class="btn-confirm" onclick="adicionarAlunoProfessor()">Cadastrar ✓</button>
       </footer>
     </section>
   </article>
@@ -800,59 +836,248 @@
 <output class="toast" id="toast"></output>
 
 <script>
-const TURMAS = [
-  {
-    id: 'borboletas',
-    emoji: '🦋',
-    nome: 'Turma das Borboletas',
-    ano: '3° Ano A',
-    serie: 'Ensino Fundamental I',
-    codigo: 'BOR24',
-    alunos: 24,
-    atividades: 7,
-    engajamento: 89,
-    cor: 'linear-gradient(135deg,#3d9e4f,#2a7338)',
-    listaAlunos: [
-      { ini:'LA', nome:'Lucas Alves', ativ:'6/7', pts:85, pct:86, status:'Ativo', bg:'#6dc47e' },
-      { ini:'BS', nome:'Beatriz Santos', ativ:'7/7', pts:110, pct:100, status:'Ativo', bg:'#f5c842', tc:'#78350f' },
-      { ini:'PM', nome:'Pedro Monteiro', ativ:'3/7', pts:38, pct:43, status:'Em andamento', bg:'#3aafdb' },
-      { ini:'AG', nome:'Ana Guimarães', ativ:'5/7', pts:66, pct:71, status:'Ativo', bg:'#9b72cf' },
-      { ini:'RC', nome:'Rafael Costa', ativ:'2/7', pts:20, pct:29, status:'Em andamento', bg:'#f0872a' },
-    ]
-  },
-  {
-    id: 'sapos',
-    emoji: '🐸',
-    nome: 'Turma dos Sapos',
-    ano: '2° Ano B',
-    serie: 'Ensino Fundamental I',
-    codigo: 'SAP24',
-    alunos: 26,
-    atividades: 5,
-    engajamento: 76,
-    cor: 'linear-gradient(135deg,#3aafdb,#1a7fa5)',
-    listaAlunos: [
-      { ini:'PM', nome:'Pedro Monteiro', ativ:'3/5', pts:45, pct:45, status:'Em andamento', bg:'#3aafdb' },
-      { ini:'JS', nome:'Julia Souza', ativ:'5/5', pts:95, pct:100, status:'Ativo', bg:'#6dc47e' },
-    ]
-  },
-  {
-    id: 'tucanos',
-    emoji: '🦜',
-    nome: 'Turma dos Tucanos',
-    ano: '4° Ano C',
-    serie: 'Ensino Fundamental I',
-    codigo: 'TUC24',
-    alunos: 22,
-    atividades: 6,
-    engajamento: 82,
-    cor: 'linear-gradient(135deg,#f0872a,#c05a10)',
-    listaAlunos: [
-      { ini:'TS', nome:'Tomás Silva', ativ:'5/6', pts:92, pct:83, status:'Ativo', bg:'#f0872a' },
-      { ini:'CF', nome:'Carla Freitas', ativ:'4/6', pts:60, pct:67, status:'Ativo', bg:'#9b72cf' },
-    ]
-  }
+// 📊 Dados do servidor passados como JSON
+let TURMAS_REAIS = <%- JSON.stringify(turmas || []) %>;
+const PROFESSOR_INFO = <%- JSON.stringify(professor || {}) %>;
+const STATS_INFO = <%- JSON.stringify(stats || {}) %>;
+const INSTITUICAO_ID = <%= typeof instituicao_id !== 'undefined' ? instituicao_id : 1 %>;
+
+console.log('📊 Turmas carregadas:', TURMAS_REAIS.length, 'turmas');
+console.log('👤 Professor:', PROFESSOR_INFO.nome);
+console.log('📈 Stats:', STATS_INFO);
+console.log('🏫 Instituição ID:', INSTITUICAO_ID);
+
+// Cores aleatórias para turmas
+const CORES = [
+  'linear-gradient(135deg,#3d9e4f,#2a7338)',
+  'linear-gradient(135deg,#3aafdb,#1a7fa5)',
+  'linear-gradient(135deg,#f0872a,#c05a10)',
+  'linear-gradient(135deg,#9b72cf,#7c3aed)',
+  'linear-gradient(135deg,#f5c842,#d97706)',
 ];
+
+const EMOJIS = ['🦋', '🐸', '🦜', '🦁', '🐢', '🦅', '🦩', '🦎', '🐛', '🦗'];
+
+// Função para gerar código aleatório de 5 dígitos
+function gerarCodigoAcesso() {
+  return Math.random().toString(36).substring(2, 7).toUpperCase();
+}
+
+// Converter turmas do servidor para formato esperado
+const TURMAS = (TURMAS_REAIS || []).map((turma, idx) => ({
+  id: turma.id || `turma-${idx}`,
+  emoji: turma.emoji || EMOJIS[idx % EMOJIS.length],
+  nome: turma.nome || `Turma ${idx + 1}`,
+  ano: turma.ano_escolar || turma.ano || 'N/A',
+  serie: turma.serie || 'Ensino Fundamental',
+  codigo: turma.codigo_acesso || gerarCodigoAcesso(),
+  alunos: turma.total_alunos || 0,
+  atividades: turma.atividades || 0,
+  engajamento: turma.engajamento || Math.floor(Math.random() * 40 + 60),
+  cor: CORES[idx % CORES.length],
+  listaAlunos: [] // Será preenchido dinamicamente
+}));
+
+// Variável para rastrear a turma atualmente sendo visualizada
+let TURMA_ATUAL_ID = null;
+
+// ══════ FUNÇÃO PARA CRIAR TURMA ══════
+async function criarTurmaProfessor() {
+  const nome = document.querySelector('#turma-nome-input')?.value;
+  const ano_escolar = document.querySelector('#turma-ano-input')?.value;
+  
+  if (!nome || !ano_escolar) {
+    alert('❌ Nome e série são obrigatórios!');
+    return;
+  }
+  
+  try {
+    const response = await fetch('/professor/api/turmas/criar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, ano_escolar })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      showToast(`✅ Turma "${nome}" criada! Código: ${data.codigo_acesso}`);
+      closeModal('modal-nova-turma');
+      
+      // Limpar formulário
+      document.querySelector('#turma-nome-input').value = '';
+      document.querySelector('#turma-ano-input').value = ''; // Reset para opção vazia
+      
+      // Recarregar turmas sem fazer reload completo da página
+      setTimeout(() => {
+        fetch('/professor/api/turmas')
+          .then(res => {
+            if (res.status === 401) {
+              console.warn('⚠️ Sessão expirada - redirecionando para login');
+              window.location.href = '/login';
+              return null;
+            }
+            return res.json();
+          })
+          .then(data => {
+            if (data && data.success && data.turmas) {
+              TURMAS_REAIS = data.turmas;
+              renderTurmasGrid();
+              // Atualizar contador
+              const countEl = document.querySelector('#turmas-count');
+              if (countEl) countEl.textContent = TURMAS_REAIS.length;
+            } else if (data && !data.success) {
+              console.error('❌ Erro ao recarregar turmas:', data.message);
+              alert(`⚠️ Erro ao recarregar turmas: ${data.message}`);
+            }
+          })
+          .catch(err => {
+            console.error('Erro ao recarregar turmas:', err);
+            alert('⚠️ Erro ao recarregar turmas. Tente novamente.');
+          });
+      }, 1500);
+    } else {
+      alert(`❌ Erro: ${data.message}`);
+    }
+  } catch (erro) {
+    console.error('Erro ao criar turma:', erro);
+    alert('❌ Erro ao criar turma. Tente novamente!');
+  }
+}
+
+// ══════ FUNÇÃO PARA ADICIONAR ALUNO ══════
+async function adicionarAlunoProfessor() {
+  const nome = document.querySelector('#aluno-nome-input')?.value?.trim();
+  const email = document.querySelector('#aluno-email-input')?.value?.trim();
+  const senha = document.querySelector('#aluno-senha-input')?.value?.trim();
+  const confirmarSenha = document.querySelector('#aluno-confirmar-senha-input')?.value?.trim();
+
+  // Validação
+  if (!nome || !email || !senha || !confirmarSenha) {
+    alert('❌ Todos os campos são obrigatórios!');
+    return;
+  }
+
+  // Validar email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    alert('❌ Por favor, digite um e-mail válido!');
+    return;
+  }
+
+  // Validar senha
+  if (senha.length < 6) {
+    alert('❌ A senha deve ter pelo menos 6 caracteres!');
+    return;
+  }
+
+  // Validar se as senhas são iguais
+  if (senha !== confirmarSenha) {
+    alert('❌ As senhas não coincidem!');
+    return;
+  }
+
+  // Validar turma
+  if (!TURMA_ATUAL_ID) {
+    alert('❌ Selecione uma turma!');
+    return;
+  }
+
+  const turma = TURMAS.find(t => t.id === TURMA_ATUAL_ID);
+  if (!turma) {
+    alert('❌ Turma não encontrada!');
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/instituicoes/criar-aluno-turma', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        nome: nome,
+        email: email,
+        password: senha,
+        turma_id: TURMA_ATUAL_ID
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      console.log('✅ Aluno criado:', nome);
+      
+      // Limpar formulário
+      document.querySelector('#aluno-nome-input').value = '';
+      document.querySelector('#aluno-email-input').value = '';
+      document.querySelector('#aluno-senha-input').value = '';
+      document.querySelector('#aluno-confirmar-senha-input').value = '';
+      
+      // Fechar modal e mostrar mensagem
+      closeModal('modal-add-aluno');
+      showToast('👤 Aluno cadastrado com sucesso!');
+      
+      // Recarregar lista de alunos da turma atual
+      if (turma) {
+        fetch(`/professor/api/turmas/${turma.id}/alunos`)
+          .then(res => {
+            if (res.status === 401) return null;
+            return res.json();
+          })
+          .then(data => {
+            if (data && data.success && data.alunos) {
+              turma.listaAlunos = data.alunos.map(aluno => ({
+                nome: aluno.nome || 'Aluno',
+                ini: (aluno.nome || 'A')[0].toUpperCase(),
+                bg: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'][Math.floor(Math.random() * 5)],
+                tc: 'white',
+                ativ: aluno.atividades_completas || 0,
+                pct: aluno.progresso || 0,
+                pts: aluno.pontos || 0,
+                status: aluno.status || 'Ativo'
+              }));
+              
+              // Se estamos visualizando a turma, atualizar a tabela
+              if (TURMA_ATUAL_ID === turma.id) {
+                const tabelaAtualizados = turma.listaAlunos.length > 0 ? turma.listaAlunos.map(a => `
+                  <tr>
+                    <td><span class="aluno-row"><span class="aluno-avatar" style="background:${a.bg};color:${a.tc||'white'}">${a.ini}</span><span class="aluno-name">${a.nome}</span></span></td>
+                    <td>${a.ativ}</td>
+                    <td><span class="progress-bar"><span class="progress-fill-bar" style="width:${a.pct}%"></span></span></td>
+                    <td><span class="xp-chip">⭐ ${a.pts}</span></td>
+                    <td><span class="status-badge ${a.status==='Ativo'?'status-ativo':'status-andamento'}">${a.status}</span></td>
+                    <td><button class="btn-ver">Ver perfil</button></td>
+                  </tr>
+                `).join('') : `
+                  <tr>
+                    <td colspan="6" style="text-align: center; padding: 40px 20px; color: var(--text-light);">
+                      <span style="font-size: 1.5rem;">📚</span> Nenhum aluno ainda
+                    </td>
+                  </tr>
+                `;
+                
+                // Atualizar contador
+                const countElement = document.querySelector('[class*="table-title"]');
+                if (countElement) {
+                  countElement.textContent = `Alunos da turma (${turma.listaAlunos.length})`;
+                }
+                
+                const tableBody = document.querySelector('#sub-pessoas tbody');
+                if (tableBody) {
+                  tableBody.innerHTML = tabelaAtualizados;
+                }
+              }
+            }
+          })
+          .catch(err => console.error('Erro ao recarregar alunos:', err));
+      }
+    } else {
+      alert(`❌ Erro: ${data.message}`);
+    }
+  } catch (erro) {
+    console.error('Erro ao adicionar aluno:', erro);
+    alert('❌ Erro ao cadastrar aluno. Tente novamente!');
+  }
+}
 
 function renderTurmaCard(t, showDetalhe=false) {
   const engColor = t.engajamento >= 85 ? 'var(--green)' : t.engajamento >= 75 ? 'var(--blue)' : 'var(--yellow)';
@@ -863,8 +1088,8 @@ function renderTurmaCard(t, showDetalhe=false) {
         <section class="turma-emoji-row">
           <span class="turma-emoji">${t.emoji}</span>
         </section>
-        <h3 class="turma-name">${t.ano}</h3>
-        <p class="turma-sub">${t.serie}</p>
+        <h3 class="turma-name">${t.nome}</h3>
+        <p class="turma-sub">${t.ano}</p>
         <footer class="codigo-acesso" onclick="event.stopPropagation()">
           <section>
             <p class="codigo-label">🔑 Código de acesso</p>
@@ -882,7 +1107,7 @@ function renderTurmaCard(t, showDetalhe=false) {
         <span class="engajamento-bar"><span class="engajamento-fill" style="width:${t.engajamento}%;background:${engColor}"></span></span>
         <footer class="turma-card-actions">
           <button class="btn-turma-action primary" onclick="event.stopPropagation();abrirDetalhe('${t.id}')">👁 Ver turma</button>
-          <button class="btn-turma-action" onclick="event.stopPropagation();openModal('modal-add-aluno')">＋ Aluno</button>
+          <button class="btn-turma-action" onclick="event.stopPropagation();abrirModalAdicionarAluno('${t.id}')">＋ Aluno</button>
         </footer>
       </section>
     </article>
@@ -892,6 +1117,19 @@ function renderTurmaCard(t, showDetalhe=false) {
 function renderTurmasGrid(containerId) {
   const el = document.getElementById(containerId);
   if (!el) return;
+  
+  if (TURMAS.length === 0) {
+    el.innerHTML = `
+      <article style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-light);">
+        <span style="font-size: 3rem; display: block; margin-bottom: 16px;">📚</span>
+        <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 8px;">Nenhuma turma ainda</p>
+        <p style="font-size: 0.92rem; margin-bottom: 20px;">Crie sua primeira turma para começar!</p>
+        <button class="btn-primary" onclick="openModal('modal-nova-turma')" style="margin: 0 auto;">➕ Criar turma agora</button>
+      </article>
+    `;
+    return;
+  }
+  
   el.innerHTML = TURMAS.map(t => renderTurmaCard(t)).join('') +
     `<article class="add-turma-card" onclick="openModal('modal-nova-turma')">
       <span class="add-icon">➕</span>
@@ -901,8 +1139,13 @@ function renderTurmasGrid(containerId) {
 }
 
 function abrirDetalhe(id) {
-  const t = TURMAS.find(x => x.id === id);
-  if (!t) return;
+  // Converte string para número se necessário
+  const numId = typeof id === 'string' ? parseInt(id, 10) : id;
+  const t = TURMAS.find(x => x.id === numId);
+  if (!t) {
+    console.warn('Turma não encontrada com ID:', id);
+    return;
+  }
 
   // Header
   document.getElementById('detalhe-header').innerHTML = `
@@ -928,36 +1171,105 @@ function abrirDetalhe(id) {
     </section>
   `;
 
-  // Sub-pessoas
+  // Sub-pessoas - Mostrar dados carregados
+  const tabelaAlunos = t.listaAlunos && t.listaAlunos.length > 0 ? `
+    ${t.listaAlunos.map(a => `
+      <tr>
+        <td><span class="aluno-row"><span class="aluno-avatar" style="background:${a.bg};color:${a.tc||'white'}">${a.ini}</span><span class="aluno-name">${a.nome}</span></span></td>
+        <td>${a.ativ}</td>
+        <td><span class="progress-bar"><span class="progress-fill-bar" style="width:${a.pct}%"></span></span></td>
+        <td><span class="xp-chip">⭐ ${a.pts}</span></td>
+        <td><span class="status-badge ${a.status==='Ativo'?'status-ativo':'status-andamento'}">${a.status}</span></td>
+        <td><button class="btn-ver">Ver perfil</button></td>
+      </tr>
+    `).join('')}
+  ` : `
+    <tr>
+      <td colspan="6" style="text-align: center; padding: 40px 20px; color: var(--text-light);">
+        <span style="font-size: 1.5rem;">📚</span> Nenhum aluno ainda
+      </td>
+    </tr>
+  `;
+
   document.getElementById('sub-pessoas').innerHTML = `
     <article class="table-card">
       <header class="table-header"><span class="table-title">Alunos da turma (${t.alunos})</span><button class="btn-primary" style="font-size:0.82rem;padding:7px 14px" onclick="openModal('modal-add-aluno')">＋ Adicionar</button></header>
       <table>
         <thead><tr><th>Aluno</th><th>Atividades</th><th>Progresso</th><th>Pontos</th><th>Status</th><th></th></tr></thead>
         <tbody>
-          ${t.listaAlunos.map(a => `
-            <tr>
-              <td><span class="aluno-row"><span class="aluno-avatar" style="background:${a.bg};color:${a.tc||'white'}">${a.ini}</span><span class="aluno-name">${a.nome}</span></span></td>
-              <td>${a.ativ}</td>
-              <td><span class="progress-bar"><span class="progress-fill-bar" style="width:${a.pct}%"></span></span></td>
-              <td><span class="xp-chip">⭐ ${a.pts}</span></td>
-              <td><span class="status-badge ${a.status==='Ativo'?'status-ativo':'status-andamento'}">${a.status}</span></td>
-              <td><button class="btn-ver">Ver perfil</button></td>
-            </tr>
-          `).join('')}
+          ${tabelaAlunos}
         </tbody>
       </table>
-    </div>
+    </article>
   `;
 
-  // Reset sub-tabs
+  // Reset sub-tabs - Mostra aba Pessoas por padrão
   document.querySelectorAll('.sub-tab').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll('.sub-tab')[0].classList.add('active');
-  document.getElementById('sub-atividades').style.display='block';
+  document.querySelectorAll('.sub-tab')[2].classList.add('active');
+  document.getElementById('sub-atividades').style.display='none';
   document.getElementById('sub-mural').style.display='none';
-  document.getElementById('sub-pessoas').style.display='none';
+  document.getElementById('sub-pessoas').style.display='block';
+
+  // Rastrear turma atual para adicionar alunos
+  TURMA_ATUAL_ID = t.id;
+  
+  // Pre-selecionar turma no formulário de adicionar aluno
+  const turmaSelect = document.querySelector('#aluno-turma-select');
+  if (turmaSelect) {
+    for (let i = 0; i < turmaSelect.options.length; i++) {
+      if (turmaSelect.options[i].textContent.includes(t.ano)) {
+        turmaSelect.selectedIndex = i;
+        break;
+      }
+    }
+  }
 
   goto('page-turma-detalhe');
+  
+  // Carregar alunos do servidor em background
+  fetch(`/professor/api/turmas/${t.id}/alunos`)
+    .then(res => {
+      if (res.status === 401) {
+        console.warn('Sessão expirada');
+        return null;
+      }
+      return res.json();
+    })
+    .then(data => {
+      if (data && data.success && data.alunos && data.alunos.length > 0) {
+        console.log('✅ Alunos carregados:', data.alunos.length);
+        
+        // Atualizar listaAlunos da turma
+        t.listaAlunos = data.alunos.map(aluno => ({
+          nome: aluno.nome || 'Aluno',
+          ini: (aluno.nome || 'A')[0].toUpperCase(),
+          bg: ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8'][Math.floor(Math.random() * 5)],
+          tc: 'white',
+          ativ: aluno.atividades_completas || 0,
+          pct: aluno.progresso || 0,
+          pts: aluno.pontos || 0,
+          status: aluno.status || 'Ativo'
+        }));
+        
+        // Re-renderizar tabela com alunos atualizados
+        const tabelaAtualizados = t.listaAlunos.map(a => `
+          <tr>
+            <td><span class="aluno-row"><span class="aluno-avatar" style="background:${a.bg};color:${a.tc||'white'}">${a.ini}</span><span class="aluno-name">${a.nome}</span></span></td>
+            <td>${a.ativ}</td>
+            <td><span class="progress-bar"><span class="progress-fill-bar" style="width:${a.pct}%"></span></span></td>
+            <td><span class="xp-chip">⭐ ${a.pts}</span></td>
+            <td><span class="status-badge ${a.status==='Ativo'?'status-ativo':'status-andamento'}">${a.status}</span></td>
+            <td><button class="btn-ver">Ver perfil</button></td>
+          </tr>
+        `).join('');
+        
+        const tableBody = document.querySelector('#sub-pessoas tbody');
+        if (tableBody) {
+          tableBody.innerHTML = tabelaAtualizados;
+        }
+      }
+    })
+    .catch(err => console.error('❌ Erro ao carregar alunos:', err));
 }
 
 function switchSub(id) {
@@ -968,6 +1280,38 @@ function switchSub(id) {
     const ids = ['sub-atividades','sub-mural','sub-pessoas'];
     b.classList.toggle('active', ids[i]===id);
   });
+}
+
+// ══════ FUNÇÃO PARA ABRIR MODAL DE ADICIONAR ALUNO ══════
+function abrirModalAdicionarAluno(turmaId) {
+  // Converte string para número se necessário
+  const numId = typeof turmaId === 'string' ? parseInt(turmaId, 10) : turmaId;
+  const turma = TURMAS.find(t => t.id === numId);
+  
+  if (!turma) {
+    console.warn('Turma não encontrada com ID:', turmaId);
+    return;
+  }
+
+  // Seta a turma atual
+  TURMA_ATUAL_ID = numId;
+
+  // Limpa os campos do formulário
+  document.querySelector('#aluno-nome-input').value = '';
+  document.querySelector('#aluno-email-input').value = '';
+  document.querySelector('#aluno-senha-input').value = '';
+  document.querySelector('#aluno-confirmar-senha-input').value = '';
+
+  // Atualiza o nome da turma no header do modal
+  document.querySelector('#turma-nome-modal').textContent = `${turma.emoji} ${turma.nome}`;
+
+  // Abre o modal
+  openModal('modal-add-aluno');
+  
+  // Foca no primeiro campo de input
+  setTimeout(() => {
+    document.querySelector('#aluno-nome-input')?.focus();
+  }, 100);
 }
 
 const PAGES = {
@@ -1019,8 +1363,61 @@ function showToast(msg) {
 }
 
 // Init
-renderTurmasGrid('turmas-home');
-renderTurmasGrid('turmas-lista');
+document.addEventListener('DOMContentLoaded', () => {
+  // Atualizar contador de turmas
+  const countEl = document.getElementById('turmas-count');
+  if (countEl) countEl.textContent = TURMAS.length;
+  
+  // Renderizar grids
+  renderTurmasGrid('turmas-home');
+  renderTurmasGrid('turmas-lista');
+  
+  // Atualizar contadores de alunos para cada turma
+  setTimeout(() => {
+    atualizarContadoresAlunos();
+  }, 100);
+  
+  console.log('✅ Página do professor carregada com sucesso!');
+  console.log(`   📚 ${TURMAS.length} turmas`);
+  console.log(`   👤 Prof. ${PROFESSOR_INFO.nome}`);
+  console.log(`   📈 ${STATS_INFO.alunos} alunos | ${STATS_INFO.atividades} atividades | ${STATS_INFO.pontos} pontos`);
+});
+
+// Função para atualizar contadores de alunos em cada turma
+async function atualizarContadoresAlunos() {
+  for (const turma of TURMAS) {
+    try {
+      const response = await fetch(`/professor/api/turmas/${turma.id}/alunos`);
+      if (!response.ok) continue;
+      
+      const data = await response.json();
+      const count = data.alunos ? data.alunos.length : 0;
+      
+      // Atualizar o objeto turma
+      turma.alunos = count;
+      
+      // Atualizar a exibição nos cards
+      const cards = document.querySelectorAll('.turma-card');
+      for (const card of cards) {
+        // Verificar se este card é da turma atual
+        const verTurmaBtn = card.querySelector('[onclick*="abrirDetalhe"]');
+        if (verTurmaBtn) {
+          const cardTurmaId = verTurmaBtn.onclick?.toString().match(/\('(\d+)'\)/)?.[1];
+          if (parseInt(cardTurmaId) === turma.id) {
+            // Encontrar e atualizar o stat de alunos
+            const statElements = card.querySelectorAll('.turma-stat');
+            if (statElements.length > 0) {
+              statElements[0].querySelector('.turma-stat-num').textContent = count;
+              statElements[0].querySelector('.turma-stat-label').textContent = count === 1 ? 'Aluno' : 'Alunos';
+            }
+          }
+        }
+      }
+    } catch (erro) {
+      console.error(`Erro ao atualizar contador da turma ${turma.id}:`, erro);
+    }
+  }
+}
 </script>
 </body>
 </html>

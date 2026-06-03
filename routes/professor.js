@@ -11,7 +11,7 @@ const Ranking = require('../models/Ranking');
 router.get('/dashboard', async (req, res) => {
   // Protege rota: exige login
   if (!req.session.user || req.session.user.tipo !== 'professor') {
-    return res.redirect('/professor/login');
+    return res.redirect('/');
   }
   
   try {
@@ -26,46 +26,47 @@ router.get('/dashboard', async (req, res) => {
 });
 
 // Página de login do professor
-router.get('/login', (req, res) => {
-  res.render('professor_login', { erro: null });
-});
+// ❌ DESATIVADO: Rota de login do professor
+// router.get('/login', (req, res) => {
+//   res.render('professor_login', { erro: null });
+// });
 
-// Login do professor (POST)
-router.post('/login', async (req, res) => {
-  try {
-    const { email, senha } = req.body;
+// ❌ DESATIVADO: Login do professor (POST)
+// router.post('/login', async (req, res) => {
+//   try {
+//     const { email, senha } = req.body;
 
-    if (!email || !senha) {
-      return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
-    }
+//     if (!email || !senha) {
+//       return res.status(400).json({ success: false, message: 'Email e senha são obrigatórios' });
+//     }
 
-    // Buscar professor no BD
-    const professor = await Professor.buscarPorEmail(email);
+//     // Buscar professor no BD
+//     const professor = await Professor.buscarPorEmail(email);
 
-    if (!professor) {
-      return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
-    }
+//     if (!professor) {
+//       return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
+//     }
 
-    // Verificar senha com bcryptjs
-    const senhaValida = await Professor.verificarSenha(email, senha);
-    if (!senhaValida) {
-      return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
-    }
+//     // Verificar senha com bcryptjs
+//     const senhaValida = await Professor.verificarSenha(email, senha);
+//     if (!senhaValida) {
+//       return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
+//     }
 
-    // Fazer login
-    req.session.user = { tipo: 'professor', email: email, id: professor.id };
+//     // Fazer login
+//     req.session.user = { tipo: 'professor', email: email, id: professor.id, nome: professor.nome };
 
-    return res.status(200).json({ success: true });
-  } catch (erro) {
-    console.error('Erro ao fazer login do professor:', erro);
-    return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
-  }
-});
+//     return res.status(200).json({ success: true });
+//   } catch (erro) {
+//     console.error('Erro ao fazer login do professor:', erro);
+//     return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+//   }
+// });
 
 // Dashboard do professor: seleção de série
 router.post('/dashboard', async (req, res) => {
   if (!req.session.user || req.session.user.tipo !== 'professor') {
-    return res.redirect('/professor/login');
+    return res.redirect('/');
   }
   
   try {
@@ -77,29 +78,97 @@ router.post('/dashboard', async (req, res) => {
   }
 });
 
+// Teste simples
+router.get('/test-stats', (req, res) => {
+  console.log('🟢 ROTA /test-stats foi chamada');
+  res.json({ stats: { turmas: 5, alunos: 30 } });
+});
+
 // Área do professor - page principal
 router.get('/area', async (req, res) => {
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
-    return res.redirect('/professor/login');
+  console.log('🔴 ROTA /area FOI CHAMADA');
+  console.log('🔴 Session ID:', req.sessionID);
+  console.log('🔴 Session user:', req.session?.user ? `${req.session.user.email}` : 'Não existe');
+  
+  // Validação mais robusta de sessão
+  if (!req.session || !req.session.user || req.session.user.tipo !== 'professor') {
+    console.log('🔴 Sem sessão válida, redirecionando para login');
+    return res.redirect('/login');
   }
   
   try {
-    const professor = await Professor.buscarPorId(req.session.user.id);
-    const turmas = await Turma.listarPorProfessor(req.session.user.id);
-    res.render('professor_area', { 
-      professor: professor || {},
-      turmasCount: turmas.length
+    // Validar que instituicao_id existe
+    if (!req.session.user.instituicao_id) {
+      console.warn('⚠️ Professor sem instituição_id na sessão');
+      req.session.user.instituicao_id = 1; // Fallback padrão
+    }
+    
+    // Carregar turmas da instituição do professor
+    const turmas = await Turma.listarPorInstituicao(req.session.user.instituicao_id);
+    console.log('✅ Turmas da instituição:', turmas ? turmas.length : 0);
+    
+    let totalAlunos = 0;
+    if (turmas && turmas.length > 0) {
+      for (let turma of turmas) {
+        const alunos = await Turma.listarAlunosDaTurma(turma.id);
+        const countAlunos = alunos ? alunos.length : 0;
+        turma.total_alunos = countAlunos;
+        console.log(`📊 Turma ${turma.id} (${turma.nome}): ${countAlunos} alunos`);
+        totalAlunos += countAlunos;
+      }
+    }
+    
+    const professsorData = { 
+      id: req.session.user.id, 
+      nome: req.session.user.nome, 
+      email: req.session.user.email,
+      instituicao_id: req.session.user.instituicao_id
+    };
+    
+    const statsData = {
+      turmas: turmas ? turmas.length : 0,
+      alunos: totalAlunos,
+      atividades: 18,
+      pontos: 1240
+    };
+    
+    console.log('✅ Stats criado:', statsData);
+    console.log('🏫 Instituição do professor:', req.session.user.instituicao_id);
+    console.log('📋 Turmas antes de renderizar:', turmas?.map(t => ({id: t.id, nome: t.nome, total_alunos: t.total_alunos})));
+    
+    res.render('professor_area', {
+      professor: professsorData,
+      stats: statsData,
+      turmas: turmas || [],
+      totalAlunos: totalAlunos,
+      instituicao_id: req.session.user.instituicao_id,
+      _nocache: new Date().getTime() // Force recompile
     });
   } catch (erro) {
-    console.error('Erro ao carregar professor_area:', erro);
-    res.render('professor_area', { professor: {}, turmasCount: 0 });
+    console.error('❌ Erro ao carregar professor_area:', erro.message);
+    
+    res.render('professor_area', {
+      professor: {
+        id: req.session.user.id,
+        nome: req.session.user.nome,
+        email: req.session.user.email
+      },
+      stats: {
+        turmas: 0,
+        alunos: 0,
+        atividades: 18,
+        pontos: 1240
+      },
+      turmas: [],
+      totalAlunos: 0
+    });
   }
 });
 
 // Seleção de turma após escolher série
 router.get('/serie/:serie', async (req, res) => {
   if (!req.session.user || req.session.user.tipo !== 'professor') {
-    return res.redirect('/professor/login');
+    return res.redirect('/');
   }
   
   const serie = req.params.serie;
@@ -122,7 +191,7 @@ router.get('/serie/:serie', async (req, res) => {
 // Exibe alunos e pontuação da turma
 router.get('/serie/:serie/turma/:turmaId', async (req, res) => {
   if (!req.session.user || req.session.user.tipo !== 'professor') {
-    return res.redirect('/professor/login');
+    return res.redirect('/');
   }
   
   const { serie, turmaId } = req.params;
@@ -153,7 +222,7 @@ router.get('/serie/:serie/turma/:turmaId', async (req, res) => {
 // Rota GET para /turmas (série padrão: 1º Ano)
 router.get('/turmas', async (req, res) => {
   if (!req.session.user || req.session.user.tipo !== 'professor') {
-    return res.redirect('/professor/login');
+    return res.redirect('/');
   }
   
   try {
@@ -190,6 +259,98 @@ router.post('/turmas/criar', async (req, res) => {
     console.error('Erro ao criar turma:', erro);
     return res.status(500).json({ success: false, message: 'Erro ao criar turma' });
   }
+});
+
+// ══════ NOVOS ENDPOINTS PARA PROFESSOR_AREA ══════
+
+// GET - Listar turmas da instituição do professor
+router.get('/api/turmas', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.status(401).json({ success: false, message: 'Não autorizado' });
+  }
+  
+  try {
+    // Renovar sessão
+    req.session.touch();
+    
+    const instituicao_id = req.session.user.instituicao_id;
+    if (!instituicao_id) {
+      return res.json({ success: true, turmas: [] });
+    }
+    
+    const turmas = await Turma.listarPorInstituicao(instituicao_id);
+    console.log(`📚 Turmas da instituição ${instituicao_id}:`, turmas ? turmas.length : 0);
+    
+    return res.json({ success: true, turmas: turmas || [] });
+  } catch (erro) {
+    console.error('❌ Erro ao listar turmas:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao listar turmas' });
+  }
+});
+
+// POST - Criar nova turma com código aleatório
+router.post('/api/turmas/criar', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.status(401).json({ success: false, message: 'Não autorizado' });
+  }
+  
+  const { nome, ano_escolar } = req.body;
+  
+  if (!nome || !ano_escolar) {
+    return res.status(400).json({ success: false, message: 'Nome e série são obrigatórios' });
+  }
+  
+  try {
+    // Renovar sessão para evitar expiração
+    req.session.touch();
+    
+    const instituicao_id = req.session.user.instituicao_id;
+    
+    // Gerar código aleatório de 5 dígitos
+    const codigo_acesso = Math.random().toString(36).substring(2, 7).toUpperCase();
+    
+    // Criar turma
+    const turma = await Turma.criar(nome, req.session.user.id, ano_escolar, instituicao_id);
+    
+    // Adicionar código ao retorno (será armazenado no banco depois)
+    turma.codigo_acesso = codigo_acesso;
+    
+    console.log(`✅ Turma criada: ${nome} (${codigo_acesso}) para instituição ${instituicao_id}`);
+    return res.json({ success: true, turma, codigo_acesso });
+  } catch (erro) {
+    console.error('❌ Erro ao criar turma:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao criar turma' });
+  }
+});
+
+// GET - Listar alunos de uma turma específica
+router.get('/api/turmas/:turmaId/alunos', async (req, res) => {
+  if (!req.session.user || req.session.user.tipo !== 'professor') {
+    return res.status(401).json({ success: false, message: 'Não autorizado' });
+  }
+  
+  try {
+    req.session.touch();
+    
+    const { turmaId } = req.params;
+    const alunos = await Turma.listarAlunosDaTurma(turmaId);
+    
+    console.log(`📚 Alunos da turma ${turmaId}:`, alunos ? alunos.length : 0);
+    
+    return res.json({ success: true, alunos: alunos || [] });
+  } catch (erro) {
+    console.error('❌ Erro ao listar alunos:', erro);
+    return res.status(500).json({ success: false, message: 'Erro ao listar alunos' });
+  }
+});
+
+// DEBUG: Endpoint para verificar sessão
+router.get('/debug', (req, res) => {
+  res.json({
+    session: req.session.user,
+    institucao_id: req.session.user?.instituicao_id,
+    profesor_id: req.session.user?.id
+  });
 });
 
 module.exports = router;
