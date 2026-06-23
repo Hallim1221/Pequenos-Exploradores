@@ -858,9 +858,9 @@ const CORES = [
 
 const EMOJIS = ['🦋', '🐸', '🦜', '🦁', '🐢', '🦅', '🦩', '🦎', '🐛', '🦗'];
 
-// Função para gerar código aleatório de 5 dígitos
+// Função para gerar código aleatório de 4 caracteres alfanuméricos
 function gerarCodigoAcesso() {
-  return Math.random().toString(36).substring(2, 7).toUpperCase();
+  return Math.random().toString(36).substring(2, 6).toUpperCase();
 }
 
 // Converter turmas do servidor para formato esperado
@@ -894,6 +894,7 @@ async function criarTurmaProfessor() {
   try {
     const response = await fetch('/professor/api/turmas/criar', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, ano_escolar })
     });
@@ -910,7 +911,7 @@ async function criarTurmaProfessor() {
       
       // Recarregar turmas sem fazer reload completo da página
       setTimeout(() => {
-        fetch('/professor/api/turmas')
+        fetch('/professor/api/turmas', { credentials: 'include' })
           .then(res => {
             if (res.status === 401) {
               console.warn('⚠️ Sessão expirada - redirecionando para login');
@@ -992,6 +993,7 @@ async function adicionarAlunoProfessor() {
   try {
     const response = await fetch('/api/instituicoes/criar-aluno-turma', {
       method: 'POST',
+      credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         nome: nome,
@@ -1018,7 +1020,7 @@ async function adicionarAlunoProfessor() {
       
       // Recarregar lista de alunos da turma atual
       if (turma) {
-        fetch(`/professor/api/turmas/${turma.id}/alunos`)
+        fetch(`/professor/api/turmas/${turma.id}/alunos`, { credentials: 'include' })
           .then(res => {
             if (res.status === 401) return null;
             return res.json();
@@ -1227,7 +1229,7 @@ function abrirDetalhe(id) {
   goto('page-turma-detalhe');
   
   // Carregar alunos do servidor em background
-  fetch(`/professor/api/turmas/${t.id}/alunos`)
+  fetch(`/professor/api/turmas/${t.id}/alunos`, { credentials: 'include' })
     .then(res => {
       if (res.status === 401) {
         console.warn('Sessão expirada');
@@ -1338,7 +1340,7 @@ function openModal(id) { document.getElementById(id)?.classList.add('open'); }
 function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
 
 function confirmarLogout() {
-  fetch('/logout', { method: 'POST' })
+  fetch('/logout', { method: 'POST', credentials: 'include' })
     .then(() => { window.location.href = '/'; })
     .catch(err => { console.error('Erro ao fazer logout:', err); });
 }
@@ -1387,7 +1389,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function atualizarContadoresAlunos() {
   for (const turma of TURMAS) {
     try {
-      const response = await fetch(`/professor/api/turmas/${turma.id}/alunos`);
+      const response = await fetch(`/professor/api/turmas/${turma.id}/alunos`, { credentials: 'include' });
       if (!response.ok) continue;
       
       const data = await response.json();

@@ -7,6 +7,28 @@ const Turma = require('../models/Turma');
 const Aluno = require('../models/Aluno');
 const Ranking = require('../models/Ranking');
 
+// ═══ MIDDLEWARE DE RENOVAÇÃO DE SESSÃO ═══
+// Renova a sessão em cada requisição para evitar expiração
+router.use((req, res, next) => {
+  if (req.session && req.session.user && req.session.user.tipo === 'professor') {
+    // Renovar a sessão
+    req.session.touch();
+    
+    // Garantir que instituicao_id existe
+    if (!req.session.user.instituicao_id) {
+      req.session.user.instituicao_id = 1;
+    }
+    
+    console.log(`🔄 Renovando sessão do professor ${req.session.user.email} (ID: ${req.sessionID})`);
+    
+    // ✅ IMPORTANTE: SALVAR SESSÃO APÓS RENOVAR
+    req.session.save((err) => {
+      if (err) console.error('❌ Erro ao salvar sessão renovada em professor.js:', err);
+    });
+  }
+  next();
+});
+
 // Permite acessar seleção de série via GET também
 router.get('/dashboard', async (req, res) => {
   // Protege rota: exige login
@@ -97,6 +119,9 @@ router.get('/area', async (req, res) => {
   }
   
   try {
+    // Renovar e SALVAR sessão
+    req.session.touch();
+    
     // Validar que instituicao_id existe
     if (!req.session.user.instituicao_id) {
       console.warn('⚠️ Professor sem instituição_id na sessão');
@@ -136,31 +161,43 @@ router.get('/area', async (req, res) => {
     console.log('🏫 Instituição do professor:', req.session.user.instituicao_id);
     console.log('📋 Turmas antes de renderizar:', turmas?.map(t => ({id: t.id, nome: t.nome, total_alunos: t.total_alunos})));
     
-    res.render('professor_area', {
-      professor: professsorData,
-      stats: statsData,
-      turmas: turmas || [],
-      totalAlunos: totalAlunos,
-      instituicao_id: req.session.user.instituicao_id,
-      _nocache: new Date().getTime() // Force recompile
+    // Salvar sessão renovada ANTES de renderizar
+    req.session.save((err) => {
+      if (err) console.error('❌ Erro ao salvar sessão:', err);
+      
+      res.render('professor_area', {
+        professor: professsorData,
+        stats: statsData,
+        turmas: turmas || [],
+        totalAlunos: totalAlunos,
+        instituicao_id: req.session.user.instituicao_id,
+        _nocache: new Date().getTime() // Force recompile
+      });
     });
   } catch (erro) {
     console.error('❌ Erro ao carregar professor_area:', erro.message);
     
-    res.render('professor_area', {
-      professor: {
-        id: req.session.user.id,
-        nome: req.session.user.nome,
-        email: req.session.user.email
-      },
-      stats: {
-        turmas: 0,
-        alunos: 0,
-        atividades: 18,
-        pontos: 1240
-      },
-      turmas: [],
-      totalAlunos: 0
+    // Salvar sessão ANTES de renderizar erro
+    req.session.save((err2) => {
+      if (err2) console.error('❌ Erro ao salvar sessão:', err2);
+      
+      res.render('professor_area', {
+        professor: {
+          id: req.session.user.id,
+          nome: req.session.user.nome,
+          email: req.session.user.email,
+          instituicao_id: req.session.user.instituicao_id
+        },
+        stats: {
+          turmas: 0,
+          alunos: 0,
+          atividades: 18,
+          pontos: 1240
+        },
+        turmas: [],
+        totalAlunos: 0,
+        _nocache: new Date().getTime()
+      });
     });
   }
 });
@@ -253,8 +290,11 @@ router.post('/turmas/criar', async (req, res) => {
   }
   
   try {
-    const turma = await Turma.criar(nome, req.session.user.id, ano_escolar);
-    return res.json({ success: true, turma });
+    // Gerar código de 4 caracteres alfanuméricos
+    const codigo_acesso = Math.random().toString(36).substring(2, 6).toUpperCase();
+    
+    const turma = await Turma.criar(nome, req.session.user.id, ano_escolar, req.session.user.instituicao_id, codigo_acesso);
+    return res.json({ success: true, turma, codigo_acesso });
   } catch (erro) {
     console.error('Erro ao criar turma:', erro);
     return res.status(500).json({ success: false, message: 'Erro ao criar turma' });
@@ -265,13 +305,23 @@ router.post('/turmas/criar', async (req, res) => {
 
 // GET - Listar turmas da instituição do professor
 router.get('/api/turmas', async (req, res) => {
+  console.log('🔍 GET /professor/api/turmas chamado');
+  console.log('   Session ID:', req.sessionID);
+  console.log('   Session user:', req.session?.user ? `${req.session.user.email} (${req.session.user.tipo})` : 'NÃO EXISTE');
+  
   if (!req.session.user || req.session.user.tipo !== 'professor') {
+    console.warn('⚠️ Sessão inválida em GET /professor/api/turmas');
+    console.warn('   req.session.user:', req.session.user);
+    console.warn('   req.session.user.tipo:', req.session?.user?.tipo);
     return res.status(401).json({ success: false, message: 'Não autorizado' });
   }
   
   try {
-    // Renovar sessão
+    // Renovar e SALVAR sessão para manter ativa
     req.session.touch();
+    req.session.save((err) => {
+      if (err) console.error('❌ Erro ao salvar sessão:', err);
+    });
     
     const instituicao_id = req.session.user.instituicao_id;
     if (!instituicao_id) {
@@ -288,7 +338,7 @@ router.get('/api/turmas', async (req, res) => {
   }
 });
 
-// POST - Criar nova turma com código aleatório
+// POST - Criar nova turma com código aleatório de 4 dígitos
 router.post('/api/turmas/criar', async (req, res) => {
   if (!req.session.user || req.session.user.tipo !== 'professor') {
     return res.status(401).json({ success: false, message: 'Não autorizado' });
@@ -301,22 +351,24 @@ router.post('/api/turmas/criar', async (req, res) => {
   }
   
   try {
-    // Renovar sessão para evitar expiração
+    // Renovar e SALVAR sessão
     req.session.touch();
     
     const instituicao_id = req.session.user.instituicao_id;
     
-    // Gerar código aleatório de 5 dígitos
-    const codigo_acesso = Math.random().toString(36).substring(2, 7).toUpperCase();
+    // Gerar código aleatório de 4 caracteres alfanuméricos
+    const codigo_acesso = Math.random().toString(36).substring(2, 6).toUpperCase();
     
-    // Criar turma
-    const turma = await Turma.criar(nome, req.session.user.id, ano_escolar, instituicao_id);
-    
-    // Adicionar código ao retorno (será armazenado no banco depois)
-    turma.codigo_acesso = codigo_acesso;
+    // Criar turma com código
+    const turma = await Turma.criar(nome, req.session.user.id, ano_escolar, instituicao_id, codigo_acesso);
     
     console.log(`✅ Turma criada: ${nome} (${codigo_acesso}) para instituição ${instituicao_id}`);
-    return res.json({ success: true, turma, codigo_acesso });
+    
+    // Salvar sessão ANTES de responder
+    req.session.save((err) => {
+      if (err) console.error('❌ Erro ao salvar sessão:', err);
+      return res.json({ success: true, turma, codigo_acesso });
+    });
   } catch (erro) {
     console.error('❌ Erro ao criar turma:', erro);
     return res.status(500).json({ success: false, message: 'Erro ao criar turma' });
@@ -337,7 +389,11 @@ router.get('/api/turmas/:turmaId/alunos', async (req, res) => {
     
     console.log(`📚 Alunos da turma ${turmaId}:`, alunos ? alunos.length : 0);
     
-    return res.json({ success: true, alunos: alunos || [] });
+    // Salvar sessão renovada
+    req.session.save((err) => {
+      if (err) console.error('❌ Erro ao salvar sessão:', err);
+      return res.json({ success: true, alunos: alunos || [] });
+    });
   } catch (erro) {
     console.error('❌ Erro ao listar alunos:', erro);
     return res.status(500).json({ success: false, message: 'Erro ao listar alunos' });

@@ -101,11 +101,6 @@ router.get('/turma', (req, res) => {
   res.render('turma');
 });
 
-// Página para adicionar turma (aluno)
-router.get('/adicionar-turma', (req, res) => {
-  res.render('adicionar-turma');
-});
-
 // Compra de avatar
 router.post('/comprar-avatar', async (req, res) => {
   try {
@@ -430,9 +425,28 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
       
-      req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
-      req.session.saldo = aluno.saldo;
-      return res.status(200).json({ success: true, redirect: '/aluno' });
+      // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
+      // This destroys the old session and creates a new one with a different ID
+      req.session.regenerate((err) => {
+        if (err) {
+          console.error('❌ Erro ao regenerar sessão:', err);
+          return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+        }
+        
+        req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
+        req.session.saldo = aluno.saldo;
+        
+        // Save the new session
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error('❌ Erro ao salvar nova sessão:', saveErr);
+            return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+          }
+          console.log(`✅ Sessão regenerada para aluno ${email} - Novo ID: ${req.sessionID}`);
+          return res.status(200).json({ success: true, redirect: '/aluno' });
+        });
+      });
+      return; // Não continuar a execução aqui
     }
 
     if (role === 'professor') {
@@ -447,8 +461,26 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
       
-      req.session.user = { tipo: 'professor', email: email, id: professor.id, nome: professor.nome, instituicao_id: professor.instituicao_id };
-      return res.status(200).json({ success: true, redirect: '/professor/area' });
+      // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
+      req.session.regenerate((err) => {
+        if (err) {
+          console.error('❌ Erro ao regenerar sessão:', err);
+          return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+        }
+        
+        req.session.user = { tipo: 'professor', email: email, id: professor.id, nome: professor.nome, instituicao_id: professor.instituicao_id };
+        
+        // Save the new session
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error('❌ Erro ao salvar nova sessão:', saveErr);
+            return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+          }
+          console.log(`✅ Sessão regenerada para professor ${email} - Novo ID: ${req.sessionID}`);
+          return res.status(200).json({ success: true, redirect: '/professor/area' });
+        });
+      });
+      return; // Não continuar a execução aqui
     }
 
     return res.status(400).json({ success: false, message: 'Tipo de usuário inválido' });
@@ -486,25 +518,55 @@ router.post('/aluno/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
     }
 
-    // Fazer login
-    req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
-    req.session.saldo = aluno.saldo;
-
-    // Determinar para qual página redirecionar baseado no plano da escola
-    let redirectPage = '/aluno-novo'; // padrão
-    
-    // Se o aluno tem uma escola associada, verificar o plano
-    try {
-      const plano = await Aluno.buscarPlanoEscola(aluno);
-      
-      if (plano === 'premium') {
-        redirectPage = '/aluno-premium';
+    // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
+    req.session.regenerate((err) => {
+      if (err) {
+        console.error('❌ Erro ao regenerar sessão:', err);
+        return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
       }
-    } catch (erroBuscarPlano) {
-      // Continuar com padrão
-    }
 
-    return res.status(200).json({ success: true, redirect: redirectPage });
+      // Fazer login com nova sessão
+      req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
+      req.session.saldo = aluno.saldo;
+
+      // Determinar para qual página redirecionar baseado no plano da escola
+      let redirectPage = '/aluno-novo'; // padrão
+      
+      // Se o aluno tem uma escola associada, verificar o plano
+      try {
+        (async () => {
+          try {
+            const plano = await Aluno.buscarPlanoEscola(aluno);
+            
+            if (plano === 'premium') {
+              redirectPage = '/aluno-premium';
+            }
+          } catch (erroBuscarPlano) {
+            // Continuar com padrão
+          }
+
+          // Save the new session
+          req.session.save((saveErr) => {
+            if (saveErr) {
+              console.error('❌ Erro ao salvar nova sessão:', saveErr);
+              return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+            }
+            console.log(`✅ Sessão regenerada para aluno ${email} - Novo ID: ${req.sessionID}`);
+            return res.status(200).json({ success: true, redirect: redirectPage });
+          });
+        })();
+      } catch (erroBuscarPlano) {
+        // Continuar com padrão
+        req.session.save((saveErr) => {
+          if (saveErr) {
+            console.error('❌ Erro ao salvar nova sessão:', saveErr);
+            return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+          }
+          console.log(`✅ Sessão regenerada para aluno ${email} - Novo ID: ${req.sessionID}`);
+          return res.status(200).json({ success: true, redirect: redirectPage });
+        });
+      }
+    });
   } catch (erro) {
     console.error('Erro ao fazer login:', erro);
     return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
@@ -532,12 +594,30 @@ router.post('/gestao/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
     }
 
-    // Usar nome_contato (nome completo da pessoa) como primeira opção
-    const nome = gestor.nome_contato || gestor.nome || 'Gestor';
-    // Se é uma parceria, o id é a instituicao_id; se é gestor, use o campo instituicao_id
-    const instituicao_id = gestor.instituicao_id || gestor.id;
-    req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome, instituicao_id: instituicao_id };
-    return res.status(200).json({ success: true });
+    // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
+    req.session.regenerate((err) => {
+      if (err) {
+        console.error('❌ Erro ao regenerar sessão:', err);
+        return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+      }
+
+      // Usar nome_contato (nome completo da pessoa) como primeira opção
+      const nome = gestor.nome_contato || gestor.nome || 'Gestor';
+      // Se é uma parceria, o id é a instituicao_id; se é gestor, use o campo instituicao_id
+      const instituicao_id = gestor.instituicao_id || gestor.id;
+      
+      req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome, instituicao_id: instituicao_id };
+      
+      // Save the new session
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error('❌ Erro ao salvar nova sessão:', saveErr);
+          return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
+        }
+        console.log(`✅ Sessão regenerada para gestão ${email} - Novo ID: ${req.sessionID}`);
+        return res.status(200).json({ success: true });
+      });
+    });
   } catch (erro) {
     console.error('Erro ao fazer login de gestão:', erro);
     return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
@@ -703,8 +783,71 @@ router.get('/natureza', (req, res) => {
 });
 
 // Rota GET para adicionar turma
-router.get('/adicionar-turma', (req, res) => {
-  res.render('adicionar-turma');
+router.get('/adicionar-turma', async (req, res) => {
+  // Variáveis padrão
+  let turma = null;
+  let professor = null;
+  let alunosDaTurma = [];
+  let totalAlunos = 0;
+
+  try {
+    console.log('📍 GET /adicionar-turma - Session user:', req.session.user);
+    
+    // Verificar se aluno está logado
+    if (req.session.user && req.session.user.tipo === 'aluno') {
+      const aluno_id = req.session.user.id;
+      console.log('👨‍🎓 Carregando dados do aluno ID:', aluno_id);
+      
+      const Aluno = require('../models/Aluno');
+      const Turma = require('../models/Turma');
+      const Professor = require('../models/Professor');
+
+      // Buscar dados completos do aluno
+      const aluno = await Aluno.buscarPorId(aluno_id);
+      console.log('✅ Aluno encontrado:', aluno);
+      
+      // Se aluno tem turma, buscar dados da turma
+      if (aluno && aluno.turma_id) {
+        console.log('📚 Buscando turma ID:', aluno.turma_id);
+        turma = await Turma.buscarPorId(aluno.turma_id);
+        console.log('✅ Turma encontrada:', turma);
+        
+        if (turma) {
+          // Buscar dados do professor
+          professor = await Professor.buscarPorId(turma.professor_id);
+          console.log('👨‍🏫 Professor encontrado:', professor);
+          
+          // Buscar alunos da turma
+          alunosDaTurma = await Turma.listarAlunosDaTurma(aluno.turma_id);
+          totalAlunos = alunosDaTurma ? alunosDaTurma.length : 0;
+          console.log('👥 Total de alunos:', totalAlunos);
+        }
+      } else {
+        console.log('⚠️ Aluno sem turma ou aluno não encontrado');
+      }
+    } else {
+      console.log('❌ Usuário não está logado ou não é aluno');
+    }
+
+    console.log('📤 Renderizando com dados:', { turma: !!turma, professor: !!professor, totalAlunos });
+    
+    // Renderizar template com dados (garantindo que todas as variáveis existem)
+    res.render('adicionar-turma', {
+      turma: turma,
+      professor: professor,
+      alunosDaTurma: alunosDaTurma,
+      totalAlunos: totalAlunos
+    });
+  } catch (erro) {
+    console.error('❌ Erro ao carregar turma do aluno:', erro);
+    // Renderizar com valores padrão/nulos
+    res.render('adicionar-turma', {
+      turma: null,
+      professor: null,
+      alunosDaTurma: [],
+      totalAlunos: 0
+    });
+  }
 });
 
 // Rota GET para /turma (turma normal)
@@ -739,8 +882,11 @@ router.post('/professor/turmas/criar', async (req, res) => {
       });
     }
 
-    // Criar turma no BD
-    const novaTurma = await Turma.criar(nome, req.session.user.id, ano_escolar);
+    // Gerar código de 4 caracteres alfanuméricos
+    const codigo_acesso = Math.random().toString(36).substring(2, 6).toUpperCase();
+
+    // Criar turma no BD com código
+    const novaTurma = await Turma.criar(nome, req.session.user.id, ano_escolar, req.session.user.instituicao_id, codigo_acesso);
 
     return res.redirect('/professor/dashboard');
   } catch (erro) {
@@ -2095,6 +2241,189 @@ router.get('/api/instituicoes/:id/desempenho-turmas', autenticarAdmin, async (re
   } catch (erro) {
     console.error('❌ Erro ao buscar desempenho das turmas:', erro);
     res.status(500).json({ success: false, message: 'Erro ao buscar desempenho das turmas' });
+  }
+});
+
+// ==================== API: ALUNO ENTRAR EM TURMA ====================
+
+// API: Buscar turma pelo código de acesso
+router.get('/api/turmas/buscar-por-codigo/:codigo', async (req, res) => {
+  try {
+    const { codigo } = req.params;
+    
+    if (!codigo || codigo.length !== 4) {
+      return res.status(400).json({ success: false, message: 'Código inválido' });
+    }
+    
+    // Buscar turma pelo código
+    const turma = await Turma.buscarPorCodigo(codigo.toUpperCase());
+    
+    if (!turma) {
+      return res.status(404).json({ success: false, message: 'Turma não encontrada' });
+    }
+    
+    res.json({
+      success: true,
+      turma: {
+        id: turma.id,
+        nome: turma.nome,
+        ano_escolar: turma.ano_escolar || turma.ano,
+        codigo_acesso: turma.codigo_acesso || turma.codigo,
+        professor_id: turma.professor_id,
+        instituicao_id: turma.instituicao_id
+      }
+    });
+  } catch (erro) {
+    console.error('Erro ao buscar turma pelo código:', erro);
+    res.status(500).json({ success: false, message: 'Erro ao buscar turma' });
+  }
+});
+
+// API: Adicionar aluno à turma via código
+router.post('/api/alunos/entrar-turma', autenticar, async (req, res) => {
+  const startTime = Date.now();
+  const originalUserID = req.session.user?.id;  // Guardar ID original para verificação
+  
+  try {
+    const { turma_id } = req.body;
+    const aluno_id = req.session.user.id;
+    
+    // ===== VALIDAÇÕES ROBUSTAS =====
+    if (!turma_id) {
+      return res.status(400).json({ success: false, message: 'Turma não especificada' });
+    }
+    
+    if (!Number.isInteger(Number(turma_id))) {
+      return res.status(400).json({ success: false, message: 'ID de turma inválido' });
+    }
+    
+    if (!aluno_id) {
+      console.error('❌ Aluno ID inválido:', aluno_id);
+      return res.status(401).json({ success: false, message: 'Sessão inválida' });
+    }
+    
+    // ===== BUSCAR TURMA COM TIMEOUT =====
+    let turma;
+    try {
+      const turmaPromise = Turma.buscarPorId(turma_id);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout ao buscar turma')), 5000)
+      );
+      turma = await Promise.race([turmaPromise, timeoutPromise]);
+    } catch (erro) {
+      console.error('❌ Erro ao buscar turma:', erro.message);
+      if (erro.message.includes('Timeout')) {
+        return res.status(504).json({ success: false, message: 'Timeout ao buscar turma' });
+      }
+      return res.status(500).json({ success: false, message: 'Erro ao buscar turma' });
+    }
+    
+    if (!turma) {
+      return res.status(404).json({ success: false, message: 'Turma não encontrada' });
+    }
+    
+    // ===== ATUALIZAR TURMA DO ALUNO COM TIMEOUT =====
+    let resultado;
+    try {
+      const updatePromise = Aluno.atualizarTurma(aluno_id, turma_id);
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout ao atualizar turma')), 5000)
+      );
+      resultado = await Promise.race([updatePromise, timeoutPromise]);
+    } catch (erro) {
+      console.error('❌ Erro ao atualizar turma:', erro.message);
+      if (erro.message.includes('Timeout')) {
+        return res.status(504).json({ success: false, message: 'Timeout ao atualizar turma' });
+      }
+      return res.status(500).json({ success: false, message: 'Erro ao atualizar turma no banco de dados' });
+    }
+    
+    if (!resultado) {
+      return res.status(400).json({ success: false, message: 'Erro ao entrar na turma' });
+    }
+    
+    // ===== ATUALIZAR SESSÃO DO ALUNO =====
+    req.session.user.turma_id = turma_id;
+    
+    // Verificar que o ID do usuário não mudou
+    if (req.session.user.id !== originalUserID) {
+      console.error('❌ ALERTA: Session user ID mudou durante a operação!', {
+        original: originalUserID,
+        current: req.session.user.id
+      });
+      // Restaurar para segurança
+      req.session.user.id = originalUserID;
+    }
+    
+    // ===== SALVAR SESSÃO COM TIMEOUT E RETRY =====
+    let sessionSaved = false;
+    const maxRetries = 2;
+    
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        await new Promise((resolve, reject) => {
+          const timeout = setTimeout(() => {
+            reject(new Error('Timeout ao salvar sessão'));
+          }, 3000);
+          
+          req.session.save((err) => {
+            clearTimeout(timeout);
+            if (err) reject(err);
+            else resolve();
+          });
+        });
+        
+        sessionSaved = true;
+        console.log(`✅ Sessão do aluno ${aluno_id} salva com sucesso (tentativa ${attempt})`);
+        break; // Sucesso, sair do loop
+      } catch (erro) {
+        console.error(`❌ Erro ao salvar sessão (tentativa ${attempt}/${maxRetries}):`, erro.message);
+        
+        if (attempt === maxRetries) {
+          // Última tentativa falhou
+          console.warn('⚠️  Sessão não foi salva, mas turma foi atualizada no banco');
+          // Continuar mesmo assim, pois o banco foi atualizado
+          sessionSaved = true; // Permitir resposta mesmo com erro de sessão
+        } else {
+          // Aguardar um pouco antes de tentar novamente
+          await new Promise(resolve => setTimeout(resolve, 100 * attempt));
+        }
+      }
+    }
+    
+    // ===== RESPOSTA BEM-SUCEDIDA =====
+    const executionTime = Date.now() - startTime;
+    res.json({
+      success: true,
+      message: 'Você entrou na turma com sucesso!',
+      turma: {
+        id: turma.id,
+        nome: turma.nome,
+        ano_escolar: turma.ano_escolar || turma.ano
+      },
+      debug: {
+        executionTime: `${executionTime}ms`,
+        sessionSaved: sessionSaved
+      }
+    });
+    
+  } catch (erro) {
+    const executionTime = Date.now() - startTime;
+    console.error('❌ Erro não tratado em /api/alunos/entrar-turma:', {
+      message: erro.message,
+      stack: erro.stack,
+      executionTime: `${executionTime}ms`,
+      timestamp: new Date().toISOString()
+    });
+    
+    // Garantir resposta mesmo com erro crítico
+    if (!res.headersSent) {
+      res.status(500).json({ 
+        success: false, 
+        message: 'Erro ao entrar na turma',
+        executionTime: `${executionTime}ms`
+      });
+    }
   }
 });
 

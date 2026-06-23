@@ -614,22 +614,41 @@
   </header>
 
   <section class="turmas-grid">
-    <!-- Turma existente -->
-    <article class="turma-card" onclick="goto('page-turma-detalhe')">
-      <header class="turma-card-top">
-        <h3 class="turma-card-name">Séries – 5º Ano D</h3>
-        <p class="turma-card-sub">Prof.ª Izabel Santos Soares</p>
-      </header>
-      <footer class="turma-card-bottom">
-        <p class="turma-info-row"><span>👥</span> 28 estudantes</p>
-        <p class="turma-info-row"><span>📋</span> 2 atividades</p>
-        <p class="turma-info-row"><span>🔑</span> Código: <strong>A3K7</strong></p>
-        <nav class="turma-activities">
-          <span class="activity-chip">🦜 Animais do Brasil</span>
-          <span class="activity-chip">🌍 Biomas</span>
-        </nav>
-      </footer>
-    </article>
+    <!-- Turma do aluno logado (dados dinâmicos) -->
+    <% if (turma && professor) { %>
+      <article class="turma-card" onclick="goto('page-turma-detalhe')">
+        <header class="turma-card-top">
+          <h3 class="turma-card-name">Séries – <%= turma.ano_escolar %>º Ano <% if (turma.nome) { %><%= turma.nome.replace(/.*([A-Z])$/, '$1') %><% } %></h3>
+          <p class="turma-card-sub">Prof<%= professor.nome.includes('a') ? 'ª' : '.' %> <%= professor.nome %></p>
+        </header>
+        <footer class="turma-card-bottom">
+          <p class="turma-info-row"><span>👥</span> <%= totalAlunos %> estudantes</p>
+          <p class="turma-info-row"><span>📋</span> 2 atividades</p>
+          <p class="turma-info-row"><span>🔑</span> Código: <strong><%= turma.codigo_acesso || turma.codigo || 'N/A' %></strong></p>
+          <nav class="turma-activities">
+            <span class="activity-chip">🦜 Animais do Brasil</span>
+            <span class="activity-chip">🌍 Biomas</span>
+          </nav>
+        </footer>
+      </article>
+    <% } else { %>
+      <!-- Turma mockada (fallback quando não temos dados) -->
+      <article class="turma-card" onclick="goto('page-turma-detalhe')">
+        <header class="turma-card-top">
+          <h3 class="turma-card-name">Séries – 5º Ano D</h3>
+          <p class="turma-card-sub">Prof.ª Izabel Santos Soares</p>
+        </header>
+        <footer class="turma-card-bottom">
+          <p class="turma-info-row"><span>👥</span> 28 estudantes</p>
+          <p class="turma-info-row"><span>📋</span> 2 atividades</p>
+          <p class="turma-info-row"><span>🔑</span> Código: <strong>A3K7</strong></p>
+          <nav class="turma-activities">
+            <span class="activity-chip">🦜 Animais do Brasil</span>
+            <span class="activity-chip">🌍 Biomas</span>
+          </nav>
+        </footer>
+      </article>
+    <% } %>
 
     <!-- Adicionar nova turma -->
     <button class="add-turma-card" onclick="openModal()">
@@ -660,12 +679,21 @@
 
   <header class="turma-detail-header">
     <hgroup>
-      <h2>Séries – 5º Ano D</h2>
-      <p>Prof.ª Izabel Santos Soares • 28 estudantes</p>
+      <% if (turma && professor) { %>
+        <h2>Séries – <%= turma.ano_escolar %>º Ano <% if (turma.nome) { %><%= turma.nome.replace(/.*([A-Z])$/, '$1') %><% } %></h2>
+        <p>Prof<%= professor.nome.includes('a') ? 'ª' : '.' %> <%= professor.nome %> • <%= totalAlunos %> estudantes</p>
+      <% } else { %>
+        <h2>Séries – 5º Ano D</h2>
+        <p>Prof.ª Izabel Santos Soares • 28 estudantes</p>
+      <% } %>
     </hgroup>
     <aside class="turma-code-badge">
       <span class="label">Código da turma</span>
-      <span class="code">A3K7</span>
+      <% if (turma) { %>
+        <span class="code"><%= turma.codigo_acesso || turma.codigo || 'N/A' %></span>
+      <% } else { %>
+        <span class="code">A3K7</span>
+      <% } %>
     </aside>
   </header>
 
@@ -991,14 +1019,59 @@
 
   function participar() {
     const code = ['c1','c2','c3','c4'].map(id => document.getElementById(id).value.toUpperCase()).join('');
-    if (code.length < 4) { showToast('⚠️ Digite o código completo de 4 letras!'); return; }
-    if (code === 'A3K7') {
-      closeModal();
-      showToast('🎉 Você entrou na turma Séries – 5º Ano D!');
-      setTimeout(() => goto('page-turma-detalhe'), 800);
-    } else {
-      showToast('❌ Código inválido! Verifique com sua professora.');
+    
+    if (code.length < 4) { 
+      showToast('⚠️ Digite o código completo de 4 letras!'); 
+      return; 
     }
+    
+    // Desabilitar botão durante requisição
+    const btnParticip = document.querySelector('.btn-participar');
+    btnParticip.disabled = true;
+    btnParticip.textContent = '⏳ Buscando...';
+    
+    // Requisitar para buscar turma pelo código
+    fetch(`/api/turmas/buscar-por-codigo/${code}`)
+      .then(response => response.json())
+      .then(data => {
+        if (!data.success) {
+          showToast('❌ Código inválido! Verifique com sua professora.');
+          btnParticip.disabled = false;
+          btnParticip.textContent = '🚀 Participar da turma!';
+          return;
+        }
+        
+        // Turma encontrada, agora adicionar aluno à turma
+        return fetch('/api/alunos/entrar-turma', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ turma_id: data.turma.id })
+        })
+        .then(response => response.json())
+        .then(result => {
+          if (!result.success) {
+            showToast('❌ Erro ao entrar na turma: ' + result.message);
+            btnParticip.disabled = false;
+            btnParticip.textContent = '🚀 Participar da turma!';
+            return;
+          }
+          
+          closeModal();
+          showToast(`🎉 Você entrou na turma ${data.turma.nome}!`);
+          
+          // Aguardar um pouco e recarregar a página para atualizar as turmas
+          setTimeout(() => {
+            location.reload();
+          }, 1500);
+        });
+      })
+      .catch(erro => {
+        console.error('Erro:', erro);
+        showToast('❌ Erro ao conectar com o servidor');
+        btnParticip.disabled = false;
+        btnParticip.textContent = '🚀 Participar da turma!';
+      });
   }
 
   function switchSubTab(tab) {

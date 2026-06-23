@@ -4,28 +4,28 @@ const mockdb = require('../lib/mockdb');
 class Turma extends BaseModel {
   static useMock = false;
 
-  // Criar nova turma
-  static async criar(nome, professor_id, ano_escolar = null, instituicao_id = null) {
-    console.log('🔄 Turma.criar() chamado com:',{nome, professor_id, ano_escolar, instituicao_id});
+  // Criar nova turma com código de acesso
+  static async criar(nome, professor_id, ano_escolar = null, instituicao_id = null, codigo_acesso = null) {
+    console.log('🔄 Turma.criar() chamado com:',{nome, professor_id, ano_escolar, instituicao_id, codigo_acesso});
     console.log('   mockdb.criarTurma existe?', typeof mockdb.criarTurma);
     return this.executeWithFallback(
       () => this.withConnection(async (connection) => {
         const [result] = await connection.execute(
-          'INSERT INTO turmas (nome, professor_id, ano_escolar, instituicao_id) VALUES (?, ?, ?, ?)',
-          [nome, professor_id, ano_escolar, instituicao_id]
+          'INSERT INTO turmas (nome, professor_id, ano_escolar, instituicao_id, codigo_acesso) VALUES (?, ?, ?, ?, ?)',
+          [nome, professor_id, ano_escolar, instituicao_id, codigo_acesso]
         );
-        this.log('criar', 'success', `Turma ${nome} criada`);
-        return { id: result.insertId, nome, professor_id, instituicao_id };
+        this.log('criar', 'success', `Turma ${nome} criada com código ${codigo_acesso}`);
+        return { id: result.insertId, nome, professor_id, instituicao_id, codigo_acesso };
       }),
       () => {
         console.log('   ➡️ Usando fallback. mockdb.criarTurma:', typeof mockdb.criarTurma);
         if (mockdb.criarTurma) {
-          const resultado = mockdb.criarTurma(nome, professor_id, ano_escolar, instituicao_id);
+          const resultado = mockdb.criarTurma(nome, professor_id, ano_escolar, instituicao_id, codigo_acesso);
           console.log('   ✅ criarTurma retornou:', resultado);
           return resultado;
         } else {
           console.log('   ⚠️ mockdb.criarTurma NÃO EXISTE! Usando Date.now()');
-          return { id: Date.now(), nome, professor_id, instituicao_id };
+          return { id: Date.now(), nome, professor_id, instituicao_id, codigo_acesso };
         }
       }
     );
@@ -61,6 +61,20 @@ class Turma extends BaseModel {
         return rows[0] || null;
       }),
       () => mockdb.turmas.find(t => t.id === parseInt(id)) || null
+    );
+  }
+
+  // Buscar turma pelo código de acesso
+  static async buscarPorCodigo(codigo) {
+    return this.executeWithFallback(
+      () => this.withConnection(async (connection) => {
+        const [rows] = await connection.execute(
+          'SELECT * FROM turmas WHERE codigo_acesso = ? OR codigo = ?',
+          [codigo, codigo]
+        );
+        return rows[0] || null;
+      }),
+      () => mockdb.turmas.find(t => (t.codigo_acesso === codigo || t.codigo === codigo)) || null
     );
   }
 

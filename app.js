@@ -35,7 +35,9 @@ app.use(session({
   saveUninitialized: false, // Só salvar sessão se tiver sido modificada
   cookie: { 
     secure: false, // true se usar https
-    maxAge: 24 * 60 * 60 * 1000 // 24 horas
+    maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    sameSite: 'lax', // Permitir cookies em requisições cross-site com credentials
+    httpOnly: true // Não permitir acesso via JavaScript (segurança)
   },
   name: 'sessionId' // Nome customizado do cookie
 }));
@@ -43,9 +45,98 @@ app.use(session({
 // Middleware para renovar sessão a cada requisição autenticada
 app.use((req, res, next) => {
   if (req.session && req.session.user) {
-    // Renovar maxAge para estender a vida útil da sessão
-    req.session.cookie.maxAge = 24 * 60 * 60 * 1000; // 24 horas
+    // Renovar a sessão imediatamente
+    req.session.touch();
+    
+    // Guardar informações originais da sessão para validação
+    const originalUser = JSON.parse(JSON.stringify(req.session.user)); // Deep copy
+    const originalUserType = req.session.user.tipo;
+    const originalSessionID = req.sessionID;
+    
+    // Renovar maxAge para estender a vida útil da sessão (24 horas)
+    req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+    
+    // Garantir que institutição_id existe para professores
+    if (req.session.user.tipo === 'professor' && !req.session.user.instituicao_id) {
+      req.session.user.instituicao_id = 1;
+      console.warn('⚠️ Adicionado instituicao_id padrão para professor:', req.session.user.email);
+    }
+    
+    // Guardar no req para usar no final
+    req.originalSessionInfo = {
+      user: originalUser,
+      userType: originalUserType,
+      sessionID: originalSessionID
+    };
+    
+    // ✅ IMPORTANTE: SALVAR SESSÃO APÓS RENOVAR
+    req.session.save((err) => {
+      if (err) console.error('❌ Erro ao salvar sessão renovada:', err);
+    });
   }
+  next();
+});
+
+// ===== MIDDLEWARE DE PROTEÇÃO DE SESSÃO =====
+// Garante que a sessão não foi alterada por outras requisições
+app.use((req, res, next) => {
+  const originalInfo = req.originalSessionInfo;
+  
+  // Se tinha sessão original, validar que não mudou
+  if (originalInfo) {
+    const currentUser = req.session.user;
+    const currentUserType = req.session.user?.tipo;
+    
+    // Se o tipo de usuário mudou, algo está muito errado
+    if (originalInfo.userType && currentUserType && originalInfo.userType !== currentUserType) {
+      console.warn('⚠️ ALERTA: Tipo de usuário mudou na sessão!', {
+        original: originalInfo.userType,
+        current: currentUserType,
+        sessionID: req.sessionID
+      });
+      // Restaurar informações originais
+      req.session.user = originalInfo.user;
+    }
+  }
+  
+  next();
+});
+
+// ===== MIDDLEWARE DE LOGGING DE SESSÃO =====
+// Rastreia mudanças de sessão para debug
+app.use((req, res, next) => {
+  // Guardar dados de sessão original
+  const originalSession = req.session.user ? JSON.stringify({
+    id: req.session.user.id,
+    email: req.session.user.email,
+    tipo: req.session.user.tipo,
+    turma_id: req.session.user.turma_id
+  }) : null;
+  
+  // Interceptar o final da requisição para comparar
+  const originalEnd = res.end;
+  res.end = function(...args) {
+    const currentSession = req.session.user ? JSON.stringify({
+      id: req.session.user.id,
+      email: req.session.user.email,
+      tipo: req.session.user.tipo,
+      turma_id: req.session.user.turma_id
+    }) : null;
+    
+    // Se a sessão foi alterada, registrar
+    if (originalSession !== currentSession && req.path.includes('/professor')) {
+      console.log('📋 MUDANÇA DE SESSÃO EM ROTA DO PROFESSOR:', {
+        rota: req.path,
+        metodo: req.method,
+        original: originalSession ? JSON.parse(originalSession) : null,
+        current: currentSession ? JSON.parse(currentSession) : null,
+        sessionID: req.sessionID
+      });
+    }
+    
+    return originalEnd.apply(res, args);
+  };
+  
   next();
 });
 
@@ -535,7 +626,56 @@ app.post('/test-post', (req, res) => {
   res.json({ teste: 'POST funciona' });
 });
 
-// Inicialização do servidor
+// ===== MIDDLEWARE DE ERRO EXPRESS =====
+// Deve estar APÓS todas as rotas
+app.use((err, req, res, next) => {
+  console.error('❌ ERRO NÃO TRATADO:', {
+    message: err.message,
+    stack: err.stack,
+    url: req.url,
+    method: req.method,
+    timestamp: new Date().toISOString()
+  });
+  
+  // Responder com erro genérico (sem expor detalhes internos)
+  res.status(500).json({
+    success: false,
+    message: 'Erro interno do servidor',
+    error: process.env.NODE_ENV === 'development' ? err.message : undefined
+  });
+});
+
+// ===== GLOBAL ERROR HANDLERS - Proteger contra crashes =====
+// Handler para Promise rejections não tratadas
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ UNHANDLED REJECTION:', {
+    reason: reason instanceof Error ? reason.message : reason,
+    promise: promise,
+    timestamp: new Date().toISOString()
+  });
+  // NÃO fazer process.exit() para manter o servidor rodando
+});
+
+// Handler para exceções não capturadas
+process.on('uncaughtException', (error) => {
+  console.error('❌ UNCAUGHT EXCEPTION:', {
+    message: error.message,
+    stack: error.stack,
+    timestamp: new Date().toISOString()
+  });
+  // NÃO fazer process.exit() para manter o servidor rodando
+});
+
+// Handler para warnings
+process.on('warning', (warning) => {
+  console.warn('⚠️ PROCESS WARNING:', {
+    name: warning.name,
+    message: warning.message,
+    code: warning.code
+  });
+});
+
+// ===== INICIALIZAÇÃO DO SERVIDOR =====
 const PORT = process.env.PORT || 3000;
 
 // Inicializar mockdb antes de ligar o servidor
@@ -547,7 +687,17 @@ const PORT = process.env.PORT || 3000;
     console.error('❌ Erro ao inicializar mockdb:', erro.message);
   }
   
-  app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
+  const server = app.listen(PORT, () => {
+    console.log(`✅ Servidor rodando na porta ${PORT}`);
+    console.log(`🛡️  Proteções de erro global ativadas`);
+  });
+  
+  // Handler para erros do servidor HTTP
+  server.on('error', (erro) => {
+    console.error('❌ ERRO DO SERVIDOR HTTP:', {
+      message: erro.message,
+      code: erro.code,
+      timestamp: new Date().toISOString()
+    });
   });
 })();

@@ -180,6 +180,25 @@ class Aluno {
     }
   }
 
+  // Atualizar turma do aluno (para entrar em turma)
+  static async atualizarTurma(id, turma_id) {
+    try {
+      if (this.useMock) throw new Error('Using mock');
+      const connection = await pool.getConnection();
+      
+      const [result] = await connection.execute(
+        'UPDATE alunos SET turma_id = ? WHERE id = ?',
+        [turma_id, id]
+      );
+      connection.release();
+      
+      return result.affectedRows > 0;
+    } catch (erro) {
+      this.useMock = true;
+      return mockdb.atualizarTurmaAluno(id, turma_id);
+    }
+  }
+
   // Adicionar saldo (para recargas)
   static async adicionarSaldo(id, valor) {
     try {
