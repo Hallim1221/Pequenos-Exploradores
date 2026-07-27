@@ -31,8 +31,8 @@ router.use((req, res, next) => {
 
 // Permite acessar seleção de série via GET também
 router.get('/dashboard', async (req, res) => {
-  // Protege rota: exige login
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session.user || tipoUsuario !== 'professor') {
     return res.redirect('/');
   }
   
@@ -87,7 +87,8 @@ router.get('/dashboard', async (req, res) => {
 
 // Dashboard do professor: seleção de série
 router.post('/dashboard', async (req, res) => {
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session.user || tipoUsuario !== 'professor') {
     return res.redirect('/');
   }
   
@@ -113,7 +114,8 @@ router.get('/area', async (req, res) => {
   console.log('🔴 Session user:', req.session?.user ? `${req.session.user.email}` : 'Não existe');
   
   // Validação mais robusta de sessão
-  if (!req.session || !req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session || !req.session.user || tipoUsuario !== 'professor') {
     console.log('🔴 Sem sessão válida, redirecionando para login');
     return res.redirect('/login');
   }
@@ -204,7 +206,8 @@ router.get('/area', async (req, res) => {
 
 // Seleção de turma após escolher série
 router.get('/serie/:serie', async (req, res) => {
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session.user || tipoUsuario !== 'professor') {
     return res.redirect('/');
   }
   
@@ -227,7 +230,8 @@ router.get('/serie/:serie', async (req, res) => {
 
 // Exibe alunos e pontuação da turma
 router.get('/serie/:serie/turma/:turmaId', async (req, res) => {
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session.user || tipoUsuario !== 'professor') {
     return res.redirect('/');
   }
   
@@ -258,7 +262,8 @@ router.get('/serie/:serie/turma/:turmaId', async (req, res) => {
 
 // Rota GET para /turmas (série padrão: 1º Ano)
 router.get('/turmas', async (req, res) => {
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session.user || tipoUsuario !== 'professor') {
     return res.redirect('/');
   }
   
@@ -279,7 +284,8 @@ router.get('/turmas', async (req, res) => {
 
 // Criação de turma do professor (POST)
 router.post('/turmas/criar', async (req, res) => {
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session.user || tipoUsuario !== 'professor') {
     return res.status(401).json({ success: false, message: 'Não autorizado' });
   }
   
@@ -309,7 +315,8 @@ router.get('/api/turmas', async (req, res) => {
   console.log('   Session ID:', req.sessionID);
   console.log('   Session user:', req.session?.user ? `${req.session.user.email} (${req.session.user.tipo})` : 'NÃO EXISTE');
   
-  if (!req.session.user || req.session.user.tipo !== 'professor') {
+  const tipoUsuario = req.session?.user?.tipo || req.session?.user?.role || req.session?.user?.type;
+  if (!req.session.user || tipoUsuario !== 'professor') {
     console.warn('⚠️ Sessão inválida em GET /professor/api/turmas');
     console.warn('   req.session.user:', req.session.user);
     console.warn('   req.session.user.tipo:', req.session?.user?.tipo);

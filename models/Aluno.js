@@ -33,7 +33,7 @@ class Aluno {
       if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       const [rows] = await connection.execute(
-        'SELECT * FROM alunos WHERE id = ?',
+        'SELECT a.*, COALESCE(a.avatar, a.Avatar) AS avatar FROM alunos a WHERE a.id = ?',
         [id]
       );
       connection.release();
@@ -268,7 +268,7 @@ class Aluno {
       if (this.useMock) throw new Error('Using mock');
       const connection = await pool.getConnection();
       const [rows] = await connection.execute(
-        'SELECT * FROM alunos WHERE turma_id = ? ORDER BY nome',
+        'SELECT a.*, COALESCE(a.avatar, a.Avatar) AS avatar FROM alunos a WHERE a.turma_id = ? ORDER BY nome',
         [turma_id]
       );
       connection.release();

@@ -105,7 +105,7 @@ class Turma extends BaseModel {
     return this.executeWithFallback(
       () => this.withConnection(async (connection) => {
         const [rows] = await connection.execute(
-          'SELECT a.* FROM alunos a WHERE a.turma_id = ?',
+          'SELECT a.*, COALESCE(a.avatar, a.Avatar) AS avatar FROM alunos a WHERE a.turma_id = ?',
           [turma_id]
         );
         return rows;

@@ -419,34 +419,25 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
       
-      // Usar método verificarSenha que suporta ambos bcrypt e texto plano
       const senhaValida = await Aluno.verificarSenha(email, senha);
       if (!senhaValida) {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
-      
-      // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
-      // This destroys the old session and creates a new one with a different ID
-      req.session.regenerate((err) => {
-        if (err) {
-          console.error('❌ Erro ao regenerar sessão:', err);
+
+      req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
+      req.session.saldo = aluno.saldo;
+      req.session.authenticated = true;
+      req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error('❌ Erro ao salvar sessão do aluno:', saveErr);
           return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
         }
-        
-        req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
-        req.session.saldo = aluno.saldo;
-        
-        // Save the new session
-        req.session.save((saveErr) => {
-          if (saveErr) {
-            console.error('❌ Erro ao salvar nova sessão:', saveErr);
-            return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
-          }
-          console.log(`✅ Sessão regenerada para aluno ${email} - Novo ID: ${req.sessionID}`);
-          return res.status(200).json({ success: true, redirect: '/aluno' });
-        });
+        console.log(`✅ Sessão atualizada para aluno ${email} - ID: ${req.sessionID}`);
+        return res.status(200).json({ success: true, redirect: '/aluno' });
       });
-      return; // Não continuar a execução aqui
+      return;
     }
 
     if (role === 'professor') {
@@ -455,32 +446,24 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
       
-      // Verificar senha com bcryptjs
       const senhaValida = await Professor.verificarSenha(email, senha);
       if (!senhaValida) {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
-      
-      // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
-      req.session.regenerate((err) => {
-        if (err) {
-          console.error('❌ Erro ao regenerar sessão:', err);
+
+      req.session.user = { tipo: 'professor', email: email, id: professor.id, nome: professor.nome, instituicao_id: professor.instituicao_id };
+      req.session.authenticated = true;
+      req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+
+      req.session.save((saveErr) => {
+        if (saveErr) {
+          console.error('❌ Erro ao salvar sessão do professor:', saveErr);
           return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
         }
-        
-        req.session.user = { tipo: 'professor', email: email, id: professor.id, nome: professor.nome, instituicao_id: professor.instituicao_id };
-        
-        // Save the new session
-        req.session.save((saveErr) => {
-          if (saveErr) {
-            console.error('❌ Erro ao salvar nova sessão:', saveErr);
-            return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
-          }
-          console.log(`✅ Sessão regenerada para professor ${email} - Novo ID: ${req.sessionID}`);
-          return res.status(200).json({ success: true, redirect: '/professor/area' });
-        });
+        console.log(`✅ Sessão atualizada para professor ${email} - ID: ${req.sessionID}`);
+        return res.status(200).json({ success: true, redirect: '/professor/area' });
       });
-      return; // Não continuar a execução aqui
+      return;
     }
 
     return res.status(400).json({ success: false, message: 'Tipo de usuário inválido' });
@@ -518,54 +501,29 @@ router.post('/aluno/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Email ou senha inválidos' });
     }
 
-    // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
-    req.session.regenerate((err) => {
-      if (err) {
-        console.error('❌ Erro ao regenerar sessão:', err);
+    req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
+    req.session.saldo = aluno.saldo;
+    req.session.authenticated = true;
+    req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+
+    let redirectPage = '/aluno-novo';
+
+    try {
+      const plano = await Aluno.buscarPlanoEscola(aluno);
+      if (plano === 'premium') {
+        redirectPage = '/aluno-premium';
+      }
+    } catch (erroBuscarPlano) {
+      // Continuar com padrão
+    }
+
+    req.session.save((saveErr) => {
+      if (saveErr) {
+        console.error('❌ Erro ao salvar sessão do aluno:', saveErr);
         return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
       }
-
-      // Fazer login com nova sessão
-      req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
-      req.session.saldo = aluno.saldo;
-
-      // Determinar para qual página redirecionar baseado no plano da escola
-      let redirectPage = '/aluno-novo'; // padrão
-      
-      // Se o aluno tem uma escola associada, verificar o plano
-      try {
-        (async () => {
-          try {
-            const plano = await Aluno.buscarPlanoEscola(aluno);
-            
-            if (plano === 'premium') {
-              redirectPage = '/aluno-premium';
-            }
-          } catch (erroBuscarPlano) {
-            // Continuar com padrão
-          }
-
-          // Save the new session
-          req.session.save((saveErr) => {
-            if (saveErr) {
-              console.error('❌ Erro ao salvar nova sessão:', saveErr);
-              return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
-            }
-            console.log(`✅ Sessão regenerada para aluno ${email} - Novo ID: ${req.sessionID}`);
-            return res.status(200).json({ success: true, redirect: redirectPage });
-          });
-        })();
-      } catch (erroBuscarPlano) {
-        // Continuar com padrão
-        req.session.save((saveErr) => {
-          if (saveErr) {
-            console.error('❌ Erro ao salvar nova sessão:', saveErr);
-            return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
-          }
-          console.log(`✅ Sessão regenerada para aluno ${email} - Novo ID: ${req.sessionID}`);
-          return res.status(200).json({ success: true, redirect: redirectPage });
-        });
-      }
+      console.log(`✅ Sessão atualizada para aluno ${email} - ID: ${req.sessionID}`);
+      return res.status(200).json({ success: true, redirect: redirectPage });
     });
   } catch (erro) {
     console.error('Erro ao fazer login:', erro);
@@ -594,29 +552,20 @@ router.post('/gestao/login', async (req, res) => {
       return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
     }
 
-    // 🔐 IMPORTANT: Regenerate session to prevent session fixation attacks
-    req.session.regenerate((err) => {
-      if (err) {
-        console.error('❌ Erro ao regenerar sessão:', err);
+    const nome = gestor.nome_contato || gestor.nome || 'Gestor';
+    const instituicao_id = gestor.instituicao_id || gestor.id;
+
+    req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome, instituicao_id: instituicao_id };
+    req.session.authenticated = true;
+    req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
+
+    req.session.save((saveErr) => {
+      if (saveErr) {
+        console.error('❌ Erro ao salvar sessão da gestão:', saveErr);
         return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
       }
-
-      // Usar nome_contato (nome completo da pessoa) como primeira opção
-      const nome = gestor.nome_contato || gestor.nome || 'Gestor';
-      // Se é uma parceria, o id é a instituicao_id; se é gestor, use o campo instituicao_id
-      const instituicao_id = gestor.instituicao_id || gestor.id;
-      
-      req.session.user = { tipo: 'gestao', email: email, id: gestor.id, nome: nome, instituicao_id: instituicao_id };
-      
-      // Save the new session
-      req.session.save((saveErr) => {
-        if (saveErr) {
-          console.error('❌ Erro ao salvar nova sessão:', saveErr);
-          return res.status(500).json({ success: false, message: 'Erro ao fazer login' });
-        }
-        console.log(`✅ Sessão regenerada para gestão ${email} - Novo ID: ${req.sessionID}`);
-        return res.status(200).json({ success: true });
-      });
+      console.log(`✅ Sessão atualizada para gestão ${email} - ID: ${req.sessionID}`);
+      return res.status(200).json({ success: true });
     });
   } catch (erro) {
     console.error('Erro ao fazer login de gestão:', erro);
@@ -657,6 +606,10 @@ router.get('/aluno-novo', async (req, res) => {
     let saldo = 700; // Padrão
     let nomeAluno = 'Explorador'; // Nome padrão
     let nomeCompletoAluno = 'Explorador'; // Nome completo padrão
+    let turma = null;
+    let professor = null;
+    let nomeEscola = 'Sua Escola'; // Fallback
+    let descricaoTurma = 'Turma'; // Fallback
     
     // Se está autenticado, buscar saldo real do BD
     if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
@@ -667,13 +620,58 @@ router.get('/aluno-novo', async (req, res) => {
         // Extrair primeiro nome (parte antes do primeiro espaço)
         nomeAluno = nomeCompletoAluno.split(' ')[0];
         req.session.saldo = saldo; // Manter session sincronizada
+
+        if (aluno.instituicao_id) {
+          const instituicaoAluno = await Parceria.buscarPorId(aluno.instituicao_id);
+          if (instituicaoAluno) {
+            nomeEscola = instituicaoAluno.nome_escola;
+          }
+        }
+        
+        // Buscar turma do aluno
+        if (aluno.turma_id) {
+          turma = await Turma.buscarPorId(aluno.turma_id);
+          if (turma) {
+            // Usar exatamente o nome cadastrado na turma pelo professor
+            descricaoTurma = (turma.nome || '').toString().trim() || (turma.ano_escolar || '').toString().trim() || 'Turma';
+            
+            // Buscar professor da turma para obter a instituição caso o aluno não tenha instituição vinculada
+            if (!nomeEscola || nomeEscola === 'Sua Escola') {
+              if (turma.professor_id) {
+                professor = await Professor.buscarPorId(turma.professor_id);
+                if (professor && professor.instituicao_id) {
+                  const instituicaoProfessor = await Parceria.buscarPorId(professor.instituicao_id);
+                  if (instituicaoProfessor) {
+                    nomeEscola = instituicaoProfessor.nome_escola;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
     
-    res.render('aluno-novo', { saldo, nomeAluno, nomeCompletoAluno });
+    res.render('aluno-novo', { 
+      saldo, 
+      nomeAluno, 
+      nomeCompletoAluno,
+      nomeEscola,
+      descricaoTurma,
+      turma,
+      professor
+    });
   } catch (erro) {
     console.error('Erro ao carregar página aluno-novo:', erro);
-    res.render('aluno-novo', { saldo: 700, nomeAluno: 'Explorador', nomeCompletoAluno: 'Explorador' });
+    res.render('aluno-novo', { 
+      saldo: 700, 
+      nomeAluno: 'Explorador', 
+      nomeCompletoAluno: 'Explorador',
+      nomeEscola: 'Sua Escola',
+      descricaoTurma: 'Turma',
+      turma: null,
+      professor: null
+    });
   }
 });
 
@@ -789,22 +787,28 @@ router.get('/adicionar-turma', async (req, res) => {
   let professor = null;
   let alunosDaTurma = [];
   let totalAlunos = 0;
+  let currentAlunoId = null;
+  let currentAlunoAvatar = null;
 
   try {
     console.log('📍 GET /adicionar-turma - Session user:', req.session.user);
     
     // Verificar se aluno está logado
     if (req.session.user && req.session.user.tipo === 'aluno') {
-      const aluno_id = req.session.user.id;
-      console.log('👨‍🎓 Carregando dados do aluno ID:', aluno_id);
+      currentAlunoId = req.session.user.id;
+      console.log('👨‍🎓 Carregando dados do aluno ID:', currentAlunoId);
       
       const Aluno = require('../models/Aluno');
       const Turma = require('../models/Turma');
       const Professor = require('../models/Professor');
 
       // Buscar dados completos do aluno
-      const aluno = await Aluno.buscarPorId(aluno_id);
+      const aluno = await Aluno.buscarPorId(currentAlunoId);
       console.log('✅ Aluno encontrado:', aluno);
+
+      if (aluno) {
+        currentAlunoAvatar = aluno.avatar || aluno.Avatar || aluno.avatar_url || aluno.avatarUrl || null;
+      }
       
       // Se aluno tem turma, buscar dados da turma
       if (aluno && aluno.turma_id) {
@@ -821,6 +825,8 @@ router.get('/adicionar-turma', async (req, res) => {
           alunosDaTurma = await Turma.listarAlunosDaTurma(aluno.turma_id);
           totalAlunos = alunosDaTurma ? alunosDaTurma.length : 0;
           console.log('👥 Total de alunos:', totalAlunos);
+          console.log('🧾 Alunos da turma (avatar data):', alunosDaTurma.map(a => ({ id: a.id, nome: a.nome, avatar: a.avatar || null, Avatar: a.Avatar || null, avatar_url: a.avatar_url || null, avatarUrl: a.avatarUrl || null })));
+          console.log('🧾 Avatar do aluno atual:', currentAlunoAvatar);
         }
       } else {
         console.log('⚠️ Aluno sem turma ou aluno não encontrado');
@@ -836,7 +842,9 @@ router.get('/adicionar-turma', async (req, res) => {
       turma: turma,
       professor: professor,
       alunosDaTurma: alunosDaTurma,
-      totalAlunos: totalAlunos
+      totalAlunos: totalAlunos,
+      currentAlunoId: currentAlunoId,
+      currentAlunoAvatar: currentAlunoAvatar
     });
   } catch (erro) {
     console.error('❌ Erro ao carregar turma do aluno:', erro);
@@ -845,7 +853,9 @@ router.get('/adicionar-turma', async (req, res) => {
       turma: null,
       professor: null,
       alunosDaTurma: [],
-      totalAlunos: 0
+      totalAlunos: 0,
+      currentAlunoId: null,
+      currentAlunoAvatar: null
     });
   }
 });

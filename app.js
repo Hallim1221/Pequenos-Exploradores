@@ -42,37 +42,39 @@ app.use(session({
   name: 'sessionId' // Nome customizado do cookie
 }));
 
-// Middleware para renovar sessão a cada requisição autenticada
+// Middleware para normalizar e renovar sessão a cada requisição autenticada
 app.use((req, res, next) => {
-  if (req.session && req.session.user) {
-    // Renovar a sessão imediatamente
-    req.session.touch();
-    
-    // Guardar informações originais da sessão para validação
-    const originalUser = JSON.parse(JSON.stringify(req.session.user)); // Deep copy
-    const originalUserType = req.session.user.tipo;
-    const originalSessionID = req.sessionID;
-    
-    // Renovar maxAge para estender a vida útil da sessão (24 horas)
+  if (req.session) {
     req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
-    
-    // Garantir que institutição_id existe para professores
-    if (req.session.user.tipo === 'professor' && !req.session.user.instituicao_id) {
-      req.session.user.instituicao_id = 1;
-      console.warn('⚠️ Adicionado instituicao_id padrão para professor:', req.session.user.email);
+
+    if (req.session.user && typeof req.session.user === 'object') {
+      const user = req.session.user;
+      const normalizedType = user.tipo || user.role || user.type;
+
+      if (normalizedType && !user.tipo) {
+        user.tipo = normalizedType;
+      }
+
+      if (user.tipo === 'professor' && !user.instituicao_id) {
+        user.instituicao_id = 1;
+      }
+
+      req.session.touch();
+
+      const originalUser = JSON.parse(JSON.stringify(user));
+      const originalUserType = user.tipo;
+      const originalSessionID = req.sessionID;
+
+      req.originalSessionInfo = {
+        user: originalUser,
+        userType: originalUserType,
+        sessionID: originalSessionID
+      };
+
+      req.session.save((err) => {
+        if (err) console.error('❌ Erro ao salvar sessão renovada:', err);
+      });
     }
-    
-    // Guardar no req para usar no final
-    req.originalSessionInfo = {
-      user: originalUser,
-      userType: originalUserType,
-      sessionID: originalSessionID
-    };
-    
-    // ✅ IMPORTANTE: SALVAR SESSÃO APÓS RENOVAR
-    req.session.save((err) => {
-      if (err) console.error('❌ Erro ao salvar sessão renovada:', err);
-    });
   }
   next();
 });

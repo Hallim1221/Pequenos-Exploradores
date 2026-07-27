@@ -618,7 +618,7 @@
     <% if (turma && professor) { %>
       <article class="turma-card" onclick="goto('page-turma-detalhe')">
         <header class="turma-card-top">
-          <h3 class="turma-card-name">Séries – <%= turma.ano_escolar %>º Ano <% if (turma.nome) { %><%= turma.nome.replace(/.*([A-Z])$/, '$1') %><% } %></h3>
+          <h3 class="turma-card-name">Séries – <%= (turma.nome || '').toString().trim() || (turma.ano_escolar || '').toString().trim() || 'Turma' %></h3>
           <p class="turma-card-sub">Prof<%= professor.nome.includes('a') ? 'ª' : '.' %> <%= professor.nome %></p>
         </header>
         <footer class="turma-card-bottom">
@@ -635,7 +635,7 @@
       <!-- Turma mockada (fallback quando não temos dados) -->
       <article class="turma-card" onclick="goto('page-turma-detalhe')">
         <header class="turma-card-top">
-          <h3 class="turma-card-name">Séries – 5º Ano D</h3>
+          <h3 class="turma-card-name">Séries – Turma</h3>
           <p class="turma-card-sub">Prof.ª Izabel Santos Soares</p>
         </header>
         <footer class="turma-card-bottom">
@@ -652,8 +652,8 @@
 
     <!-- Adicionar nova turma -->
     <button class="add-turma-card" onclick="openModal()">
-      <span class="add-icon">➕</span>
-      <p>Entrar em uma turma</p>
+      <span class="add-icon">🔃</span>
+      <p>Trocar Turma</p>
       <span style="font-size:0.82rem;color:var(--gray);">Use o código da sua professora</span>
     </button>
   </section>
@@ -680,10 +680,10 @@
   <header class="turma-detail-header">
     <hgroup>
       <% if (turma && professor) { %>
-        <h2>Séries – <%= turma.ano_escolar %>º Ano <% if (turma.nome) { %><%= turma.nome.replace(/.*([A-Z])$/, '$1') %><% } %></h2>
+        <h2>Séries – <%= (turma.nome || '').toString().trim() || (turma.ano_escolar || '').toString().trim() || 'Turma' %></h2>
         <p>Prof<%= professor.nome.includes('a') ? 'ª' : '.' %> <%= professor.nome %> • <%= totalAlunos %> estudantes</p>
       <% } else { %>
-        <h2>Séries – 5º Ano D</h2>
+        <h2>Séries – Turma</h2>
         <p>Prof.ª Izabel Santos Soares • 28 estudantes</p>
       <% } %>
     </hgroup>
@@ -752,59 +752,88 @@
   <section id="sub-pessoas" style="display:none; padding:0 24px;">
     <article class="pessoas-section">
       <h3 class="pessoas-label">Educadores</h3>
-      <article class="pessoa-card\">
-        <span class=\"pessoa-avatar\">👩‍🏫</span>
+      <article class="pessoa-card">
+        <span class="pessoa-avatar">
+          <% if (professor && professor.nome) { %>
+            <span><%= professor.nome.split(' ').slice(0, 2).map(n => n.charAt(0).toUpperCase()).join('') %></span>
+          <% } else { %>
+            <span>PR</span>
+          <% } %>
+        </span>
         <span>
-          <h4 class=\"pessoa-name\">Izabel Santos Soares</h4>
-          <p class=\"pessoa-meta\">Professora responsável</p>
+          <h4 class="pessoa-name"><%= professor ? professor.nome : 'Professora responsável' %></h4>
+          <p class="pessoa-meta"></p>
         </span>
       </article>
 
       <h3 class="pessoas-label" style="margin-top:20px;">Estudantes</h3>
-      <article class="pessoa-card" style="border:2px solid var(--green-main); background:var(--green-pale);">
-        <span class="pessoa-avatar">🐻</span>
-        <span>
-          <h4 class="pessoa-name">Lorena Amorim Gomes</h4>
-          <p class="pessoa-meta">Você • 320 XP</p>
-        </span>
-        <aside class="pessoa-xp">
+      <% if (alunosDaTurma && alunosDaTurma.length > 0) { %>
+        <% alunosDaTurma.forEach(function(alunoItem, index) { %>
+          <% 
+            var isCurrentAluno = typeof currentAlunoId !== 'undefined' && currentAlunoId !== null ? alunoItem.id === currentAlunoId : index === 0;
+            var defaultAvatars = ['/img/tcc.img/animal2.png', '/img/tcc.img/animal3.png', '/img/tcc.img/animal4.png', '/img/tcc.img/animal5.png', '/img/tcc.img/animal6.png', '/img/tcc.img/animal7.png', '/img/tcc.img/animal8.png'];
+            var avatarValor = alunoItem.avatar || alunoItem.Avatar || alunoItem.avatar_url || alunoItem.avatarUrl || null;
+            var avatarPath = avatarValor ? (avatarValor.startsWith('/') || avatarValor.startsWith('http') || avatarValor.startsWith('data:') ? avatarValor : '/img/tcc.img/' + avatarValor) : defaultAvatars[index % defaultAvatars.length];
+            var alunoInitials = (alunoItem.nome || 'Aluno').split(' ').slice(0, 2).map(function(p) { return p.charAt(0).toUpperCase(); }).join('');
+          %>
+          <article class="pessoa-card <%= isCurrentAluno ? 'current-student' : '' %>" data-current-student="<%= isCurrentAluno ? 'true' : 'false' %>">
+            <span class="pessoa-avatar" style="overflow:hidden; display:flex; align-items:center; justify-content:center;">
+              <% if (avatarPath) { %>
+                <img src="<%= avatarPath %>" alt="Avatar de <%= alunoItem.nome || 'Estudante' %>" class="pessoa-avatar-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" />
+              <% } else { %>
+                <span><%= alunoInitials %></span>
+              <% } %>
+            </span>
+            <span>
+              <h4 class="pessoa-name"><%= alunoItem.nome || 'Estudante' %></h4>
+              <p class="pessoa-meta"><%= isCurrentAluno ? 'Você' : 'Aluno da turma' %></p>
+            </span>
+            <% if (isCurrentAluno) { %>
+              <aside class="pessoa-xp">
+                <span>
+                  <progress class="progress-mini" style="width:32%"><span class="progress-fill" style="width:32%"></span></progress>
+                  <span style="font-size:0.72rem;color:var(--gray);margin-top:2px;">32/100</span>
+                </span>
+                <span class="xp-mini">⭐ 320</span>
+              </aside>
+            <% } %>
+          </article>
+        <% }); %>
+      <% } else { %>
+        <article class="pessoa-card">
+          <span class="pessoa-avatar">👥</span>
           <span>
-            <progress class="progress-mini" style="width:32%"><span class="progress-fill" style="width:32%"></span></progress>
-            <span style="font-size:0.72rem;color:var(--gray);margin-top:2px;">32/100</span>
+            <h4 class="pessoa-name">Nenhum estudante encontrado</h4>
+            <p class="pessoa-meta">Entre em contato com sua professora</p>
           </span>
-          <span class="xp-mini">⭐ 320</span>
-        </aside>
-      </article>
-      <article class="pessoa-card">
-        <span class="pessoa-avatar">🦊</span>
-        <span>
-          <h4 class="pessoa-name">Lucas Oliveira</h4>
-          <p class="pessoa-meta">15.000 XP</p>
-        </span>
-        <aside class="pessoa-xp">
-          <span>
-            <progress class="progress-mini" style="width:50%"><span class="progress-fill" style="width:50%"></span></progress>
-            <span style="font-size:0.72rem;color:var(--gray);margin-top:2px;">50/100</span>
-          </span>
-          <span class="xp-mini">⭐ 15k</span>
-        </aside>
-      </article>
-      <article class="pessoa-card">
-        <span class="pessoa-avatar">🦋</span>
-        <span>
-          <h4 class="pessoa-name">Ana Carolina Silva</h4>
-          <p class="pessoa-meta">9.200 XP</p>
-        </span>
-        <aside class="pessoa-xp">
-          <span>
-            <progress class="progress-mini" style="width:70%"><span class="progress-fill" style="width:70%"></span></progress>
-            <span style="font-size:0.72rem;color:var(--gray);margin-top:2px;">70/100</span>
-          </span>
-          <span class="xp-mini">⭐ 9.2k</span>
-        </aside>
-      </article>
+        </article>
+      <% } %>
     </article>
   </section>
+  <script>
+    function atualizarAvatarAtual() {
+      var savedAvatar = localStorage.getItem('alunoAvatarSelecionado') || localStorage.getItem('avatar_usuario');
+      var currentCardAvatar = document.querySelector('.pessoas-section article.pessoa-card[data-current-student="true"] .pessoa-avatar-img');
+      if (!currentCardAvatar) return;
+      if (savedAvatar) {
+        currentCardAvatar.src = savedAvatar;
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var currentCardAvatar = document.querySelector('.pessoas-section article.pessoa-card[data-current-student="true"] .pessoa-avatar-img');
+      if (currentCardAvatar && !currentCardAvatar.dataset.originalSrc) {
+        currentCardAvatar.dataset.originalSrc = currentCardAvatar.src;
+      }
+      atualizarAvatarAtual();
+    });
+
+    window.addEventListener('storage', function(event) {
+      if (event.key === 'alunoAvatarSelecionado' || event.key === 'avatar_usuario') {
+        atualizarAvatarAtual();
+      }
+    });
+  </script>
 </section>
 
 <!-- ════════════════════════════════════════ -->
