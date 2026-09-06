@@ -705,39 +705,65 @@
 
   <!-- Sub-tab: Atividades -->
   <section id="sub-atividades-turma" class="atividades-grid" style="display:grid;">
-    <article class="atividade-card" onclick="goto('page-atividades')">
-      <header class="atividade-top">
-        <span class="atividade-emoji">🦜</span>
-        <span>
-          <h3 class="atividade-title">Quiz: Animais do Brasil</h3>
-          <p class="atividade-desc">Descubra curiosidades sobre a fauna brasileira!</p>
-        </span>
-      </header>
-      <footer class="atividade-bottom">
-        <aside>
-          <span class="stars">★★★☆☆</span>
-          <span class="difficulty">Intermediário</span>
-        </aside>
-        <button class="btn-jogar">🎮 Jogar</button>
-      </footer>
-    </article>
-    <article class="atividade-card" onclick="goto('page-atividades')">
-      <header class="atividade-top">
-        <span class="atividade-emoji">🌍</span>
-        <span>
-          <h3 class="atividade-title">Quiz: Biomas do Mundo</h3>
-          <p class="atividade-desc">Florestas, desertos, oceanos e mais!</p>
-        </span>
-      </header>
-      <footer class="atividade-bottom">
-        <aside>
-          <span class="stars">★★☆☆☆</span>
-          <span class="difficulty">Fácil</span>
-        </aside>
-        <button class="btn-jogar">🎮 Jogar</button>
-      </footer>
-    </article>
+    <article id="atividades-turma-loading" style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Carregando atividades...</article>
   </section>
+
+  <script>
+    function loadTurmaAtividades(){
+      const turmaId = <%= turma ? turma.id : 'null' %>;
+      const container = document.getElementById('sub-atividades-turma');
+      if (!container) return;
+
+      if (!turmaId) {
+        container.innerHTML = '<article style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Turma inválida</article>';
+        return;
+      }
+
+      fetch(`/api/atividades/turma/${turmaId}`, { credentials: 'same-origin' })
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.success || !data.atividades || data.atividades.length === 0) {
+            container.innerHTML = '<article style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Nenhuma atividade publicada para esta turma.</article>';
+            return;
+          }
+
+          container.innerHTML = data.atividades.map(item => `
+            <article class="atividade-card">
+              <header class="atividade-top">
+                <span class="atividade-emoji">📋</span>
+                <span>
+                  <h3 class="atividade-title">${item.atividade.titulo}</h3>
+                  <p class="atividade-desc">${item.atividade.descricao || ''}</p>
+                </span>
+              </header>
+              <footer class="atividade-bottom">
+                <aside>
+                  <span class="stars">Publicado em ${new Date(item.postagem.criado_em).toLocaleDateString()}</span>
+                </aside>
+                <button class="btn-jogar" onclick="location.href='/atividade/${item.atividade.id}'">🎮 Jogar</button>
+              </footer>
+            </article>
+          `).join('');
+        })
+        .catch(err => {
+          console.error('Erro carregar atividades:', err);
+          container.innerHTML = '<article style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Erro ao carregar atividades.</article>';
+        });
+    }
+
+    window.loadTurmaAtividades = loadTurmaAtividades;
+
+    (function(){
+      loadTurmaAtividades();
+      window.addEventListener('atividade-publicada', function(event){
+        const turmaIdEvento = event && event.detail && event.detail.turmaId;
+        const turmaAtual = <%= turma ? turma.id : 'null' %>;
+        if (turmaIdEvento && Number(turmaIdEvento) === Number(turmaAtual)) {
+          loadTurmaAtividades();
+        }
+      });
+    })();
+  </script>
 
   <!-- Sub-tab: Mural -->
   <section id="sub-mural" style="display:none; padding:0 24px;">

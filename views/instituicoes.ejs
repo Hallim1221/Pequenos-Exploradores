@@ -191,7 +191,9 @@ function openAluno(){document.getElementById('modalAluno').classList.add('open')
 function closeAluno(){document.getElementById('modalAluno').classList.remove('open'); document.getElementById('formAdicionarAluno').reset(); document.getElementById('mensagemAluno').style.display='none';}
 function abrirModalLogoutEquipe() {var modal = document.getElementById('modal-logout-equipe'); if(modal) modal.style.display = 'flex';}
 function fecharModalLogoutEquipe() {var modal = document.getElementById('modal-logout-equipe'); if(modal) modal.style.display = 'none';}
-function confirmarLogoutEquipe() {window.location.href = '/logout';}
+function confirmarLogoutEquipe() {
+  window.location.href = '/logout';
+}
 
 // Função para cadastrar turma
 function cadastrarTurma() {
@@ -1010,11 +1012,11 @@ async function enviarMensagemChat() {
   <section style="background:linear-gradient(120deg,#fff 80%,#e0f7fa 100%); border-radius:28px; box-shadow:0 8px 32px #00CFFF44; padding:2.2em 2em 1.7em 2em; max-width:340px; width:90vw; text-align:center; position:relative; animation:fadeInUp 0.4s;">
     <h2 style="color:#0076CA; font-family:'Fredoka','Baloo 2',cursive; font-size:1.25em; font-weight:900; margin-bottom:1.2em;">Deseja mesmo sair?</h2>
     <p style="color:#1ec773; font-size:1.08em; font-weight:700; margin-bottom:1.7em;">Você será desconectado da sua conta.</p>
-    <section style="display:flex; gap:1.2em; justify-content:center;">
-      <button onclick="confirmarLogoutEquipe()" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+    <section style="display:flex; gap:1.2em; justify-content:center; margin:0;">
+      <button type="button" onclick="window.location.replace('/logout')" style="background:linear-gradient(90deg,#00CFFF 0%,#1ec773 100%); color:#fff; font-weight:900; border:none; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 12px #00CFFF33; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
         Sim
       </button>
-      <button onclick="fecharModalLogoutEquipe()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
+      <button type="button" onclick="fecharModalLogoutEquipe()" style="background:#fff; color:#0076CA; font-weight:900; border:2px solid #00CFFF; border-radius:16px; padding:0.7em 2.2em; font-size:1.08em; box-shadow:0 2px 8px #00CFFF22; cursor:pointer; letter-spacing:0.04em; transition:background 0.18s,transform 0.18s; text-transform:uppercase;">
         Não
       </button>
     </section>

@@ -44,7 +44,7 @@ class Turma extends BaseModel {
       () => {
         console.log('🔍 MockDB listarPorProfessor (compatibilidade):');
         console.log('   Professor ID:', professor_id);
-        const filtered = this.turmas.filter(t => t.professor_id === parseInt(professor_id));
+        const filtered = mockdb.turmas.filter(t => t.professor_id === parseInt(professor_id));
         return filtered;
       }
     );

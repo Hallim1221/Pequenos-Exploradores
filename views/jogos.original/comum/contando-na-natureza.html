@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Contando na Natureza — Pequenos Exploradores</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Quicksand:wght@500;600;700&display=swap');
+
+  :root{
+    --sky-top:#bdeeff;
+    --sky-bot:#eafcff;
+    --grass-dark:#3f7a3c;
+    --grass-mid:#63a94a;
+    --grass-light:#9fdc7c;
+    --trunk:#8c5a3a;
+    --trunk-dark:#6e4229;
+    --sun:#ffd34e;
+    --cream:#fffdf6;
+    --ink:#3a4a2f;
+    --ink-soft:#5c6b4c;
+    --brown-head:#6b4226;
+    --coral:#ff8a65;
+    --coral-dark:#f26a45;
+    --berry:#e8435a;
+    --shadow-soft:0 10px 24px rgba(60,90,40,.18);
+    --shadow-btn:0 6px 0 rgba(0,0,0,.15);
+    --radius-lg:32px;
+    --radius-md:22px;
+    --radius-sm:14px;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{
+    margin:0;padding:0;height:100%;
+    font-family:'Quicksand',sans-serif;
+    color:var(--ink);
+    overflow-x:hidden;
+  }
+  body{
+    min-height:100vh;
+    background:linear-gradient(180deg,var(--sky-top) 0%, var(--sky-bot) 55%, #eafcff 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:clamp(10px,3vw,28px);
+    position:relative;
+  }
+  h1,h2,h3,.display{font-family:'Baloo 2',cursive;}
+  button{font-family:'Quicksand',sans-serif;cursor:pointer;border:none;outline:none;}
+  button:focus-visible, .opt-btn:focus-visible{outline:3px solid #2f6fb3;outline-offset:3px;}
+
+  /* ---------- decorative background ---------- */
+  .bg-deco{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0;}
+  .cloud{
+    position:absolute;background:#fff;border-radius:50px;opacity:.9;
+    box-shadow:0 6px 0 rgba(255,255,255,.5);
+    animation:drift 40s linear infinite;
+  }
+  .cloud:before,.cloud:after{content:"";position:absolute;background:#fff;border-radius:50%;}
+  .cloud1{width:90px;height:34px;top:6%;left:-10%;}
+  .cloud1:before{width:50px;height:50px;top:-24px;left:10px;}
+  .cloud1:after{width:38px;height:38px;top:-16px;left:50px;}
+  .cloud2{width:70px;height:26px;top:16%;left:-15%;animation-duration:55s;animation-delay:-10s;}
+  .cloud2:before{width:38px;height:38px;top:-18px;left:8px;}
+  .cloud2:after{width:28px;height:28px;top:-12px;left:36px;}
+  .cloud3{width:60px;height:22px;top:9%;left:-20%;animation-duration:70s;animation-delay:-30s;}
+  .cloud3:before{width:32px;height:32px;top:-15px;left:6px;}
+  .cloud3:after{width:24px;height:24px;top:-10px;left:30px;}
+  @keyframes drift{from{transform:translateX(0);}to{transform:translateX(130vw);}}
+  .sun-deco{
+    position:absolute;top:-40px;right:-40px;width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle at 35% 35%,#fff0b8,var(--sun) 70%);
+    box-shadow:0 0 0 14px rgba(255,211,78,.25);
+    animation:pulse 5s ease-in-out infinite;
+  }
+  @keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+  .hill{position:absolute;bottom:-6%;left:-10%;width:130%;height:22%;background:var(--grass-light);border-radius:50% 50% 0 0/100% 100% 0 0;opacity:.55;}
+  .hill2{position:absolute;bottom:-8%;left:-5%;width:120%;height:16%;background:var(--grass-mid);border-radius:50% 50% 0 0/100% 100% 0 0;opacity:.5;}
+
+  /* ---------- app shell / cards ---------- */
+  .app{
+    position:relative;z-index:1;
+    width:min(760px,100%);
+  }
+  .card{
+    background:var(--cream);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-soft);
+    padding:clamp(20px,4vw,40px);
+    position:relative;
+    overflow:hidden;
+  }
+  .card:before{
+    content:"";position:absolute;top:0;left:0;right:0;height:10px;
+    background:linear-gradient(90deg,var(--coral),var(--sun),var(--grass-mid),#6fb7d6,var(--coral));
+    background-size:300% 100%;
+    animation:rainbow 8s linear infinite;
+  }
+  @keyframes rainbow{to{background-position:300% 0;}}
+
+  /* ---------- buttons (shared visual language) ---------- */
+  .btn{
+    font-family:'Baloo 2',cursive;
+    font-weight:700;
+    border-radius:999px;
+    padding:16px 34px;
+    font-size:clamp(1.05rem,2.4vw,1.3rem);
+    color:#fff;
+    background:var(--coral);
+    box-shadow:0 6px 0 var(--coral-dark);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn:hover{transform:translateY(-2px);}
+  .btn:active{transform:translateY(4px);box-shadow:0 2px 0 var(--coral-dark);}
+  .btn.secondary{
+    background:#eef6e6;color:var(--ink);
+    box-shadow:0 6px 0 #cfe0bd;
+  }
+  .btn.secondary:active{box-shadow:0 2px 0 #cfe0bd;}
+  .icon-btn{
+    width:46px;height:46px;border-radius:50%;
+    background:#eef6e6;box-shadow:0 4px 0 #cfe0bd;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.2rem;color:var(--ink);
+    transition:transform .12s ease;
+  }
+  .icon-btn:active{transform:translateY(3px);box-shadow:none;}
+
+  /* ================= START SCREEN ================= */
+  #start-screen .art{
+    display:flex;justify-content:center;margin-bottom:6px;
+  }
+  #start-screen h1{
+    text-align:center;font-size:clamp(1.8rem,5vw,2.6rem);
+    color:var(--brown-head);margin:6px 0 4px;
+  }
+  #start-screen p.subtitle{
+    text-align:center;color:var(--ink-soft);font-weight:600;
+    font-size:clamp(.95rem,2.4vw,1.15rem);margin:0 0 22px;
+  }
+  .start-cta{display:flex;justify-content:center;}
+  .badge-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:18px 0 26px;}
+  .badge{
+    background:#eef6e6;border-radius:999px;padding:8px 16px;
+    font-size:.85rem;font-weight:700;color:var(--ink-soft);
+    display:flex;align-items:center;gap:6px;
+  }
+
+  /* ================= GAME HEADER ================= */
+  .game-header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+  .header-left,.header-right{display:flex;align-items:center;gap:10px;}
+  .points-pill{
+    background:var(--sun);color:#5b4200;font-family:'Baloo 2',cursive;font-weight:700;
+    border-radius:999px;padding:9px 18px;font-size:1rem;box-shadow:0 4px 0 #e0ab1f;
+    display:flex;align-items:center;gap:6px;white-space:nowrap;
+  }
+  .level-label{font-weight:700;color:var(--ink-soft);font-size:.95rem;white-space:nowrap;}
+
+  /* ---- leaf vine progress trail (signature element) ---- */
+  .vine-wrap{margin:4px 0 22px;position:relative;}
+  .vine-track{
+    position:relative;height:34px;
+    display:flex;align-items:center;
+  }
+  .vine-line{
+    position:absolute;left:14px;right:14px;top:50%;height:6px;
+    background:#dbe9cf;border-radius:6px;transform:translateY(-50%);
+  }
+  .vine-fill{
+    position:absolute;left:14px;top:50%;height:6px;background:var(--grass-mid);
+    border-radius:6px;transform:translateY(-50%);width:0%;
+    transition:width .5s ease;
+  }
+  .leaf-dots{position:relative;display:flex;justify-content:space-between;width:100%;z-index:1;}
+  .leaf-dot{
+    width:18px;height:18px;border-radius:50% 50% 50% 0;
+    background:#dbe9cf;border:2px solid #c7dcb4;transform:rotate(45deg);
+    transition:background .3s ease, border-color .3s ease, transform .3s ease;
+  }
+  .leaf-dot.done{background:var(--grass-mid);border-color:var(--grass-dark);}
+  .leaf-dot.current{background:var(--sun);border-color:#e0ab1f;transform:rotate(45deg) scale(1.3);}
+  .ladybug{
+    position:absolute;top:-13px;width:20px;height:20px;transition:left .5s ease;
+    filter:drop-shadow(0 2px 2px rgba(0,0,0,.2));
+  }
+
+  /* ================= SCENE / COUNTING AREA ================= */
+  .scene-frame{
+    position:relative;
+    border-radius:var(--radius-md);
+    min-height:210px;
+    padding:26px 18px 20px;
+    margin-bottom:20px;
+    display:flex;flex-wrap:wrap;align-content:center;justify-content:center;
+    gap:8px;
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .scene-frame .scene-deco{position:absolute;inset:0;z-index:0;pointer-events:none;}
+  .scene-frame .items-layer{position:relative;z-index:1;display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:6px;width:100%;}
+  .scene-label{
+    position:absolute;top:10px;left:14px;z-index:2;
+    background:rgba(255,255,255,.85);border-radius:999px;padding:4px 12px;
+    font-size:.72rem;font-weight:700;color:var(--ink-soft);letter-spacing:.02em;
+    text-transform:uppercase;
+  }
+
+  /* scene skins */
+  .scene-tree{background:linear-gradient(180deg,#eaf7dd,#d8efc4);}
+  .scene-bush{background:linear-gradient(180deg,#e6f6da,#d2eabb);}
+  .scene-basket{background:linear-gradient(180deg,#fdf2df,#f6e2b8);}
+  .scene-garden{background:linear-gradient(180deg,#e3f6ea,#c9ecd6);}
+  .scene-field{background:linear-gradient(180deg,#f3f8dd,#e4f0bd);}
+  .scene-forest{background:linear-gradient(180deg,#dff2e0,#bfe4c2);}
+  .scene-patch{background:linear-gradient(180deg,#eef8e1,#dcefc0);}
+  .scene-final{background:linear-gradient(180deg,#dff3f7,#e9f6d8);}
+
+  .scene-deco svg{position:absolute;}
+  .fruit-item{
+    animation:pop .35s ease both;
+    filter:drop-shadow(0 3px 2px rgba(0,0,0,.12));
+  }
+  @keyframes pop{from{transform:scale(0) rotate(-10deg);opacity:0;}to{transform:scale(1) rotate(var(--r,0deg));opacity:1;}}
+  .fruit-item.sway{animation:pop .35s ease both, sway 3.2s ease-in-out .35s infinite;}
+  @keyframes sway{0%,100%{transform:rotate(var(--r,0deg));}50%{transform:rotate(calc(var(--r,0deg) + 4deg));}}
+
+  /* ================= QUESTION + OPTIONS ================= */
+  .question{
+    text-align:center;font-family:'Baloo 2',cursive;font-weight:700;
+    font-size:clamp(1.1rem,3vw,1.5rem);color:var(--brown-head);
+    margin:6px 0 18px;
+  }
+  .options-row{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  }
+  .opt-btn{
+    font-family:'Baloo 2',cursive;font-weight:800;font-size:clamp(1.4rem,4vw,2rem);
+    background:#fff;color:var(--brown-head);
+    border:3px solid #e7e0cf;border-radius:var(--radius-sm);
+    padding:16px 8px;box-shadow:0 5px 0 #e7e0cf;
+    transition:transform .1s ease, box-shadow .1s ease, background .2s ease, border-color .2s ease;
+    min-height:64px;
+  }
+  .opt-btn:hover{transform:translateY(-2px);}
+  .opt-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #e7e0cf;}
+  .opt-btn.correct{
+    background:#dff4d9;border-color:var(--grass-mid);color:var(--grass-dark);
+    animation:bounce .5s ease;
+  }
+  .opt-btn.wrong{
+    background:#fde3df;border-color:var(--berry);color:var(--berry);
+    animation:shake .4s ease;
+  }
+  @keyframes bounce{0%,100%{transform:translateY(0);}30%{transform:translateY(-10px);}60%{transform:translateY(2px);}}
+  @keyframes shake{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+  .feedback-toast{
+    text-align:center;font-family:'Baloo 2',cursive;font-weight:700;
+    font-size:clamp(1rem,2.6vw,1.25rem);
+    min-height:1.6em;margin-top:14px;
+    color:var(--grass-dark);
+    opacity:0;transform:translateY(6px);
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .feedback-toast.show{opacity:1;transform:translateY(0);}
+  .feedback-toast.bad{color:var(--coral-dark);}
+
+  .game-footer{display:flex;justify-content:space-between;align-items:center;margin-top:22px;}
+
+  /* ================= FINAL SCREEN ================= */
+  #final-screen{text-align:center;}
+  #final-screen h2{font-size:clamp(1.8rem,5vw,2.4rem);color:var(--brown-head);margin:6px 0;}
+  .final-stats{
+    display:flex;justify-content:center;gap:14px;margin:22px 0;flex-wrap:wrap;
+  }
+  .stat-card{
+    background:#eef6e6;border-radius:var(--radius-sm);padding:14px 22px;min-width:120px;
+  }
+  .stat-card .num{font-family:'Baloo 2',cursive;font-weight:800;font-size:1.7rem;color:var(--grass-dark);display:block;}
+  .stat-card .lbl{font-size:.8rem;color:var(--ink-soft);font-weight:700;}
+  .final-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:8px;}
+  .confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden;}
+  .confetti span{
+    position:absolute;top:-20px;width:10px;height:14px;border-radius:2px;
+    animation:fall 3.2s linear forwards;
+  }
+  @keyframes fall{to{transform:translateY(420px) rotate(360deg);opacity:.2;}}
+
+  .hidden{display:none !important;}
+
+  @media (max-width:480px){
+    .options-row{gap:10px;}
+    .opt-btn{padding:14px 6px;min-height:56px;}
+    .scene-frame{min-height:170px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-deco">
+  <div class="hill2"></div>
+  <div class="hill"></div>
+  <div class="sun-deco"></div>
+  <div class="cloud cloud1"></div>
+  <div class="cloud cloud2"></div>
+  <div class="cloud cloud3"></div>
+</div>
+
+<div class="app">
+
+  <!-- ================= START SCREEN ================= -->
+  <section id="start-screen" class="card">
+    <div class="art" aria-hidden="true">
+      <svg width="120" height="120" viewBox="0 0 120 120">
+        <ellipse cx="60" cy="106" rx="34" ry="7" fill="#000" opacity=".08"/>
+        <rect x="52" y="60" width="16" height="40" rx="6" fill="#8c5a3a"/>
+        <g>
+          <circle cx="60" cy="40" r="34" fill="#63a94a"/>
+          <circle cx="36" cy="34" r="20" fill="#63a94a"/>
+          <circle cx="84" cy="34" r="20" fill="#63a94a"/>
+          <circle cx="60" cy="16" r="20" fill="#63a94a"/>
+        </g>
+        <circle cx="46" cy="46" r="9" fill="#f0563f"/>
+        <circle cx="70" cy="38" r="9" fill="#f5943b"/>
+        <circle cx="58" cy="58" r="9" fill="#e8435a"/>
+      </svg>
+    </div>
+    <h1>Contando na Natureza</h1>
+    <p class="subtitle">Conte os elementos e descubra o número correto!</p>
+    <div class="badge-row">
+      <span class="badge">🌱 15 níveis</span>
+      <span class="badge">🍎 Sem digitar</span>
+      <span class="badge">⭐ Feedback amigável</span>
+    </div>
+    <div class="start-cta">
+      <button class="btn" id="btn-start">COMEÇAR</button>
+    </div>
+  </section>
+
+  <!-- ================= GAME SCREEN ================= -->
+  <section id="game-screen" class="card hidden">
+    <div class="game-header">
+      <div class="header-left">
+        <button class="icon-btn" id="btn-back" title="Voltar aos jogos" aria-label="Voltar">←</button>
+        <span class="level-label" id="level-label">Nível 1 de 15</span>
+      </div>
+      <div class="header-right">
+        <span class="points-pill" id="points-pill">⭐ Pontos: 0</span>
+        <button class="icon-btn" id="btn-sound" title="Som" aria-label="Alternar som">🔊</button>
+      </div>
+    </div>
+
+    <div class="vine-wrap">
+      <div class="vine-track">
+        <div class="vine-line"></div>
+        <div class="vine-fill" id="vine-fill"></div>
+        <div class="leaf-dots" id="leaf-dots"></div>
+        <svg class="ladybug" id="ladybug" viewBox="0 0 20 20" style="left:0%">
+          <ellipse cx="10" cy="11" rx="7" ry="6" fill="#e8435a"/>
+          <path d="M10 5 a7 6 0 0 1 0 12 Z" fill="#c22e42"/>
+          <line x1="10" y1="5" x2="10" y2="17" stroke="#3a2020" stroke-width="1"/>
+          <circle cx="6" cy="4.5" r="2" fill="#3a2020"/>
+          <circle cx="14" cy="4.5" r="2" fill="#3a2020"/>
+          <circle cx="6.5" cy="9" r="1.1" fill="#3a2020"/>
+          <circle cx="8" cy="13" r="1.1" fill="#3a2020"/>
+          <circle cx="13" cy="10" r="1.1" fill="#3a2020"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="scene-frame" id="scene-frame">
+      <span class="scene-label" id="scene-label">Árvore</span>
+      <div class="scene-deco" id="scene-deco"></div>
+      <div class="items-layer" id="items-layer"></div>
+    </div>
+
+    <p class="question" id="question">Quantas maçãs existem?</p>
+    <div class="options-row" id="options-row"></div>
+    <p class="feedback-toast" id="feedback-toast"></p>
+  </section>
+
+  <!-- ================= FINAL SCREEN ================= -->
+  <section id="final-screen" class="card hidden">
+    <div class="confetti" id="confetti"></div>
+    <div class="art" aria-hidden="true">
+      <svg width="110" height="110" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="50" fill="#ffd34e"/>
+        <path d="M40 62 l14 14 l28 -30" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Parabéns!</h2>
+    <p class="subtitle">Você completou todos os desafios de contagem!</p>
+    <div class="final-stats">
+      <div class="stat-card"><span class="num" id="final-points">0</span><span class="lbl">PONTOS</span></div>
+      <div class="stat-card"><span class="num">15/15</span><span class="lbl">NÍVEIS</span></div>
+    </div>
+    <div class="final-actions">
+      <button class="btn" id="btn-replay">Jogar novamente</button>
+      <button class="btn secondary" id="btn-back2">Voltar aos jogos</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* =====================================================
+   FRUTAS — geradores de SVG cartoon (sem fotos/emojis)
+   ===================================================== */
+const FRUIT_SVG = {
+  apple: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <path d="M20 15 C10 10 4 20 6 27 C8 34 16 36 20 32 C24 36 32 34 34 27 C36 20 30 10 20 15 Z" fill="#f0563f"/>
+    <path d="M20 15 C10 10 4 20 6 27 C7.2 31 11 33.5 15 34" fill="none" stroke="#c8402c" stroke-width="0" />
+    <ellipse cx="14" cy="20" rx="4" ry="6" fill="#ff8a76" opacity=".6"/>
+    <path d="M20 15 C19 11 20 8 23 6" stroke="#6b4226" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    <path d="M22 8 C26 6 29 8 28 12 C25 13 22 12 22 8 Z" fill="#63a94a"/>
+  </svg>`,
+  orange: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <circle cx="20" cy="22" r="15" fill="#f5943b"/>
+    <ellipse cx="15" cy="17" rx="4.5" ry="6" fill="#ffb877" opacity=".6"/>
+    <path d="M20 7 C19 5 20 3 22 2" stroke="#6b4226" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M21 4 C25 2 28 4 27 8 C24 9 21 8 21 4 Z" fill="#63a94a"/>
+  </svg>`,
+  pear: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <path d="M20 10 C16 10 15 15 16 18 C10 21 8 28 13 33 C17 37 24 37 27 33 C32 28 30 21 24 18 C25 15 24 10 20 10 Z" fill="#c7d24c"/>
+    <ellipse cx="16" cy="24" rx="3.5" ry="5" fill="#e2ec8f" opacity=".7"/>
+    <path d="M20 10 C19 7 20 5 22 4" stroke="#6b4226" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M21 6 C25 4 27 6 26 9 C23 10 21 9 21 6 Z" fill="#63a94a"/>
+  </svg>`,
+  strawberry: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <path d="M20 15 C11 15 7 23 12 30 C15 34 25 34 28 30 C33 23 29 15 20 15 Z" fill="#e8435a"/>
+    <g fill="#ffd34e">
+      <circle cx="14" cy="21" r="1"/><circle cx="20" cy="19" r="1"/><circle cx="26" cy="21" r="1"/>
+      <circle cx="16" cy="26" r="1"/><circle cx="24" cy="26" r="1"/><circle cx="20" cy="29" r="1"/>
+    </g>
+    <path d="M13 14 L20 18 L27 14 L23 12 L20 14 L17 12 Z" fill="#63a94a"/>
+  </svg>`,
+  banana: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <path d="M12 30 C10 20 14 10 22 8 C24 7.5 25 9 24 10.5 C18 13 15 21 17 29 C17.5 31 15 32.5 13 31.5 C12.3 31.2 12 30.6 12 30 Z" fill="#ffd34e"/>
+    <path d="M22 8 C23 7 24.5 7 25 8.2" stroke="#c99a1f" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  grape: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <g fill="#8e6fc7">
+      <circle cx="16" cy="14" r="5.5"/><circle cx="24" cy="14" r="5.5"/>
+      <circle cx="12" cy="21" r="5.5"/><circle cx="20" cy="21" r="5.5"/><circle cx="28" cy="21" r="5.5"/>
+      <circle cx="16" cy="28" r="5.5"/><circle cx="24" cy="28" r="5.5"/>
+    </g>
+    <path d="M20 14 C19 10 20 7 23 6" stroke="#6b4226" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <path d="M21 8 C24 6 27 7 26 10 C23 11 21 10 21 8 Z" fill="#63a94a"/>
+  </svg>`,
+  lemon: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <ellipse cx="20" cy="21" rx="14" ry="11" fill="#f5e14e"/>
+    <ellipse cx="16" cy="17" rx="3.5" ry="4.5" fill="#fbf4a8" opacity=".7"/>
+    <path d="M32 21 C35 20 36 22 34.5 23.5 C33 24.5 31 23 32 21 Z" fill="#f5e14e"/>
+  </svg>`,
+  flower: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <g fill="#ff8ab0">
+      <circle cx="20" cy="11" r="6"/><circle cx="29" cy="20" r="6"/>
+      <circle cx="20" cy="29" r="6"/><circle cx="11" cy="20" r="6"/>
+    </g>
+    <circle cx="20" cy="20" r="6.5" fill="#ffd34e"/>
+  </svg>`,
+  leaf: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <path d="M8 30 C8 14 24 6 34 8 C34 20 24 34 8 30 Z" fill="#63a94a"/>
+    <path d="M9 29 C16 22 24 15 33 9" stroke="#3f7a3c" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </svg>`,
+  seed: (id)=>`<svg viewBox="0 0 40 40" width="100%" height="100%">
+    <ellipse cx="20" cy="20" rx="9" ry="13" fill="#a8763f"/>
+    <ellipse cx="17" cy="15" rx="2.6" ry="3.6" fill="#c99a5f" opacity=".7"/>
+  </svg>`
+};
+const FRUIT_NAMES = {
+  apple:"maçãs", orange:"laranjas", pear:"peras", strawberry:"morangos",
+  banana:"bananas", grape:"uvas", lemon:"limões", flower:"flores", leaf:"folhas", seed:"sementes"
+};
+const SCENE_NAMES = {
+  tree:"Árvore", bush:"Arbusto", basket:"Cesta", garden:"Jardim",
+  field:"Plantação", forest:"Floresta", patch:"Canteiro", final:"Cenário da Natureza"
+};
+
+/* =====================================================
+   CENÁRIOS — decoração de fundo simples por tipo
+   ===================================================== */
+function sceneDeco(type){
+  switch(type){
+    case "tree":
+    case "forest":
+    case "final":
+      return `<svg width="70" height="90" viewBox="0 0 70 90" style="left:-6px;bottom:-10px;opacity:.55">
+        <rect x="30" y="46" width="10" height="34" rx="4" fill="#8c5a3a"/>
+        <circle cx="35" cy="30" r="26" fill="#8bc46a"/>
+      </svg>`;
+    case "bush":
+      return `<svg width="60" height="46" viewBox="0 0 60 46" style="right:-4px;bottom:-8px;opacity:.5">
+        <circle cx="20" cy="30" r="18" fill="#8bc46a"/><circle cx="40" cy="26" r="20" fill="#7fbf5c"/>
+      </svg>`;
+    case "basket":
+      return `<svg width="90" height="40" viewBox="0 0 90 40" style="left:50%;bottom:-6px;transform:translateX(-50%);opacity:.55">
+        <path d="M8 10 L82 10 L72 36 L18 36 Z" fill="#c98f4e"/>
+        <path d="M8 10 L82 10 L79 18 L11 18 Z" fill="#e0a860"/>
+      </svg>`;
+    case "garden":
+    case "patch":
+      return `<svg width="90" height="26" viewBox="0 0 90 26" style="left:50%;bottom:-4px;transform:translateX(-50%);opacity:.5">
+        <path d="M0 20 Q22 4 45 20 T90 20 L90 26 L0 26 Z" fill="#7fbf5c"/>
+      </svg>`;
+    case "field":
+      return `<svg width="100%" height="20" viewBox="0 0 100 20" preserveAspectRatio="none" style="left:0;bottom:-4px;opacity:.45">
+        <rect y="10" width="100" height="10" fill="#a3cf6a"/>
+      </svg>`;
+    default: return "";
+  }
+}
+
+/* =====================================================
+   NÍVEIS (15) — quantidade visual == quantidade configurada
+   ===================================================== */
+const LEVELS = [
+  {id:1, target:"apple", quantity:3, options:[2,3,5], scene:"tree"},
+  {id:2, target:"apple", quantity:5, options:[3,5,7], scene:"bush"},
+  {id:3, target:"apple", quantity:2, options:[1,2,4], scene:"basket"},
+
+  {id:4, target:"orange", quantity:8, options:[6,8,10], scene:"tree"},
+  {id:5, target:"orange", quantity:6, options:[4,6,9], scene:"garden"},
+  {id:6, target:"orange", quantity:10, options:[7,10,12], scene:"field"},
+
+  {id:7, target:"pear", quantity:12, options:[10,12,14], scene:"tree", distractor:{type:"leaf", quantity:4}},
+  {id:8, target:"pear", quantity:9, options:[8,9,11], scene:"basket"},
+  {id:9, target:"pear", quantity:14, options:[12,14,15], scene:"bush", distractor:{type:"flower", quantity:5}},
+
+  {id:10, target:"strawberry", quantity:15, options:[13,15,17], scene:"garden", distractor:{type:"leaf", quantity:6}},
+  {id:11, target:"strawberry", quantity:18, options:[16,18,20], scene:"basket", distractor:{type:"seed", quantity:5}},
+  {id:12, target:"strawberry", quantity:11, options:[9,11,13], scene:"patch", distractor:{type:"flower", quantity:4}},
+
+  {id:13, target:"apple", quantity:20, options:[18,20,23], scene:"forest", distractor:{type:"leaf", quantity:8}, extra:{type:"flower", quantity:5}},
+  {id:14, target:"orange", quantity:24, options:[22,24,27], scene:"final", distractor:{type:"leaf", quantity:10}, extra:{type:"grape", quantity:4}},
+  {id:15, target:"grape", quantity:28, options:[25,28,30], scene:"final", distractor:{type:"leaf", quantity:8}, extra:{type:"lemon", quantity:5}}
+];
+const TOTAL_LEVELS = LEVELS.length;
+
+/* =====================================================
+   ESTADO
+   ===================================================== */
+let state = { levelIndex:0, points:0, soundOn:true };
+
+/* =====================================================
+   ÁUDIO — sons sintetizados (sem arquivos externos)
+   ===================================================== */
+let audioCtx = null;
+function getCtx(){
+  if(!audioCtx){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); }
+  return audioCtx;
+}
+function tone(freq, start, dur, type="sine", gainPeak=.18){
+  if(!state.soundOn) return;
+  const ctx = getCtx();
+  const t0 = ctx.currentTime + start;
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = type; osc.frequency.value = freq;
+  gain.gain.setValueAtTime(0, t0);
+  gain.gain.linearRampToValueAtTime(gainPeak, t0+0.02);
+  gain.gain.exponentialRampToValueAtTime(0.001, t0+dur);
+  osc.connect(gain); gain.connect(ctx.destination);
+  osc.start(t0); osc.stop(t0+dur+0.02);
+}
+const sfx = {
+  click: ()=> tone(520,0,.08,"triangle",.12),
+  correct: ()=>{ tone(523,0,.15); tone(659,.12,.15); tone(784,.24,.25); },
+  wrong: ()=>{ tone(330,0,.18,"sine",.14); tone(280,.14,.22,"sine",.12); },
+  levelup: ()=>{ tone(523,0,.12); tone(659,.1,.12); tone(784,.2,.12); tone(988,.3,.3); },
+  victory: ()=>{ [523,587,659,784,880,1046].forEach((f,i)=>tone(f,i*.13,.22,"triangle",.15)); }
+};
+
+/* =====================================================
+   ELEMENTOS DOM
+   ===================================================== */
+const $ = (id)=>document.getElementById(id);
+const startScreen = $("start-screen");
+const gameScreen = $("game-screen");
+const finalScreen = $("final-screen");
+const sceneFrame = $("scene-frame");
+const sceneDecoEl = $("scene-deco");
+const sceneLabel = $("scene-label");
+const itemsLayer = $("items-layer");
+const questionEl = $("question");
+const optionsRow = $("options-row");
+const feedbackToast = $("feedback-toast");
+const levelLabel = $("level-label");
+const pointsPill = $("points-pill");
+const leafDotsWrap = $("leaf-dots");
+const vineFill = $("vine-fill");
+const ladybug = $("ladybug");
+const btnSound = $("btn-sound");
+
+/* build the 15 leaf dots once */
+for(let i=0;i<TOTAL_LEVELS;i++){
+  const d = document.createElement("div");
+  d.className = "leaf-dot";
+  d.dataset.i = i;
+  leafDotsWrap.appendChild(d);
+}
+
+function sizeForCount(n){
+  if(n<=5) return 62;
+  if(n<=10) return 52;
+  if(n<=15) return 44;
+  if(n<=20) return 38;
+  return 32;
+}
+
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function renderItems(level){
+  itemsLayer.innerHTML = "";
+  const size = sizeForCount(level.quantity + (level.distractor?level.distractor.quantity:0) + (level.extra?level.extra.quantity:0));
+
+  // build full pool: target fruits + optional distractor + optional extra, then shuffle order for natural mix
+  let pool = [];
+  for(let i=0;i<level.quantity;i++) pool.push(level.target);
+  if(level.distractor){ for(let i=0;i<level.distractor.quantity;i++) pool.push(level.distractor.type); }
+  if(level.extra){ for(let i=0;i<level.extra.quantity;i++) pool.push(level.extra.type); }
+  pool = shuffle(pool);
+
+  pool.forEach((type)=>{
+    const wrap = document.createElement("div");
+    wrap.className = "fruit-item sway";
+    wrap.style.width = size+"px";
+    wrap.style.height = size+"px";
+    const rot = (Math.random()*16-8).toFixed(1);
+    wrap.style.setProperty("--r", rot+"deg");
+    wrap.style.animationDelay = (Math.random()*.3)+"s";
+    wrap.innerHTML = FRUIT_SVG[type]();
+    itemsLayer.appendChild(wrap);
+  });
+}
+
+function renderScene(level){
+  sceneFrame.className = "scene-frame scene-"+level.scene;
+  sceneLabel.textContent = SCENE_NAMES[level.scene] || "Natureza";
+  sceneDecoEl.innerHTML = sceneDeco(level.scene);
+}
+
+function renderOptions(level){
+  optionsRow.innerHTML = "";
+  const opts = shuffle(level.options);
+  opts.forEach((val)=>{
+    const b = document.createElement("button");
+    b.className = "opt-btn";
+    b.textContent = val;
+    b.addEventListener("click", ()=>handleAnswer(val, level, b));
+    optionsRow.appendChild(b);
+  });
+}
+
+function updateProgress(){
+  const dots = leafDotsWrap.querySelectorAll(".leaf-dot");
+  dots.forEach((d,i)=>{
+    d.classList.toggle("done", i < state.levelIndex);
+    d.classList.toggle("current", i === state.levelIndex);
+  });
+  const pct = (state.levelIndex / TOTAL_LEVELS) * 100;
+  vineFill.style.width = pct+"%";
+  const trackWidth = leafDotsWrap.getBoundingClientRect().width || 300;
+  const dotPos = dots[state.levelIndex] ? dots[state.levelIndex].offsetLeft : 0;
+  ladybug.style.left = Math.max(0, dotPos-2)+"px";
+}
+
+function loadLevel(idx){
+  const level = LEVELS[idx];
+  levelLabel.textContent = `Nível ${idx+1} de ${TOTAL_LEVELS}`;
+  pointsPill.textContent = `⭐ Pontos: ${state.points}`;
+  renderScene(level);
+  renderItems(level);
+  questionEl.textContent = `Quantas ${FRUIT_NAMES[level.target]} existem?`;
+  renderOptions(level);
+  feedbackToast.textContent = "";
+  feedbackToast.className = "feedback-toast";
+  updateProgress();
+}
+
+const GOOD_MSGS = ["Muito bem!","Você contou direitinho!","Parabéns! Resposta correta!","Isso aí! Você acertou!","Ótima contagem!"];
+const RETRY_MSGS = ["Quase! Vamos contar novamente.","Tente mais uma vez, você consegue!","Conte com calma e tente de novo!"];
+
+function handleAnswer(val, level, btn){
+  sfx.click();
+  const correct = val === level.quantity;
+  const allBtns = optionsRow.querySelectorAll(".opt-btn");
+  allBtns.forEach(b=>b.disabled = true);
+
+  if(correct){
+    btn.classList.add("correct");
+    feedbackToast.textContent = GOOD_MSGS[Math.floor(Math.random()*GOOD_MSGS.length)];
+    feedbackToast.className = "feedback-toast show";
+    state.points += 10;
+    pointsPill.textContent = `⭐ Pontos: ${state.points}`;
+    sfx.correct();
+    setTimeout(()=>{
+      state.levelIndex++;
+      if(state.levelIndex >= TOTAL_LEVELS){
+        showFinal();
+      } else {
+        sfx.levelup();
+        loadLevel(state.levelIndex);
+        allBtns.forEach(b=>b.disabled=false);
+      }
+    }, 1400);
+  } else {
+    btn.classList.add("wrong");
+    feedbackToast.textContent = RETRY_MSGS[Math.floor(Math.random()*RETRY_MSGS.length)];
+    feedbackToast.className = "feedback-toast show bad";
+    sfx.wrong();
+    setTimeout(()=>{
+      btn.classList.remove("wrong");
+      allBtns.forEach(b=>b.disabled=false);
+      feedbackToast.className = "feedback-toast";
+    }, 900);
+  }
+}
+
+function showFinal(){
+  gameScreen.classList.add("hidden");
+  finalScreen.classList.remove("hidden");
+  $("final-points").textContent = state.points;
+  sfx.victory();
+  launchConfetti();
+}
+
+function launchConfetti(){
+  const box = $("confetti");
+  box.innerHTML = "";
+  const colors = ["#ff8a65","#ffd34e","#63a94a","#6fb7d6","#e8435a"];
+  for(let i=0;i<40;i++){
+    const s = document.createElement("span");
+    s.style.left = Math.random()*100+"%";
+    s.style.background = colors[i%colors.length];
+    s.style.animationDelay = (Math.random()*1.2)+"s";
+    s.style.transform = `rotate(${Math.random()*360}deg)`;
+    box.appendChild(s);
+  }
+}
+
+function startGame(){
+  state = { levelIndex:0, points:0, soundOn: state.soundOn };
+  startScreen.classList.add("hidden");
+  finalScreen.classList.add("hidden");
+  gameScreen.classList.remove("hidden");
+  loadLevel(0);
+}
+
+function goToStart(){
+  gameScreen.classList.add("hidden");
+  finalScreen.classList.add("hidden");
+  startScreen.classList.remove("hidden");
+}
+
+/* =====================================================
+   EVENTOS
+   ===================================================== */
+$("btn-start").addEventListener("click", ()=>{ sfx.click(); startGame(); });
+$("btn-replay").addEventListener("click", ()=>{ sfx.click(); startGame(); });
+$("btn-back").addEventListener("click", ()=>{ sfx.click(); goToStart(); });
+$("btn-back2").addEventListener("click", ()=>{ sfx.click(); goToStart(); });
+btnSound.addEventListener("click", ()=>{
+  state.soundOn = !state.soundOn;
+  btnSound.textContent = state.soundOn ? "🔊" : "🔇";
+  if(state.soundOn) sfx.click();
+});
+
+window.addEventListener("resize", ()=>{ if(!gameScreen.classList.contains("hidden")) updateProgress(); });
+
+})();
+</script>
+</body>
+</html>

@@ -495,7 +495,7 @@
     <span class="topbar-title" id="topbar-title"> Início</span>
     <section class="topbar-actions">
       <button class="btn-secondary" onclick="openModal('modal-nova-turma')">＋ Nova Turma</button>
-      <button class="btn-primary" onclick="openModal('modal-nova-atividade')">＋ Nova Atividade</button>
+      <button class="btn-primary" onclick="goto('page-criar-atividade')">＋ Nova Atividade</button>
     </section>
   </header>
 
@@ -581,57 +581,181 @@
   <section class="page" id="page-atividades">
     <header class="section-header">
       <h2 class="section-title">📋 Atividades enviadas (18)</h2>
-      <button class="btn-primary" onclick="openModal('modal-nova-atividade')">＋ Nova atividade</button>
+      <button class="btn-primary" onclick="goto('page-criar-atividade')">＋ Nova atividade</button>
     </header>
-    <section class="atividades-list">
-      <article class="atividade-item">
-        <span class="atividade-icon">🌿</span>
-        <article>
-          <h3 class="atividade-title">Reciclagem na escola</h3>
-          <p class="atividade-meta">🌱 Turma das Borboletas · 📅 10/04/2025</p>
-        </article>
-        <section class="atividade-right">
-          <span class="entrega-text">22/24 entregaram</span>
-          <span class="xp-chip">⭐ 20 pts</span>
-          <button class="btn-ver">Ver</button>
-        </section>
+    <section class="atividades-list" id="professor-atividades-list">
+      <article style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Carregando suas atividades...</article>
+    </section>
+
+    <script>
+      async function loadProfessorAtividades(){
+        const listEl = document.getElementById('professor-atividades-list');
+        listEl.innerHTML = '<article style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Carregando suas atividades...</article>';
+        try{
+          console.log('📚 Carregando atividades do professor...');
+          const [resAtiv, resTurmas] = await Promise.all([
+            fetch('/api/atividades/professor', { credentials: 'same-origin' }),
+            fetch('/professor/api/turmas', { credentials: 'same-origin' })
+          ]);
+          
+          console.log('📚 Resposta /api/atividades/professor:', resAtiv.status);
+          console.log('📚 Resposta /professor/api/turmas:', resTurmas.status);
+          
+          const dataAtiv = await resAtiv.json();
+          const dataTurmas = await resTurmas.json();
+          
+          console.log('📚 Dados atividades:', dataAtiv);
+          console.log('📚 Dados turmas:', dataTurmas);
+
+          const turmasRecebidas = (dataTurmas && dataTurmas.success && Array.isArray(dataTurmas.turmas)) ? dataTurmas.turmas : (Array.isArray(TURMAS_REAIS) ? TURMAS_REAIS : []);
+          const turmas = turmasRecebidas;
+          if (!dataTurmas || !dataTurmas.success) console.warn('⚠️ /professor/api/turmas não retornou turmas, usando TURMAS_REAIS como fallback');
+          
+          console.log('📚 Turmas a usar:', turmas.length, 'turmas');
+
+          if (!dataAtiv || !dataAtiv.success || !dataAtiv.atividades || dataAtiv.atividades.length === 0) {
+            console.warn('⚠️ Nenhuma atividade encontrada');
+            listEl.innerHTML = '<article style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Você ainda não criou atividades.</article>';
+            return;
+          }
+
+          console.log('📚 Renderizando', dataAtiv.atividades.length, 'atividades');
+          listEl.innerHTML = dataAtiv.atividades.map(a => {
+            const optionsHtml = turmas.map(t => `<option value="${t.id}">${t.nome}</option>`).join('');
+            console.log(`   → Atividade ${a.id}: ${a.titulo} (${turmas.length} opções de turma)`);
+            return `
+            <article class="atividade-item">
+              <span class="atividade-icon">📋</span>
+              <article>
+                <h3 class="atividade-title">${a.titulo}</h3>
+                <p class="atividade-meta">${a.descricao || ''}</p>
+              </article>
+              <section class="atividade-right">
+                <select class="turma-select" data-atividade-id="${a.id}" multiple size="${Math.min(Math.max(turmas.length, 3), 6)}" style="min-width:170px;min-height:90px;">
+                  ${optionsHtml}
+                </select>
+                <button class="btn-primary" onclick="postarAtividade(${a.id})">Postar</button>
+                <button class="btn-ver" onclick="window.location.href='/professor/atividade/${a.id}'">Ver</button>
+              </section>
+            </article>
+          `}).join('');
+
+        }catch(err){
+          console.error('❌ Erro ao carregar atividades do professor:', err);
+          listEl.innerHTML = '<article style="grid-column:1/-1;text-align:center;padding:28px;color:var(--text-light)">Erro ao carregar atividades.</article>';
+        }
+      }
+
+      async function postarAtividade(atividadeId){
+        console.log('🔧 postarAtividade chamado com ID:', atividadeId);
+        const select = document.querySelector(`select.turma-select[data-atividade-id="${atividadeId}"]`);
+        console.log('🔧 Select encontrado?', !!select);
+        if (!select) {
+          console.error('❌ Select não encontrado para atividade:', atividadeId);
+          return alert('Selecione uma turma (select não encontrado)');
+        }
+        console.log('🔧 Select element:', select);
+        console.log('🔧 selectedOptions:', select.selectedOptions);
+        console.log('🔧 selectedOptions length:', select.selectedOptions.length);
+        
+        const turmaIds = Array.from(select.selectedOptions).map(option => {
+          const val = parseInt(option.value, 10);
+          console.log('  → Option value:', option.value, '→ parseInt:', val, '→ isInteger?', Number.isInteger(val));
+          return val;
+        }).filter(v => Number.isInteger(v));
+        
+        console.log('🔧 Turmas selecionadas (IDs):', turmaIds);
+        if (!turmaIds.length) {
+          console.error('❌ Nenhuma turma selecionada');
+          return alert('Selecione pelo menos uma turma antes de publicar.');
+        }
+
+        let sucesso = 0;
+        for (const turmaId of turmaIds) {
+          console.log(`🔧 Postando atividade ${atividadeId} para turma ${turmaId}`);
+          const body = { turma_id: turmaId };
+          console.log('🔧 Body enviado:', JSON.stringify(body));
+          
+          const res = await fetch(`/api/atividades/${atividadeId}/postar`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+          });
+          
+          console.log('🔧 Status da resposta:', res.status);
+          let data = null;
+          try { data = await res.json(); } catch(e) { console.error('❌ Erro parseando resposta de postagem', e); }
+          console.log('📩 Resposta completa:', res.status, data);
+          
+          if (data && data.success) {
+            console.log('✅ Postagem bem-sucedida para turma', turmaId);
+            sucesso += 1;
+          } else {
+            const msg = data && data.message ? data.message : (res.status === 401 ? 'Não autorizado (sessão expirada?)' : 'Verifique a turma selecionada');
+            console.error(`❌ Erro ao publicar na turma ${turmaId}:`, msg);
+            alert(`Erro ao publicar na turma ${turmaId}: ${msg}`);
+            return;
+          }
+        }
+
+        if (sucesso > 0) {
+          console.log(`✅ Atividade publicada com sucesso em ${sucesso} turma(s)`);
+          alert(`Atividade publicada em ${sucesso} turma(s) com sucesso`);
+          loadProfessorAtividades();
+        }
+      }
+
+      // Carregar na abertura da página de atividades
+      document.addEventListener('DOMContentLoaded', function(){
+        // se a página atual for page-atividades, carregar
+        if (document.getElementById('page-atividades') && document.getElementById('page-atividades').classList.contains('active')) {
+          loadProfessorAtividades();
+        }
+      });
+    </script>
+  </section>
+
+  <!-- ══ PAGE: CRIAR ATIVIDADE ══ -->
+  <section class="page" id="page-criar-atividade">
+    <button class="back-btn" onclick="goto('page-atividades')">← Voltar para Atividades</button>
+    <header class="section-header">
+      <h2 class="section-title">➕ Criar nova atividade</h2>
+    </header>
+    <section style="background:#fff;border-radius:24px;padding:24px;box-shadow:var(--shadow);margin-top:20px;">
+      <article class="form-group">
+        <label class="form-label">Título *</label>
+        <input class="form-input" id="criar-atividade-titulo" placeholder="Ex: Reciclagem na escola" />
       </article>
-      <article class="atividade-item">
-        <span class="atividade-icon">🌊</span>
-        <article>
-          <h3 class="atividade-title">Ciclo da água</h3>
-          <p class="atividade-meta">🌱 Turma das Borboletas · 📅 05/04/2025</p>
-        </article>
-        <section class="atividade-right">
-          <span class="entrega-text">19/24 entregaram</span>
-          <span class="xp-chip">⭐ 15 pts</span>
-          <button class="btn-ver">Ver</button>
-        </section>
+      <article class="form-group">
+        <label class="form-label">Descrição</label>
+        <textarea class="form-input" id="criar-atividade-descricao" placeholder="Descreva a atividade..." rows="4"></textarea>
       </article>
-      <article class="atividade-item">
-        <span class="atividade-icon">🦁</span>
-        <article>
-          <h3 class="atividade-title">Animais em extinção</h3>
-          <p class="atividade-meta">🐸 Turma dos Sapos · 📅 01/04/2025</p>
-        </article>
-        <section class="atividade-right">
-          <span class="entrega-text">26/26 entregaram</span>
-          <span class="xp-chip">⭐ 25 pts</span>
-          <button class="btn-ver">Ver</button>
+      <article class="form-group">
+        <label class="form-label">Publicar em turmas (opcional)</label>
+        <section id="criar-atividade-turmas" style="display:grid;gap:10px;padding:12px;border:1px solid #e5e7eb;border-radius:12px;background:#fafafa;">
+          <% const turmasDoProfessor = (turmas || []).filter(function(turma) { return Number(turma.professor_id) === Number((professor || {}).id); }); %>
+          <% if (!turmasDoProfessor.length) { %>
+            <small style="color:var(--text-light);">Nenhuma turma vinculada ao seu perfil.</small>
+          <% } %>
+          <% turmasDoProfessor.forEach(function(turma) { %>
+            <label style="display:flex;align-items:center;gap:10px;padding:10px;border-radius:8px;background:#fff;cursor:pointer;">
+              <input class="criar-atividade-turma" type="checkbox" value="<%= turma.id %>">
+              <span><strong><%= turma.nome %></strong><small style="display:block;color:var(--text-light);"><%= turma.ano_escolar || '' %></small></span>
+            </label>
+          <% }); %>
         </section>
+        <small style="display:block;margin-top:8px;color:var(--text-light);">Marque uma ou mais turmas para publicar imediatamente.</small>
       </article>
-      <article class="atividade-item">
-        <span class="atividade-icon">☀️</span>
-        <article>
-          <h3 class="atividade-title">Energia solar</h3>
-          <p class="atividade-meta"> Turma dos Tucanos · 📅 28/03/2025</p>
-        </article>
-        <section class="atividade-right">
-          <span class="entrega-text">20/22 entregaram</span>
-          <span class="xp-chip">⭐ 30 pts</span>
-          <button class="btn-ver">Ver</button>
-        </section>
+      <article class="form-group">
+        <label class="form-label">Perguntas</label>
+        <div id="perguntas-container" style="display:grid;gap:12px;margin-top:10px;"></div>
+        <button class="btn-primary" type="button" onclick="adicionarPergunta()" style="margin-top:12px">＋ Adicionar pergunta</button>
       </article>
+      <footer class="modal-actions" style="justify-content:flex-end;margin-top:20px;">
+        <button class="btn-secondary" type="button" onclick="goto('page-atividades')">Cancelar</button>
+        <button class="btn-primary" type="button" onclick="criarAtividade()">Salvar e publicar</button>
+      </footer>
     </section>
   </section>
 
@@ -765,26 +889,141 @@
   </article>
 </section>
 
-<section class="modal-overlay" id="modal-nova-atividade">
-  <article class="modal">
-    <header class="modal-head"><h3>📋 Nova atividade</h3><button class="btn-modal-close" onclick="closeModal('modal-nova-atividade')">✕</button></header>
-    <section class="modal-body">
-      <article class="form-group"><label class="form-label">Título da atividade *</label><input class="form-input" placeholder="Ex: Reciclagem na escola"></article>
-      <article class="form-group"><label class="form-label">Descrição</label><input class="form-input" placeholder="Descreva a atividade..."></article>
-      <section class="form-row">
-        <article class="form-group"><label class="form-label">Turma</label>
-          <select class="form-input"><option> Turma das Borboletas</option><option> Turma dos Sapos</option><option> Turma dos Tucanos</option></select>
-        </article>
-        <article class="form-group"><label class="form-label">Pontos ⭐</label><input class="form-input" type="number" placeholder="20"></article>
-      </section>
-      <article class="form-group"><label class="form-label">Data de entrega</label><input class="form-input" type="date"></article>
-      <footer class="modal-actions">
-        <button class="btn-cancel" onclick="closeModal('modal-nova-atividade')">Cancelar</button>
-        <button class="btn-confirm" onclick="closeModal('modal-nova-atividade');showToast('📋 Atividade enviada!')">Enviar atividade ✓</button>
-      </footer>
-    </section>
-  </article>
-</section>
+<script>
+  function openModal(id){ document.getElementById(id).style.display='flex'; }
+  function closeModal(id){ document.getElementById(id).style.display='none'; }
+
+  function resetCriarAtividadeForm(){
+    const titulo = document.getElementById('criar-atividade-titulo');
+    const descricao = document.getElementById('criar-atividade-descricao');
+    const turmas = document.querySelectorAll('.criar-atividade-turma');
+    const container = document.getElementById('perguntas-container');
+    if (titulo) titulo.value = '';
+    if (descricao) descricao.value = '';
+    turmas.forEach(turma => { turma.checked = false; });
+    if (container) container.innerHTML = '';
+  }
+
+  function adicionarPergunta(){
+    const container = document.getElementById('perguntas-container');
+    if (!container) return;
+    const idx = container.children.length + 1;
+    const div = document.createElement('div');
+    div.className = 'pergunta-card';
+    div.style.cssText = 'border:1px solid #eee;padding:14px;border-radius:14px;margin-bottom:12px;background:#fff;';
+    div.innerHTML = `
+      <label style="font-weight:700;display:block;margin-bottom:8px">Pergunta ${idx}</label>
+      <input class="pergunta-texto" placeholder="Texto da pergunta" style="width:100%;padding:10px;margin-bottom:12px" />
+      <label style="display:block;margin-bottom:6px">Tipo:</label>
+      <select class="pergunta-tipo" onchange="onTipoChange(this)" style="width:100%;padding:10px;margin-bottom:12px">
+        <option value="mcq">Múltipla escolha</option>
+        <option value="dissertativa">Dissertativa</option>
+      </select>
+      <div class="opcoes-container" style="margin-top:8px">
+        <button type="button" onclick="adicionarOpcao(this)" style="margin-bottom:10px">＋ Adicionar opção</button>
+      </div>
+      <button type="button" onclick="this.closest('.pergunta-card').remove()" style="background:#f5f5f5;color:#333;padding:8px 12px;border:none;border-radius:10px;cursor:pointer">Remover pergunta</button>
+    `;
+    container.appendChild(div);
+  }
+
+  function onTipoChange(select){
+    const card = select.closest('.pergunta-card');
+    const opcont = card.querySelector('.opcoes-container');
+    if (select.value === 'mcq') {
+      if (!opcont.querySelector('.opcao-item')) adicionarOpcao(opcont.querySelector('button'));
+    } else {
+      opcont.innerHTML = '';
+    }
+  }
+
+  function adicionarOpcao(btn){
+    const container = btn.parentElement;
+    if (!container) return;
+    const idx = container.querySelectorAll('.opcao-item').length + 1;
+    const div = document.createElement('div');
+    div.className = 'opcao-item';
+    div.style.cssText = 'display:flex;align-items:center;gap:8px;margin-bottom:10px;';
+    div.innerHTML = `
+      <input class="opcao-texto" placeholder="Opção ${idx}" style="flex:1;padding:10px" />
+      <label style="display:flex;align-items:center;gap:6px;font-size:0.92rem"><input type="checkbox" class="opcao-correta" /> correta</label>
+      <button type="button" onclick="this.parentElement.remove()" style="background:#f5f5f5;color:#333;padding:8px 12px;border:none;border-radius:10px;cursor:pointer">Remover</button>
+    `;
+    container.appendChild(div);
+  }
+
+  async function criarAtividade(){
+    const titulo = document.getElementById('criar-atividade-titulo')?.value.trim();
+    const descricao = document.getElementById('criar-atividade-descricao')?.value.trim();
+    const turmaIds = Array.from(document.querySelectorAll('.criar-atividade-turma:checked'))
+      .map(input => parseInt(input.value, 10))
+      .filter(value => Number.isInteger(value));
+    const perguntas = Array.from(document.querySelectorAll('.pergunta-card')).map(card => {
+      const texto = card.querySelector('.pergunta-texto')?.value.trim() || '';
+      const tipo = card.querySelector('.pergunta-tipo')?.value || 'dissertativa';
+      const opcoes = Array.from(card.querySelectorAll('.opcao-item')).map(o => ({
+        texto: o.querySelector('.opcao-texto')?.value.trim() || '',
+        correta: !!o.querySelector('.opcao-correta')?.checked
+      }));
+      return { texto, tipo, opcoes };
+    });
+
+    if (!titulo) {
+      alert('O título da atividade é obrigatório.');
+      return;
+    }
+
+    try {
+      const res = await fetch('/api/atividades', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ titulo, descricao, tipo: 'atividade', perguntas })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!data || !data.success) {
+        alert(data.message || `Erro ao criar atividade (${res.status}).`);
+        return;
+      }
+
+      let message = 'Atividade criada com sucesso!';
+      if (turmaIds.length) {
+        let postagemSucesso = 0;
+        for (const turmaId of turmaIds) {
+          const postRes = await fetch(`/api/atividades/${data.atividade.id}/postar`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ turma_id: turmaId })
+          });
+          const postData = await postRes.json().catch(() => ({}));
+          if (postData && postData.success) {
+            postagemSucesso += 1;
+          } else {
+            console.warn('Postagem falhou', postData);
+          }
+        }
+
+        if (postagemSucesso > 0) {
+          message = `Atividade criada e publicada em ${postagemSucesso} turma(s).`;
+          turmaIds.forEach((selectedTurmaId) => {
+            window.dispatchEvent(new CustomEvent('atividade-publicada', { detail: { turmaId: Number(selectedTurmaId) } }));
+          });
+        } else {
+          message = 'Atividade criada, mas não foi possível publicar em nenhuma turma.';
+        }
+      }
+
+      showToast(`✅ ${message}`);
+      resetCriarAtividadeForm();
+      goto('page-atividades');
+      loadProfessorAtividades();
+    } catch (erro) {
+      console.error('Erro ao criar atividade:', erro);
+      alert(`Erro ao criar atividade: ${erro.message || 'verifique sua conexão.'}`);
+    }
+  }
+</script>
 
 <section class="modal-overlay" id="modal-add-aluno">
   <article class="modal">
@@ -1164,14 +1403,34 @@ function abrirDetalhe(id) {
     </aside>
   `;
 
-  // Sub-atividades
-  document.getElementById('sub-atividades').innerHTML = `
-    <section class="atividades-list">
-      <article class="atividade-item"><span class="atividade-icon">🌿</span><section><h4 class="atividade-title">Reciclagem na escola</h4><p class="atividade-meta">📅 10/04/2025 · 22/${t.alunos} completaram</p></section><span class="atividade-right"><span class="xp-chip">⭐ 20 pts</span><button class="btn-ver">Ver</button></span></article>
-      <article class="atividade-item"><span class="atividade-icon">🌊</span><section><h4 class="atividade-title">Ciclo da água</h4><p class="atividade-meta">📅 05/04/2025 · 19/${t.alunos} completaram</p></section><span class="atividade-right"><span class="xp-chip">⭐ 15 pts</span><button class="btn-ver">Ver</button></span></article>
-      <article class="atividade-item"><span class="atividade-icon">🦁</span><section><h4 class="atividade-title">Animais em extinção</h4><p class="atividade-meta">📅 01/04/2025 · ${t.alunos}/${t.alunos} completaram</p></section><span class="atividade-right"><span class="xp-chip">⭐ 25 pts</span><button class="btn-ver">Ver</button></span></article>
-    </section>
-  `;
+  // Sub-atividades: carregar atividades publicadas para esta turma
+  document.getElementById('sub-atividades').innerHTML = `<section class="atividades-list" id="atividades-loading"><article style="text-align:center;padding:40px;color:var(--text-light)">Carregando atividades...</article></section>`;
+  fetch(`/api/atividades/turma/${t.id}`, { credentials: 'same-origin' })
+    .then(res => res.json())
+    .then(data => {
+      const container = document.getElementById('sub-atividades');
+      if (!data || !data.success || !data.atividades || data.atividades.length === 0) {
+        container.innerHTML = `<article style="text-align:center;padding:40px;color:var(--text-light)">Nenhuma atividade publicada para esta turma.</article>`;
+        return;
+      }
+
+      container.innerHTML = `<section class="atividades-list">${data.atividades.map(item => `
+        <article class="atividade-item">
+          <span class="atividade-icon">📋</span>
+          <article>
+            <h3 class="atividade-title">${(item.atividade && item.atividade.titulo) || 'Atividade'}</h3>
+            <p class="atividade-meta">📅 ${(new Date(item.postagem.criado_em)).toLocaleDateString()}</p>
+          </article>
+          <section class="atividade-right">
+            <button class="btn-ver" onclick="window.location.href='/professor/atividade/${item.atividade.id}'">Ver</button>
+          </section>
+        </article>
+      `).join('')}</section>`;
+    })
+    .catch(err => {
+      console.error('Erro ao carregar atividades da turma:', err);
+      document.getElementById('sub-atividades').innerHTML = `<article style="text-align:center;padding:40px;color:var(--text-light)">Erro ao carregar atividades.</article>`;
+    });
 
   // Sub-pessoas - Mostrar dados carregados
   const tabelaAlunos = t.listaAlunos && t.listaAlunos.length > 0 ? `
@@ -1321,6 +1580,7 @@ const PAGES = {
   'page-turmas':'🌱 Minhas Turmas',
   'page-turma-detalhe':'🌱 Detalhe da Turma',
   'page-atividades':'📋 Atividades',
+  'page-criar-atividade':'➕ Criar atividade',
   'page-alunos':'👦 Alunos',
   'page-progresso':'📊 Progresso'
 };
@@ -1333,6 +1593,12 @@ function goto(pageId) {
     const map = { 'page-inicio':'Início','page-turmas':'Turmas','page-atividades':'Atividades','page-alunos':'Alunos','page-progresso':'Progresso' };
     b.classList.toggle('active', b.textContent.trim().includes(map[pageId]||'__'));
   });
+  if (pageId === 'page-atividades' && typeof loadProfessorAtividades === 'function') {
+    loadProfessorAtividades();
+  }
+  if (pageId === 'page-criar-atividade' && typeof resetCriarAtividadeForm === 'function') {
+    resetCriarAtividadeForm();
+  }
   window.scrollTo(0,0);
 }
 

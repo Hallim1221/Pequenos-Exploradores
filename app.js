@@ -18,6 +18,7 @@ app.set('view cache', false); // Desabilitar cache para debug
 
 // Middlewares
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/jogos/comum', express.static(path.join(__dirname, 'views', 'jogos.original', 'comum')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -118,24 +119,28 @@ app.use((req, res, next) => {
   // Interceptar o final da requisição para comparar
   const originalEnd = res.end;
   res.end = function(...args) {
-    const currentSession = req.session.user ? JSON.stringify({
-      id: req.session.user.id,
-      email: req.session.user.email,
-      tipo: req.session.user.tipo,
-      turma_id: req.session.user.turma_id
-    }) : null;
-    
-    // Se a sessão foi alterada, registrar
-    if (originalSession !== currentSession && req.path.includes('/professor')) {
-      console.log('📋 MUDANÇA DE SESSÃO EM ROTA DO PROFESSOR:', {
-        rota: req.path,
-        metodo: req.method,
-        original: originalSession ? JSON.parse(originalSession) : null,
-        current: currentSession ? JSON.parse(currentSession) : null,
-        sessionID: req.sessionID
-      });
+    try {
+      const currentSession = (req.session && req.session.user) ? JSON.stringify({
+        id: req.session.user.id,
+        email: req.session.user.email,
+        tipo: req.session.user.tipo,
+        turma_id: req.session.user.turma_id
+      }) : null;
+
+      // Se a sessão foi alterada, registrar (protegendo req.path)
+      if (originalSession !== currentSession && req.path && req.path.includes('/professor')) {
+        console.log('📋 MUDANÇA DE SESSÃO EM ROTA DO PROFESSOR:', {
+          rota: req.path,
+          metodo: req.method,
+          original: originalSession ? JSON.parse(originalSession) : null,
+          current: currentSession ? JSON.parse(currentSession) : null,
+          sessionID: req.sessionID
+        });
+      }
+    } catch (err) {
+      console.error('Erro no middleware de logging de sessão:', err && err.message ? err.message : err);
     }
-    
+
     return originalEnd.apply(res, args);
   };
   
@@ -619,6 +624,36 @@ app.get('/parcerias-escolas', (req, res) => {
 const indexRouter = require('./routes/index');
 const professorRouter = require('./routes/professor');
 
+// Logout direto no app principal para evitar possíveis conflitos de rota
+const logoutHandler = (req, res) => {
+  console.log('[LOGOUT] Rota chamada:', req.method, req.originalUrl);
+
+  const finishLogout = () => {
+    res.clearCookie('sessionId', { path: '/' });
+    res.redirect('/login');
+  };
+
+  if (req.session) {
+    req.session.destroy((err) => {
+      if (err) {
+        console.error('[LOGOUT] Erro ao destruir sessão:', err);
+      }
+      finishLogout();
+    });
+    return;
+  }
+
+  finishLogout();
+};
+
+app.get('/logout', logoutHandler);
+app.post('/logout', logoutHandler);
+
+// Rota de debug rápida para verificar se /logout está sendo alcançada
+app.get('/logout-debug', (req, res) => {
+  console.log('[LOGOUT-DEBUG] rota atingida');
+  res.json({ debug: true, path: req.path, method: req.method });
+});
 // Usar rotas como middleware
 app.use('/', indexRouter);
 app.use('/professor', professorRouter);

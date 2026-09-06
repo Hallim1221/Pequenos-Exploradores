@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responder atividade</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    :root { --ink: #20302a; --muted: #65756d; --green: #238653; --green-dark: #14613a; --mint: #eaf7ef; --line: #dce9e1; --cream: #fffdf7; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Nunito', 'Segoe UI', sans-serif; background: linear-gradient(135deg, #eff9f2 0%, #fffaf0 100%); margin: 0; color: var(--ink); min-height: 100vh; }
+    .container { max-width: 880px; margin: 32px auto; background: rgba(255,255,255,.96); border: 1px solid rgba(220,233,225,.9); border-radius: 28px; padding: 30px; box-shadow: 0 20px 60px rgba(31,72,48,.12); }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+    .pill { background: var(--mint); color: var(--green-dark); border-radius: 999px; padding: 8px 14px; font-size: .78rem; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+    .hero { border-bottom: 1px solid var(--line); padding: 8px 0 24px; margin-bottom: 20px; }
+    .eyebrow { color: var(--green); font-size: .76rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 9px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.65rem, 4vw, 2.45rem); line-height: 1.08; color: var(--green-dark); }
+    .desc { color: var(--muted); margin: 0; font-size: 1rem; line-height: 1.6; }
+    .progress-row { display: flex; justify-content: space-between; gap: 16px; align-items: center; margin-top: 20px; color: var(--muted); font-size: .85rem; font-weight: 800; }
+    .progress-track { height: 8px; flex: 1; background: #e5efe8; border-radius: 99px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0; background: linear-gradient(90deg, #55bd7b, var(--green)); border-radius: inherit; transition: width .2s ease; }
+    .instructions { display: flex; gap: 12px; align-items: center; padding: 13px 15px; margin-bottom: 18px; border: 1px solid #d9eee1; border-radius: 14px; background: #f5fbf7; color: var(--muted); font-size: .87rem; line-height: 1.4; }
+    .instructions strong { color: var(--green-dark); }
+    .question { position: relative; border: 1px solid var(--line); border-radius: 18px; padding: 21px; margin-bottom: 16px; background: var(--cream); box-shadow: 0 5px 16px rgba(31,72,48,.05); }
+    .question-head { display: flex; gap: 13px; align-items: flex-start; margin-bottom: 17px; padding-right: 76px; }
+    .question-number { flex: 0 0 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; background: var(--green); color: white; font-weight: 900; }
+    .question h3 { margin: 3px 0 0; font-size: 1.05rem; line-height: 1.45; }
+    .question-status { position: absolute; top: 21px; right: 21px; color: #83948a; font-size: .72rem; font-weight: 900; text-transform: uppercase; letter-spacing: .04em; }
+    .question-status::before { content: '○'; margin-right: 4px; font-size: .9rem; }
+    .question.is-answered { border-color: #a4d7b7; background: #fbfffc; }
+    .question.is-answered .question-status { color: var(--green); }
+    .question.is-answered .question-status::before { content: '✓'; }
+    .options { display: grid; gap: 10px; }
+    .option { display: flex; gap: 11px; align-items: center; border: 1px solid var(--line); border-radius: 13px; padding: 13px 14px; background: white; cursor: pointer; transition: border-color .15s, background .15s, transform .15s; }
+    .option:hover { border-color: #8bcba4; transform: translateY(-1px); }
+    .option:has(input:checked) { border-color: var(--green); background: var(--mint); box-shadow: 0 0 0 2px rgba(35,134,83,.1); }
+    .option input { width: 18px; height: 18px; accent-color: var(--green); }
+    .option span { line-height: 1.35; }
+    textarea { width: 100%; min-height: 120px; resize: vertical; border: 1px solid var(--line); border-radius: 13px; padding: 14px; font: inherit; color: var(--ink); background: white; outline: none; }
+    textarea:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(35,134,83,.12); }
+    .actions { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 26px; padding: 22px 4px 0; border-top: 1px solid var(--line); }
+    .actions span { color: var(--muted); font-size: .85rem; }
+    .btn { border: none; border-radius: 12px; padding: 12px 18px; font-weight: 900; cursor: pointer; transition: transform .15s, box-shadow .15s; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(31,72,48,.12); }
+    .btn-primary { background: var(--green); color: white; }
+    .btn-secondary { background: #edf2ee; color: var(--ink); }
+    .btn:disabled { opacity: .65; cursor: wait; transform: none; }
+    .error { background: #fff1f2; color: #b91c1c; border: 1px solid #fecdd3; border-radius: 12px; padding: 13px 14px; margin-bottom: 16px; }
+    .empty { text-align: center; padding: 34px 16px; color: var(--muted); background: var(--mint); border-radius: 16px; }
+    @media (max-width: 640px) { .container { margin: 0; min-height: 100vh; border: 0; border-radius: 0; padding: 22px 16px; } .question { padding: 17px; } .question-head { padding-right: 0; } .question-status { position: static; display: block; margin: -7px 0 13px 47px; } .actions { align-items: stretch; flex-direction: column; } .actions .btn { width: 100%; } }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <span class="pill">Atividade</span>
+      <button class="btn btn-secondary" type="button" onclick="history.back()">Voltar</button>
+    </div>
+
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } else if (atividade) { %>
+      <header class="hero">
+        <div class="eyebrow">Sua missão de hoje</div>
+        <h1><%= atividade.titulo %></h1>
+        <p class="desc"><%= atividade.descricao || 'Responda as questões abaixo.' %></p>
+        <div class="progress-row"><span id="progress-label">0 de <%= (atividade.perguntas || []).length %> respondidas</span><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div></div>
+      </header>
+
+      <form id="atividade-form">
+        <div class="instructions"><span aria-hidden="true">💡</span><span><strong>Leia com calma.</strong> Escolha uma alternativa ou escreva sua resposta em cada questão.</span></div>
+        <% if (!(atividade.perguntas || []).length) { %>
+          <div class="empty">Esta atividade ainda não possui perguntas.</div>
+        <% } %>
+        <% (atividade.perguntas || []).forEach((pergunta, index) => { %>
+          <article class="question">
+            <span class="question-status" aria-live="polite">Pendente</span>
+            <div class="question-head"><span class="question-number"><%= index + 1 %></span><h3><%= pergunta.texto || 'Pergunta sem texto' %></h3></div>
+
+            <% if ((pergunta.tipo || 'dissertativa') === 'mcq') { %>
+              <div class="options">
+              <% (pergunta.opcoes || []).forEach((opcao) => { %>
+                <label class="option">
+                  <input type="radio" name="pergunta_<%= pergunta.id %>" value="<%= opcao.id %>">
+                  <span><%= opcao.texto %></span>
+                </label>
+              <% }) %>
+              </div>
+            <% } else { %>
+              <textarea name="pergunta_<%= pergunta.id %>" placeholder="Digite sua resposta..."></textarea>
+            <% } %>
+          </article>
+        <% }) %>
+
+        <div class="actions">
+          <span>Seu progresso será salvo no sistema.</span>
+          <button class="btn btn-primary" type="submit" id="submit-button">Enviar respostas</button>
+        </div>
+      </form>
+    <% } %>
+  </div>
+
+  <script>
+    const form = document.getElementById('atividade-form');
+    if (form) {
+      const progressLabel = document.getElementById('progress-label');
+      const progressFill = document.getElementById('progress-fill');
+      const submitButton = document.getElementById('submit-button');
+      const totalQuestions = <%= atividade ? (atividade.perguntas || []).length : 0 %>;
+
+      function updateProgress() {
+        const answered = new Set();
+        Array.from(form.elements).forEach((el) => {
+          if (!el.name || !el.name.startsWith('pergunta_')) return;
+          if ((el.type === 'radio' && el.checked) || (el.tagName === 'TEXTAREA' && el.value.trim())) {
+            answered.add(el.name);
+          }
+        });
+        document.querySelectorAll('.question').forEach((question) => {
+          const field = question.querySelector('[name^="pergunta_"]');
+          const status = question.querySelector('.question-status');
+          const isAnswered = field && answered.has(field.name);
+          question.classList.toggle('is-answered', isAnswered);
+          if (status) status.textContent = isAnswered ? 'Respondida' : 'Pendente';
+        });
+        const percent = totalQuestions ? (answered.size / totalQuestions) * 100 : 0;
+        if (progressLabel) progressLabel.textContent = `${answered.size} de ${totalQuestions} respondidas`;
+        if (progressFill) progressFill.style.width = `${percent}%`;
+      }
+
+      form.addEventListener('change', updateProgress);
+      form.addEventListener('input', updateProgress);
+      updateProgress();
+
+      form.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = 'Enviando...';
+        }
+
+        const atividadeId = <%= atividade ? atividade.id : 'null' %>;
+        const respostas = [];
+
+        Array.from(form.elements).forEach((el) => {
+          if (!el.name || el.name.startsWith('pergunta_') === false) return;
+
+          if (el.type === 'radio') {
+            if (!el.checked) return;
+            respostas.push({ pergunta_id: Number(el.name.replace('pergunta_', '')), resposta: el.value });
+          }
+
+          if (el.tagName === 'TEXTAREA') {
+            const valor = (el.value || '').trim();
+            if (valor) {
+              respostas.push({ pergunta_id: Number(el.name.replace('pergunta_', '')), resposta: valor });
+            }
+          }
+        });
+
+        try {
+          const res = await fetch(`/api/atividades/${atividadeId}/responder`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ respostas })
+          });
+          const data = await res.json().catch(() => ({}));
+
+          if (data && data.success) {
+            alert('Resposta enviada com sucesso!');
+            window.location.href = '/adicionar-turma';
+          } else {
+            alert(data && data.message ? data.message : 'Erro ao enviar respostas.');
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Enviar respostas';
+            }
+          }
+        } catch (error) {
+          alert('Não foi possível enviar agora. Verifique sua conexão e tente novamente.');
+          if (submitButton) {
+            submitButton.disabled = false;
+            submitButton.textContent = 'Enviar respostas';
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>

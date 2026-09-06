@@ -641,200 +641,54 @@
   <!-- CONTENT -->
   <main>
 
-    <!-- BRONZE -->
     <section class="tier-section">
       <header class="tier-header">
-        <span class="tier-badge tier-bronze">🥉 Bronze — Níveis 1 a 3</span>
-        <p class="tier-desc">Os primeiros passos na natureza</p>
+        <span class="tier-badge tier-bronze">🎮 Jogos da Natureza</span>
+        <p class="tier-desc">Escolha uma aventura e comece a jogar</p>
       </header>
-      <section class="levels-grid">
-
-        <article class="level-card card-bronze-1 completed" onclick="showLevel(1)">
-          <span class="level-number">Nível 1</span>
-          <span class="level-emoji">🌍</span>
-          <h3 class="level-title">Descobrindo o Meio Ambiente</h3>
-          <p class="level-subtitle">O que nos rodeia no planeta</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Meio Ambiente</span>
-            <span class="topic-chip">Água</span>
-            <span class="topic-chip">Solo</span>
-            <span class="topic-chip">Animais</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-done">✅ Concluído</span>
-            <span class="level-pts">⭐ 100 pts</span>
-          </footer>
+      <section class="levels-grid" style="grid-template-columns: repeat(3, 1fr)">
+        <article class="level-card card-bronze-1" onclick="abrirJogo('aventura-na-floresta (4).html')">
+          <span class="level-number">Jogo 1</span><span class="level-emoji">🌲</span>
+          <h3 class="level-title">Aventura na Floresta</h3><p class="level-subtitle">Explore a floresta e descubra seus segredos.</p>
+          <nav class="level-topics"><span class="topic-chip">Exploração</span><span class="topic-chip">Floresta</span></nav>
+          <footer class="level-footer"><span class="level-status status-current">▶ Jogar agora</span><span class="level-pts">🎮</span></footer>
         </article>
-
-        <article class="level-card card-bronze-2 completed" onclick="showLevel(2)">
-          <span class="level-number">Nível 2</span>
-          <span class="level-emoji">💧</span>
-          <h3 class="level-title">Elementos da Natureza</h3>
-          <p class="level-subtitle">Água, plantas, animais e clima</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Tipos de água</span>
-            <span class="topic-chip">Plantas</span>
-            <span class="topic-chip">Clima</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-done">✅ Concluído</span>
-            <span class="level-pts">⭐ 150 pts</span>
-          </footer>
+        <article class="level-card card-bronze-2" onclick="abrirJogo('contando-na-natureza.html')">
+          <span class="level-number">Jogo 2</span><span class="level-emoji">🔢</span>
+          <h3 class="level-title">Contando na Natureza</h3><p class="level-subtitle">Conte elementos naturais enquanto aprende.</p>
+          <nav class="level-topics"><span class="topic-chip">Números</span><span class="topic-chip">Natureza</span></nav>
+          <footer class="level-footer"><span class="level-status status-current">▶ Jogar agora</span><span class="level-pts">🎮</span></footer>
         </article>
-
-        <article class="level-card card-bronze-3" onclick="showLevel(3)">
-          <span class="level-number">Nível 3</span>
-          <span class="level-emoji">🌿</span>
-          <h3 class="level-title">Conexões da Natureza</h3>
-          <p class="level-subtitle">Como tudo se conecta na vida</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Cadeia alimentar</span>
-            <span class="topic-chip">Poluição</span>
-            <span class="topic-chip">Árvores</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-current">▶ Em andamento</span>
-            <span class="level-pts">⭐ 200 pts</span>
-          </footer>
+        <article class="level-card card-bronze-3" onclick="abrirJogo('leve-cada-animal-para-casa.html')">
+          <span class="level-number">Jogo 3</span><span class="level-emoji">🐾</span>
+          <h3 class="level-title">Leve Cada Animal para Casa</h3><p class="level-subtitle">Ajude os animais a encontrar seu habitat.</p>
+          <nav class="level-topics"><span class="topic-chip">Animais</span><span class="topic-chip">Habitats</span></nav>
+          <footer class="level-footer"><span class="level-status status-current">▶ Jogar agora</span><span class="level-pts">🎮</span></footer>
         </article>
-
-      </section>
-    </section>
-
-    <!-- PRATA -->
-    <section class="tier-section">
-      <header class="tier-header">
-        <span class="tier-badge tier-silver">🥈 Prata — Níveis 4 a 6</span>
-        <p class="tier-desc">Cuide e preserve o planeta</p>
-      </header>
-      <section class="levels-grid">
-
-        <article class="level-card card-silver-1 locked" onclick="showLocked()">
-          <span class="lock-overlay">🔒</span>
-          <span class="level-number">Nível 4</span>
-          <span class="level-emoji">♻️</span>
-          <h3 class="level-title">Cuidando do Planeta</h3>
-          <p class="level-subtitle">Reciclagem e consciência</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Reciclagem</span>
-            <span class="topic-chip">Coleta seletiva</span>
-            <span class="topic-chip">Preservação</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-locked">🔒 Bloqueado</span>
-            <span class="level-pts">⭐ 250 pts</span>
-          </footer>
+        <article class="level-card card-silver-1" onclick="abrirJogo('ligue-as-pecinhas.html')">
+          <span class="level-number">Jogo 4</span><span class="level-emoji">🧩</span>
+          <h3 class="level-title">Ligue as Pecinhas</h3><p class="level-subtitle">Combine as peças e complete os desafios.</p>
+          <nav class="level-topics"><span class="topic-chip">Raciocínio</span><span class="topic-chip">Desafio</span></nav>
+          <footer class="level-footer"><span class="level-status status-current">▶ Jogar agora</span><span class="level-pts">🎮</span></footer>
         </article>
-
-        <article class="level-card card-silver-2 locked" onclick="showLocked()">
-          <span class="lock-overlay">🔒</span>
-          <span class="level-number">Nível 5</span>
-          <span class="level-emoji">🏭</span>
-          <h3 class="level-title">Problemas Ambientais</h3>
-          <p class="level-subtitle">Poluição, desmatamento e extinção</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Poluição</span>
-            <span class="topic-chip">Desmatamento</span>
-            <span class="topic-chip">Extinção</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-locked">🔒 Bloqueado</span>
-            <span class="level-pts">⭐ 300 pts</span>
-          </footer>
+        <article class="level-card card-silver-2" onclick="abrirJogo('monte-quebra-cabecas (5) (1).html')">
+          <span class="level-number">Jogo 5</span><span class="level-emoji">🧠</span>
+          <h3 class="level-title">Monte o Quebra-Cabeça</h3><p class="level-subtitle">Monte a imagem e revele a cena da natureza.</p>
+          <nav class="level-topics"><span class="topic-chip">Memória</span><span class="topic-chip">Puzzles</span></nav>
+          <footer class="level-footer"><span class="level-status status-current">▶ Jogar agora</span><span class="level-pts">🎮</span></footer>
         </article>
-
-        <article class="level-card card-silver-3 locked" onclick="showLocked()">
-          <span class="lock-overlay">🔒</span>
-          <span class="level-number">Nível 6</span>
-          <span class="level-emoji">🌱</span>
-          <h3 class="level-title">Sustentabilidade</h3>
-          <p class="level-subtitle">Consumo consciente e energia limpa</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Sustentabilidade</span>
-            <span class="topic-chip">Energia solar</span>
-            <span class="topic-chip">Reutilização</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-locked">🔒 Bloqueado</span>
-            <span class="level-pts">⭐ 350 pts</span>
-          </footer>
+        <article class="level-card card-silver-3" onclick="abrirJogo('nivel03-conexoes-da-natureza-CORRIGIDO (1).html')">
+          <span class="level-number">Jogo 6</span><span class="level-emoji">🌿</span>
+          <h3 class="level-title">Conexões da Natureza</h3><p class="level-subtitle">Descubra como os seres vivos se relacionam.</p>
+          <nav class="level-topics"><span class="topic-chip">Ecossistemas</span><span class="topic-chip">Conexões</span></nav>
+          <footer class="level-footer"><span class="level-status status-current">▶ Jogar agora</span><span class="level-pts">🎮</span></footer>
         </article>
-
-      </section>
-    </section>
-
-    <!-- OURO -->
-    <section class="tier-section">
-      <header class="tier-header">
-        <span class="tier-badge tier-gold">🥇 Ouro — Níveis 7 a 10</span>
-        <p class="tier-desc">Os guardiões do planeta</p>
-      </header>
-      <section class="levels-grid" style="grid-template-columns: repeat(4,1fr)">
-
-        <article class="level-card card-gold-1 locked" onclick="showLocked()">
-          <span class="lock-overlay">🔒</span>
-          <span class="level-number">Nível 7</span>
-          <span class="level-emoji">🦋</span>
-          <h3 class="level-title">Biodiversidade</h3>
-          <p class="level-subtitle">Fauna, flora e ecossistemas</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Ecossistemas</span>
-            <span class="topic-chip">Florestas</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-locked">🔒</span>
-            <span class="level-pts">⭐ 400 pts</span>
-          </footer>
+        <article class="level-card card-gold-1" onclick="abrirJogo('pintandonaturezaartifact.html')">
+          <span class="level-number">Jogo 7</span><span class="level-emoji">🎨</span>
+          <h3 class="level-title">Pintando a Natureza</h3><p class="level-subtitle">Use as cores para criar sua própria paisagem.</p>
+          <nav class="level-topics"><span class="topic-chip">Criatividade</span><span class="topic-chip">Cores</span></nav>
+          <footer class="level-footer"><span class="level-status status-current">▶ Jogar agora</span><span class="level-pts">🎮</span></footer>
         </article>
-
-        <article class="level-card card-gold-2 locked" onclick="showLocked()">
-          <span class="lock-overlay">🔒</span>
-          <span class="level-number">Nível 8</span>
-          <span class="level-emoji">🌡️</span>
-          <h3 class="level-title">Mudanças no Planeta</h3>
-          <p class="level-subtitle">Clima, impactos e desastres</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Aquecimento</span>
-            <span class="topic-chip">Desastres</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-locked">🔒</span>
-            <span class="level-pts">⭐ 450 pts</span>
-          </footer>
-        </article>
-
-        <article class="level-card card-gold-3 locked" onclick="showLocked()">
-          <span class="lock-overlay">🔒</span>
-          <span class="level-number">Nível 9</span>
-          <span class="level-emoji">🤝</span>
-          <h3 class="level-title">Ações Sustentáveis</h3>
-          <p class="level-subtitle">Projetos e comunidade ecológica</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Projetos</span>
-            <span class="topic-chip">Comunidade</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-locked">🔒</span>
-            <span class="level-pts">⭐ 500 pts</span>
-          </footer>
-        </article>
-
-        <article class="level-card card-gold-4 locked" onclick="showLocked()">
-          <span class="lock-overlay">🔒</span>
-          <span class="level-number">Nível 10</span>
-          <span class="level-emoji">🏆</span>
-          <h3 class="level-title">Guardiões do Planeta</h3>
-          <p class="level-subtitle">Liderança e missões finais</p>
-          <nav class="level-topics">
-            <span class="topic-chip">Liderança</span>
-            <span class="topic-chip">Missões</span>
-          </nav>
-          <footer class="level-footer">
-            <span class="level-status status-locked">🔒</span>
-            <span class="level-pts">⭐ 600 pts</span>
-          </footer>
-        </article>
-
       </section>
     </section>
 
@@ -1037,6 +891,10 @@ const LEVELS = {
     ]
   }
 };
+
+function abrirJogo(nomeArquivo) {
+  window.location.href = '/jogos/comum/' + encodeURIComponent(nomeArquivo);
+}
 
 function showPage(id) {
   document.querySelectorAll('section.page').forEach(p => p.classList.remove('active'));

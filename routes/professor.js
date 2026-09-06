@@ -130,7 +130,7 @@ router.get('/area', async (req, res) => {
       req.session.user.instituicao_id = 1; // Fallback padrão
     }
     
-    // Carregar turmas da instituição do professor
+    // Carregar as turmas da instituição do professor.
     const turmas = await Turma.listarPorInstituicao(req.session.user.instituicao_id);
     console.log('✅ Turmas da instituição:', turmas ? turmas.length : 0);
     

@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Respostas da atividade</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #3d9e4f;
+      --green-dark: #2a7338;
+      --green-light: #6dc47e;
+      --green-pale: #edf7ee;
+      --yellow: #f5c842;
+      --bg: #f4f8f4;
+      --card: #ffffff;
+      --text: #1d2b1d;
+      --text-mid: #4d5d4d;
+      --text-light: #7b8a7b;
+      --border: #e3ebdf;
+      --shadow: 0 12px 30px rgba(25, 60, 35, 0.08);
+      --success-bg: #ebf9ee;
+      --success-text: #197b42;
+      --blue-soft: #eaf4ff;
+      --blue-text: #2060b8;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Nunito', sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(109,196,126,0.18), transparent 18%),
+        radial-gradient(circle at top right, rgba(245,200,66,0.18), transparent 20%),
+        linear-gradient(180deg, #f0f7f1 0%, var(--bg) 100%);
+      color: var(--text);
+    }
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px 48px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background: var(--green-pale);
+      color: var(--green-dark);
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .btn {
+      border: none;
+      border-radius: 12px;
+      padding: 11px 18px;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.18s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-secondary {
+      background: #eef1ee;
+      color: var(--text);
+    }
+    .btn-primary {
+      background: var(--green);
+      color: white;
+    }
+    .card {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fdf9 100%);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '🌿';
+      position: absolute;
+      right: -14px;
+      top: -12px;
+      font-size: 4.5rem;
+      opacity: 0.08;
+      transform: rotate(18deg);
+    }
+    h1 {
+      font-family: 'Fredoka One', cursive;
+      margin: 0 0 10px;
+      font-size: clamp(1.8rem, 2vw, 2.6rem);
+      letter-spacing: 0.02em;
+    }
+    .desc {
+      margin: 0 0 28px;
+      color: var(--text-mid);
+      font-size: 1rem;
+    }
+    .error {
+      background: #fff4f4;
+      border: 1px solid #ffd4d4;
+      color: #b91c1c;
+      border-radius: 14px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .stat {
+      background: linear-gradient(180deg, #f9fdf9, #f2f7f2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 800;
+    }
+    .stat-value {
+      font-size: 1.7rem;
+      font-family: 'Fredoka One', cursive;
+      margin-top: 8px;
+      color: var(--green-dark);
+    }
+    .list-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 18px 0 14px;
+      flex-wrap: wrap;
+    }
+    .list-title {
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--success-bg), #f7ffef);
+      color: var(--success-text);
+      box-shadow: 0 8px 18px rgba(25, 123, 66, 0.09);
+    }
+    .table-wrap {
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: white;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      text-align: left;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: #f8faf8;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-light);
+      font-weight: 900;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: #fafdfb; }
+    .student-cell {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+    }
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--green-light), var(--green));
+      color: white;
+      font-weight: 900;
+      font-size: 0.8rem;
+    }
+    .status-tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 110px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      background: var(--success-bg);
+      color: var(--success-text);
+    }
+    .btn-small {
+      background: var(--blue-soft);
+      color: var(--blue-text);
+      border: none;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font: inherit;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    .answers-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 18px;
+    }
+    .answer {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(237,247,238,0.4), white);
+    }
+    .answer-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .student-name {
+      font-weight: 800;
+      font-size: 1.08rem;
+    }
+    .time {
+      font-size: 0.82rem;
+      color: var(--text-light);
+      font-weight: 700;
+    }
+    .questions {
+      display: grid;
+      gap: 12px;
+    }
+    .question-row {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px;
+    }
+    .question-row strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text-mid);
+    }
+    .reply {
+      color: var(--text);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+    .empty {
+      text-align: center;
+      color: var(--text-light);
+      padding: 28px;
+      border: 1px dashed var(--border);
+      border-radius: 18px;
+      background: #fafcfb;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="topbar">
+      <span class="pill">Atividade do professor</span>
+      <button class="btn btn-secondary" type="button" onclick="history.back()">Voltar</button>
+    </div>
+
+    <% if (error) { %>
+      <div class="error"><%= error %></div>
+    <% } else if (atividade) { %>
+      <div class="card">
+        <h1><%= atividade.titulo %></h1>
+        <p class="desc"><%= atividade.descricao || 'Atividade publicada para a turma.' %></p>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-label">Entregues</div>
+            <div class="stat-value"><%= respostas.length %></div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Perguntas</div>
+            <div class="stat-value"><%= (atividade.perguntas || []).length %></div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Tipo</div>
+            <div class="stat-value"><%= (atividade.tipo || 'atividade') %></div>
+          </div>
+        </div>
+
+        <div class="list-header">
+          <div class="list-title">📚 Entregas da atividade</div>
+          <div class="status-pill">🎉 <%= respostas.length %> entregues</div>
+        </div>
+
+        <% if (respostas.length === 0) { %>
+          <div class="empty">Ainda não há respostas desta atividade. Quando os alunos enviarem, elas aparecerão aqui.</div>
+        <% } else { %>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Aluno</th>
+                  <th>Data da entrega</th>
+                  <th>Status</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% respostas.forEach(function(resposta) { %>
+                  <tr>
+                    <td>
+                      <div class="student-cell">
+                        <div class="avatar"><%= (resposta.aluno ? resposta.aluno.nome : 'A').split(' ').map(p => p[0]).slice(0,2).join('').toUpperCase() %></div>
+                        <span><%= resposta.aluno ? resposta.aluno.nome : 'Aluno' %></span>
+                      </div>
+                    </td>
+                    <td><%= new Date(resposta.criado_em).toLocaleString('pt-BR') %></td>
+                    <td><span class="status-tag">✅ Entregue</span></td>
+                    <td><button class="btn-small" type="button" onclick="document.getElementById('answer-<%= resposta.id %>').scrollIntoView({behavior:'smooth', block:'start'})">🧩 Abrir</button></td>
+                  </tr>
+                <% }); %>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="answers-list">
+            <% respostas.forEach(function(resposta) { %>
+              <article class="answer" id="answer-<%= resposta.id %>">
+                <div class="answer-header">
+                  <div class="student-name"><%= resposta.aluno ? resposta.aluno.nome : 'Aluno' %></div>
+                  <div class="time"><%= new Date(resposta.criado_em).toLocaleString('pt-BR') %></div>
+                </div>
+
+                <div class="questions">
+                  <% (resposta.respostas || []).forEach(function(item) { %>
+                    <% const pergunta = (atividade.perguntas || []).find(p => Number(p.id) === Number(item.pergunta_id)); %>
+                    <div class="question-row">
+                      <strong><%= pergunta ? pergunta.texto : 'Pergunta #' + item.pergunta_id %></strong>
+                      <div class="reply"><%= item.resposta || 'Sem resposta' %></div>
+                    </div>
+                  <% }); %>
+                </div>
+              </article>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+    <% } %>
+  </div>
+</body>
+</html>

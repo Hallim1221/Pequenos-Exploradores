@@ -23,6 +23,15 @@ const autenticar = (req, res, next) => {
   next();
 };
 
+const isProfessor = (user) => {
+  const tipo = user?.tipo || user?.role || user?.type;
+  return typeof tipo === 'string' && tipo.trim().toLowerCase() === 'professor';
+};
+
+const renovarSessaoNoLogin = (req) => new Promise((resolve, reject) => {
+  req.session.regenerate((erro) => erro ? reject(erro) : resolve());
+});
+
 // Middleware para verificar se é gestor/admin
 const autenticarAdmin = (req, res, next) => {
   if (!req.session || !req.session.user) {
@@ -72,14 +81,14 @@ router.get('/dashboard-admin', async (req, res) => {
 });
 
 // Logout
-router.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ success: false, message: 'Erro ao fazer logout' });
-    }
-    res.redirect('/');
-  });
-});
+// O logout principal agora é tratado diretamente em app.js para evitar conflitos de rota.
+// router.get('/logout', (req, res) => {
+//   if (req.session) {
+//     req.session.destroy(() => {});
+//   }
+//   res.clearCookie('sessionId');
+//   res.redirect('/');
+// });
 
 // Página de turmas do professor
 router.get('/professor_turmas', (req, res) => {
@@ -132,6 +141,213 @@ router.post('/comprar-avatar', async (req, res) => {
   } catch (erro) {
     console.error('Erro ao comprar avatar:', erro);
     return res.status(500).json({ sucesso: false, mensagem: 'Erro ao processar compra' });
+  }
+});
+
+// ===== Atividades: criar / listar / postar =====
+// Criar atividade (professor)
+router.post('/api/atividades', autenticar, (req, res) => {
+  try {
+    const user = req.session.user;
+    if (!isProfessor(user)) {
+      const tipoAtual = user?.tipo || user?.role || user?.type || 'desconhecido';
+      return res.status(403).json({
+        success: false,
+        message: `Apenas professores podem criar atividades. Sessão atual: ${tipoAtual}. Faça login como professor.`
+      });
+    }
+
+    const { titulo, descricao, tipo, perguntas } = req.body;
+    if (!titulo || typeof titulo !== 'string' || !titulo.trim()) {
+      return res.status(400).json({ success: false, message: 'O título da atividade é obrigatório' });
+    }
+    const perguntasNormalizadas = Array.isArray(perguntas) ? perguntas : [];
+    const atividade = mockdb.criarAtividade(user.id, titulo.trim(), descricao, tipo, perguntasNormalizadas);
+    return res.json({ success: true, atividade });
+  } catch (err) {
+    console.error('Erro criar atividade:', err);
+    return res.status(500).json({ success: false, message: 'Erro ao criar atividade' });
+  }
+});
+
+// Listar atividades do professor
+router.get('/api/atividades/professor', autenticar, (req, res) => {
+  try {
+    const user = req.session.user;
+    if (!isProfessor(user)) return res.status(403).json({ success: false, message: 'Apenas professores' });
+    const atividades = mockdb.listarAtividadesPorProfessor(user.id);
+    return res.json({ success: true, atividades });
+  } catch (err) {
+    console.error('Erro listar atividades:', err);
+    return res.status(500).json({ success: false, message: 'Erro ao listar atividades' });
+  }
+});
+
+// Postar atividade em turma
+router.post('/api/atividades/:id/postar', autenticar, async (req, res) => {
+  try {
+    const user = req.session.user;
+    const atividade_id = parseInt(req.params.id, 10);
+    const turma_id = parseInt(req.body.turma_id, 10);
+    
+    console.log('═══════════════════════════════════════════════════');
+    console.log('📩 POST /api/atividades/:id/postar');
+    console.log('   Atividade ID (param):', req.params.id, '→ parseInt:', atividade_id);
+    console.log('   Turma ID (body):', req.body.turma_id, '→ parseInt:', turma_id);
+    console.log('   Professor ID:', user?.id);
+    console.log('   Professor tipo:', user?.tipo);
+    console.log('   User session:', user);
+    console.log('═══════════════════════════════════════════════════');
+    
+    if (!isProfessor(user)) {
+      console.error('❌ Usuário não é professor ou não autenticado');
+      return res.status(403).json({ success: false, message: 'Apenas professores' });
+    }
+    
+    if (!Number.isInteger(atividade_id) || !Number.isInteger(turma_id)) {
+      console.error('❌ IDs não são inteiros válidos:', { atividade_id, turma_id });
+      return res.status(400).json({ success: false, message: 'atividade_id e turma_id devem ser valores numéricos válidos' });
+    }
+    
+    const atividade = mockdb.buscarAtividadePorId(atividade_id);
+    if (!atividade) {
+      console.error('❌ Atividade não encontrada no mockdb:', atividade_id);
+      return res.status(404).json({ success: false, message: 'Atividade não encontrada' });
+    }
+
+    const turmasDoProfessor = await Turma.listarPorProfessor(user.id);
+    const turmaDaLista = (turmasDoProfessor || []).find(t => parseInt(t.id, 10) === turma_id);
+    const turma = turmaDaLista || await Turma.buscarPorId(turma_id);
+    if (!turma) {
+      console.error('❌ Turma não encontrada:', turma_id);
+      return res.status(404).json({ success: false, message: 'Turma não encontrada' });
+    }
+
+    if (parseInt(turma.professor_id, 10) !== parseInt(user.id, 10)) {
+      console.error('❌ Professor não é dono da turma:', { turma_id, turma_professor_id: turma.professor_id, professor_id: user.id });
+      return res.status(403).json({ success: false, message: 'Você não tem permissão para postar nesta turma' });
+    }
+
+    // As atividades ainda usam o mockdb; mantenha a turma disponível nele quando veio do banco real.
+    if (typeof mockdb.sincronizarTurma === 'function') mockdb.sincronizarTurma(turma);
+
+    console.log('✅ Validações OK. Chamando mockdb.postarAtividadeParaTurma...');
+    const postagem = mockdb.postarAtividadeParaTurma(atividade_id, turma_id, user.id);
+    
+    if (!postagem) {
+      console.warn('❌ Falha ao postar atividade. Turma ou permissão inválida:', { atividade_id, turma_id, professor_id: user.id });
+      return res.status(400).json({ success: false, message: 'Erro ao postar atividade (verifique permissão/turma)' });
+    }
+    
+    console.log('✅ Postagem criada:', postagem);
+    console.log('✅ Atividade recuperada:', atividade ? `ID ${atividade.id}, ${atividade.titulo}` : 'não encontrada');
+    return res.json({ success: true, postagem, atividade });
+  } catch (err) {
+    console.error('❌ Erro postar atividade:', err);
+    return res.status(500).json({ success: false, message: 'Erro ao postar atividade' });
+  }
+});
+
+// Listar atividades por turma
+router.get('/api/atividades/turma/:turma_id', autenticar, (req, res) => {
+  try {
+    const turma_id = req.params.turma_id;
+    const lista = mockdb.listarAtividadesPorTurma(turma_id);
+    return res.json({ success: true, atividades: lista });
+  } catch (err) {
+    console.error('Erro listar atividades por turma:', err);
+    return res.status(500).json({ success: false, message: 'Erro ao listar atividades' });
+  }
+});
+
+router.get('/atividade/:id', autenticar, (req, res) => {
+  try {
+    const atividade = mockdb.buscarAtividadePorId(req.params.id);
+    if (!atividade) {
+      return res.status(404).render('atividade-responder', {
+        atividade: null,
+        error: 'Atividade não encontrada.',
+        user: req.session.user
+      });
+    }
+
+    return res.render('atividade-responder', {
+      atividade,
+      user: req.session.user,
+      error: null
+    });
+  } catch (err) {
+    console.error('Erro ao abrir atividade:', err);
+    return res.status(500).render('atividade-responder', {
+      atividade: null,
+      error: 'Erro ao carregar a atividade.',
+      user: req.session.user
+    });
+  }
+});
+
+router.get('/professor/atividade/:id', autenticar, (req, res) => {
+  try {
+    const atividade = mockdb.buscarAtividadePorId(req.params.id);
+    if (!atividade) {
+      return res.status(404).render('professor_atividade', {
+        atividade: null,
+        respostas: [],
+        error: 'Atividade não encontrada.',
+        user: req.session.user
+      });
+    }
+
+    if (req.session.user.tipo !== 'professor' || atividade.professor_id !== req.session.user.id) {
+      return res.status(403).render('professor_atividade', {
+        atividade,
+        respostas: [],
+        error: 'Você não tem permissão para visualizar esta atividade.',
+        user: req.session.user
+      });
+    }
+
+    const respostas = mockdb.listarRespostasPorAtividade(req.params.id);
+    return res.render('professor_atividade', {
+      atividade,
+      respostas,
+      user: req.session.user,
+      error: null
+    });
+  } catch (err) {
+    console.error('Erro ao abrir respostas da atividade:', err);
+    return res.status(500).render('professor_atividade', {
+      atividade: null,
+      respostas: [],
+      error: 'Erro ao carregar respostas da atividade.',
+      user: req.session.user
+    });
+  }
+});
+
+router.post('/api/atividades/:id/responder', autenticar, (req, res) => {
+  try {
+    const atividade_id = req.params.id;
+    const respostas = Array.isArray(req.body.respostas) ? req.body.respostas : [];
+    const aluno_id = req.session.user?.id;
+
+    if (!aluno_id) {
+      return res.status(401).json({ success: false, message: 'Aluno não autenticado' });
+    }
+
+    const registro = mockdb.registrarRespostaAtividade(atividade_id, aluno_id, respostas);
+    if (!registro) {
+      return res.status(404).json({ success: false, message: 'Atividade não encontrada' });
+    }
+
+    return res.json({
+      success: true,
+      message: 'Respostas enviadas com sucesso!',
+      registro
+    });
+  } catch (err) {
+    console.error('Erro ao responder atividade:', err);
+    return res.status(500).json({ success: false, message: 'Erro ao registrar resposta' });
   }
 });
 // Cadastro do Professor (POST)
@@ -424,6 +640,7 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
 
+      await renovarSessaoNoLogin(req);
       req.session.user = { tipo: 'aluno', email: email, id: aluno.id };
       req.session.saldo = aluno.saldo;
       req.session.authenticated = true;
@@ -451,6 +668,7 @@ router.post('/login', async (req, res) => {
         return res.status(401).json({ success: false, message: 'Credenciais inválidas' });
       }
 
+      await renovarSessaoNoLogin(req);
       req.session.user = { tipo: 'professor', email: email, id: professor.id, nome: professor.nome, instituicao_id: professor.instituicao_id };
       req.session.authenticated = true;
       req.session.cookie.maxAge = 24 * 60 * 60 * 1000;
@@ -908,23 +1126,6 @@ router.post('/professor/turmas/criar', async (req, res) => {
 });
 
 // Página da área do professor
-// LOGOUT
-router.get('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      // Se for requisição AJAX/API, retorna JSON
-      if (req.xhr || req.headers.accept?.includes('application/json')) {
-        return res.status(500).json({ success: false, message: 'Erro ao fazer logout' });
-      }
-      return res.redirect('/');
-    }
-    // Se for requisição AJAX/API, retorna JSON
-    if (req.xhr || req.headers.accept?.includes('application/json')) {
-      return res.json({ success: true, message: 'Logout realizado com sucesso' });
-    }
-    res.redirect('/');
-  });
-});
 
 // ROTAS DE PARCERIAS COM ESCOLAS
 router.get('/parcerias-escolas', (req, res) => {
