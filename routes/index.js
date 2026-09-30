@@ -899,6 +899,16 @@ router.get('/aluno-premium', async (req, res) => {
     let saldo = 700; // Padrão
     let nomeAluno = 'Explorador'; // Nome padrão
     let nomeCompletoAluno = 'Explorador'; // Nome completo padrão
+    let premiumData = {
+      nome: nomeCompletoAluno,
+      primeiroNome: nomeAluno,
+      escola: 'Sua Escola',
+      turma: 'Sem turma',
+      pontos: saldo,
+      posicao: null,
+      missoes: 0,
+      alunosRanking: []
+    };
     
     // Se está autenticado, buscar saldo real do BD
     if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
@@ -909,13 +919,56 @@ router.get('/aluno-premium', async (req, res) => {
         // Extrair primeiro nome (parte antes do primeiro espaço)
         nomeAluno = nomeCompletoAluno.split(' ')[0];
         req.session.saldo = saldo; // Manter session sincronizada
+
+        let nomeEscola = 'Sua Escola';
+        let nomeTurma = 'Sem turma';
+        if (aluno.instituicao_id) {
+          const instituicao = await Parceria.buscarPorId(aluno.instituicao_id);
+          if (instituicao) nomeEscola = instituicao.nome_escola || instituicao.nome || nomeEscola;
+        }
+        if (aluno.turma_id) {
+          const turma = await Turma.buscarPorId(aluno.turma_id);
+          if (turma) nomeTurma = turma.nome || turma.ano_escolar || nomeTurma;
+        }
+
+        const atividadesAluno = Array.isArray(require('../lib/mockdb').atividades)
+          ? require('../lib/mockdb').atividades.filter(item => Number(item.aluno_id) === Number(aluno.id))
+          : [];
+        const ranking = await Ranking.ranking();
+        const rankingInstituicao = (ranking || []).filter(item => {
+          return !aluno.instituicao_id || Number(item.instituicao_id || aluno.instituicao_id) === Number(aluno.instituicao_id);
+        });
+        const posicao = await Ranking.posicaoAlunoGeral(aluno.id);
+
+        premiumData = {
+          nome: nomeCompletoAluno,
+          primeiroNome: nomeAluno,
+          escola: nomeEscola,
+          turma: nomeTurma,
+          pontos: Number(saldo) || 0,
+          posicao: posicao || null,
+          missoes: atividadesAluno.length,
+          alunosRanking: rankingInstituicao.slice(0, 8).map(item => ({
+            id: item.id,
+            nome: item.nome,
+            pontos: Number(item.saldo) || 0
+          }))
+        };
       }
     }
     
-    res.render('aluno-premium', { saldo, nomeAluno, nomeCompletoAluno });
+    res.render('aluno-premium', { saldo, nomeAluno, nomeCompletoAluno, premiumData });
   } catch (erro) {
     console.error('Erro ao carregar página aluno-premium:', erro);
-    res.render('aluno-premium', { saldo: 700, nomeAluno: 'Explorador', nomeCompletoAluno: 'Explorador' });
+    res.render('aluno-premium', {
+      saldo: 700,
+      nomeAluno: 'Explorador',
+      nomeCompletoAluno: 'Explorador',
+      premiumData: {
+        nome: 'Explorador', primeiroNome: 'Explorador', escola: 'Sua Escola',
+        turma: 'Sem turma', pontos: 700, posicao: null, missoes: 0, alunosRanking: []
+      }
+    });
   }
 });
 
