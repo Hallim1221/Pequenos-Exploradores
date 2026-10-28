@@ -17,7 +17,109 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view cache', false); // Desabilitar cache para debug
 
 // Middlewares
+app.get('/Area-Premium.html', (req, res) => res.redirect('/aluno-premium'));
 app.use(express.static(path.join(__dirname, 'public')));
+const jogosNaturezaOriginais = {
+  'aventura-na-floresta (4).html': {
+    original: 'aventura-na-floresta (4).html',
+    slug: 'aventura-na-floresta',
+    marker: "document.getElementById('overlayOver').classList.remove('hidden');",
+    completion: "window.PEJogoComum && PEJogoComum.concluir({ desempenho: Math.min(1, this.score / 4000), resultado: Math.floor(this.distance) + ' m, ' + this.coins + ' moedas, ' + this.score + ' pontos no jogo' });\n  "
+  },
+  'contando-na-natureza.html': {
+    original: 'contando-na-natureza.html',
+    slug: 'contando-na-natureza',
+    marker: '$("final-points").textContent = state.points;',
+    completion: "window.PEJogoComum && PEJogoComum.concluir({ desempenho: Math.min(1, state.points / (TOTAL_LEVELS * 10)), resultado: TOTAL_LEVELS + ' níveis concluídos, ' + state.points + ' pontos no jogo' });\n  "
+  },
+  'leve-cada-animal-para-casa.html': {
+    original: 'leve-cada-animal-para-casa.html',
+    slug: 'leve-cada-animal-para-casa',
+    marker: "document.getElementById('final-score').textContent = gameState.score;",
+    completion: "window.PEJogoComum && PEJogoComum.concluir({ desempenho: 1, resultado: LEVELS.length + ' fases concluídas, ' + gameState.score + ' pontos no jogo' });\n  "
+  },
+  'ligue-as-pecinhas.html': {
+    original: 'ligue-as-pecinhas.html',
+    slug: 'ligue-as-pecinhas',
+    marker: 'registerCompletion(act);',
+    completion: "window.PEJogoComum && PEJogoComum.concluir({ desempenho: 1, resultado: 'Desafio de pecinhas concluído' });\n  "
+  },
+  'monte-quebra-cabecas (5) (1).html': {
+    original: 'monte-quebra-cabecas (5) (1).html',
+    slug: 'monte-quebra-cabecas',
+    marker: 'const firstTime = puzzle ? registerPuzzleCompletion(puzzle) : false;',
+    completion: "window.PEJogoComum && PEJogoComum.concluir({ desempenho: firstTime ? 1 : 0, resultado: firstTime ? 'Quebra-cabeça montado pela primeira vez' : 'Quebra-cabeça montado novamente' });\n  "
+  },
+  'nivel03-conexoes-da-natureza-CORRIGIDO (1).html': {
+    original: 'nivel03-conexoes-da-natureza-CORRIGIDO (1).html',
+    slug: 'conexoes-da-natureza',
+    cores: { '#8F6FE0': '#3FA34D', '#5A3FA0': '#1F6E3D' },
+    marker: 'const percentualAcerto = totalRespondidas > 0 ? (respostasCertas/totalRespondidas) : 0;',
+    completion: 'window.PEJogoComum && PEJogoComum.concluir({ desempenho: (nivelAlcancado / TOTAL_NIVEIS) * 0.6 + percentualAcerto * 0.4, resultado: \'Nível \' + nivelAlcancado + \' de \' + TOTAL_NIVEIS + \', \' + Math.round(percentualAcerto * 100) + \'% de acertos\' });\n  '
+  },
+  'pintandonaturezaartifact.html': {
+    original: 'pintandonaturezaartifact.html',
+    slug: 'pintando-a-natureza',
+    marker: 'document.getElementById("complete-score").textContent = this.score;',
+    completion: "window.PEJogoComum && PEJogoComum.concluir({ desempenho: 1, resultado: 'Desenho completo (' + this.totalRegions + ' áreas)' });\n    "
+  }
+};
+const botaoSairJogoComum = `
+<style>
+  #pe-btn-sair-jogo-comum {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 9px 18px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    box-shadow: 0 4px 14px rgba(46, 125, 50, 0.45);
+    color: #fff;
+    cursor: pointer;
+    font: 600 13px 'Fredoka', 'Nunito', system-ui, sans-serif;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  #pe-btn-sair-jogo-comum:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(46, 125, 50, 0.6);
+  }
+</style>
+<button id="pe-btn-sair-jogo-comum" type="button" title="Sair do jogo" aria-label="Sair do jogo"
+  onclick="window.location.assign('/natureza')"><span aria-hidden="true">&#10005;</span> Sair</button>
+`;
+app.get('/jogos/comum/:arquivo', (req, res, next) => {
+  const jogo = jogosNaturezaOriginais[req.params.arquivo];
+  if (!jogo) return next();
+  fs.readFile(path.join(__dirname, 'views', 'jogos.original', 'comum', jogo.original), 'utf8', (error, html) => {
+    if (error) {
+      console.error('Erro ao carregar jogo original da área Natureza:', error);
+      return next(error);
+    }
+    const markerCount = html.split(jogo.marker).length - 1;
+    if (markerCount !== 1) {
+      return next(new Error(`Ponto de conclusão inesperado no jogo ${jogo.slug}: ${markerCount} ocorrências.`));
+    }
+    const htmlComPaletaComum = Object.entries(jogo.cores || {}).reduce(
+      (conteudo, [corOriginal, corVerde]) => conteudo.split(corOriginal).join(corVerde),
+      html
+    );
+    const htmlInstrumentado = htmlComPaletaComum.replace(jogo.marker, jogo.completion + jogo.marker);
+    const scriptPontos = `<script src="/js/common-game-points.js" data-jogo="${jogo.slug}"></script>`;
+    const bodyEnd = /<\/body\s*>/i;
+    const htmlEnd = /<\/html\s*>/i;
+    const htmlComBotao = bodyEnd.test(htmlInstrumentado)
+      ? htmlInstrumentado.replace(bodyEnd, match => scriptPontos + botaoSairJogoComum + match)
+      : htmlEnd.test(htmlInstrumentado)
+        ? htmlInstrumentado.replace(htmlEnd, match => scriptPontos + botaoSairJogoComum + match)
+        : htmlInstrumentado + scriptPontos + botaoSairJogoComum;
+    return res.type('html').send(htmlComBotao);
+  });
+});
 app.use('/jogos/comum', express.static(path.join(__dirname, 'views', 'jogos.original', 'comum')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

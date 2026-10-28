@@ -1,5 +1,8 @@
 
 const express = require('express');
+const fs = require('fs').promises;
+const path = require('path');
+const { randomUUID } = require('crypto');
 const { body, validationResult } = require('express-validator');
 const router = express.Router();
 
@@ -13,6 +16,231 @@ const Gestao = require('../models/Gestao');
 const Parceria = require('../models/Parceria');
 const Estatisticas = require('../lib/estatisticas');
 const mockdb = require('../lib/mockdb');
+const Ranking = require('../models/Ranking');
+const Premium = require('../models/Premium');
+
+let premiumStaticBase;
+const premiumPresence = new Map();
+
+async function getPremiumStaticBase() {
+  if (premiumStaticBase) return premiumStaticBase;
+  const source = await fs.readFile(path.join(__dirname, '..', 'views', 'Area-Premium.html'), 'utf8');
+  const marker = 'var PE_BASE = ';
+  const assignment = source.indexOf(marker);
+  if (assignment < 0) throw new Error('PE_BASE não encontrado na página premium');
+  let start = assignment + marker.length;
+  while (/\s/.test(source[start])) start++;
+  let depth = 0;
+  let quoted = false;
+  let escaped = false;
+  let end = start;
+  for (; end < source.length; end++) {
+    const char = source[end];
+    if (quoted) {
+      if (escaped) escaped = false;
+      else if (char === '\\') escaped = true;
+      else if (char === '"') quoted = false;
+      continue;
+    }
+    if (char === '"') quoted = true;
+    else if (char === '{') depth++;
+    else if (char === '}' && --depth === 0) break;
+  }
+  premiumStaticBase = JSON.parse(source.slice(start, end + 1));
+  return premiumStaticBase;
+}
+
+function replaceJsonAssignment(source, marker, value) {
+  const assignment = source.indexOf(marker);
+  if (assignment < 0) throw new Error(`${marker} não encontrado na página premium`);
+  let start = assignment + marker.length;
+  while (/\s/.test(source[start])) start++;
+  let depth = 0;
+  let quoted = false;
+  let escaped = false;
+  let end = start;
+  for (; end < source.length; end++) {
+    const char = source[end];
+    if (quoted) {
+      if (escaped) escaped = false;
+      else if (char === '\\') escaped = true;
+      else if (char === '"') quoted = false;
+      continue;
+    }
+    if (char === '"') quoted = true;
+    else if (char === '{' || char === '[') depth++;
+    else if (char === '}' || char === ']') {
+      depth--;
+      if (depth === 0) break;
+    }
+  }
+  return source.slice(0, start) + JSON.stringify(value).replace(/</g, '\\u003c') + source.slice(end + 1);
+}
+
+function rankEntries(students, turmaNome) {
+  return students
+    .slice()
+    .sort((left, right) => Number(right.saldo || 0) - Number(left.saldo || 0) || String(left.nome).localeCompare(String(right.nome)))
+    .map((student, index) => ({
+      id: Number(student.id),
+      nome: student.nome,
+      pontos: Number(student.saldo) || 0,
+      avatar: student.avatar || null,
+      turma_nome: student.turma_nome || turmaNome || '',
+      partidas: Number(student.partidas) || 0,
+      posicao: index + 1,
+      voce: false
+    }));
+}
+
+const NIVEIS_PREMIUM = [
+  { minimo: 0, nome: 'Explorador Iniciante' },
+  { minimo: 100, nome: 'Explorador Curioso' },
+  { minimo: 250, nome: 'Explorador Aventureiro' },
+  { minimo: 500, nome: 'Explorador Experiente' },
+  { minimo: 1000, nome: 'Guardião da Natureza' },
+  { minimo: 2000, nome: 'Mestre Explorador' },
+  { minimo: 3500, nome: 'Lenda da Natureza' }
+];
+
+function calcularNivelPremium(pontos) {
+  const total = Math.max(0, Number(pontos) || 0);
+  let indice = 0;
+  NIVEIS_PREMIUM.forEach((nivel, index) => {
+    if (total >= nivel.minimo) indice = index;
+  });
+  const atual = NIVEIS_PREMIUM[indice];
+  const proximo = NIVEIS_PREMIUM[indice + 1] || null;
+  return {
+    numero: indice + 1,
+    nome: atual.nome,
+    pontos: total,
+    minimo: atual.minimo,
+    proximoMinimo: proximo ? proximo.minimo : null,
+    faltam: proximo ? Math.max(0, proximo.minimo - total) : 0,
+    progresso: proximo
+      ? Math.min(100, Math.round(((total - atual.minimo) / (proximo.minimo - atual.minimo)) * 100))
+      : 100
+  };
+}
+
+async function alunoEhPremium(aluno) {
+  const plano = await Aluno.buscarPlanoEscola(aluno);
+  return String(plano || '').trim().toLowerCase() === 'premium';
+}
+
+async function buildPremiumBase(aluno) {
+  const base = JSON.parse(JSON.stringify(await getPremiumStaticBase()));
+  const alunoId = Number(aluno.id);
+  const saldo = Number(aluno.saldo) || 0;
+  const nome = aluno.nome || 'Aluno';
+  const primeiroNome = nome.trim().split(/\s+/)[0] || 'Aluno';
+  const [turma, parceria, rankings, partidas] = await Promise.all([
+    aluno.turma_id ? Turma.buscarPorId(aluno.turma_id) : null,
+    aluno.instituicao_id ? Parceria.buscarPorId(aluno.instituicao_id) : null,
+    Ranking.ranking(),
+    Premium.listarPartidas(alunoId)
+  ]);
+  const escola = parceria?.nome_escola || parceria?.nome || 'Sem instituição';
+  const turmaNome = turma?.nome || turma?.ano_escolar || 'Sem turma';
+  const institutionStudents = aluno.instituicao_id
+    ? await Aluno.listarPorInstituicao(aluno.instituicao_id)
+    : await Aluno.listarTodos();
+  const schoolStudents = (institutionStudents || []).filter(student => Number(student.id) !== alunoId);
+  const studentsWithSelf = (institutionStudents || []).some(student => Number(student.id) === alunoId)
+    ? institutionStudents
+    : [...(institutionStudents || []), aluno];
+  const playsByStudent = new Map();
+  (rankings || []).forEach(student => playsByStudent.set(Number(student.id), student));
+  const schoolRanking = rankEntries(studentsWithSelf.map(student => ({
+    ...student,
+    partidas: partidas.filter(play => Number(play.aluno_id) === Number(student.id)).length
+  })), turmaNome);
+  const classStudents = turma ? await Turma.listarAlunosDaTurma(turma.id) : [aluno];
+  const classRoster = (classStudents || []).some(student => Number(student.id) === alunoId)
+    ? classStudents
+    : [...(classStudents || []), aluno];
+  const premiumClassmates = await Promise.all(classRoster
+    .filter(student => Number(student.id) !== alunoId)
+    .map(async student => await alunoEhPremium(student) ? student : null));
+  base.contatos = premiumClassmates
+    .filter(Boolean)
+    .map(student => ({ id: Number(student.id), nome: student.nome, pontos: Number(student.saldo) || 0 }));
+  const classRanking = rankEntries(classRoster.map(student => ({
+    ...student,
+    saldo: Number((playsByStudent.get(Number(student.id)) || student).saldo) || 0,
+    partidas: partidas.filter(play => Number(play.aluno_id) === Number(student.id)).length
+  })), turmaNome);
+  const positionInSchool = schoolRanking.find(item => item.id === alunoId)?.posicao || null;
+  const positionInClass = classRanking.find(item => item.id === alunoId)?.posicao || null;
+  const finishedPlays = partidas.filter(play => play.status === 'concluida');
+  const slugs = new Set(finishedPlays.map(play => play.slug));
+  const weekStart = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  const activities = mockdb.respostasAtividades.filter(item => Number(item.aluno_id) === alunoId);
+  const activityCount = activities.length;
+  const diasComPontos = new Set(finishedPlays.filter(play => Number(play.pontos) > 0).map(play => new Date(play.em || play.created_at).toISOString().slice(0, 10)));
+  let sequenciaDias = 0;
+  const hoje = new Date();
+  hoje.setHours(12, 0, 0, 0);
+  if (!diasComPontos.has(hoje.toISOString().slice(0, 10))) hoje.setDate(hoje.getDate() - 1);
+  while (diasComPontos.has(hoje.toISOString().slice(0, 10))) {
+    sequenciaDias++;
+    hoje.setDate(hoje.getDate() - 1);
+  }
+  const professor = turma?.professor_id ? await Professor.buscarPorId(turma.professor_id) : null;
+  const userRanking = list => list.map(item => ({ ...item, voce: item.id === alunoId }));
+
+  base.euId = alunoId;
+  base.eu = { id: alunoId, nome };
+  base.escola = { id: aluno.instituicao_id || null, nome_escola: escola, plano: parceria?.plano || 'comum', cidade: parceria?.cidade || '' };
+  base.turma = turma ? {
+    id: Number(turma.id), nome: turmaNome, ano_escolar: turma.ano_escolar || '',
+    codigo_acesso: turma.codigo_acesso || '', professor_nome: professor?.nome || ''
+  } : null;
+  base.totalAlunosEscola = (institutionStudents || []).length;
+  base.turmaPremium = {
+    turma: turma || null,
+    professor: professor ? { id: Number(professor.id), nome: professor.nome } : null,
+    alunosDaTurma: userRanking(classRanking).map(student => ({
+      id: student.id, nome: student.nome, pontos: student.pontos, avatar: student.avatar,
+      turma_id: Number(turma?.id || 0), voce: student.voce
+    })),
+    totalAlunos: classRoster.length,
+    currentAlunoId: alunoId
+  };
+
+  const respostasRecentes = activities.slice(-30).reverse().map(item => ({
+    id: item.id,
+    pontos: Number(item.pontos) || 0,
+    motivo: item.descricao || item.tipo || 'Atividade respondida',
+    origem_tipo: 'atividade',
+    criado_em: item.criado_em || item.data || new Date().toISOString()
+  }));
+  base.painel = {
+    aluno: { id: alunoId, nome, primeiroNome, pontos: saldo, saldo, avatar: aluno.avatar || null },
+    escola,
+    plano: parceria?.plano || 'comum',
+    turma: base.turma,
+    nivel: calcularNivelPremium(saldo),
+    resumo: {
+      pontos: saldo,
+      partidas: finishedPlays.length,
+      jogosDiferentes: slugs.size,
+      atividadesRespondidas: activityCount,
+      pontosSemana: finishedPlays.filter(play => new Date(play.em || play.created_at).getTime() >= weekStart).reduce((sum, play) => sum + (Number(play.pontos) || 0), 0),
+      sequenciaDias,
+      historico: [...finishedPlays.slice(-20).reverse().map(play => ({ id: play.id, pontos: Number(play.pontos) || 0, motivo: `Jogo: ${play.nome}`, origem_tipo: 'jogo', criado_em: play.em || play.created_at })), ...respostasRecentes].slice(0, 30)
+    },
+    posicoes: { geral: positionInSchool, escola: positionInSchool, turma: positionInClass },
+    rankingTurma: userRanking(classRanking),
+    rankingEscola: userRanking(schoolRanking),
+    medalha: base.painel?.medalha || null,
+    mascotes: base.painel?.mascotes || null,
+    missoes: [],
+    niveisTabela: base.painel?.niveisTabela?.length ? base.painel.niveisTabela : NIVEIS_PREMIUM
+  };
+  return base;
+}
 
 // ==================== MIDDLEWARE DE AUTENTICAÇÃO ====================
 // Middleware para verificar se usuário está autenticado
@@ -26,6 +254,11 @@ const autenticar = (req, res, next) => {
 const isProfessor = (user) => {
   const tipo = user?.tipo || user?.role || user?.type;
   return typeof tipo === 'string' && tipo.trim().toLowerCase() === 'professor';
+};
+
+const isAluno = (user) => {
+  const tipo = user?.tipo || user?.role || user?.type;
+  return typeof tipo === 'string' && tipo.trim().toLowerCase() === 'aluno';
 };
 
 const renovarSessaoNoLogin = (req) => new Promise((resolve, reject) => {
@@ -695,7 +928,7 @@ router.post('/login', async (req, res) => {
 
 // Login do Aluno
 router.get('/aluno/login', (req, res) => {
-  res.render('aluno-login');
+  res.redirect('/login');
 });
 
 router.post('/aluno/login', async (req, res) => {
@@ -895,80 +1128,191 @@ router.get('/aluno-novo', async (req, res) => {
 
 // ALUNO PREMIUM
 router.get('/aluno-premium', async (req, res) => {
+  if (!isAluno(req.session?.user) || !req.session.user.id) return res.redirect('/aluno/login');
   try {
-    let saldo = 700; // Padrão
-    let nomeAluno = 'Explorador'; // Nome padrão
-    let nomeCompletoAluno = 'Explorador'; // Nome completo padrão
-    let premiumData = {
-      nome: nomeCompletoAluno,
-      primeiroNome: nomeAluno,
-      escola: 'Sua Escola',
-      turma: 'Sem turma',
-      pontos: saldo,
-      posicao: null,
-      missoes: 0,
-      alunosRanking: []
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.redirect('/aluno/login');
+    req.session.saldo = Number(aluno.saldo) || 0;
+    const base = await buildPremiumBase(aluno);
+    const source = await fs.readFile(path.join(__dirname, '..', 'views', 'Area-Premium.html'), 'utf8');
+    res.type('html').send(replaceJsonAssignment(source, 'var PE_BASE = ', base));
+  } catch (error) {
+    console.error('Erro ao carregar Área Premium real:', error);
+    res.status(500).send('Não foi possível carregar os dados da Área Premium.');
+  }
+});
+
+router.get('/api/aluno/pontos', autenticar, async (req, res) => {
+  if (!isAluno(req.session.user)) return res.status(403).json({ success: false, message: 'Apenas alunos.' });
+  try {
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.status(404).json({ success: false, message: 'Aluno não encontrado.' });
+    const base = await buildPremiumBase(aluno);
+    return res.json({
+      success: true,
+      ...base.painel.resumo,
+      nivel: base.painel.nivel,
+      saldo: Number(aluno.saldo) || 0,
+      historico: base.painel.resumo.historico
+    });
+  } catch (error) {
+    console.error('Erro ao carregar pontos premium:', error);
+    return res.status(500).json({ success: false, message: 'Erro ao consultar os pontos.' });
+  }
+});
+
+router.post('/api/jogos/partidas', autenticar, async (req, res) => {
+  if (!isAluno(req.session.user)) return res.status(403).json({ success: false, message: 'Apenas alunos podem iniciar jogos.' });
+  try {
+    const base = await getPremiumStaticBase();
+    const slug = String(req.body?.jogo || '').trim();
+    const jogo = base.jogos.find(item => item.slug === slug);
+    if (!jogo) return res.status(404).json({ success: false, message: 'Jogo não encontrado.' });
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.status(404).json({ success: false, message: 'Aluno não encontrado.' });
+    const partidas = await Premium.listarPartidas(aluno.id);
+    const today = new Date().toISOString().slice(0, 10);
+    const partidasPontuadasHoje = partidas.filter(play => play.slug === slug && Number(play.pontos) > 0 && new Date(play.em || play.created_at).toISOString().slice(0, 10) === today).length;
+    const token = randomUUID();
+    req.session.premiumGameSessions = req.session.premiumGameSessions || {};
+    req.session.premiumGameSessions[token] = { slug, startedAt: Date.now() };
+    return res.json({ success: true, token, jogo, partidasPontuadasHoje, limiteDiario: jogo.limite_diario });
+  } catch (error) {
+    console.error('Erro ao iniciar partida premium:', error);
+    return res.status(500).json({ success: false, message: 'Não foi possível iniciar o jogo.' });
+  }
+});
+
+router.post('/api/jogos/partidas/:token/concluir', autenticar, async (req, res) => {
+  if (!isAluno(req.session.user)) return res.status(403).json({ success: false, message: 'Apenas alunos podem concluir jogos.' });
+  try {
+    const { token } = req.params;
+    const sessaoJogo = req.session.premiumGameSessions?.[token];
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.status(404).json({ success: false, message: 'Aluno não encontrado.' });
+    if (!sessaoJogo) {
+      const existing = (await Premium.listarPartidas(aluno.id)).find(play => play.token === token);
+      if (existing) return res.json({ success: true, pontos: Number(existing.pontos) || 0, total: Number(aluno.saldo) || 0, duplicada: true });
+      return res.status(404).json({ success: false, message: 'Partida não encontrada ou expirada.' });
+    }
+    const base = await getPremiumStaticBase();
+    const jogo = base.jogos.find(item => item.slug === sessaoJogo.slug);
+    if (!jogo) return res.status(404).json({ success: false, message: 'Jogo não encontrado.' });
+    const desempenho = Math.max(0, Math.min(1, Number(req.body?.desempenho) || 0));
+    const resultado = String(req.body?.resultado || '').slice(0, 255) || null;
+    const partidas = await Premium.listarPartidas(aluno.id);
+    const today = new Date().toISOString().slice(0, 10);
+    const pontuadasHoje = partidas.filter(play => play.slug === jogo.slug && Number(play.pontos) > 0 && new Date(play.em || play.created_at).toISOString().slice(0, 10) === today).length;
+    const duracao = (Date.now() - sessaoJogo.startedAt) / 1000;
+    let pontos = Math.round(jogo.pontos_conclusao + (jogo.pontos_maximo - jogo.pontos_conclusao) * desempenho);
+    let status = 'concluida';
+    let mensagem = `+${pontos} pontos em ${jogo.nome}!`;
+    if (duracao < jogo.duracao_minima_seg) {
+      pontos = 0;
+      status = 'rapida';
+      mensagem = 'Partida muito rápida: jogue com calma para ganhar pontos.';
+    } else if (pontuadasHoje >= jogo.limite_diario) {
+      pontos = 0;
+      mensagem = `Você já ganhou pontos ${jogo.limite_diario} vezes hoje neste jogo.`;
+    }
+    const play = {
+      token, aluno_id: Number(aluno.id), slug: jogo.slug, nome: jogo.nome,
+      pontos, status, resultado, em: new Date().toISOString()
     };
-    
-    // Se está autenticado, buscar saldo real do BD
-    if (req.session.user && req.session.user.tipo === 'aluno' && req.session.user.id) {
-      const aluno = await Aluno.buscarPorId(req.session.user.id);
-      if (aluno) {
-        saldo = aluno.saldo;
-        nomeCompletoAluno = aluno.nome || 'Explorador';
-        // Extrair primeiro nome (parte antes do primeiro espaço)
-        nomeAluno = nomeCompletoAluno.split(' ')[0];
-        req.session.saldo = saldo; // Manter session sincronizada
+    const saved = await Premium.registrarPartida(play);
+    delete req.session.premiumGameSessions[token];
+    const updatedStudent = saved.duplicate ? await Aluno.buscarPorId(aluno.id) : null;
+    const total = saved.duplicate ? Number(updatedStudent?.saldo) || 0 : saved.saldo;
+    return res.json({ success: true, pontos: saved.duplicate ? Number(saved.play.pontos) || 0 : pontos, total, mensagem, duplicada: saved.duplicate });
+  } catch (error) {
+    console.error('Erro ao salvar partida premium:', error);
+    return res.status(500).json({ success: false, message: 'Não foi possível salvar a partida.' });
+  }
+});
 
-        let nomeEscola = 'Sua Escola';
-        let nomeTurma = 'Sem turma';
-        if (aluno.instituicao_id) {
-          const instituicao = await Parceria.buscarPorId(aluno.instituicao_id);
-          if (instituicao) nomeEscola = instituicao.nome_escola || instituicao.nome || nomeEscola;
-        }
-        if (aluno.turma_id) {
-          const turma = await Turma.buscarPorId(aluno.turma_id);
-          if (turma) nomeTurma = turma.nome || turma.ano_escolar || nomeTurma;
-        }
+router.get('/api/chat/contatos', autenticar, async (req, res) => {
+  if (!isAluno(req.session.user)) return res.status(403).json({ success: false, message: 'Apenas alunos.' });
+  try {
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.status(404).json({ success: false, message: 'Aluno não encontrado.' });
+    const base = await buildPremiumBase(aluno);
+    const now = Date.now();
+    premiumPresence.set(Number(aluno.id), { seenAt: now, turmaId: Number(aluno.turma_id) || null });
+    for (const [studentId, presence] of premiumPresence) {
+      if (now - presence.seenAt > 90000) premiumPresence.delete(studentId);
+    }
+    const online = Array.from(premiumPresence.values()).filter(presence => Number(presence.turmaId) === Number(aluno.turma_id)).length;
+    const mensagensHoje = await Premium.contarMensagensHoje(aluno.turma_id);
+    return res.json({
+      success: true,
+      eu: base.eu,
+      escola: base.escola,
+      turma: base.turma,
+      contatos: base.contatos,
+      estatisticas: { mensagensHoje, online, alunos: base.turmaPremium.totalAlunos }
+    });
+  } catch (error) {
+    console.error('Erro ao carregar contatos premium:', error);
+    return res.status(500).json({ success: false, message: 'Erro ao carregar contatos.' });
+  }
+});
 
-        const atividadesAluno = Array.isArray(require('../lib/mockdb').atividades)
-          ? require('../lib/mockdb').atividades.filter(item => Number(item.aluno_id) === Number(aluno.id))
-          : [];
-        const ranking = await Ranking.ranking();
-        const rankingInstituicao = (ranking || []).filter(item => {
-          return !aluno.instituicao_id || Number(item.instituicao_id || aluno.instituicao_id) === Number(aluno.instituicao_id);
-        });
-        const posicao = await Ranking.posicaoAlunoGeral(aluno.id);
+router.get('/api/chat/mensagens', autenticar, async (req, res) => {
+  if (!isAluno(req.session.user)) return res.status(403).json({ success: false, message: 'Apenas alunos.' });
+  try {
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.status(404).json({ success: false, message: 'Aluno não encontrado.' });
+    if (!await alunoEhPremium(aluno)) return res.status(403).json({ success: false, message: 'O chat é exclusivo para alunos Premium.' });
+    const conversa = String(req.query.com || 'geral');
+    const colegas = aluno.turma_id ? await Turma.listarAlunosDaTurma(aluno.turma_id) : [];
+    const colega = (colegas || []).find(item => Number(item.id) === Number(conversa) && Number(item.id) !== Number(aluno.id));
+    if (conversa !== 'geral' && (!colega || !await alunoEhPremium(colega))) {
+      return res.status(404).json({ success: false, message: 'Colega não encontrado na sua turma.' });
+    }
+    if (conversa === 'geral' && !aluno.turma_id) return res.json({ success: true, com: conversa, mensagens: [] });
+    const mensagens = await Premium.listarMensagens({
+      turmaId: aluno.turma_id,
+      alunoId: aluno.id,
+      conversa,
+      depoisDe: Number.parseInt(req.query.apos, 10) || 0
+    });
+    return res.json({ success: true, com: conversa, mensagens });
+  } catch (error) {
+    console.error('Erro ao listar chat premium:', error);
+    return res.status(500).json({ success: false, message: 'Erro ao carregar mensagens.' });
+  }
+});
 
-        premiumData = {
-          nome: nomeCompletoAluno,
-          primeiroNome: nomeAluno,
-          escola: nomeEscola,
-          turma: nomeTurma,
-          pontos: Number(saldo) || 0,
-          posicao: posicao || null,
-          missoes: atividadesAluno.length,
-          alunosRanking: rankingInstituicao.slice(0, 8).map(item => ({
-            id: item.id,
-            nome: item.nome,
-            pontos: Number(item.saldo) || 0
-          }))
-        };
+router.post('/api/chat/mensagens', autenticar, async (req, res) => {
+  if (!isAluno(req.session.user)) return res.status(403).json({ success: false, message: 'Apenas alunos.' });
+  try {
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.status(404).json({ success: false, message: 'Aluno não encontrado.' });
+    if (!await alunoEhPremium(aluno)) return res.status(403).json({ success: false, message: 'O chat é exclusivo para alunos Premium.' });
+    if (!aluno.turma_id) return res.status(400).json({ success: false, message: 'Entre em uma turma para conversar.' });
+    const para = String(req.body?.para || 'geral');
+    const conteudo = String(req.body?.conteudo || '').replace(/\s+/g, ' ').trim().slice(0, 500);
+    if (!conteudo) return res.status(400).json({ success: false, message: 'Escreva uma mensagem antes de enviar.' });
+    let destinatarioId = null;
+    if (para !== 'geral') {
+      destinatarioId = Number.parseInt(para, 10);
+      const colegas = await Turma.listarAlunosDaTurma(aluno.turma_id);
+      const colega = colegas.find(item => Number(item.id) === destinatarioId);
+      if (!Number.isInteger(destinatarioId) || destinatarioId === Number(aluno.id) || !colega || !await alunoEhPremium(colega)) {
+        return res.status(404).json({ success: false, message: 'Colega não encontrado na sua turma.' });
       }
     }
-    
-    res.render('aluno-premium', { saldo, nomeAluno, nomeCompletoAluno, premiumData });
-  } catch (erro) {
-    console.error('Erro ao carregar página aluno-premium:', erro);
-    res.render('aluno-premium', {
-      saldo: 700,
-      nomeAluno: 'Explorador',
-      nomeCompletoAluno: 'Explorador',
-      premiumData: {
-        nome: 'Explorador', primeiroNome: 'Explorador', escola: 'Sua Escola',
-        turma: 'Sem turma', pontos: 700, posicao: null, missoes: 0, alunosRanking: []
-      }
+    const saved = await Premium.enviarMensagem({
+      turma_id: Number(aluno.turma_id), remetente_id: Number(aluno.id), destinatario_id: destinatarioId,
+      conteudo, created_at: new Date()
     });
+    return res.json({ success: true, mensagem: {
+      id: saved.id, conteudo: saved.conteudo, criado_em: saved.created_at,
+      remetente_aluno_id: Number(aluno.id), remetente_nome: aluno.nome, minha: true
+    } });
+  } catch (error) {
+    console.error('Erro ao enviar chat premium:', error);
+    return res.status(500).json({ success: false, message: 'Erro ao enviar mensagem.' });
   }
 });
 
@@ -1047,8 +1391,22 @@ router.get('/recarga', (req, res) => {
 });
 
 // Página de vídeos de Natureza
-router.get('/natureza', (req, res) => {
-  res.render('natureza');
+router.get('/natureza', async (req, res) => {
+  if (!isAluno(req.session?.user) || !req.session.user.id) return res.redirect('/aluno/login');
+  try {
+    const aluno = await Aluno.buscarPorId(req.session.user.id);
+    if (!aluno) return res.redirect('/aluno/login');
+    const saldo = Number(aluno.saldo) || 0;
+    req.session.saldo = saldo;
+    return res.render('natureza', {
+      nomeAluno: (aluno.nome || 'Explorador').trim().split(/\\s+/)[0],
+      pontos: saldo,
+      nivel: calcularNivelPremium(saldo)
+    });
+  } catch (error) {
+    console.error('Erro ao carregar página Natureza:', error);
+    return res.status(500).send('Não foi possível carregar seus pontos.');
+  }
 });
 
 // Rota GET para adicionar turma

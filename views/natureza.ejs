@@ -149,23 +149,25 @@
 
     .xp-track {
       flex: 1;
+      width: 100%;
       height: 12px;
       background: rgba(255,255,255,0.2);
       border-radius: 6px;
       overflow: hidden;
     }
 
+    .xp-info {
+      flex: 1;
+      min-width: 0;
+    }
+
     .xp-fill {
+      display: block;
       height: 100%;
       background: linear-gradient(90deg, #66bb6a, #ffeb3b);
       border-radius: 6px;
-      width: 35%;
-      animation: xpGrow 1s ease 0.5s both;
-    }
-
-    @keyframes xpGrow {
-      from { width: 0; }
-      to { width: 35%; }
+      width: 0;
+      transition: width 0.6s ease;
     }
 
     .xp-text { color: white; font-size: 14px; font-weight: 500; white-space: nowrap; }
@@ -593,7 +595,7 @@
 <body>
 
 <!-- BOTÃO DE VOLTAR -->
-<button class="back-btn-voltar" onclick="history.back()">← Voltar</button>
+<button class="back-btn-voltar" onclick="window.location.href='/aluno-novo'">← Voltar</button>
 
 <!-- PAGE: HOME DO ALUNO -->
 <section class="page active" id="page-home">
@@ -619,12 +621,12 @@
 
       <!-- XP BAR -->
       <article class="xp-bar-wrap">
-        <span class="xp-level-badge">3</span>
-        <article>
-          <p style="font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:4px">Nível 3 — Conexões da Natureza</p>
-          <article class="xp-track"><span class="xp-fill"></span></article>
+        <span class="xp-level-badge"><%= nivel.numero %></span>
+        <article class="xp-info">
+          <p style="font-size:11px;color:rgba(255,255,255,0.65);margin-bottom:4px">Nível <%= nivel.numero %> — <%= nivel.nome %></p>
+          <article class="xp-track" role="progressbar" aria-label="Progresso até o próximo nível" aria-valuemin="0" aria-valuemax="100" aria-valuenow="<%= nivel.progresso %>"><span class="xp-fill" style="width:<%= nivel.progresso %>%"></span></article>
         </article>
-        <p class="xp-text">350 / 1000 xp</p>
+        <p class="xp-text">⭐ <%= pontos %> pontos<% if (nivel.proximoMinimo) { %> · faltam <%= nivel.faltam %> para o próximo nível<% } %></p>
       </article>
 
       <!-- Progress dots -->
@@ -895,6 +897,38 @@ const LEVELS = {
 function abrirJogo(nomeArquivo) {
   window.location.href = '/jogos/comum/' + encodeURIComponent(nomeArquivo);
 }
+
+async function atualizarBarraPontos() {
+  try {
+    const response = await fetch('/api/aluno/pontos', {
+      credentials: 'same-origin',
+      headers: { Accept: 'application/json' }
+    });
+    const data = await response.json();
+    if (!response.ok || !data.success || !data.nivel) {
+      throw new Error(data.message || 'Não foi possível atualizar o progresso de pontos.');
+    }
+
+    const pontosAtualizados = Number(data.pontos);
+    const progresso = Number(data.nivel.progresso);
+    if (!Number.isFinite(pontosAtualizados) || !Number.isFinite(progresso)) {
+      throw new Error('O servidor retornou dados inválidos para o progresso de pontos.');
+    }
+
+    document.querySelector('.xp-level-badge').textContent = data.nivel.numero;
+    document.querySelector('.xp-info p').textContent = 'Nível ' + data.nivel.numero + ' — ' + data.nivel.nome;
+    const barra = document.querySelector('.xp-track');
+    barra.setAttribute('aria-valuenow', progresso);
+    barra.querySelector('.xp-fill').style.width = progresso + '%';
+
+    document.querySelector('.xp-text').textContent = '⭐ ' + pontosAtualizados + ' pontos' +
+      (data.nivel.proximoMinimo ? ' · faltam ' + data.nivel.faltam + ' para o próximo nível' : '');
+  } catch (error) {
+    console.error('Erro ao atualizar barra de pontos da Natureza:', error);
+  }
+}
+
+window.addEventListener('pageshow', atualizarBarraPontos);
 
 function showPage(id) {
   document.querySelectorAll('section.page').forEach(p => p.classList.remove('active'));

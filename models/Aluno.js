@@ -16,7 +16,7 @@ class Aluno {
       const connection = await pool.getConnection();
       const [result] = await connection.execute(
         'INSERT INTO alunos (nome, email, senha, saldo, instituicao_id, turma_id) VALUES (?, ?, ?, ?, ?, ?)',
-        [nome, email, senhaHash, 700, instituicao_id, turma_id]
+        [nome, email, senhaHash, 0, instituicao_id, turma_id]
       );
       connection.release();
       return { id: result.insertId, nome, email, instituicao_id, turma_id };
